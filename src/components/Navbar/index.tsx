@@ -33,16 +33,16 @@ const StyledToolbar = styled(Toolbar)({
 
 const AppBarWithDrawer: FC = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const theme = useTheme();
+  // const theme = useTheme();
   const { mode } = useThemeContext();
-  console.log("theme", theme);
-  console.log("mode", mode);
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
+  // console.log("AppBar-theme", theme);
+  // console.log("AppBar--mode", mode);
+  // console.log("");
+  const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
 
   const isDark = mode === DARK;
-
+  console.log("isDark", isDark);
+  console.log("mode", mode);
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Typography variant="h6" sx={{ my: 2 }}>
@@ -82,28 +82,27 @@ const AppBarWithDrawer: FC = () => {
               sx={{
                 display: { xs: "none", sm: "block" },
                 img: { width: "100%", height: "100%" },
+                border: "1px white solid",
               }}
             >
               <img src={nsLogo} alt="ns-logo" />
             </Box>
 
-            <NightModeSwitch />
+            {/* <NightModeSwitch /> */}
             <Box
               sx={{
                 display: { xs: "none", sm: "block" },
                 marginLeft: "auto",
               }}
             >
-              {navItems.map((item) => (
-                <>
-                  <Button>
-                    <Typography
-                      color={`${isDark ? "common.white" : "common.black"}`}
-                    >
-                      {item}
-                    </Typography>
-                  </Button>
-                </>
+              {navItems.map((item, idx) => (
+                <Button disableRipple disableElevation key={idx}>
+                  <Typography
+                    color={`${isDark ? "common.white" : "common.black"}`}
+                  >
+                    {item}
+                  </Typography>
+                </Button>
               ))}
             </Box>
           </StyledToolbar>

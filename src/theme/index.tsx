@@ -1,22 +1,22 @@
 import { createTheme, ThemeOptions, Palette } from "@mui/material/styles";
 
-import { COLORS as C, fontFamily } from "./variables";
+import { COLORS, fontFamily } from "./variables";
 
-const COLORS = {
-  BLACK: "#222",
-  BLUE_MAIN: "#1A394D",
-  WHITE: "#FFF",
-  SECONDARY: "#8BD8BD",
-  TEAL: "#35C2A3",
-  GREY_MAIN: "#6C757D",
-  GREY_LIGHT: "#D3D3D3",
-  WHITE_ACCENT: "#F3FAFF",
-  PURPLE_ACCENT: "#BD10E0",
-  GREEN_ACCENT: "#B8E986",
-  TEAL_ACCENT: "#50E3C2",
-  YELLOW_ACCENT: "#FFD300",
-  RED_ACCENT: "#E86363",
-};
+// const COLORS = {
+//   BLACK: "#222",
+//   BLUE_MAIN: "#1A394D",
+//   WHITE: "#FFF",
+//   SECONDARY: "#8BD8BD",
+//   TEAL: "#35C2A3",
+//   GREY_MAIN: "#6C757D",
+//   GREY_LIGHT: "#D3D3D3",
+//   WHITE_ACCENT: "#F3FAFF",
+//   PURPLE_ACCENT: "#BD10E0",
+//   GREEN_ACCENT: "#B8E986",
+//   TEAL_ACCENT: "#50E3C2",
+//   YELLOW_ACCENT: "#FFD300",
+//   RED_ACCENT: "#E86363",
+// };
 
 const themeOptions: ThemeOptions = {
   typography: {
