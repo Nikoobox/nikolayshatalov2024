@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Route, Routes, BrowserRouter } from "react-router-dom";
 
-function App() {
+import { ThemeProvider } from "@mui/material/styles";
+import { useThemeContext } from "./theme/ThemeContextProvider";
+import CssBaseline from "@mui/material/CssBaseline";
+import Container from "@mui/material/Container";
+
+import "./App.css";
+import Navbar from "./components/Navbar";
+import Splash from "./components/Splash";
+
+const App = () => {
+  const { theme } = useThemeContext();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <BrowserRouter>
+        <Container maxWidth="lg">
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Splash />} />
+          </Routes>
+        </Container>
+      </BrowserRouter>
+    </ThemeProvider>
   );
-}
+};
 
 export default App;
