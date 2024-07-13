@@ -40,7 +40,7 @@ const ParticlesTS = () => {
       setInit(true);
     });
   }, []);
-
+  // dummy comment
   const particlesLoaded = async (container?: Container): Promise<void> => {
     console.log(container);
   };
