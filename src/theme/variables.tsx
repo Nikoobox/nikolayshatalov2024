@@ -1,7 +1,7 @@
 export const COLORS = {
   BLACK_MAIN: "#222",
   BLUE_MAIN: "#1A394D",
-  //   BLUE_DARK: "#0D1D27",
+  BLUE_DARK: "#0D1D27",
   WHITE_MAIN: "#FFF",
   SECONDARY: "#8BD8BD",
   TEAL: "#35C2A3",
@@ -13,7 +13,11 @@ export const COLORS = {
   TEAL_ACCENT: "#50E3C2",
   YELLOW_ACCENT: "#FFD300",
   RED_ACCENT: "#E86363",
+  WHITE: "#FFF",
+  BLACK: "#222",
 };
+
+// "#BD10E0", "#B8E986", "#50E3C2", "#FFD300", "#E86363";
 
 export const fontFamily = `-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif`;
 // export const rubik = "'Rubik', sans-serif";
