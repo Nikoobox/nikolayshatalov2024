@@ -5,13 +5,13 @@ import { createTheme, Theme } from "@mui/material/styles";
 import { useDarkTheme } from "./useDarkTheme";
 
 interface ThemeContextProps {
-  mode: string;
+  isDarkMode: boolean;
   toggleDarkMode: () => void;
   theme: Theme;
 }
 
 export const ThemeContext = createContext<ThemeContextProps>({
-  mode: "light",
+  isDarkMode: false,
   toggleDarkMode: () => {},
   theme: createTheme(),
 });

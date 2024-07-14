@@ -19,7 +19,7 @@ import Container from "@mui/material/Container";
 
 import { themeConstants } from "../../constants";
 import nsLogo from "../../images/logo.png";
-import NightModeSwitch from "../NightModeSwitch";
+// import NightModeSwitch from "../NightModeSwitch";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
 
 const { DARK } = themeConstants;
@@ -33,16 +33,14 @@ const StyledToolbar = styled(Toolbar)({
 
 const AppBarWithDrawer: FC = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  // const theme = useTheme();
-  const { mode } = useThemeContext();
-  // console.log("AppBar-theme", theme);
-  // console.log("AppBar--mode", mode);
-  // console.log("");
+  const theme = useTheme();
+  const { isDarkMode } = useThemeContext();
+
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
 
-  const isDark = mode === DARK;
-  console.log("isDark", isDark);
-  console.log("mode", mode);
+  console.log('theme',theme);
+  console.log('isDarkMode',isDarkMode);
+
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Typography variant="h6" sx={{ my: 2 }}>
@@ -98,7 +96,7 @@ const AppBarWithDrawer: FC = () => {
               {navItems.map((item, idx) => (
                 <Button disableRipple disableElevation key={idx}>
                   <Typography
-                    color={`${isDark ? "common.white" : "common.black"}`}
+                    color={`${isDarkMode ? "common.black":"common.white"  }`}
                   >
                     {item}
                   </Typography>
