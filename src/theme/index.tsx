@@ -1,8 +1,6 @@
-import {  ThemeOptions  } from "@mui/material/styles";
+import { ThemeOptions } from "@mui/material/styles";
 
 import { COLORS, fontFamily } from "./variables";
-
-
 
 const themeOptions: ThemeOptions = {
   typography: {
@@ -47,8 +45,4 @@ const themeOptions: ThemeOptions = {
   },
 };
 
-// export const theme = createTheme(themeOptions);
-
 export { themeOptions, COLORS };
-
-// export default theme;

@@ -17,29 +17,26 @@ import { useTheme } from "@mui/material/styles";
 import { styled } from "@mui/system";
 import Container from "@mui/material/Container";
 
-import { themeConstants } from "../../constants";
+// import { themeConstants } from "../../constants";
 import nsLogo from "../../images/logo.png";
-// import NightModeSwitch from "../NightModeSwitch";
+import NightModeSwitch from "../NightModeSwitch";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
 
-const { DARK } = themeConstants;
+// const { DARK } = themeConstants;
 
 const drawerWidth = 240;
 const navItems = ["Home", "About", "Contact"];
 
 const StyledToolbar = styled(Toolbar)({
-  padding: "16px",
+  paddingTop: "16px",
 });
 
 const AppBarWithDrawer: FC = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const theme = useTheme();
+  // const theme = useTheme();
   const { isDarkMode } = useThemeContext();
 
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
-
-  console.log('theme',theme);
-  console.log('isDarkMode',isDarkMode);
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
@@ -63,7 +60,7 @@ const AppBarWithDrawer: FC = () => {
     <>
       <AppBar component="nav" elevation={0} color="transparent">
         <Container maxWidth="lg">
-          <StyledToolbar>
+          <StyledToolbar disableGutters>
             <IconButton
               color="inherit"
               aria-label="open drawer"
@@ -96,7 +93,7 @@ const AppBarWithDrawer: FC = () => {
               {navItems.map((item, idx) => (
                 <Button disableRipple disableElevation key={idx}>
                   <Typography
-                    color={`${isDarkMode ? "common.black":"common.white"  }`}
+                    color={`${isDarkMode ? "common.black" : "common.white"}`}
                   >
                     {item}
                   </Typography>

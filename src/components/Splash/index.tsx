@@ -3,12 +3,17 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
 import Landing from "../Landing";
+import Skills from "../Skills";
+import Projects from "../Projects";
 
 const Splash: FC = () => {
   return (
-    <Box mt={16} sx={{ backgroundColor: "grey" }}>
-      <Typography>Hello from Splassshhhhh</Typography>
+    <Box>
       <Landing />
+      <Box mt={"100vh"}>
+        <Skills />
+        <Projects />
+      </Box>
     </Box>
   );
 };
