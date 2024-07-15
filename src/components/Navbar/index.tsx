@@ -17,32 +17,27 @@ import { useTheme } from "@mui/material/styles";
 import { styled } from "@mui/system";
 import Container from "@mui/material/Container";
 
-import { themeConstants } from "../../constants";
+// import { themeConstants } from "../../constants";
 import nsLogo from "../../images/logo.png";
 import NightModeSwitch from "../NightModeSwitch";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
 
-const { DARK } = themeConstants;
+// const { DARK } = themeConstants;
 
 const drawerWidth = 240;
 const navItems = ["Home", "About", "Contact"];
 
 const StyledToolbar = styled(Toolbar)({
-  padding: "16px",
+  paddingTop: "16px",
 });
 
 const AppBarWithDrawer: FC = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   // const theme = useTheme();
-  const { mode } = useThemeContext();
-  // console.log("AppBar-theme", theme);
-  // console.log("AppBar--mode", mode);
-  // console.log("");
+  const { isDarkMode } = useThemeContext();
+
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
 
-  const isDark = mode === DARK;
-  console.log("isDark", isDark);
-  console.log("mode", mode);
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Typography variant="h6" sx={{ my: 2 }}>
@@ -65,7 +60,7 @@ const AppBarWithDrawer: FC = () => {
     <>
       <AppBar component="nav" elevation={0} color="transparent">
         <Container maxWidth="lg">
-          <StyledToolbar>
+          <StyledToolbar disableGutters>
             <IconButton
               color="inherit"
               aria-label="open drawer"
@@ -98,7 +93,7 @@ const AppBarWithDrawer: FC = () => {
               {navItems.map((item, idx) => (
                 <Button disableRipple disableElevation key={idx}>
                   <Typography
-                    color={`${isDark ? "common.white" : "common.black"}`}
+                    color={`${isDarkMode ? "common.black" : "common.white"}`}
                   >
                     {item}
                   </Typography>

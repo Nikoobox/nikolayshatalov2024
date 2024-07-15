@@ -2,7 +2,6 @@ import { useState, useMemo, useEffect } from "react";
 
 import { createTheme, Palette } from "@mui/material/styles";
 import { PaletteMode } from "@mui/material";
-// import { amber, deepOrange, grey } from "@mui/material/colors";
 
 import { themeOptions } from ".";
 import { themeConstants } from "../constants";
@@ -47,7 +46,7 @@ export const useDarkTheme = () => {
 
   return {
     theme: modifiedTheme,
-    mode,
+    isDarkMode: mode===DARK,
     toggleDarkMode,
   };
 };
