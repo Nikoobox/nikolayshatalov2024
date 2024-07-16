@@ -1,4 +1,5 @@
 import { FC, ElementType } from "react";
+import { IoMdPhonePortrait, IoMdDesktop, IoMdLaptop } from "react-icons/io";
 
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -19,16 +20,28 @@ import { ProjectProps } from "./ProjectProps";
 //   marginTop: "16px",
 // });
 
-const StyledBox = styled(Box)({
+const StyledBox = styled(Box)(({ theme }) => ({
   color: "white",
-  borderRadius: "16px",
-
-  //   textDecoration: "none",
-  //   padding: "8px 16px",
-  //   display: "inline-flex", // Change display property to inline-flex
-  //   alignItems: "center",
-  //   marginTop: "16px",
-});
+  "& .project-image": {
+    borderRadius: "16px",
+    height: "260px",
+    width: "100%",
+    objectFit: "cover",
+  },
+  "& .icon": {
+    color: theme.palette.customColors.grey,
+    height: theme.spacing(3),
+    width: theme.spacing(3),
+  },
+  "& .tool": {
+    // color: theme.palette.customColors.greyAccent,
+    // font-size: 15px;
+    margin: "2px 10px 8px 2px",
+    padding: "5px 10px",
+    borderRadius: theme.spacing(2),
+    background: theme.palette.customColors.greyLitest,
+  },
+}));
 
 const Project: FC<ProjectProps> = (props) => {
   const {
@@ -43,12 +56,41 @@ const Project: FC<ProjectProps> = (props) => {
     showLink,
     showRepo,
   } = props;
+
+  const techTools = tools.map((tool) => (
+    // <Box className="tool" key={tool}>
+    <Typography color="common.black" className="tool" key={tool}>
+      {tool}
+    </Typography>
+    // </Box>
+  ));
+
   return (
-    <StyledBox>
-      <Box>
-        <img src={img} />
+    <StyledBox width="40%">
+      <img className="project-image" src={img} />
+
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="space-between"
+        my={1}
+      >
+        <Typography variant="h4" color="common.black">
+          {name}
+        </Typography>
+
+        <Box display="flex" gap={1.5}>
+          {isResponsive && <IoMdPhonePortrait className="icon" />}
+          <IoMdLaptop className="icon" />
+          <IoMdDesktop className="icon" />
+        </Box>
       </Box>
-      <Box></Box>
+      <Typography variant="body1" color="common.black" my={1}>
+        {info}
+      </Typography>
+      <Box display="flex" flexWrap="wrap">
+        {techTools}
+      </Box>
     </StyledBox>
   );
 };

@@ -13,7 +13,7 @@ const ADDITIONAL = "additional";
 const renderSkills = ({ type }: { type: string }) =>
   SKILLS_DATA.filter((item) => item.type === type).map(
     ({ skillName, iconType: TechIcon }) => (
-      <Skill skillName={skillName} iconType={TechIcon} />
+      <Skill key={skillName} skillName={skillName} iconType={TechIcon} />
     )
   );
 
