@@ -1,7 +1,6 @@
-import { FC, ElementType } from "react";
+import { FC } from "react";
 
 import Box from "@mui/material/Box";
-// import Typography from "@mui/material/Typography";
 
 import { PROJECTS_DATA } from "../Data";
 import PageSection from "../PageSection";

@@ -13,10 +13,10 @@ export const PROJECTS_DATA = [
     info: "The first and largest Virtual Reality Gaming Arena located in Samara, Russia. Fully responsive.",
     address: "https://cyberaction-samara.netlify.app/",
     // address: "https://cyberaction-samara.ru/",
-    repo: "https://github.com/Nikoobox/cyberaction",
+    repo: "https://github.com/Nikoobox/cyberaction2022",
     isResponsive: true,
     showLink: true,
-    showRepo: false,
+    showRepo: true,
   },
   {
     id: 2,
