@@ -11,7 +11,9 @@ const PageSection: FC<PropsWithChildren<Props>> = ({ children, header }) => {
     <Box py={10}>
       {header && (
         <Box display="flex" justifyContent="center" alignItems="center">
-          <Typography variant="h3">{header}</Typography>
+          <Typography variant="h3" mb={5}>
+            {header}
+          </Typography>
         </Box>
       )}
 

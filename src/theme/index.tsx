@@ -35,6 +35,7 @@ const themeOptions: ThemeOptions = {
     customColors: {
       whiteAccent: COLORS.WHITE_ACCENT,
       grey: COLORS.GREY_MAIN,
+      greyLitest: COLORS.GREY_LITEST,
       greyAccent: COLORS.GREY_LIGHT,
       purpleAccent: COLORS.PURPLE_ACCENT,
       greenAccent: COLORS.GREEN_ACCENT,
