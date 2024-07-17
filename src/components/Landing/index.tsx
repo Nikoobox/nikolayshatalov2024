@@ -2,8 +2,7 @@ import { FC } from "react";
 import { Link as LinkScroll } from "react-scroll";
 import { HiChevronDown } from "react-icons/hi";
 
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/system";
 
 import ParticlesTS from "./Particles";
@@ -19,41 +18,39 @@ const StyledLinkScroll = styled(LinkScroll)({
   marginTop: "16px",
 });
 
+const StyledHiChevronDown = styled(HiChevronDown)({
+  marginLeft: "6px",
+  width: "24px",
+  height: "24px",
+});
+
+const StyledHiBox = styled(Box)({
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  textAlign: "center",
+  width: "50%",
+});
+
 const Landing: FC = () => {
   return (
     <Box>
       <ParticlesTS />
 
-      <Box
-        sx={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          textAlign: "center",
-          width: "50%",
-        }}
-      >
-        <Typography variant="h4" color="common.white">
+      <StyledHiBox>
+        <Typography variant="h1" color="common.white">
           Hello, I am Nikolay Shatalov. NYC based frontend developer with
-          experience in Javascript, React, Redux, React Native, Ruby, Typescript
-          and more.
+          experience in Typescript, React, Javascript, React, Redux, React
+          Native, Ruby, and more.
         </Typography>
-        <StyledLinkScroll
-          href="/"
-          // className="background-button"
-          to=""
-          smooth={true}
-          duration={1200}
-        >
-          {/* <Box> */}
-          <Typography variant="h5" color="common.white">
+        <StyledLinkScroll href="/" to="" smooth={true} duration={1200}>
+          <Typography variant="h2" color="common.white">
             Say Hi
           </Typography>
-          <HiChevronDown style={{ marginLeft: "6px" }} />
-          {/* </Box> */}
+          <StyledHiChevronDown />
         </StyledLinkScroll>
-      </Box>
+      </StyledHiBox>
     </Box>
   );
 };
