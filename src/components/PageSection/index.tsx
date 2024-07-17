@@ -1,4 +1,5 @@
 import { FC, PropsWithChildren } from "react";
+
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
@@ -11,7 +12,7 @@ const PageSection: FC<PropsWithChildren<Props>> = ({ children, header }) => {
     <Box py={10}>
       {header && (
         <Box display="flex" justifyContent="center" alignItems="center">
-          <Typography variant="h3" mb={5}>
+          <Typography variant="h1" mb={5}>
             {header}
           </Typography>
         </Box>

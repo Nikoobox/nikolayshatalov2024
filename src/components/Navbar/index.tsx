@@ -94,6 +94,7 @@ const AppBarWithDrawer: FC = () => {
                 <Button disableRipple disableElevation key={idx}>
                   <Typography
                     color={`${isDarkMode ? "common.black" : "common.white"}`}
+                    variant="h2"
                   >
                     {item}
                   </Typography>

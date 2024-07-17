@@ -21,14 +21,13 @@ const getRandomColor = () =>
   BORDER_COLORS[Math.floor(Math.random() * BORDER_COLORS.length)];
 
 const StyledBox = styled(Box)(({ theme }) => ({
-  color: "white",
   "& .project-image": {
-    borderRadius: "16px",
-    height: "100px",
-    minHeight: "260px",
+    borderRadius: theme.spacing(4),
+    height: "260px",
     width: "100%",
     objectFit: "cover",
-    position: "abosulte",
+    border: `1px solid ${theme.palette.customColors.greyLitest}`,
+    objectPosition: "top",
   },
   "& .icon": {
     color: theme.palette.customColors.grey,
@@ -56,6 +55,7 @@ const Project: FC<ProjectProps> = ({
   isResponsive,
   showLink,
   showRepo,
+  //   overview,
 }) => {
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const theme = useTheme();
@@ -68,8 +68,10 @@ const Project: FC<ProjectProps> = ({
     setIsHovered(false);
   };
 
+  const handleOverviewClick = () => {};
+
   const techTools = tools.map((tool) => (
-    <Typography color="common.black" className="tool" key={tool}>
+    <Typography color="customColors.grey" className="tool" key={tool}>
       {tool}
     </Typography>
   ));
@@ -77,11 +79,14 @@ const Project: FC<ProjectProps> = ({
   return (
     <StyledBox width="40%">
       <Box
-        width="100%"
-        height="260px"
         onMouseOver={handleOnMouseOver}
         onMouseOut={handleOnMouseOut}
-        sx={{ position: "relative" }}
+        width="100%"
+        height="260px"
+        sx={{
+          position: "relative",
+          borderRadius: "16px",
+        }}
       >
         <img className="project-image" src={img} />
         <Box
@@ -108,7 +113,7 @@ const Project: FC<ProjectProps> = ({
               target="_blank"
               className="link"
             >
-              <Typography variant="h6" color="common.white">
+              <Typography variant="h2" color="common.white">
                 Live Link
               </Typography>
             </a>
@@ -121,17 +126,16 @@ const Project: FC<ProjectProps> = ({
               target="_blank"
               className="link"
             >
-              <Typography variant="h6" color="common.white">
+              <Typography variant="h2" color="common.white">
                 Repo
               </Typography>
             </a>
           )}
-          {/* overview && (
-              <button className="overview_link" onClick={handleClick}>
-                Overview
-              </button>
-              ); */}
-          {/* </Box> */}
+          {/* {overview && (
+            <button className="overview_link" onClick={handleOverviewClick}>
+              Overview
+            </button>
+          )} */}
         </Box>
       </Box>
 
@@ -141,7 +145,7 @@ const Project: FC<ProjectProps> = ({
         justifyContent="space-between"
         my={1}
       >
-        <Typography variant="h4" color="common.black">
+        <Typography variant="h2" color="common.black">
           {name}
         </Typography>
 
@@ -151,7 +155,7 @@ const Project: FC<ProjectProps> = ({
           <IoMdDesktop className="icon" />
         </Box>
       </Box>
-      <Typography variant="body1" color="common.black" my={1}>
+      <Typography variant="body1" color="common.black" my={1.5}>
         {info}
       </Typography>
       <Box display="flex" flexWrap="wrap">

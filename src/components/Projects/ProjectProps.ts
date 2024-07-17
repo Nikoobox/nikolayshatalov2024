@@ -9,4 +9,5 @@ export interface ProjectProps {
   isResponsive: boolean;
   showLink: boolean;
   showRepo: boolean;
+  overview?: string;
 }

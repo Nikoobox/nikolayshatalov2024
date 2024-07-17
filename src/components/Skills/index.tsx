@@ -29,7 +29,7 @@ const Skills: FC = () => {
         justifyContent="center"
         flexDirection="column"
       >
-        <Typography variant="h3" mb={5}>
+        <Typography variant="h1" mb={5}>
           Projects
         </Typography>
 
@@ -44,7 +44,7 @@ const Skills: FC = () => {
           {mainSkills}
         </Box>
 
-        <Typography variant="h3" mb={5} mt={20}>
+        <Typography variant="h1" mb={5} mt={20}>
           Additional Skills & Tools
         </Typography>
         <Box
