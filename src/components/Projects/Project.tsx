@@ -24,7 +24,7 @@ const getRandomColor = () =>
 
 const StyledBox = styled(Box)(({ theme }) => ({
   "& .project-image": {
-    borderRadius: theme.spacing(4),
+    borderRadius: theme.spacing(2),
     height: "260px",
     width: "100%",
     objectFit: "cover",
