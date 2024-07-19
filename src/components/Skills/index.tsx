@@ -13,7 +13,7 @@ const ADDITIONAL = "additional";
 const renderSkills = ({ type }: { type: string }) =>
   SKILLS_DATA.filter((item) => item.type === type).map(
     ({ skillName, iconType: TechIcon }) => (
-      <Skill skillName={skillName} iconType={TechIcon} />
+      <Skill key={skillName} skillName={skillName} iconType={TechIcon} />
     )
   );
 
@@ -29,8 +29,8 @@ const Skills: FC = () => {
         justifyContent="center"
         flexDirection="column"
       >
-        <Typography variant="h3" mb={5}>
-          Projects
+        <Typography variant="h1" mb={5}>
+          Skills
         </Typography>
 
         <Box
@@ -44,7 +44,7 @@ const Skills: FC = () => {
           {mainSkills}
         </Box>
 
-        <Typography variant="h3" mb={5} mt={20}>
+        <Typography variant="h1" mb={5} mt={20}>
           Additional Skills & Tools
         </Typography>
         <Box
