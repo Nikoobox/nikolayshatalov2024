@@ -8,6 +8,7 @@ import Container from "@mui/material/Container";
 import "./App.css";
 import Navbar from "./components/Navbar";
 import Splash from "./components/Splash";
+import Footer from "./components/Footer";
 
 const App = () => {
   const { theme } = useThemeContext();
@@ -21,6 +22,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Splash />} />
           </Routes>
+          <Footer />
         </Container>
       </BrowserRouter>
     </ThemeProvider>
