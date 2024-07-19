@@ -83,7 +83,7 @@ const Project: FC<ProjectProps> = ({
 
   return (
     <>
-      <StyledBox width="40%">
+      <StyledBox width="45%">
         <Box
           onMouseOver={handleOnMouseOver}
           onMouseOut={handleOnMouseOut}
@@ -138,8 +138,10 @@ const Project: FC<ProjectProps> = ({
               </a>
             )}
             {overview && (
-              <Button className="overview_link" onClick={handleOverviewClick}>
-                Overview
+              <Button className="overview-button" onClick={handleOverviewClick}>
+                <Typography variant="h2" color="common.white">
+                  Overview
+                </Typography>
               </Button>
             )}
           </Box>
@@ -187,13 +189,13 @@ const Project: FC<ProjectProps> = ({
         <Box
           width="100%"
           height="100%"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
           sx={{
             img: {
-              //   width: "100%",
-              width: "auto",
-              minHeight: "100%",
+              height: "100%",
               border: `1px solid ${theme.palette.customColors.greyLitest}`,
-              //   objectFit: "cover",
             },
           }}
         >

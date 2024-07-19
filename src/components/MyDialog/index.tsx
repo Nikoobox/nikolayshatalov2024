@@ -5,15 +5,16 @@ import {
   SetStateAction,
   ReactElement,
 } from "react";
-import Button from "@mui/material/Button";
+
 import { styled } from "@mui/material/styles";
 import Dialog, { DialogProps } from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
-import Typography from "@mui/material/Typography";
+import {
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  IconButton,
+} from "@mui/material";
+import { Close as CloseIcon } from "@mui/icons-material";
 
 interface Props extends DialogProps {
   title: string;
@@ -28,6 +29,11 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
   },
   "& .MuiDialogActions-root": {
     padding: `${theme.spacing(3)} ${theme.spacing(2.5)}`,
+  },
+  "& .MuiPaper-root": {
+    display: "flex",
+    flexDirection: "column",
+    height: "100%",
   },
 }));
 
@@ -70,7 +76,7 @@ const MyDialog: FC<PropsWithChildren<Props>> = ({
       >
         <CloseIcon />
       </IconButton>
-      <DialogContent sx={{ background: "yellow" }}>{children}</DialogContent>
+      <DialogContent>{children}</DialogContent>
       <DialogActions>{actions}</DialogActions>
     </StyledDialog>
   );
