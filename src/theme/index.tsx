@@ -3,27 +3,27 @@ import { ThemeOptions } from "@mui/material/styles";
 import { COLORS, fontFamily } from "./variables";
 
 export const styleH1 = {
-  fontWeight: 400,
-  fontSize: `32px`,
-  lineHeight: `40px`,
+  fontWeight: 300,
+  fontSize: `36px`,
+  lineHeight: `48px`,
   letterSpacing: `-0.01em`,
 };
 
 export const styleH2 = {
-  fontWeight: 600,
+  fontWeight: 400,
   fontSize: `24px`,
   lineHeight: `32px`,
   letterSpacing: `-0.02em`,
 };
 
 export const styleH3 = {
-  fontWeight: 600,
+  fontWeight: 400,
   fontSize: `18px`,
   lineHeight: `24px`,
 };
 
 export const styleH4 = {
-  fontWeight: 600,
+  fontWeight: 400,
   fontSize: `16px`,
   letterSpacing: `-0.01em`,
 };
