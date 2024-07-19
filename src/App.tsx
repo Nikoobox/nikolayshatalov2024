@@ -1,4 +1,5 @@
 import { Route, Routes, BrowserRouter } from "react-router-dom";
+import Modal from "react-modal";
 
 import { ThemeProvider } from "@mui/material/styles";
 import { useThemeContext } from "./theme/ThemeContextProvider";
@@ -8,6 +9,9 @@ import Container from "@mui/material/Container";
 import "./App.css";
 import Navbar from "./components/Navbar";
 import Splash from "./components/Splash";
+
+// Set the app element for react-modal
+Modal.setAppElement("#root"); // Assuming your root element has an id of 'root'
 
 const App = () => {
   const { theme } = useThemeContext();

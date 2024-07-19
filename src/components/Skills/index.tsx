@@ -30,7 +30,7 @@ const Skills: FC = () => {
         flexDirection="column"
       >
         <Typography variant="h1" mb={5}>
-          Projects
+          Skills
         </Typography>
 
         <Box

@@ -1,13 +1,15 @@
 import { FC, useState } from "react";
 import { IoMdPhonePortrait, IoMdDesktop, IoMdLaptop } from "react-icons/io";
+import { isMobile } from "react-device-detect";
+import { HiOutlineExternalLink } from "react-icons/hi";
 
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+import { Box, Typography, Button } from "@mui/material";
 import { styled } from "@mui/system";
 import { useTheme } from "@mui/material/styles";
 
 import { ProjectProps } from "./ProjectProps";
 import { COLORS } from "../../theme/";
+import MyDialog from "../MyDialog";
 
 const BORDER_COLORS = [
   COLORS.PURPLE_ACCENT,
@@ -55,9 +57,10 @@ const Project: FC<ProjectProps> = ({
   isResponsive,
   showLink,
   showRepo,
-  //   overview,
+  overview,
 }) => {
   const [isHovered, setIsHovered] = useState<boolean>(false);
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const theme = useTheme();
 
   const handleOnMouseOver = () => {
@@ -68,7 +71,9 @@ const Project: FC<ProjectProps> = ({
     setIsHovered(false);
   };
 
-  const handleOverviewClick = () => {};
+  const handleOverviewClick = () => {
+    setIsOpenModal(true);
+  };
 
   const techTools = tools.map((tool) => (
     <Typography color="customColors.grey" className="tool" key={tool}>
@@ -77,91 +82,127 @@ const Project: FC<ProjectProps> = ({
   ));
 
   return (
-    <StyledBox width="40%">
-      <Box
-        onMouseOver={handleOnMouseOver}
-        onMouseOut={handleOnMouseOut}
-        width="100%"
-        height="260px"
-        sx={{
-          position: "relative",
-          borderRadius: "16px",
-        }}
-      >
-        <img className="project-image" src={img} />
+    <>
+      <StyledBox width="45%">
         <Box
+          onMouseOver={handleOnMouseOver}
+          onMouseOut={handleOnMouseOut}
           width="100%"
           height="260px"
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          gap={4}
           sx={{
-            backgroundColor: theme.palette.common.black,
-            opacity: isHovered ? 0.9 : 0,
-            position: "absolute",
-            top: 0,
-            borderRadius: theme.spacing(2),
-            transition: "opacity 0.3s ease-out",
-            border: `3px solid ${getRandomColor()}`,
+            position: "relative",
+            borderRadius: "16px",
           }}
         >
-          {showLink && (
-            <a
-              href={`${address}`}
-              rel="noopener noreferrer"
-              target="_blank"
-              className="link"
-            >
-              <Typography variant="h2" color="common.white">
-                Live Link
-              </Typography>
-            </a>
-          )}
+          <img className="project-image" src={img} />
+          <Box
+            width="100%"
+            height="260px"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            gap={4}
+            sx={{
+              backgroundColor: theme.palette.common.black,
+              opacity: isHovered ? 0.9 : 0,
+              position: "absolute",
+              top: 0,
+              borderRadius: theme.spacing(2),
+              transition: "opacity 0.3s ease-out",
+              border: `3px solid ${getRandomColor()}`,
+            }}
+          >
+            {showLink && (
+              <a
+                href={`${address}`}
+                rel="noopener noreferrer"
+                target="_blank"
+                className="link"
+              >
+                <Typography variant="h2" color="common.white">
+                  Live Link
+                </Typography>
+              </a>
+            )}
 
-          {showRepo && (
-            <a
-              href={`${repo}`}
-              rel="noopener noreferrer"
-              target="_blank"
-              className="link"
-            >
-              <Typography variant="h2" color="common.white">
-                Repo
-              </Typography>
-            </a>
-          )}
-          {/* {overview && (
-            <button className="overview_link" onClick={handleOverviewClick}>
-              Overview
-            </button>
-          )} */}
+            {showRepo && (
+              <a
+                href={`${repo}`}
+                rel="noopener noreferrer"
+                target="_blank"
+                className="link"
+              >
+                <Typography variant="h2" color="common.white">
+                  Repo
+                </Typography>
+              </a>
+            )}
+            {overview && (
+              <Button className="overview-button" onClick={handleOverviewClick}>
+                <Typography variant="h2" color="common.white">
+                  Overview
+                </Typography>
+              </Button>
+            )}
+          </Box>
         </Box>
-      </Box>
 
-      <Box
-        display="flex"
-        alignItems="center"
-        justifyContent="space-between"
-        my={1}
-      >
-        <Typography variant="h2" color="common.black">
-          {name}
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+          my={1}
+        >
+          <Typography variant="h2" color="common.black">
+            {name}
+          </Typography>
+
+          <Box display="flex" gap={1.5}>
+            {isResponsive && <IoMdPhonePortrait className="icon" />}
+            <IoMdLaptop className="icon" />
+            <IoMdDesktop className="icon" />
+          </Box>
+        </Box>
+        <Typography variant="body1" color="common.black" my={1.5}>
+          {info}
         </Typography>
-
-        <Box display="flex" gap={1.5}>
-          {isResponsive && <IoMdPhonePortrait className="icon" />}
-          <IoMdLaptop className="icon" />
-          <IoMdDesktop className="icon" />
+        <Box display="flex" flexWrap="wrap">
+          {techTools}
         </Box>
-      </Box>
-      <Typography variant="body1" color="common.black" my={1.5}>
-        {info}
-      </Typography>
-      <Box display="flex" flexWrap="wrap">
-        {techTools}
-      </Box>
-    </StyledBox>
+      </StyledBox>
+
+      <MyDialog
+        open={isOpenModal}
+        onClose={setIsOpenModal}
+        title="Overview"
+        fullScreen={isMobile}
+        maxWidth="lg"
+        actions={
+          <a href={repo} target="_blank" rel="noopener noreferrer">
+            <Box display="flex" alignItems="center">
+              <Typography>Visit Git Repo</Typography>
+              <HiOutlineExternalLink style={{ marginLeft: "4px" }} />
+            </Box>
+          </a>
+        }
+      >
+        <Box
+          width="100%"
+          height="100%"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          sx={{
+            img: {
+              height: "100%",
+              border: `1px solid ${theme.palette.customColors.greyLitest}`,
+            },
+          }}
+        >
+          <img src={overview} alt="" />
+        </Box>
+      </MyDialog>
+    </>
   );
 };
 
