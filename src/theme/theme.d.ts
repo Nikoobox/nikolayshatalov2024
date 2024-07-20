@@ -11,6 +11,7 @@ interface customColors {
     tealAccent: string;
     yellowAccent: string;
     redAccent: string;
+    blueDark: string;
   };
 }
 

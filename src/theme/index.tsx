@@ -92,7 +92,6 @@ const themeOptions: ThemeOptions = {
     // numericalLarge,
     button: {
       textTransform: "none",
-      //   fontWeight: 600,
       "&:focus": {
         outline: 0,
       },
@@ -116,6 +115,7 @@ const themeOptions: ThemeOptions = {
       tealAccent: COLORS.TEAL_ACCENT,
       yellowAccent: COLORS.YELLOW_ACCENT,
       redAccent: COLORS.RED_ACCENT,
+      blueDark: COLORS.BLUE_DARK,
     },
   },
 };

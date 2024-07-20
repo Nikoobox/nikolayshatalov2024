@@ -17,13 +17,13 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <BrowserRouter>
-        <Container maxWidth="lg">
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Splash />} />
-          </Routes>
-          <Footer />
-        </Container>
+        {/* <Container maxWidth="lg"> */}
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Splash />} />
+        </Routes>
+        <Footer />
+        {/* </Container> */}
       </BrowserRouter>
     </ThemeProvider>
   );
