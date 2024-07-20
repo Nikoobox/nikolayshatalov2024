@@ -11,30 +11,13 @@ const Footer: FC = () => {
   return (
     <Box
       display="flex"
-      position="absolute"
-      left={0}
-      //   flexDirection="column"
-      //   alignItems="center"
       justifyContent="space-between"
       width="100%"
-      sx={{ background: darken(theme.palette.primary.main, 0.1) }}
+      sx={{ background: theme.palette.customColors.blueDark }}
     >
       <Container maxWidth="lg">
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          width="100%"
-          //   sx={{ background: "yellow" }}
-          py={5}
-        >
-          <Box
-            display="flex"
-            gap={3}
-            //   flexDirection="column"
-            //   alignItems="center"
-            // justifyContent="space-between"
-            sx={{ a: { textDecoration: "none" } }}
-          >
+        <Box display="flex" justifyContent="space-between" width="100%" py={5}>
+          <Box display="flex" gap={3} sx={{ a: { textDecoration: "none" } }}>
             <a
               href="https://www.linkedin.com/in/nikolay-shatalov/"
               rel="noopener noreferrer"
