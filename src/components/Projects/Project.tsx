@@ -194,6 +194,7 @@ const Project: FC<ProjectProps> = ({
           alignItems="center"
           sx={{
             img: {
+              margin: "2px 0",
               height: "100%",
               border: `1px solid ${theme.palette.customColors.greyLitest}`,
             },

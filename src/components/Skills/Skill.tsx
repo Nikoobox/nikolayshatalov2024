@@ -1,7 +1,7 @@
 import { FC, ElementType } from "react";
 
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+import { Box, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 
 interface Props {
   skillName: string;
@@ -9,6 +9,7 @@ interface Props {
 }
 
 const Skill: FC<Props> = ({ skillName, iconType: TechIcon }) => {
+  const theme = useTheme();
   return (
     <Box
       key={skillName}
@@ -17,8 +18,8 @@ const Skill: FC<Props> = ({ skillName, iconType: TechIcon }) => {
       alignItems="center"
       justifyContent="center"
     >
-      <TechIcon color="primary" size="48px" />
-      <Typography variant="h3" mt={1}>
+      <TechIcon color={theme.palette.primary.main} size={theme.spacing(8)} />
+      <Typography variant="body1" mt={1}>
         {skillName}
       </Typography>
     </Box>

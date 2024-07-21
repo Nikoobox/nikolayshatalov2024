@@ -1,11 +1,6 @@
 import { useEffect, useState, useMemo } from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
-import {
-  type Container,
-  type ISourceOptions,
-  MoveDirection,
-  OutMode,
-} from "@tsparticles/engine";
+import { type Container, type ISourceOptions } from "@tsparticles/engine";
 import { loadFull } from "tsparticles"; // if you are going to use
 
 import { styled } from "@mui/system";
