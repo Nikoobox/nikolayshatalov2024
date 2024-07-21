@@ -5,6 +5,7 @@ import {
   HiOutlineDocumentText,
   HiOutlineExternalLink,
 } from "react-icons/hi";
+import Wave from "react-wavify";
 
 import { Box, Typography, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -57,6 +58,18 @@ const Contact: FC = () => {
 
   return (
     <>
+      <Wave
+        fill={theme.palette.primary.main}
+        paused={false}
+        style={{ display: "flex", background: theme.palette.common.white }}
+        options={{
+          height: 40,
+          amplitude: 40,
+          speed: 0.1,
+          points: 3,
+        }}
+      />
+
       <PageSection>
         <Box display="flex" justifyContent="center" alignItems="center">
           <Typography variant="h1" mb={5} color="common.white">

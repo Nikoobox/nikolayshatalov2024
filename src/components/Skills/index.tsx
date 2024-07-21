@@ -1,7 +1,9 @@
 import { FC } from "react";
+import Wave from "react-wavify";
 
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import { useTheme } from "@mui/material/styles";
 
 import PageSection from "../PageSection";
 import { SKILLS_DATA } from "../Data";
@@ -18,47 +20,68 @@ const renderSkills = ({ type }: { type: string }) =>
   );
 
 const Skills: FC = () => {
+  const theme = useTheme();
+
   const mainSkills = renderSkills({ type: MAIN });
   const additionalSkills = renderSkills({ type: ADDITIONAL });
 
   return (
-    <PageSection>
-      <Box
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        flexDirection="column"
-      >
-        <Typography variant="h1" mb={5}>
-          Skills
-        </Typography>
+    <>
+      <Wave
+        fill={theme.palette.common.white}
+        paused={false}
+        style={{
+          display: "flex",
+          background: theme.palette.customColors.blueDark,
+          // position: "absolute",
+          transform: "rotate(180)",
+        }}
+        options={{
+          height: 40,
+          amplitude: 40,
+          speed: 0.1,
+          points: 3,
+        }}
+      />
 
+      <PageSection>
         <Box
           display="flex"
           alignItems="center"
           justifyContent="center"
-          gap={5}
-          flexWrap="wrap"
-          width="75%"
+          flexDirection="column"
         >
-          {mainSkills}
-        </Box>
+          <Typography variant="h1" mb={5}>
+            Skills
+          </Typography>
 
-        <Typography variant="h1" mb={5} mt={20}>
-          Additional Skills & Tools
-        </Typography>
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          gap={5}
-          flexWrap="wrap"
-          width="75%"
-        >
-          {additionalSkills}
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            gap={5}
+            flexWrap="wrap"
+            width="75%"
+          >
+            {mainSkills}
+          </Box>
+
+          <Typography variant="h1" mb={5} mt={20}>
+            Additional Skills & Tools
+          </Typography>
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            gap={5}
+            flexWrap="wrap"
+            width="75%"
+          >
+            {additionalSkills}
+          </Box>
         </Box>
-      </Box>
-    </PageSection>
+      </PageSection>
+    </>
   );
 };
 export default Skills;
