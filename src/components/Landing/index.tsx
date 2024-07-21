@@ -1,9 +1,11 @@
 import { FC } from "react";
 import { Link as LinkScroll } from "react-scroll";
 import { HiChevronDown } from "react-icons/hi";
+import Wave from "react-wavify";
 
 import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/system";
+import { useTheme } from "@mui/material/styles";
 
 import ParticlesTS from "./Particles";
 
@@ -34,24 +36,45 @@ const StyledHiBox = styled(Box)({
 });
 
 const Landing: FC = () => {
-  return (
-    <Box>
-      <ParticlesTS />
+  const theme = useTheme();
 
-      <StyledHiBox>
-        <Typography variant="h1" color="common.white">
-          Hello, I am Nikolay Shatalov. NYC based frontend developer with
-          experience in Typescript, React, Javascript, React, Redux, React
-          Native, Ruby, and more.
-        </Typography>
-        <StyledLinkScroll href="/" to="" smooth={true} duration={1200}>
-          <Typography variant="h2" color="common.white">
-            Say Hi
+  return (
+    <>
+      <Box>
+        <ParticlesTS />
+
+        <StyledHiBox>
+          <Typography variant="h1" color="common.white">
+            Hello, I am Nikolay Shatalov. NYC based frontend developer with
+            experience in Typescript, React, Javascript, React, Redux, React
+            Native, Ruby, and more.
           </Typography>
-          <StyledHiChevronDown />
-        </StyledLinkScroll>
-      </StyledHiBox>
-    </Box>
+          <StyledLinkScroll href="/" to="" smooth={true} duration={1200}>
+            <Typography variant="h2" color="common.white">
+              Say Hi
+            </Typography>
+            <StyledHiChevronDown />
+          </StyledLinkScroll>
+        </StyledHiBox>
+      </Box>
+
+      {/* <Wave
+        fill={theme.palette.common.white}
+        paused={false}
+        style={{
+          display: "flex",
+          background: theme.palette.primary.main,
+          position: "absolute",
+          transform: "rotate(180)",
+        }}
+        options={{
+          height: 40,
+          amplitude: 40,
+          speed: 0.1,
+          points: 3,
+        }}
+      /> */}
+    </>
   );
 };
 export default Landing;
