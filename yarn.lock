@@ -2156,6 +2156,11 @@
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.6.0.tgz#1898e7a7b943680d757417a47fb10f5fcc230b39"
   integrity sha512-2/U3GXA6YiPYQDLGwtGlnNgKYBSwCFIHf8Y9LUY5VATHdtbLlU0Y1R3QoBnT0aB4qv/BEiVVsj7LJXoQCgJ2vA==
 
+"@simplepdf/react-embed-pdf@^1.8.0":
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/@simplepdf/react-embed-pdf/-/react-embed-pdf-1.8.0.tgz#722239af34d6a9273273052e11d98a3532ec6ded"
+  integrity sha512-sLQXPBR5TWNVbIPjHK6KV5L2fzp5ZEfYNWWvPPGmJg72yYFiixaQ7+4m4JddQo7WkhNi3G6Nv6syvtai+2gq2A==
+
 "@sinclair/typebox@^0.24.1":
   version "0.24.51"
   resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.24.51.tgz#645f33fe4e02defe26f2f5c0410e1c094eac7f5f"

@@ -1,4 +1,4 @@
-export const bioData = {
+export const BIO_DATA = {
   entrySection: {
     hello: "Hello, I am Nikolay Shatalov.",
     info: " NYC based frontend developer with experience in Javascript, React, Redux, React Native, Ruby, Typescript and more.",

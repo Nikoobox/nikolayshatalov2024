@@ -1,12 +1,16 @@
+import { FC } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
-// import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 import { ClipLoader } from "react-spinners";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 
-import { resume } from "../Documents";
-// import "./pdf-viewer.scss";
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  "pdfjs-dist/build/pdf.worker.min.mjs",
+  import.meta.url
+).toString();
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
+interface PDFViewerProps {
+  fileToView: string;
+}
 
 const WrappedLoader = () => (
   <div
@@ -21,12 +25,11 @@ const WrappedLoader = () => (
   </div>
 );
 
-const PdfViewer = () => {
+const PDFViewer: FC<PDFViewerProps> = ({ fileToView }) => {
   return (
     <Document
-      file={resume}
+      file={fileToView}
       onLoadError={(err) => console.log("Document load err", err)}
-      className="pdf-viewer-wrapper"
       loading={<WrappedLoader />}
     >
       <Page
@@ -38,4 +41,4 @@ const PdfViewer = () => {
   );
 };
 
-export default PdfViewer;
+export default PDFViewer;

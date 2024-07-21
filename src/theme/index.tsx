@@ -6,33 +6,30 @@ export const styleH1 = {
   fontWeight: 300,
   fontSize: `36px`,
   lineHeight: `48px`,
-  letterSpacing: `-0.01em`,
 };
 
 export const styleH2 = {
-  fontWeight: 400,
+  fontWeight: 300,
   fontSize: `24px`,
   lineHeight: `32px`,
-  letterSpacing: `-0.02em`,
 };
 
 export const styleH3 = {
-  fontWeight: 400,
+  fontWeight: 300,
   fontSize: `18px`,
   lineHeight: `24px`,
 };
 
 export const styleH4 = {
-  fontWeight: 400,
+  fontWeight: 300,
   fontSize: `16px`,
-  letterSpacing: `-0.01em`,
 };
 
 export const styleP = {
   fontWeight: 400,
   fontSize: `16px`,
   lineHeight: `24px`,
-  letterSpacing: `-0.01em`,
+  // letterSpacing: `-0.01em`,
 };
 
 // export const numericalLarge = {
@@ -54,14 +51,12 @@ export const subtitleBold = {
   fontSize: `14px`,
   lineHeight: `24px`,
   fontWeight: 600,
-  letterSpacing: `-0.03em`,
 };
 
 export const subtitleRegular = {
   fontSize: `14px`,
   lineHeight: `16px`,
   fontWeight: 400,
-  letterSpacing: `-0.01em`,
 };
 
 export const labelBold = {
@@ -84,10 +79,10 @@ const themeOptions: ThemeOptions = {
     h3: styleH3,
     h4: styleH4,
     body1: styleP,
-    // subtitleRegular,
-    // subtitleBold,
-    // labelBold,
-    // labelRegular,
+    subtitleRegular,
+    subtitleBold,
+    labelBold,
+    labelRegular,
     // numericalRegular,
     // numericalLarge,
     button: {
@@ -118,6 +113,15 @@ const themeOptions: ThemeOptions = {
       blueDark: COLORS.BLUE_DARK,
     },
   },
+  // components: {
+  //   MuiCssBaseline: {
+  //     styleOverrides: `
+  //       a:visited {
+  //         color: inherit; /* Replace with your desired color */
+  //       }
+  //     `,
+  //   },
+  // },
 };
 
 export { themeOptions, COLORS };
