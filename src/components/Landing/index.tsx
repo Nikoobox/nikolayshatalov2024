@@ -9,16 +9,16 @@ import { useTheme } from "@mui/material/styles";
 
 import ParticlesTS from "./Particles";
 
-const StyledLinkScroll = styled(LinkScroll)({
+const StyledLinkScroll = styled(LinkScroll)(({ theme }) => ({
   color: "white",
   border: "solid white 3px",
   borderRadius: "30px",
   textDecoration: "none",
-  padding: "8px 16px",
-  display: "inline-flex", // Change display property to inline-flex
+  padding: `${theme.spacing(1)} ${theme.spacing(3)}`,
+  display: "inline-flex",
   alignItems: "center",
   marginTop: "16px",
-});
+}));
 
 const StyledHiChevronDown = styled(HiChevronDown)({
   marginLeft: "6px",

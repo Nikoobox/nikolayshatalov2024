@@ -17,6 +17,7 @@ import { resume } from "../Documents";
 import MyDialog from "../MyDialog";
 import PDFViewer from "../PDFViewer";
 import { styling } from "../../constants";
+import ContactForm from "./ContactForm";
 
 const profileImg = `${process.env.PUBLIC_URL}/img/profile.jpg`;
 
@@ -127,6 +128,16 @@ const Contact: FC = () => {
             </Box>
           </Box>
         </Box>
+      </PageSection>
+
+      {/* contact form */}
+      <PageSection>
+        <Box display="flex" justifyContent="center" alignItems="center">
+          <Typography variant="h1" mb={5} color="common.white">
+            Say Hi!
+          </Typography>
+        </Box>
+        <ContactForm />
       </PageSection>
 
       <MyDialog
