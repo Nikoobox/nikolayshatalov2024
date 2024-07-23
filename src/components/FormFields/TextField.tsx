@@ -21,29 +21,19 @@ export type Props = {
   errors?: { [key: string]: { message?: string } };
 } & TextFieldProps;
 
-const TextField: FC<Props> = ({
-  control,
-  name,
-  label,
-  required,
-  rules,
-  errors,
-  ...rest
-}) => {
+const TextField: FC<Props> = (props) => {
+  const { control, name, label, required, rules, errors, ...rest } = props;
+
   const theme = useTheme();
 
-  console.log("TextField ...name", name);
-  console.log("rules", rules);
   return (
     <Controller
       control={control}
       name={name}
       rules={rules}
-      render={({ field, fieldState }) => {
+      render={({ field }) => {
         const errorMessage = errors?.[name]?.message;
-        console.log("-errorMessage", errorMessage);
-        console.log("-fieldState", fieldState);
-        console.log("-field", field);
+
         return (
           <MuiTextField
             {...field}
@@ -51,15 +41,12 @@ const TextField: FC<Props> = ({
             InputLabelProps={{
               style: { color: theme.palette.customColors.greyAccent }, // Change label text color here
             }}
-            // inputProps={{ pattern: rules }}
-            // inputProps={{
-            //   type: "text",
-            //   inputMode: "numeric",
-            //   pattern: "d*",
-            //   min: 0,
-            //   maxLength: 5,
-            //   validate:{(val)=>console.log('val',val)}
-            // }}
+            sx={{
+              input: {
+                color: theme.palette.common.white,
+              },
+            }}
+            variant="outlined"
             required={required}
             error={!!errorMessage} // Show error state if there's an error message
             helperText={errorMessage}
