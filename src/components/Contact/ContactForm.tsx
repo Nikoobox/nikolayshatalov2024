@@ -43,16 +43,13 @@ const FORM_FIELDS = {
 const ContactForm: FC = () => {
   const form = useRef<HTMLFormElement>(null);
 
-  // const { register, control, handleSubmit } = useForm<IFormInput>();
   const {
     control,
     handleSubmit,
-    trigger,
-    formState: { errors, isValid, isSubmitting, isDirty },
+    formState: { errors, isValid, isDirty },
   } = useForm<IFormInput>({
     defaultValues: DEFAULT_VALUES,
     mode: "onBlur",
-    // reValidateMode: "onChange",
   });
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
@@ -62,13 +59,6 @@ const ContactForm: FC = () => {
       sendEmail(form.current);
     }
   };
-
-  useEffect(() => {
-    console.log("-----> errors", errors);
-    if (errors) {
-      trigger();
-    }
-  }, [errors]);
 
   const sendEmail = (formElement: HTMLFormElement) => {
     emailjs
@@ -112,39 +102,45 @@ const ContactForm: FC = () => {
               name={FORM_FIELDS.USER_NAME.name}
               label={FORM_FIELDS.USER_NAME.label}
               control={control}
-              // errors={errors}
+              errors={errors}
               required
-              // rules={{
-              //   required: "Name is required",
-              //   pattern: {
-              //     minLength: {
-              //       value: 2,
-              //       message: "Name must be at least 2 characters long",
-              //     },
-              //   },
-              // }}
+              rules={{
+                required: `${FORM_FIELDS.USER_NAME.label} is required`,
+                maxLength: 256,
+                minLength: {
+                  value: 2,
+                  message: `${FORM_FIELDS.USER_NAME.label} must be at least 2 characters long`,
+                },
+              }}
             />
-            {/* <TextField
+            <TextField
               name={FORM_FIELDS.USER_EMAIL.name}
               label={FORM_FIELDS.USER_EMAIL.label}
               control={control}
-              // errors={errors}
+              errors={errors}
               required
+              rules={{
+                required: `${FORM_FIELDS.USER_EMAIL.label} is required`,
+                pattern: {
+                  value: /^\S+@\S+$/i,
+                  message: "Entered value does not match email format",
+                },
+              }}
             />
-            <TextField
+            {/* <TextField
               name={FORM_FIELDS.SUBJECT.name}
               label={FORM_FIELDS.SUBJECT.label}
               control={control}
               required
               // errors={errors}
-            />
-            <TextField
+            /> */}
+            {/* <TextField
               name={FORM_FIELDS.MESSAGE.name}
               label={FORM_FIELDS.MESSAGE.label}
               control={control}
               required
               // errors={errors}
-            /> */}
+            />  */}
           </Box>
 
           {/* <input type="submit" /> */}
