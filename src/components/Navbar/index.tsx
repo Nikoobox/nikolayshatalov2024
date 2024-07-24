@@ -65,8 +65,8 @@ const AppBarWithDrawer: FC = () => {
       </Typography>
       <Divider />
       <List>
-        {navItems.map(({ navItemName, destination }) => (
-          <ListItem key={navItemName} disablePadding>
+        {navItems.map(({ id, navItemName, destination }) => (
+          <ListItem key={id} disablePadding>
             <ListItemButton sx={{ textAlign: "center" }}>
               <ListItemText primary={navItemName} />
             </ListItemButton>
@@ -116,8 +116,9 @@ const AppBarWithDrawer: FC = () => {
                   marginLeft: "auto",
                 }}
               >
-                {navItems.map(({ navItemName, destination }) => (
+                {navItems.map(({ id, navItemName, destination }) => (
                   <StyledNavItemLink
+                    key={id}
                     to={destination}
                     smooth={true}
                     duration={1000}
