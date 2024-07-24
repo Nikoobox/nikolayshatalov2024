@@ -1,35 +1,19 @@
-import { Route, Routes, BrowserRouter } from "react-router-dom";
-import { SnackbarProvider, VariantType, useSnackbar } from "notistack";
-
-import { ThemeProvider } from "@mui/material/styles";
-import { useThemeContext } from "./theme/ThemeContextProvider";
-import CssBaseline from "@mui/material/CssBaseline";
+import { Route, Routes } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 import Splash from "./components/Splash";
 import Footer from "./components/Footer";
+import Providers from "./components/Providers";
 
 const App = () => {
-  const { theme } = useThemeContext();
-
   return (
-    <ThemeProvider theme={theme}>
-      <SnackbarProvider
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center",
-        }}
-      >
-        <CssBaseline />
-        <BrowserRouter>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Splash />} />
-          </Routes>
-          <Footer />
-        </BrowserRouter>
-      </SnackbarProvider>
-    </ThemeProvider>
+    <Providers>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Splash />} />
+      </Routes>
+      <Footer />
+    </Providers>
   );
 };
 
