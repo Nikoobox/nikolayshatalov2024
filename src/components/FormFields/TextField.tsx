@@ -1,16 +1,9 @@
 import { FC } from "react";
-import { IoPaperPlaneOutline } from "react-icons/io5";
-import {
-  useForm,
-  SubmitHandler,
-  Controller,
-  Control,
-  UseFormReturn,
-  RegisterOptions,
-} from "react-hook-form";
+import { Controller, UseFormReturn, RegisterOptions } from "react-hook-form";
 
-import { Box, TextField as MuiTextField, TextFieldProps } from "@mui/material";
+import { TextField as MuiTextField, TextFieldProps } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 
 export type Props = {
   name: string;
@@ -18,8 +11,38 @@ export type Props = {
   required?: boolean;
   control: UseFormReturn<any>["control"];
   rules?: RegisterOptions;
+  numRows?: number;
   errors?: { [key: string]: { message?: string } };
 } & TextFieldProps;
+
+const StyledMuiTextField = styled(MuiTextField)(({ theme }) => ({
+  "& .MuiOutlinedInput-input": {
+    padding: `${theme.spacing(3)} ${theme.spacing(3)}`,
+  },
+  "& .MuiOutlinedInput-root": {
+    borderRadius: theme.spacing(5),
+    "& .MuiOutlinedInput-notchedOutline": {
+      border: `2px solid ${theme.palette.common.white}`,
+    },
+    "&.Mui-focused": {
+      "& .MuiOutlinedInput-notchedOutline": {
+        border: `3px solid ${theme.palette.common.white}`,
+      },
+    },
+    "&:hover .MuiOutlinedInput-notchedOutline": {
+      border: `2px solid ${theme.palette.common.white}`,
+    },
+    "&.Mui-error .MuiOutlinedInput-notchedOutline": {
+      border: `2px solid ${theme.palette.common.white}`, // Custom border color for error state
+    },
+    "& .MuiInputBase-multiline": {
+      resize: "both",
+    },
+  },
+  "& .MuiInputBase-multiline": {
+    padding: 0,
+  },
+}));
 
 const TextField: FC<Props> = (props) => {
   const { control, name, label, required, rules, errors, ...rest } = props;
@@ -35,20 +58,43 @@ const TextField: FC<Props> = (props) => {
         const errorMessage = errors?.[name]?.message;
 
         return (
-          <MuiTextField
+          <StyledMuiTextField
             {...field}
             label={label}
             InputLabelProps={{
-              style: { color: theme.palette.customColors.greyAccent }, // Change label text color here
+              style: {
+                color: theme.palette.customColors.greyAccent,
+                top: theme.spacing(1),
+                left: theme.spacing(1),
+              },
+              sx: {
+                "& .MuiFormLabel-asterisk": {
+                  color: theme.palette.customColors.greyAccent,
+                  "&.Mui-error": {
+                    color: theme.palette.customColors.greyAccent,
+                  },
+                },
+                // "& .MuiInputLabel-root .Mui-error": {
+                //   color: theme.palette.customColors.greyAccent,
+                // },
+              },
             }}
             sx={{
               input: {
                 color: theme.palette.common.white,
               },
+              textarea: {
+                resize: "both",
+                color: theme.palette.common.white,
+                marginRight: "8px",
+              },
+            }}
+            FormHelperTextProps={{
+              style: { color: theme.palette.customColors.purpleAccent },
             }}
             variant="outlined"
             required={required}
-            error={!!errorMessage} // Show error state if there's an error message
+            error={!!errorMessage}
             helperText={errorMessage}
             {...rest}
           />

@@ -113,15 +113,6 @@ const themeOptions: ThemeOptions = {
       blueDark: COLORS.BLUE_DARK,
     },
   },
-  // components: {
-  //   MuiCssBaseline: {
-  //     styleOverrides: `
-  //       a:visited {
-  //         color: inherit; /* Replace with your desired color */
-  //       }
-  //     `,
-  //   },
-  // },
 };
 
 export { themeOptions, COLORS };
