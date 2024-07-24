@@ -94,7 +94,7 @@ const Project: FC<ProjectProps> = ({
             borderRadius: "16px",
           }}
         >
-          <img className="project-image" src={img} alt="proj-image" />
+          <img className="project-image" src={img} alt="project" />
           <Box
             width="100%"
             height="260px"
