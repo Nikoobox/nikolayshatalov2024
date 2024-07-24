@@ -44,7 +44,7 @@ const Skills: FC = () => {
         }}
       />
 
-      <PageSection>
+      <PageSection id="skills-destination">
         <Box
           display="flex"
           alignItems="center"
@@ -59,9 +59,9 @@ const Skills: FC = () => {
             display="flex"
             alignItems="center"
             justifyContent="center"
-            gap={5}
+            gap={6}
             flexWrap="wrap"
-            width="75%"
+            width="60%"
           >
             {mainSkills}
           </Box>
@@ -73,9 +73,9 @@ const Skills: FC = () => {
             display="flex"
             alignItems="center"
             justifyContent="center"
-            gap={5}
+            gap={6}
             flexWrap="wrap"
-            width="75%"
+            width="60%"
           >
             {additionalSkills}
           </Box>

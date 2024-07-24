@@ -1,39 +1,59 @@
 import { useState, FC } from "react";
+import { Link as LinkScroll, animateScroll as scroll } from "react-scroll";
 
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Divider from "@mui/material/Divider";
-import Drawer from "@mui/material/Drawer";
-import IconButton from "@mui/material/IconButton";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
-import MenuIcon from "@mui/icons-material/Menu";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-// import { useTheme } from "@mui/material/styles";
+import {
+  AppBar,
+  useScrollTrigger,
+  Slide,
+  Box,
+  Divider,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Toolbar,
+  Typography,
+  Container,
+} from "@mui/material";
+import { Menu as MenuIcon } from "@mui/icons-material";
 import { styled } from "@mui/system";
-import Container from "@mui/material/Container";
 
-// import { themeConstants } from "../../constants";
 import nsLogo from "../../images/logo.png";
 // import NightModeSwitch from "../NightModeSwitch";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
+import { navItems } from "./NavItems";
 
-// const { DARK } = themeConstants;
+interface HideOnScrollProps {
+  children: React.ReactElement;
+}
+const HideOnScroll = ({ children }: HideOnScrollProps) => {
+  const trigger = useScrollTrigger();
+
+  return (
+    <Slide appear={false} direction="down" in={!trigger}>
+      {children}
+    </Slide>
+  );
+};
 
 const drawerWidth = 240;
-const navItems = ["Home", "About", "Contact"];
 
 const StyledToolbar = styled(Toolbar)({
   paddingTop: "16px",
 });
 
+const StyledNavItemLink = styled(LinkScroll)(({ theme }) => ({
+  cursor: "pointer",
+  "& :hover": {
+    transition: "all 0.3s ease",
+    color: theme.palette.customColors.tealAccent,
+  },
+}));
+
 const AppBarWithDrawer: FC = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  // const theme = useTheme();
   const { isDarkMode } = useThemeContext();
 
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
@@ -45,10 +65,10 @@ const AppBarWithDrawer: FC = () => {
       </Typography>
       <Divider />
       <List>
-        {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
+        {navItems.map(({ navItemName, destination }) => (
+          <ListItem key={navItemName} disablePadding>
             <ListItemButton sx={{ textAlign: "center" }}>
-              <ListItemText primary={item} />
+              <ListItemText primary={navItemName} />
             </ListItemButton>
           </ListItem>
         ))}
@@ -58,52 +78,64 @@ const AppBarWithDrawer: FC = () => {
 
   return (
     <>
-      <AppBar component="nav" elevation={0} color="transparent">
-        <Container maxWidth="lg">
-          <StyledToolbar disableGutters>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="start"
-              onClick={handleDrawerToggle}
-              sx={{ mr: 2, display: { sm: "none" } }}
-            >
-              <MenuIcon />
-            </IconButton>
+      <HideOnScroll>
+        <AppBar component="nav" elevation={0} color="transparent">
+          <Container maxWidth="lg">
+            <StyledToolbar disableGutters>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                edge="start"
+                onClick={handleDrawerToggle}
+                sx={{ mr: 2, display: { sm: "none" } }}
+              >
+                <MenuIcon />
+              </IconButton>
 
-            <Box
-              width="80px"
-              height="80px"
-              sx={{
-                display: { xs: "none", sm: "block" },
-                img: { width: "100%", height: "100%" },
-                border: "1px white solid",
-              }}
-            >
-              <img src={nsLogo} alt="ns-logo" />
-            </Box>
+              <Box
+                width="80px"
+                height="80px"
+                sx={{
+                  display: { xs: "none", sm: "block" },
+                  img: { width: "100%", height: "100%" },
+                  border: "1px white solid",
+                  "& :hover": {
+                    cursor: "pointer",
+                  },
+                }}
+                onClick={scroll.scrollToTop}
+              >
+                <img src={nsLogo} alt="ns-logo" />
+              </Box>
 
-            {/* <NightModeSwitch /> */}
-            <Box
-              sx={{
-                display: { xs: "none", sm: "block" },
-                marginLeft: "auto",
-              }}
-            >
-              {navItems.map((item, idx) => (
-                <Button disableRipple disableElevation key={idx}>
-                  <Typography
-                    color={`${isDarkMode ? "common.black" : "common.white"}`}
-                    variant="h2"
+              {/* <NightModeSwitch /> */}
+              <Box
+                sx={{
+                  display: { xs: "none", sm: "flex" },
+                  gap: 3,
+                  marginLeft: "auto",
+                }}
+              >
+                {navItems.map(({ navItemName, destination }) => (
+                  <StyledNavItemLink
+                    to={destination}
+                    smooth={true}
+                    duration={1000}
                   >
-                    {item}
-                  </Typography>
-                </Button>
-              ))}
-            </Box>
-          </StyledToolbar>
-        </Container>
-      </AppBar>
+                    <Typography
+                      color={`${isDarkMode ? "common.black" : "common.white"}`}
+                      variant="h2"
+                    >
+                      {navItemName}
+                    </Typography>
+                  </StyledNavItemLink>
+                ))}
+              </Box>
+            </StyledToolbar>
+          </Container>
+        </AppBar>
+      </HideOnScroll>
+
       <nav>
         <Drawer
           variant="temporary"

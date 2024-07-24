@@ -70,7 +70,7 @@ const Contact: FC = () => {
         }}
       />
 
-      <PageSection>
+      <PageSection id="contact-destination">
         <Box display="flex" justifyContent="center" alignItems="center">
           <Typography variant="h1" mb={5} color="common.white">
             Contact
