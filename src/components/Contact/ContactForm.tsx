@@ -1,11 +1,26 @@
 import { useState, useRef, useEffect, FC } from "react";
 import emailjs from "@emailjs/browser";
 import { ClipLoader } from "react-spinners";
+
 import { Box, Typography, Button } from "@mui/material";
+import { styled } from "@mui/material/styles";
+
 import { IoPaperPlaneOutline } from "react-icons/io5";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { HiOutlineDocumentText } from "react-icons/hi";
+import { useForm, SubmitHandler } from "react-hook-form";
 
 import { TextField } from "../FormFields";
+
+const StyledButton = styled(Button)(({ theme }) => ({
+  border: `solid 2px ${theme.palette.common.white}`,
+  borderRadius: theme.spacing(4),
+  padding: `${theme.spacing(1.5)} ${theme.spacing(3)}`,
+  marginTop: theme.spacing(3),
+  svg: {
+    width: theme.spacing(2.5),
+    height: "auto",
+  },
+}));
 
 interface IFormInput {
   user_name: string;
@@ -24,11 +39,11 @@ const DEFAULT_VALUES = {
 const FORM_FIELDS = {
   USER_NAME: {
     name: "user_name",
-    label: "Name",
+    label: "Your Name",
   },
   USER_EMAIL: {
     name: "user_email",
-    label: "Email",
+    label: "Your Email",
   },
   SUBJECT: {
     name: "subject",
@@ -61,6 +76,7 @@ const ContactForm: FC = () => {
   };
 
   const sendEmail = (formElement: HTMLFormElement) => {
+    console.log("sendEmail formElement", formElement);
     emailjs
       .sendForm(
         process.env.REACT_APP_YOUR_SERVICE_ID as string,
@@ -77,14 +93,12 @@ const ContactForm: FC = () => {
         }
       );
   };
-  console.log("### isValid", isValid);
-  console.log("*** isDirty", isDirty);
-  console.log("EEE errors", errors);
+
   return (
     <Box width="60%" margin="auto">
       <Box>
         <form ref={form} onSubmit={handleSubmit(onSubmit)}>
-          <Box display="flex" flexDirection="column" gap={0.5}>
+          <Box display="flex" flexDirection="column" gap={2}>
             {/* <input
               {...register("user_name", { required: true, maxLength: 128 })}
             />
@@ -127,28 +141,54 @@ const ContactForm: FC = () => {
                 },
               }}
             />
-            {/* <TextField
+            <TextField
               name={FORM_FIELDS.SUBJECT.name}
               label={FORM_FIELDS.SUBJECT.label}
               control={control}
+              errors={errors}
               required
-              // errors={errors}
-            /> */}
-            {/* <TextField
+              rules={{
+                required: `${FORM_FIELDS.SUBJECT.label} is required`,
+                maxLength: 256,
+                minLength: {
+                  value: 2,
+                  message: `${FORM_FIELDS.SUBJECT.label} must be at least 2 characters long`,
+                },
+              }}
+            />
+            <TextField
               name={FORM_FIELDS.MESSAGE.name}
               label={FORM_FIELDS.MESSAGE.label}
               control={control}
+              errors={errors}
+              rules={{
+                required: `${FORM_FIELDS.MESSAGE.label} is required`,
+                maxLength: 512,
+                minLength: {
+                  value: 2,
+                  message: `${FORM_FIELDS.MESSAGE.label} must be at least 2 characters long`,
+                },
+              }}
               required
-              // errors={errors}
-            />  */}
+              multiline
+              minRows={3}
+            />
           </Box>
 
-          {/* <input type="submit" /> */}
-          <Button disabled={!isValid} sx={{ marginTop: "8px" }} size="large">
-            <Typography color="common.white" variant="h3">
-              Submit
+          <StyledButton type="submit" disabled={!isValid}>
+            <Typography
+              color={`${!isValid ? "customColors.grey" : "common.white"}`}
+              variant="h2"
+            >
+              Send
             </Typography>
-          </Button>
+            <IoPaperPlaneOutline
+              style={{
+                marginLeft: "6px",
+                color: `${!isValid ? "customColors.grey" : "common.white"}`, //fix
+              }}
+            />
+          </StyledButton>
         </form>
       </Box>
     </Box>

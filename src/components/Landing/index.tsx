@@ -1,18 +1,16 @@
 import { FC } from "react";
 import { Link as LinkScroll } from "react-scroll";
 import { HiChevronDown } from "react-icons/hi";
-import Wave from "react-wavify";
 
 import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/system";
-import { useTheme } from "@mui/material/styles";
 
 import ParticlesTS from "./Particles";
 
 const StyledLinkScroll = styled(LinkScroll)(({ theme }) => ({
   color: "white",
   border: "solid white 3px",
-  borderRadius: "30px",
+  borderRadius: theme.spacing(4),
   textDecoration: "none",
   padding: `${theme.spacing(1)} ${theme.spacing(3)}`,
   display: "inline-flex",
@@ -36,8 +34,6 @@ const StyledHiBox = styled(Box)({
 });
 
 const Landing: FC = () => {
-  const theme = useTheme();
-
   return (
     <>
       <Box>
@@ -57,23 +53,6 @@ const Landing: FC = () => {
           </StyledLinkScroll>
         </StyledHiBox>
       </Box>
-
-      {/* <Wave
-        fill={theme.palette.common.white}
-        paused={false}
-        style={{
-          display: "flex",
-          background: theme.palette.primary.main,
-          position: "absolute",
-          transform: "rotate(180)",
-        }}
-        options={{
-          height: 40,
-          amplitude: 40,
-          speed: 0.1,
-          points: 3,
-        }}
-      /> */}
     </>
   );
 };
