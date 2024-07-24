@@ -1,15 +1,13 @@
-import { useState, useRef, useEffect, FC } from "react";
+import { useRef, FC } from "react";
 import emailjs from "@emailjs/browser";
-import { ClipLoader } from "react-spinners";
-
-import { Box, Typography, Button, ButtonProps } from "@mui/material";
-import { styled } from "@mui/material/styles";
-
 import { IoPaperPlaneOutline } from "react-icons/io5";
-import { HiOutlineDocumentText } from "react-icons/hi";
 import { useForm, SubmitHandler } from "react-hook-form";
 
+import { Box, Typography, Button } from "@mui/material";
+import { styled } from "@mui/material/styles";
+
 import { TextField } from "../FormFields";
+import { FORM_FIELDS } from "../../constants";
 
 const StyledButton = styled(Button)(({ theme, disabled }) => ({
   border: `solid 2px ${
@@ -26,27 +24,6 @@ const StyledButton = styled(Button)(({ theme, disabled }) => ({
       : theme.palette.common.white,
   },
 }));
-// const StyledButton = styled(Button, {
-//   shouldForwardProp: (prop) => prop !== "isValid",
-// })<ButtonProps & { isValid: boolean }>(({ theme, isValid }) => ({
-//   border: `solid 2px ${theme.palette.common.white}`,
-//   borderRadius: theme.spacing(4),
-//   padding: `${theme.spacing(1.5)} ${theme.spacing(3)}`,
-//   marginTop: theme.spacing(3),
-//   backgroundColor: isValid
-//     ? theme.palette.primary.main
-//     : theme.palette.grey[500],
-//   color: isValid ? theme.palette.common.white : theme.palette.grey[200],
-//   svg: {
-//     width: theme.spacing(2.5),
-//     height: "auto",
-//   },
-//   "&:hover": {
-//     backgroundColor: isValid
-//       ? theme.palette.primary.dark
-//       : theme.palette.grey[600],
-//   },
-// }));
 
 interface IFormInput {
   user_name: string;
@@ -60,25 +37,6 @@ const DEFAULT_VALUES = {
   user_email: "",
   subject: "",
   message: "",
-};
-
-const FORM_FIELDS = {
-  USER_NAME: {
-    name: "user_name",
-    label: "Your Name",
-  },
-  USER_EMAIL: {
-    name: "user_email",
-    label: "Your Email",
-  },
-  SUBJECT: {
-    name: "subject",
-    label: "Subject",
-  },
-  MESSAGE: {
-    name: "message",
-    label: "Message",
-  },
 };
 
 const ContactForm: FC = () => {
