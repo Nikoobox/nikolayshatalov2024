@@ -94,7 +94,7 @@ const Project: FC<ProjectProps> = ({
             borderRadius: "16px",
           }}
         >
-          <img className="project-image" src={img} />
+          <img className="project-image" src={img} alt="proj-image" />
           <Box
             width="100%"
             height="260px"
@@ -200,7 +200,7 @@ const Project: FC<ProjectProps> = ({
             },
           }}
         >
-          <img src={overview} alt="" />
+          <img src={overview} alt="overview" />
         </Box>
       </MyDialog>
     </>
