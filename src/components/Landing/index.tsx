@@ -45,7 +45,12 @@ const Landing: FC = () => {
             experience in Typescript, React, Javascript, React, Redux, React
             Native, Ruby, and more.
           </Typography>
-          <StyledLinkScroll href="/" to="" smooth={true} duration={1200}>
+          <StyledLinkScroll
+            href="/"
+            to="contact-destination"
+            smooth={true}
+            duration={1200}
+          >
             <Typography variant="h2" color="common.white">
               Say Hi
             </Typography>

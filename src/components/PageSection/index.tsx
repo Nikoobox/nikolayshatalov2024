@@ -4,11 +4,16 @@ import { Box, Typography, Container } from "@mui/material";
 
 interface Props {
   header?: string;
+  id?: string;
 }
 
-const PageSection: FC<PropsWithChildren<Props>> = ({ children, header }) => {
+const PageSection: FC<PropsWithChildren<Props>> = ({
+  children,
+  header,
+  id,
+}) => {
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="lg" id={id}>
       <Box py={10}>
         {header && (
           <Box display="flex" justifyContent="center" alignItems="center">
