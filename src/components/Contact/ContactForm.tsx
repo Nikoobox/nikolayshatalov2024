@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, FC } from "react";
 import emailjs from "@emailjs/browser";
 import { ClipLoader } from "react-spinners";
 
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Typography, Button, ButtonProps } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 import { IoPaperPlaneOutline } from "react-icons/io5";
@@ -11,16 +11,42 @@ import { useForm, SubmitHandler } from "react-hook-form";
 
 import { TextField } from "../FormFields";
 
-const StyledButton = styled(Button)(({ theme }) => ({
-  border: `solid 2px ${theme.palette.common.white}`,
+const StyledButton = styled(Button)(({ theme, disabled }) => ({
+  border: `solid 2px ${
+    disabled ? theme.palette.customColors.grey : theme.palette.common.white
+  }`,
   borderRadius: theme.spacing(4),
   padding: `${theme.spacing(1.5)} ${theme.spacing(3)}`,
   marginTop: theme.spacing(3),
   svg: {
     width: theme.spacing(2.5),
     height: "auto",
+    color: disabled
+      ? theme.palette.customColors.grey
+      : theme.palette.common.white,
   },
 }));
+// const StyledButton = styled(Button, {
+//   shouldForwardProp: (prop) => prop !== "isValid",
+// })<ButtonProps & { isValid: boolean }>(({ theme, isValid }) => ({
+//   border: `solid 2px ${theme.palette.common.white}`,
+//   borderRadius: theme.spacing(4),
+//   padding: `${theme.spacing(1.5)} ${theme.spacing(3)}`,
+//   marginTop: theme.spacing(3),
+//   backgroundColor: isValid
+//     ? theme.palette.primary.main
+//     : theme.palette.grey[500],
+//   color: isValid ? theme.palette.common.white : theme.palette.grey[200],
+//   svg: {
+//     width: theme.spacing(2.5),
+//     height: "auto",
+//   },
+//   "&:hover": {
+//     backgroundColor: isValid
+//       ? theme.palette.primary.dark
+//       : theme.palette.grey[600],
+//   },
+// }));
 
 interface IFormInput {
   user_name: string;
@@ -61,6 +87,7 @@ const ContactForm: FC = () => {
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors, isValid, isDirty },
   } = useForm<IFormInput>({
     defaultValues: DEFAULT_VALUES,
@@ -86,9 +113,11 @@ const ContactForm: FC = () => {
       )
       .then(
         (result) => {
+          reset();
           console.log(result.text);
         },
         (error) => {
+          reset();
           console.log(error.text);
         }
       );
@@ -177,15 +206,14 @@ const ContactForm: FC = () => {
 
           <StyledButton type="submit" disabled={!isValid}>
             <Typography
-              color={`${!isValid ? "customColors.grey" : "common.white"}`}
-              variant="h2"
+              variant="h3"
+              color={isValid ? "common.white" : "customColors.grey"}
             >
               Send
             </Typography>
             <IoPaperPlaneOutline
               style={{
                 marginLeft: "6px",
-                color: `${!isValid ? "customColors.grey" : "common.white"}`, //fix
               }}
             />
           </StyledButton>

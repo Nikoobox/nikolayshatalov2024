@@ -21,6 +21,7 @@ const StyledMuiTextField = styled(MuiTextField)(({ theme }) => ({
   },
   "& .MuiOutlinedInput-root": {
     borderRadius: theme.spacing(5),
+
     "& .MuiOutlinedInput-notchedOutline": {
       border: `2px solid ${theme.palette.common.white}`,
     },
@@ -30,10 +31,10 @@ const StyledMuiTextField = styled(MuiTextField)(({ theme }) => ({
       },
     },
     "&:hover .MuiOutlinedInput-notchedOutline": {
-      border: `2px solid ${theme.palette.common.white}`,
+      border: `3px solid ${theme.palette.common.white}`,
     },
     "&.Mui-error .MuiOutlinedInput-notchedOutline": {
-      border: `2px solid ${theme.palette.common.white}`, // Custom border color for error state
+      border: `2px solid ${theme.palette.common.white}`,
     },
     "& .MuiInputBase-multiline": {
       resize: "both",
@@ -63,20 +64,22 @@ const TextField: FC<Props> = (props) => {
             label={label}
             InputLabelProps={{
               style: {
-                color: theme.palette.customColors.greyAccent,
+                color: theme.palette.common.white,
                 top: theme.spacing(1),
                 left: theme.spacing(1),
+                background: theme.palette.primary.main,
               },
               sx: {
                 "& .MuiFormLabel-asterisk": {
-                  color: theme.palette.customColors.greyAccent,
+                  color: theme.palette.common.white,
                   "&.Mui-error": {
-                    color: theme.palette.customColors.greyAccent,
+                    color: theme.palette.common.white,
                   },
                 },
-                // "& .MuiInputLabel-root .Mui-error": {
-                //   color: theme.palette.customColors.greyAccent,
-                // },
+                "&.MuiInputLabel-shrink": {
+                  paddingRight: theme.spacing(1),
+                  paddingLeft: theme.spacing(1),
+                },
               },
             }}
             sx={{
