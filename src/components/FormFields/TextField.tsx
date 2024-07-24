@@ -37,7 +37,7 @@ const StyledMuiTextField = styled(MuiTextField)(({ theme }) => ({
       border: `2px solid ${theme.palette.common.white}`,
     },
     "& .MuiInputBase-multiline": {
-      resize: "both",
+      resize: "vertical",
     },
   },
   "& .MuiInputBase-multiline": {

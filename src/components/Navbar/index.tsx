@@ -13,13 +13,13 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { useTheme } from "@mui/material/styles";
+// import { useTheme } from "@mui/material/styles";
 import { styled } from "@mui/system";
 import Container from "@mui/material/Container";
 
 // import { themeConstants } from "../../constants";
 import nsLogo from "../../images/logo.png";
-import NightModeSwitch from "../NightModeSwitch";
+// import NightModeSwitch from "../NightModeSwitch";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
 
 // const { DARK } = themeConstants;

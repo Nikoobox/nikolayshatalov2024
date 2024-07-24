@@ -1,6 +1,5 @@
 import { FC, useState } from "react";
 import {
-  HiDownload,
   HiOutlineDocumentDownload,
   HiOutlineDocumentText,
   HiOutlineExternalLink,

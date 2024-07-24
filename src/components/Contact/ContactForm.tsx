@@ -2,7 +2,7 @@ import { useRef, FC } from "react";
 import emailjs from "@emailjs/browser";
 import { IoPaperPlaneOutline } from "react-icons/io5";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { SnackbarProvider, VariantType, useSnackbar } from "notistack";
+import { useSnackbar } from "notistack";
 
 import { Box, Typography, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -44,7 +44,7 @@ const ContactForm: FC = () => {
     control,
     handleSubmit,
     reset,
-    formState: { errors, isValid, isDirty },
+    formState: { errors, isValid },
   } = useForm<IFormInput>({
     defaultValues: DEFAULT_VALUES,
     mode: "onBlur",
