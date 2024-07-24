@@ -15,7 +15,7 @@ const StyledLinkScroll = styled(LinkScroll)(({ theme }) => ({
   padding: `${theme.spacing(1)} ${theme.spacing(3)}`,
   display: "inline-flex",
   alignItems: "center",
-  marginTop: "16px",
+  marginTop: theme.spacing(2),
 }));
 
 const StyledHiChevronDown = styled(HiChevronDown)({
