@@ -51,8 +51,6 @@ const ContactForm: FC = () => {
   });
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    console.log("onSubmit-data", data);
-
     if (form?.current) {
       sendEmail(form.current);
     }
