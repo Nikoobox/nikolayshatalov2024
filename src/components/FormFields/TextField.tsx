@@ -89,7 +89,8 @@ const TextField: FC<Props> = (props) => {
               textarea: {
                 resize: "both",
                 color: theme.palette.common.white,
-                marginRight: "8px",
+                marginRight: "16px",
+                marginBottom: "24px",
               },
             }}
             FormHelperTextProps={{

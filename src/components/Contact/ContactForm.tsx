@@ -2,6 +2,7 @@ import { useRef, FC } from "react";
 import emailjs from "@emailjs/browser";
 import { IoPaperPlaneOutline } from "react-icons/io5";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { SnackbarProvider, VariantType, useSnackbar } from "notistack";
 
 import { Box, Typography, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -10,13 +11,15 @@ import { TextField } from "../FormFields";
 import { FORM_FIELDS } from "../../constants";
 import { DEFAULT_VALUES } from "./DefaultValues";
 
+const SUCCESS = "success";
+const ERROR = "error";
+
 const StyledButton = styled(Button)(({ theme, disabled }) => ({
   border: `solid 2px ${
     disabled ? theme.palette.customColors.grey : theme.palette.common.white
   }`,
   borderRadius: theme.spacing(4),
   padding: `${theme.spacing(1.5)} ${theme.spacing(3)}`,
-  marginTop: theme.spacing(3),
   svg: {
     width: theme.spacing(2.5),
     height: "auto",
@@ -35,6 +38,7 @@ interface IFormInput {
 
 const ContactForm: FC = () => {
   const form = useRef<HTMLFormElement>(null);
+  const { enqueueSnackbar } = useSnackbar();
 
   const {
     control,
@@ -55,7 +59,6 @@ const ContactForm: FC = () => {
   };
 
   const sendEmail = (formElement: HTMLFormElement) => {
-    console.log("sendEmail formElement", formElement);
     emailjs
       .sendForm(
         process.env.REACT_APP_YOUR_SERVICE_ID as string,
@@ -65,10 +68,16 @@ const ContactForm: FC = () => {
       )
       .then(
         (result) => {
+          enqueueSnackbar("Your message was successfully sent to Nikolay!", {
+            variant: SUCCESS,
+          });
           reset();
           console.log(result.text);
         },
         (error) => {
+          enqueueSnackbar(error?.text, {
+            variant: ERROR,
+          });
           reset();
           console.log(error.text);
         }
@@ -141,20 +150,21 @@ const ContactForm: FC = () => {
             minRows={3}
           />
         </Box>
-
-        <StyledButton type="submit" disabled={!isValid}>
-          <Typography
-            variant="h3"
-            color={isValid ? "common.white" : "customColors.grey"}
-          >
-            Send
-          </Typography>
-          <IoPaperPlaneOutline
-            style={{
-              marginLeft: "6px",
-            }}
-          />
-        </StyledButton>
+        <Box mt={3} width="100%" display="flex" justifyContent="flex-end">
+          <StyledButton type="submit" disabled={!isValid}>
+            <Typography
+              variant="h3"
+              color={isValid ? "common.white" : "customColors.grey"}
+            >
+              Send
+            </Typography>
+            <IoPaperPlaneOutline
+              style={{
+                marginLeft: "6px",
+              }}
+            />
+          </StyledButton>
+        </Box>
       </form>
     </Box>
   );
