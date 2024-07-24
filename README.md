@@ -4,7 +4,7 @@ A TypeScript-based portfolio single page website built with `Create React App` f
 
 Additionally, `EmailJS` has been integrated to manage contact form submissions, and the `react-hook-form` library is utilized for optimal form state management and validation performance.
 
-<div align="start">
+<div align="start" >
   <a href="https://nikolayshatalov2024.netlify.app/">Live Site (Work In Progress...)</a>
 </div>
 
