@@ -8,6 +8,7 @@ import { styled } from "@mui/material/styles";
 
 import { TextField } from "../FormFields";
 import { FORM_FIELDS } from "../../constants";
+import { DEFAULT_VALUES } from "./DefaultValues";
 
 const StyledButton = styled(Button)(({ theme, disabled }) => ({
   border: `solid 2px ${
@@ -31,13 +32,6 @@ interface IFormInput {
   subject: string;
   message: string;
 }
-
-const DEFAULT_VALUES = {
-  user_name: "",
-  user_email: "",
-  subject: "",
-  message: "",
-};
 
 const ContactForm: FC = () => {
   const form = useRef<HTMLFormElement>(null);
@@ -83,100 +77,85 @@ const ContactForm: FC = () => {
 
   return (
     <Box width="60%" margin="auto">
-      <Box>
-        <form ref={form} onSubmit={handleSubmit(onSubmit)}>
-          <Box display="flex" flexDirection="column" gap={2}>
-            {/* <input
-              {...register("user_name", { required: true, maxLength: 128 })}
-            />
-            <input
-              {...register("user_email", { required: true, maxLength: 128 })}
-            />
-            <input
-              {...register("subject", { required: true, maxLength: 128 })}
-            />
-            <input
-              {...register("message", { required: true, maxLength: 512 })}
-            /> */}
+      <form ref={form} onSubmit={handleSubmit(onSubmit)}>
+        <Box display="flex" flexDirection="column" gap={2}>
+          <TextField
+            name={FORM_FIELDS.USER_NAME.name}
+            label={FORM_FIELDS.USER_NAME.label}
+            control={control}
+            errors={errors}
+            required
+            rules={{
+              required: `${FORM_FIELDS.USER_NAME.label} is required`,
+              maxLength: 256,
+              minLength: {
+                value: 2,
+                message: `${FORM_FIELDS.USER_NAME.label} must be at least 2 characters long`,
+              },
+            }}
+          />
+          <TextField
+            name={FORM_FIELDS.USER_EMAIL.name}
+            label={FORM_FIELDS.USER_EMAIL.label}
+            control={control}
+            errors={errors}
+            required
+            rules={{
+              required: `${FORM_FIELDS.USER_EMAIL.label} is required`,
+              pattern: {
+                value: /^\S+@\S+$/i,
+                message: "Entered value does not match email format",
+              },
+            }}
+          />
+          <TextField
+            name={FORM_FIELDS.SUBJECT.name}
+            label={FORM_FIELDS.SUBJECT.label}
+            control={control}
+            errors={errors}
+            required
+            rules={{
+              required: `${FORM_FIELDS.SUBJECT.label} is required`,
+              maxLength: 256,
+              minLength: {
+                value: 2,
+                message: `${FORM_FIELDS.SUBJECT.label} must be at least 2 characters long`,
+              },
+            }}
+          />
+          <TextField
+            name={FORM_FIELDS.MESSAGE.name}
+            label={FORM_FIELDS.MESSAGE.label}
+            control={control}
+            errors={errors}
+            rules={{
+              required: `${FORM_FIELDS.MESSAGE.label} is required`,
+              maxLength: 512,
+              minLength: {
+                value: 2,
+                message: `${FORM_FIELDS.MESSAGE.label} must be at least 2 characters long`,
+              },
+            }}
+            required
+            multiline
+            minRows={3}
+          />
+        </Box>
 
-            <TextField
-              name={FORM_FIELDS.USER_NAME.name}
-              label={FORM_FIELDS.USER_NAME.label}
-              control={control}
-              errors={errors}
-              required
-              rules={{
-                required: `${FORM_FIELDS.USER_NAME.label} is required`,
-                maxLength: 256,
-                minLength: {
-                  value: 2,
-                  message: `${FORM_FIELDS.USER_NAME.label} must be at least 2 characters long`,
-                },
-              }}
-            />
-            <TextField
-              name={FORM_FIELDS.USER_EMAIL.name}
-              label={FORM_FIELDS.USER_EMAIL.label}
-              control={control}
-              errors={errors}
-              required
-              rules={{
-                required: `${FORM_FIELDS.USER_EMAIL.label} is required`,
-                pattern: {
-                  value: /^\S+@\S+$/i,
-                  message: "Entered value does not match email format",
-                },
-              }}
-            />
-            <TextField
-              name={FORM_FIELDS.SUBJECT.name}
-              label={FORM_FIELDS.SUBJECT.label}
-              control={control}
-              errors={errors}
-              required
-              rules={{
-                required: `${FORM_FIELDS.SUBJECT.label} is required`,
-                maxLength: 256,
-                minLength: {
-                  value: 2,
-                  message: `${FORM_FIELDS.SUBJECT.label} must be at least 2 characters long`,
-                },
-              }}
-            />
-            <TextField
-              name={FORM_FIELDS.MESSAGE.name}
-              label={FORM_FIELDS.MESSAGE.label}
-              control={control}
-              errors={errors}
-              rules={{
-                required: `${FORM_FIELDS.MESSAGE.label} is required`,
-                maxLength: 512,
-                minLength: {
-                  value: 2,
-                  message: `${FORM_FIELDS.MESSAGE.label} must be at least 2 characters long`,
-                },
-              }}
-              required
-              multiline
-              minRows={3}
-            />
-          </Box>
-
-          <StyledButton type="submit" disabled={!isValid}>
-            <Typography
-              variant="h3"
-              color={isValid ? "common.white" : "customColors.grey"}
-            >
-              Send
-            </Typography>
-            <IoPaperPlaneOutline
-              style={{
-                marginLeft: "6px",
-              }}
-            />
-          </StyledButton>
-        </form>
-      </Box>
+        <StyledButton type="submit" disabled={!isValid}>
+          <Typography
+            variant="h3"
+            color={isValid ? "common.white" : "customColors.grey"}
+          >
+            Send
+          </Typography>
+          <IoPaperPlaneOutline
+            style={{
+              marginLeft: "6px",
+            }}
+          />
+        </StyledButton>
+      </form>
     </Box>
   );
 };
