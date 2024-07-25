@@ -23,11 +23,13 @@ import ContactForm from "./ContactForm";
 const profileImg = `${process.env.PUBLIC_URL}/img/profile.jpg`;
 
 const StyledContactInfoWrapper = styled(Box)(({ theme }) => ({
+  gap: theme.spacing(6),
   [theme.breakpoints.down("sm")]: {
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "column",
+    gap: theme.spacing(3),
   },
 }));
 
@@ -84,7 +86,10 @@ const Contact: FC = () => {
         id="wave-contact"
         fill={theme.palette.primary.main}
         paused={false}
-        style={{ display: "flex", background: theme.palette.common.white }}
+        style={{
+          display: "flex",
+          background: theme.palette.common.white,
+        }}
         options={{
           height: 40,
           amplitude: 40,
@@ -105,7 +110,7 @@ const Contact: FC = () => {
           width="90%"
           justifyContent="center"
           alignItems="center"
-          gap={6}
+          //   gap={6}
           margin="auto"
         >
           <StyledImageWrapperBox>
@@ -116,8 +121,8 @@ const Contact: FC = () => {
               width: { sm: "100%", md: "50%" },
               display: { sm: "flex", md: "block" },
               flexDirection: "column",
-              alignItems: { xs: "center", sm: "center" },
-              justifyContent: { xs: "center", sm: "center" },
+              alignItems: { xs: "center", sm: "flex-start" },
+              justifyContent: { xs: "center" },
               textAlign: { xs: "center", sm: "start" },
             }}
           >
@@ -139,9 +144,9 @@ const Contact: FC = () => {
                   >
                     Download My Resume
                     <Box
-                      component={HiOutlineDocumentDownload}
+                      component={HiDownload}
+                      ml="6px"
                       sx={{
-                        marginLeft: "6px",
                         "& svg": { width: 1 },
                       }}
                     />
@@ -157,8 +162,8 @@ const Contact: FC = () => {
                     View My Resume
                     <Box
                       component={HiOutlineDocumentText}
+                      ml="6px"
                       sx={{
-                        marginLeft: "6px",
                         color: "common.white",
                         "& svg": { width: 1 },
                       }}
@@ -199,8 +204,8 @@ const Contact: FC = () => {
                 Download
                 <Box
                   component={HiOutlineDocumentDownload}
+                  ml="6px"
                   sx={{
-                    marginLeft: "6px",
                     "& svg": { width: 1 },
                   }}
                 />
@@ -215,8 +220,8 @@ const Contact: FC = () => {
                 View in browser
                 <Box
                   component={HiOutlineExternalLink}
+                  ml="6px"
                   sx={{
-                    marginLeft: "6px",
                     "& svg": { width: 1 },
                   }}
                 />

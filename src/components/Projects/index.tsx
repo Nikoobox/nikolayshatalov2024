@@ -13,7 +13,17 @@ const Projects: FC = () => {
 
   return (
     <PageSection header="Projects" id="projects-destination">
-      <Box display="flex" justifyContent="center" flexWrap="wrap" gap={8}>
+      <Box
+        display="flex"
+        justifyContent="center"
+        flexWrap="wrap"
+        sx={{
+          gap: {
+            xs: 12,
+            sm: 8,
+          },
+        }}
+      >
         {projects}
       </Box>
     </PageSection>

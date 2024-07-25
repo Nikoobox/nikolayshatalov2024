@@ -83,7 +83,7 @@ const ContactForm: FC = () => {
   };
 
   return (
-    <Box width="60%" margin="auto">
+    <Box margin="auto" sx={{ width: { sm: "100%", md: "60%" } }}>
       <form ref={form} onSubmit={handleSubmit(onSubmit)}>
         <Box display="flex" flexDirection="column" gap={2}>
           <TextField
@@ -148,7 +148,17 @@ const ContactForm: FC = () => {
             minRows={3}
           />
         </Box>
-        <Box mt={3} width="100%" display="flex" justifyContent="flex-end">
+        <Box
+          mt={3}
+          width="100%"
+          display="flex"
+          sx={{
+            justifyContent: {
+              xs: "center",
+              md: "flex-end",
+            },
+          }}
+        >
           <StyledButton type="submit" disabled={!isValid}>
             <Typography
               variant="h3"
