@@ -59,6 +59,7 @@ const Contact: FC = () => {
   return (
     <>
       <Wave
+        id="wave-contact"
         fill={theme.palette.primary.main}
         paused={false}
         style={{ display: "flex", background: theme.palette.common.white }}

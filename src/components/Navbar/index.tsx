@@ -22,8 +22,10 @@ import { styled } from "@mui/system";
 
 import nsLogo from "../../images/logo.png";
 // import NightModeSwitch from "../NightModeSwitch";
-import { useThemeContext } from "../../theme/ThemeContextProvider";
+// import { useThemeContext } from "../../theme/ThemeContextProvider";
 import { navItems } from "./NavItems";
+import { useScrollPosition } from "../../hooks";
+import { getNavItemColor } from "./helpers";
 
 interface HideOnScrollProps {
   children: React.ReactElement;
@@ -54,9 +56,13 @@ const StyledNavItemLink = styled(LinkScroll)(({ theme }) => ({
 
 const AppBarWithDrawer: FC = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { isDarkMode } = useThemeContext();
+  // const { isDarkMode } = useThemeContext();
+
+  const [scrollPosition, isPastTarget] = useScrollPosition();
 
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
+
+  const navItemColor = getNavItemColor(scrollPosition, isPastTarget);
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
@@ -123,10 +129,7 @@ const AppBarWithDrawer: FC = () => {
                     smooth={true}
                     duration={1000}
                   >
-                    <Typography
-                      color={`${isDarkMode ? "common.black" : "common.white"}`}
-                      variant="h2"
-                    >
+                    <Typography variant="h2" color={navItemColor}>
                       {navItemName}
                     </Typography>
                   </StyledNavItemLink>
