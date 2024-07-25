@@ -83,7 +83,15 @@ const Project: FC<ProjectProps> = ({
 
   return (
     <>
-      <StyledBox width="45%">
+      <StyledBox
+        // width="45%"
+        sx={{
+          width: {
+            sm: "100%",
+            md: "45%",
+          },
+        }}
+      >
         <Box
           onMouseOver={handleOnMouseOver}
           onMouseOut={handleOnMouseOut}

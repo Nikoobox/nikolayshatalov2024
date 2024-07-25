@@ -3,8 +3,10 @@ import {
   HiOutlineDocumentDownload,
   HiOutlineDocumentText,
   HiOutlineExternalLink,
+  HiDownload,
 } from "react-icons/hi";
 import Wave from "react-wavify";
+import { isMobile } from "react-device-detect";
 
 import { Box, Typography, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -20,6 +22,15 @@ import ContactForm from "./ContactForm";
 
 const profileImg = `${process.env.PUBLIC_URL}/img/profile.jpg`;
 
+const StyledContactInfoWrapper = styled(Box)(({ theme }) => ({
+  [theme.breakpoints.down("sm")]: {
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
+  },
+}));
+
 const StyledImageWrapperBox = styled(Box)({
   overflow: "hidden",
   borderRadius: "50%",
@@ -34,6 +45,17 @@ const StyledButton = styled(Button)(({ theme }) => ({
   padding: `${theme.spacing(1)} ${theme.spacing(3)}`,
   borderRadius: theme.spacing(3),
   marginTop: theme.spacing(3),
+}));
+
+const StyledDownloadLink = styled("a")(({ theme }) => ({
+  color: "white",
+  border: "solid white 3px",
+  borderRadius: theme.spacing(4),
+  textDecoration: "none",
+  padding: `${theme.spacing(1)} ${theme.spacing(3)}`,
+  display: "inline-flex",
+  alignItems: "center",
+  marginTop: theme.spacing(4),
 }));
 
 const StyledPDFViewerWrapper = styled(Box)(({ theme }) => ({
@@ -78,7 +100,7 @@ const Contact: FC = () => {
           </Typography>
         </Box>
 
-        <Box
+        <StyledContactInfoWrapper
           display="flex"
           width="90%"
           justifyContent="center"
@@ -89,48 +111,66 @@ const Contact: FC = () => {
           <StyledImageWrapperBox>
             <img src={profileImg} alt="profile" />
           </StyledImageWrapperBox>
-          <Box width="50%">
-            <Box>
-              <Typography color="common.white" variant="h2">
-                {BIO_DATA.contactSection}
-              </Typography>
-            </Box>
-            <Box>
-              {/* on smaller screens pdf is downloaded on click */}
-              {/* <a
-              href={resume}
-              target="_blank"
-              rel="noopener noreferrer"
-              download="Nikolay_Shatalov_frontend_developer_resume.pdf"
-            >
-              My Resume
-              <HiDownload style={{ marginLeft: "6px" }} />
-            </a> */}
+          <Box
+            sx={{
+              width: { sm: "100%", md: "50%" },
+              display: { sm: "flex", md: "block" },
+              flexDirection: "column",
+              alignItems: { xs: "center", sm: "center" },
+              justifyContent: { xs: "center", sm: "center" },
+              textAlign: { xs: "center", sm: "start" },
+            }}
+          >
+            <Typography color="common.white" variant="h2">
+              {BIO_DATA.contactSection}
+            </Typography>
 
-              {/*  Larger screens functionality*/}
-              <StyledButton onClick={() => setIsOpenModal(true)}>
-                <Typography
-                  color="common.white"
-                  variant="h3"
-                  sx={{ display: "flex", alignItems: "center" }}
+            <Box>
+              {isMobile ? (
+                <StyledDownloadLink
+                  href={resume}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  download="Nikolay_Shatalov_frontend_developer_resume.pdf"
                 >
-                  View My Resume
-                  <Box
-                    component={HiOutlineDocumentText}
-                    sx={{
-                      marginLeft: "6px",
-                      color: "common.white",
-                      "& svg": { width: 1 },
-                    }}
-                  />
-                </Typography>
-              </StyledButton>
+                  <Typography
+                    variant="h3"
+                    sx={{ display: "flex", alignItems: "center" }}
+                  >
+                    Download My Resume
+                    <Box
+                      component={HiOutlineDocumentDownload}
+                      sx={{
+                        marginLeft: "6px",
+                        "& svg": { width: 1 },
+                      }}
+                    />
+                  </Typography>
+                </StyledDownloadLink>
+              ) : (
+                <StyledButton onClick={() => setIsOpenModal(true)}>
+                  <Typography
+                    color="common.white"
+                    variant="h3"
+                    sx={{ display: "flex", alignItems: "center" }}
+                  >
+                    View My Resume
+                    <Box
+                      component={HiOutlineDocumentText}
+                      sx={{
+                        marginLeft: "6px",
+                        color: "common.white",
+                        "& svg": { width: 1 },
+                      }}
+                    />
+                  </Typography>
+                </StyledButton>
+              )}
             </Box>
           </Box>
-        </Box>
+        </StyledContactInfoWrapper>
       </PageSection>
 
-      {/* contact form */}
       <PageSection>
         <Box display="flex" justifyContent="center" alignItems="center">
           <Typography variant="h1" mb={5} color="common.white">
