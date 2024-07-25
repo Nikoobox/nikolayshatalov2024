@@ -12,6 +12,13 @@ import Skill from "./Skill";
 const MAIN = "main";
 const ADDITIONAL = "additional";
 
+const SKILLS_WRAPPER_WIDTH = {
+  xs: "100%", // 0px - 600px
+  sm: "80%", // 600px - 960px
+  md: "70%", // 960px - 1280px
+  lg: "60%", // 1280px - 1920px
+};
+
 const renderSkills = ({ type }: { type: string }) =>
   SKILLS_DATA.filter((item) => item.type === type).map(
     ({ skillName, iconType: TechIcon }) => (
@@ -61,7 +68,9 @@ const Skills: FC = () => {
             justifyContent="center"
             gap={6}
             flexWrap="wrap"
-            width="60%"
+            sx={{
+              width: SKILLS_WRAPPER_WIDTH,
+            }}
           >
             {mainSkills}
           </Box>
@@ -75,7 +84,9 @@ const Skills: FC = () => {
             justifyContent="center"
             gap={6}
             flexWrap="wrap"
-            width="60%"
+            sx={{
+              width: SKILLS_WRAPPER_WIDTH,
+            }}
           >
             {additionalSkills}
           </Box>

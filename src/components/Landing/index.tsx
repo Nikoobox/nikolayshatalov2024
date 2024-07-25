@@ -7,6 +7,22 @@ import { styled } from "@mui/system";
 
 import ParticlesTS from "./Particles";
 
+const StyledHiBox = styled(Box)(({ theme }) => ({
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  textAlign: "center",
+  maxWidth: "700px",
+  width: "100%",
+  padding: theme.spacing(2),
+  [theme.breakpoints.down("sm")]: {
+    maxWidth: "auto",
+    minWidth: "auto",
+    width: "100%",
+  },
+}));
+
 const StyledLinkScroll = styled(LinkScroll)(({ theme }) => ({
   color: "white",
   border: "solid white 3px",
@@ -22,15 +38,6 @@ const StyledHiChevronDown = styled(HiChevronDown)({
   marginLeft: "6px",
   width: "24px",
   height: "24px",
-});
-
-const StyledHiBox = styled(Box)({
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  textAlign: "center",
-  width: "50%",
 });
 
 const Landing: FC = () => {
