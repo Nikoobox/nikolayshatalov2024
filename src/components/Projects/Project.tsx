@@ -84,7 +84,6 @@ const Project: FC<ProjectProps> = ({
   return (
     <>
       <StyledBox
-        // width="45%"
         sx={{
           width: {
             sm: "100%",
@@ -145,6 +144,7 @@ const Project: FC<ProjectProps> = ({
                 </Typography>
               </a>
             )}
+
             {overview && (
               <Button className="overview-button" onClick={handleOverviewClick}>
                 <Typography variant="h2" color="common.white">
@@ -177,6 +177,30 @@ const Project: FC<ProjectProps> = ({
         <Box display="flex" flexWrap="wrap">
           {techTools}
         </Box>
+
+        {/* mobile view */}
+        {isMobile && (
+          <Box display="flex" gap={3} mt={1.5}>
+            {showRepo && (
+              <a href={repo} target="_blank" rel="noopener noreferrer">
+                <Box display="flex" alignItems="center">
+                  <Typography mr={0.5}>Git Repo</Typography>
+                  <HiOutlineExternalLink />
+                </Box>
+              </a>
+            )}
+
+            {showLink && (
+              <a href={address} target="_blank" rel="noopener noreferrer">
+                <Box display="flex" alignItems="center">
+                  <Typography mr={0.5}>Live Link</Typography>
+                  <HiOutlineExternalLink />
+                </Box>
+              </a>
+            )}
+          </Box>
+        )}
+        {/*  */}
       </StyledBox>
 
       <MyDialog

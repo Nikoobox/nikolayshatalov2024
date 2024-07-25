@@ -1,24 +1,22 @@
 import { useState, FC } from "react";
 import { Link as LinkScroll, animateScroll as scroll } from "react-scroll";
+import { HiMenuAlt2 } from "react-icons/hi";
+import { IoCloseOutline } from "react-icons/io5";
 
 import {
   AppBar,
   useScrollTrigger,
   Slide,
   Box,
-  Divider,
   Drawer,
   IconButton,
   List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
   Toolbar,
   Typography,
   Container,
 } from "@mui/material";
-import { Menu as MenuIcon } from "@mui/icons-material";
 import { styled } from "@mui/system";
+import { useTheme } from "@mui/material/styles";
 
 import nsLogo from "../../images/logo.png";
 // import NightModeSwitch from "../NightModeSwitch";
@@ -40,7 +38,7 @@ const HideOnScroll = ({ children }: HideOnScrollProps) => {
   );
 };
 
-const drawerWidth = 240;
+// const drawerWidth = 240;
 
 const StyledToolbar = styled(Toolbar)({
   paddingTop: "16px",
@@ -54,29 +52,55 @@ const StyledNavItemLink = styled(LinkScroll)(({ theme }) => ({
   },
 }));
 
+const StyledDrawerItemLink = styled(LinkScroll)(({ theme }) => ({
+  width: "100%",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  padding: theme.spacing(2),
+  "&:hover": {
+    transition: "all 0.2s ease",
+    backgroundColor: theme.palette.common.black,
+    cursor: "pointer",
+  },
+}));
+
 const AppBarWithDrawer: FC = () => {
+  const theme = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
-  // const { isDarkMode } = useThemeContext();
-
   const [scrollPosition, isPastTarget] = useScrollPosition();
-
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
 
+  // const { isDarkMode } = useThemeContext();
   const navItemColor = getNavItemColor(scrollPosition, isPastTarget);
 
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
-        MUI
-      </Typography>
-      <Divider />
+    <Box>
+      <IconButton
+        aria-label="menu icon"
+        sx={{
+          color: theme.palette.common.white,
+          fontSize: theme.spacing(7),
+          margin: "8px 0",
+        }}
+        onClick={handleDrawerToggle}
+      >
+        <IoCloseOutline />
+      </IconButton>
+
       <List>
         {navItems.map(({ id, navItemName, destination }) => (
-          <ListItem key={id} disablePadding>
-            <ListItemButton sx={{ textAlign: "center" }}>
-              <ListItemText primary={navItemName} />
-            </ListItemButton>
-          </ListItem>
+          <StyledDrawerItemLink
+            key={id}
+            to={destination}
+            smooth={true}
+            duration={1000}
+            onClick={handleDrawerToggle}
+          >
+            <Typography variant="h2" color="common.white">
+              {navItemName}
+            </Typography>
+          </StyledDrawerItemLink>
         ))}
       </List>
     </Box>
@@ -89,13 +113,17 @@ const AppBarWithDrawer: FC = () => {
           <Container maxWidth="lg">
             <StyledToolbar disableGutters>
               <IconButton
-                color="inherit"
                 aria-label="open drawer"
                 edge="start"
                 onClick={handleDrawerToggle}
-                sx={{ mr: 2, display: { sm: "none" } }}
+                sx={{
+                  mr: 2,
+                  display: { sm: "none" },
+                  color: navItemColor,
+                  fontSize: theme.spacing(5),
+                }}
               >
-                <MenuIcon />
+                <HiMenuAlt2 />
               </IconButton>
 
               <Box
@@ -150,9 +178,12 @@ const AppBarWithDrawer: FC = () => {
           }}
           sx={{
             display: { xs: "block", sm: "none" },
-            "& .MuiDrawer-paper": {
+          }}
+          PaperProps={{
+            sx: {
               boxSizing: "border-box",
-              width: drawerWidth,
+              width: "100%",
+              backgroundColor: "black",
             },
           }}
         >
