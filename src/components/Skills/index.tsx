@@ -40,7 +40,6 @@ const Skills: FC = () => {
         style={{
           display: "flex",
           background: theme.palette.customColors.blueDark,
-          // position: "absolute",
           transform: "rotate(180)",
         }}
         options={{
