@@ -41,6 +41,12 @@ const StyledHiChevronDown = styled(HiChevronDown)({
   height: "24px",
 });
 
+const StyledTypewriterWrapper = styled(Box)(({ theme }) => ({
+  "& .Typewriter__cursor": {
+    color: theme.palette.customColors.tealAccent,
+  },
+}));
+
 const Landing: FC = () => {
   return (
     <>
@@ -48,28 +54,36 @@ const Landing: FC = () => {
         <ParticlesTS />
         <StyledHiBox>
           <Typography variant="h1" color="common.white">
-            <Typewriter
-              options={{
-                delay: 75,
-                deleteSpeed: 15,
-              }}
-              onInit={(typewriter) => {
-                typewriter
-                  .typeString("Hello, I am Nikolay Shatalov")
-                  .pauseFor(750)
-                  .deleteChars(16)
-                  .typeString(
-                    '<span style="color: #35C2A3;">  Nikolay Shatalov</span>'
-                  )
-                  .pauseFor(300)
-                  .typeString(
-                    ". NYC based frontend developer with experience in Typescript, React, Javascript, Redux, React Native, Ruby,"
-                  )
-                  .pauseFor(750)
-                  .typeString(" and more.")
-                  .start();
-              }}
-            />
+            <StyledTypewriterWrapper>
+              <Typewriter
+                onInit={(typewriter) => {
+                  typewriter
+                    .changeDelay(50)
+                    .typeString("Hello, I am Nikolay Shatalov")
+                    .pauseFor(750)
+                    .changeDeleteSpeed(10)
+                    .deleteChars(16)
+                    .typeString(
+                      '<span style="color: #35C2A3;">  Nikolay Shatalov</span>'
+                    )
+                    .pauseFor(300)
+                    .typeString(
+                      ". NYC based frontend developer with experience in Typescript"
+                    )
+                    .pauseFor(300)
+                    .typeString(", React")
+                    .pauseFor(300)
+                    .typeString(", Javascript")
+                    .pauseFor(300)
+                    .typeString(", Redux")
+                    .pauseFor(300)
+                    .typeString(", React Native")
+                    .pauseFor(300)
+                    .typeString(", Ruby, and more.")
+                    .start();
+                }}
+              />
+            </StyledTypewriterWrapper>
           </Typography>
           <StyledLinkScroll
             href="/"
