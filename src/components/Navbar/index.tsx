@@ -2,6 +2,7 @@ import { useState, FC } from "react";
 import { Link as LinkScroll, animateScroll as scroll } from "react-scroll";
 import { HiMenuAlt2 } from "react-icons/hi";
 import { IoCloseOutline } from "react-icons/io5";
+import { motion } from "framer-motion";
 
 import {
   AppBar,
@@ -124,61 +125,67 @@ const AppBarWithDrawer: FC = () => {
     <>
       <HideOnScroll>
         <AppBar component="nav" elevation={0} color="transparent">
-          <Container maxWidth="lg">
-            <StyledToolbar disableGutters>
-              <IconButton
-                aria-label="open drawer"
-                edge="start"
-                onClick={handleDrawerToggle}
-                sx={{
-                  mr: 2,
-                  display: { sm: "none" },
-                  color: navItemColor,
-                  fontSize: theme.spacing(5),
-                }}
-              >
-                <HiMenuAlt2 />
-              </IconButton>
+          <motion.div
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.4, ease: "easeOut" }}
+          >
+            <Container maxWidth="lg">
+              <StyledToolbar disableGutters>
+                <IconButton
+                  aria-label="open drawer"
+                  edge="start"
+                  onClick={handleDrawerToggle}
+                  sx={{
+                    mr: 2,
+                    display: { sm: "none" },
+                    color: navItemColor,
+                    fontSize: theme.spacing(5),
+                  }}
+                >
+                  <HiMenuAlt2 />
+                </IconButton>
 
-              <Box
-                width="80px"
-                height="80px"
-                sx={{
-                  display: { xs: "none", sm: "block" },
-                  img: { width: "100%", height: "100%" },
-                  border: "1px white solid",
-                  "& :hover": {
-                    cursor: "pointer",
-                  },
-                }}
-                onClick={scroll.scrollToTop}
-              >
-                <img src={nsLogo} alt="ns-logo" />
-              </Box>
+                <Box
+                  width="80px"
+                  height="80px"
+                  sx={{
+                    display: { xs: "none", sm: "block" },
+                    img: { width: "100%", height: "100%" },
+                    border: "1px white solid",
+                    "& :hover": {
+                      cursor: "pointer",
+                    },
+                  }}
+                  onClick={scroll.scrollToTop}
+                >
+                  <img src={nsLogo} alt="ns-logo" />
+                </Box>
 
-              {/* <NightModeSwitch /> */}
-              <Box
-                sx={{
-                  display: { xs: "none", sm: "flex" },
-                  gap: 3,
-                  marginLeft: "auto",
-                }}
-              >
-                {navItems.map(({ id, navItemName, destination }) => (
-                  <StyledNavItemLink
-                    key={id}
-                    to={destination}
-                    smooth={true}
-                    duration={1000}
-                  >
-                    <Typography variant="h2" color={navItemColor}>
-                      {navItemName}
-                    </Typography>
-                  </StyledNavItemLink>
-                ))}
-              </Box>
-            </StyledToolbar>
-          </Container>
+                {/* <NightModeSwitch /> */}
+                <Box
+                  sx={{
+                    display: { xs: "none", sm: "flex" },
+                    gap: 3,
+                    marginLeft: "auto",
+                  }}
+                >
+                  {navItems.map(({ id, navItemName, destination }) => (
+                    <StyledNavItemLink
+                      key={id}
+                      to={destination}
+                      smooth={true}
+                      duration={1000}
+                    >
+                      <Typography variant="h2" color={navItemColor}>
+                        {navItemName}
+                      </Typography>
+                    </StyledNavItemLink>
+                  ))}
+                </Box>
+              </StyledToolbar>
+            </Container>
+          </motion.div>
         </AppBar>
       </HideOnScroll>
 

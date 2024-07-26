@@ -33,6 +33,11 @@ const StyledLinkScroll = styled(LinkScroll)(({ theme }) => ({
   display: "inline-flex",
   alignItems: "center",
   marginTop: theme.spacing(2),
+  opacity: 0,
+  transition: "opacity 0.3s ease",
+  "&.visible": {
+    opacity: 1,
+  },
 }));
 
 const StyledHiChevronDown = styled(HiChevronDown)({
@@ -46,6 +51,15 @@ const StyledTypewriterWrapper = styled(Box)(({ theme }) => ({
     color: theme.palette.customColors.tealAccent,
   },
 }));
+
+const handleShowLink = () => {
+  setTimeout(() => {
+    const linkElement = document.getElementById("say-hi-link");
+    if (linkElement) {
+      linkElement.classList.add("visible");
+    }
+  }, 1000);
+};
 
 const Landing: FC = () => {
   return (
@@ -80,12 +94,15 @@ const Landing: FC = () => {
                     .typeString(", React Native")
                     .pauseFor(300)
                     .typeString(", Ruby, and more.")
+                    .callFunction(() => handleShowLink())
                     .start();
                 }}
               />
             </StyledTypewriterWrapper>
           </Typography>
+
           <StyledLinkScroll
+            id="say-hi-link"
             href="/"
             to="contact-destination"
             smooth={true}
