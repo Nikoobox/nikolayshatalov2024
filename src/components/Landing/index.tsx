@@ -56,7 +56,7 @@ const Landing: FC = () => {
               onInit={(typewriter) => {
                 typewriter
                   .typeString("Hello, I am Nikolay Shatalov")
-                  .pauseFor(500)
+                  .pauseFor(750)
                   .deleteChars(16)
                   .typeString(
                     '<span style="color: #35C2A3;">  Nikolay Shatalov</span>'
