@@ -20,7 +20,7 @@ const StyledMuiTextField = styled(MuiTextField)(({ theme }) => ({
     padding: `${theme.spacing(3)} ${theme.spacing(3)}`,
   },
   "& .MuiOutlinedInput-root": {
-    borderRadius: theme.spacing(5),
+    borderRadius: theme.spacing(2),
 
     "& .MuiOutlinedInput-notchedOutline": {
       border: `2px solid ${theme.palette.common.white}`,
