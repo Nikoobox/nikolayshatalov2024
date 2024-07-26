@@ -28,10 +28,15 @@ const Footer: FC = () => {
       <Container maxWidth="lg">
         <Box
           display="flex"
-          justifyContent="space-between"
           width="100%"
           py={2}
           pb={5}
+          sx={{
+            flexDirection: { xs: "column", sm: "row" },
+            justifyContent: { xs: "center", sm: "space-between" },
+            alignItems: { xs: "center" },
+            gap: { xs: 4, sm: 0 },
+          }}
         >
           <Box
             display="flex"
@@ -71,11 +76,10 @@ const Footer: FC = () => {
               </Typography>
             </a>
           </Box>
-          <Box>
-            <Typography variant="h3" color="common.white">
-              © {getYear()} Nikolay Shatalov
-            </Typography>
-          </Box>
+
+          <Typography variant="h3" color="common.white">
+            © {getYear()} Nikolay Shatalov
+          </Typography>
         </Box>
       </Container>
     </Box>

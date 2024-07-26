@@ -38,17 +38,31 @@ const HideOnScroll = ({ children }: HideOnScrollProps) => {
   );
 };
 
-// const drawerWidth = 240;
-
 const StyledToolbar = styled(Toolbar)({
   paddingTop: "16px",
 });
 
 const StyledNavItemLink = styled(LinkScroll)(({ theme }) => ({
+  position: "relative",
   cursor: "pointer",
-  "& :hover": {
-    transition: "all 0.3s ease",
-    color: theme.palette.customColors.tealAccent,
+
+  "& ::after": {
+    top: "20px",
+    position: "absolute",
+    content: '""',
+    display: "block",
+    width: "0",
+    height: "8px",
+    background: theme.palette.customColors.tealAccent,
+    transition: "width 0.4s",
+    zIndex: -1,
+  },
+  "& :hover::after": {
+    position: "absolute",
+    left: "0",
+    width: "100%",
+    transition: "width 0.3s",
+    zIndex: -1,
   },
 }));
 
