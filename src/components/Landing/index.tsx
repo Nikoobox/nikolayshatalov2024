@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { Link as LinkScroll } from "react-scroll";
 import { HiChevronDown } from "react-icons/hi";
+import Typewriter from "typewriter-effect";
 
 import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/system";
@@ -45,12 +46,30 @@ const Landing: FC = () => {
     <>
       <Box>
         <ParticlesTS />
-
         <StyledHiBox>
           <Typography variant="h1" color="common.white">
-            Hello, I am Nikolay Shatalov. NYC based frontend developer with
-            experience in Typescript, React, Javascript, React, Redux, React
-            Native, Ruby, and more.
+            <Typewriter
+              options={{
+                delay: 75,
+                deleteSpeed: 15,
+              }}
+              onInit={(typewriter) => {
+                typewriter
+                  .typeString("Hello, I am Nikolay Shatalov")
+                  .pauseFor(500)
+                  .deleteChars(16)
+                  .typeString(
+                    '<span style="color: #35C2A3;">  Nikolay Shatalov</span>'
+                  )
+                  .pauseFor(300)
+                  .typeString(
+                    ". NYC based frontend developer with experience in Typescript, React, Javascript, Redux, React Native, Ruby,"
+                  )
+                  .pauseFor(750)
+                  .typeString(" and more.")
+                  .start();
+              }}
+            />
           </Typography>
           <StyledLinkScroll
             href="/"
