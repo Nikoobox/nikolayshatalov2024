@@ -1,8 +1,11 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import ReactDOM from "react-dom/client";
+
 import "./index.css";
-import App from "./App";
 import { ThemeContextProvider } from "./theme/ThemeContextProvider";
+import LoadingSpinner from "./components/Loader";
+
+const App = lazy(() => import("./App"));
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -10,7 +13,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <ThemeContextProvider>
-      <App />
+      <Suspense fallback={<LoadingSpinner />}>
+        <App />
+      </Suspense>
     </ThemeContextProvider>
   </React.StrictMode>
 );

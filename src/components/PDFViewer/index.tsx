@@ -1,6 +1,9 @@
 import { FC } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
-import { ClipLoader } from "react-spinners";
+
+import { CircularProgress } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
@@ -12,32 +15,35 @@ interface PDFViewerProps {
   fileToView: string;
 }
 
-const WrappedLoader = () => (
-  <div
-    style={{
-      height: "200px",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-    }}
-  >
-    <ClipLoader />
-  </div>
-);
-
 const PDFViewer: FC<PDFViewerProps> = ({ fileToView }) => {
-  return (
-    <Document
-      file={fileToView}
-      onLoadError={(err) => console.log("Document load err", err)}
-      loading={<WrappedLoader />}
+  const theme = useTheme();
+
+  const WrappedLoader = () => (
+    <div
+      style={{
+        height: "300px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
     >
-      <Page
-        pageNumber={1}
-        renderAnnotationLayer={false}
-        renderTextLayer={false}
-      />
-    </Document>
+      <CircularProgress sx={{ color: theme.palette.customColors.tealAccent }} />
+    </div>
+  );
+  return (
+    <>
+      <Document
+        file={fileToView}
+        onLoadError={(err) => console.log("Document load err", err)}
+        loading={<WrappedLoader />}
+      >
+        <Page
+          pageNumber={1}
+          renderAnnotationLayer={false}
+          renderTextLayer={false}
+        />
+      </Document>
+    </>
   );
 };
 
