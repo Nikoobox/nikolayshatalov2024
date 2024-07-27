@@ -11,10 +11,10 @@ import {
   Box,
   Drawer,
   IconButton,
-  List,
   Toolbar,
   Typography,
   Container,
+  Divider,
 } from "@mui/material";
 import { styled } from "@mui/system";
 import { useTheme } from "@mui/material/styles";
@@ -80,6 +80,22 @@ const StyledDrawerItemLink = styled(LinkScroll)(({ theme }) => ({
   },
 }));
 
+const StyledATagWrapper = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+  "& a": {
+    padding: theme.spacing(2),
+    color: theme.palette.common.white,
+  },
+  "&:hover": {
+    transition: "all 0.2s ease",
+    backgroundColor: theme.palette.common.black,
+    cursor: "pointer",
+  },
+}));
+
 const AppBarWithDrawer: FC = () => {
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -102,22 +118,47 @@ const AppBarWithDrawer: FC = () => {
       >
         <IoCloseOutline />
       </IconButton>
-
-      <List>
-        {navItems.map(({ id, navItemName, destination }) => (
-          <StyledDrawerItemLink
-            key={id}
-            to={destination}
-            smooth={true}
-            duration={1000}
-            onClick={handleDrawerToggle}
-          >
-            <Typography variant="h2" color="common.white">
-              {navItemName}
-            </Typography>
-          </StyledDrawerItemLink>
-        ))}
-      </List>
+      {navItems.map(({ id, navItemName, destination }) => (
+        <StyledDrawerItemLink
+          key={id}
+          to={destination}
+          smooth={true}
+          duration={1000}
+          onClick={handleDrawerToggle}
+        >
+          <Typography variant="h1" color="common.white">
+            {navItemName}
+          </Typography>
+        </StyledDrawerItemLink>
+      ))}
+      <Divider
+        sx={{ background: theme.palette.customColors.grey, my: "16px" }}
+      />
+      <StyledATagWrapper>
+        <a
+          href="https://www.linkedin.com/in/nikolay-shatalov/"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <Typography variant="h2" color="common.white">
+            LinkedIn
+          </Typography>
+        </a>
+        <a
+          href="https://github.com/Nikoobox"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <Typography variant="h2" color="common.white">
+            Github
+          </Typography>
+        </a>
+        <a href="mailto:nikoobox@gmail.com">
+          <Typography variant="h2" color="common.white">
+            Email
+          </Typography>
+        </a>
+      </StyledATagWrapper>
     </Box>
   );
 
@@ -192,7 +233,8 @@ const AppBarWithDrawer: FC = () => {
       <nav>
         <Drawer
           variant="temporary"
-          open={mobileOpen}
+          // open={mobileOpen}
+          open
           onClose={handleDrawerToggle}
           ModalProps={{
             keepMounted: true, // Better open performance on mobile.
