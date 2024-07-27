@@ -244,8 +244,7 @@ const AppBarWithDrawer: FC = () => {
       <nav>
         <Drawer
           variant="temporary"
-          // open={mobileOpen}
-          open
+          open={mobileOpen}
           onClose={handleDrawerToggle}
           ModalProps={{
             keepMounted: true, // Better open performance on mobile.
