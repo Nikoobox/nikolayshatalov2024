@@ -1,9 +1,12 @@
 import { useEffect, useState, useMemo } from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { type Container, type ISourceOptions } from "@tsparticles/engine";
-import { loadFull } from "tsparticles"; // if you are going to use
+import { loadFull } from "tsparticles";
 
 import { styled } from "@mui/system";
+import { Box } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import { CircularProgress } from "@mui/material";
 
 import { COLORS } from "../../theme";
 
@@ -27,6 +30,7 @@ const StyledParticles = styled(Particles)({
 
 const ParticlesTS = () => {
   const [init, setInit] = useState(false);
+  const theme = useTheme();
 
   useEffect(() => {
     initParticlesEngine(async (engine) => {
@@ -35,9 +39,9 @@ const ParticlesTS = () => {
       setInit(true);
     });
   }, []);
-  // dummy comment
+
   const particlesLoaded = async (container?: Container): Promise<void> => {
-    // console.log(container);
+    console.log("# particles loaded");
   };
 
   const options: ISourceOptions = useMemo(
@@ -123,7 +127,19 @@ const ParticlesTS = () => {
     );
   }
 
-  return <></>;
+  return (
+    <Box
+      height="100vh"
+      width="100vw"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      position="absolute"
+      sx={{ background: theme.palette.customColors.blueDark, top: 0 }}
+    >
+      <CircularProgress sx={{ color: theme.palette.customColors.tealAccent }} />
+    </Box>
+  );
 };
 
 export default ParticlesTS;
