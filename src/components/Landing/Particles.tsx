@@ -40,9 +40,7 @@ const ParticlesTS = () => {
     });
   }, []);
 
-  const particlesLoaded = async (container?: Container): Promise<void> => {
-    console.log("# particles loaded");
-  };
+  const particlesLoaded = async (_container?: Container): Promise<void> => {};
 
   const options: ISourceOptions = useMemo(
     () => ({
