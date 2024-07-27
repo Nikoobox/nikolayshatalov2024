@@ -64,7 +64,6 @@ const Project: FC<ProjectProps> = ({
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const { ref, inView } = useInView({
-    // visible percentage before trigering
     threshold: 0.2,
   });
   const theme = useTheme();
