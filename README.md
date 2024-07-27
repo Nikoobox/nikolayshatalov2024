@@ -2,6 +2,8 @@
 
 A TypeScript-based portfolio single page website built with `Create React App` featuring `Material UI` for styling, `Particles.js`, `typewriter-effect`, `react-wavify`, and `framer-motion` for dynamic and interactive animations. The application employs reusable components and UI elements to ensure consistency and minimize code duplication. A custom `theme` has been implemented to define default styling.
 
+`React.lazy` and `React.Suspense` are used to improve user experience by displaying a loading indicator while waiting for a component to load.
+
 Additionally, `EmailJS` has been integrated to manage contact form submissions, and the `react-hook-form` library is utilized for optimal form state management and validation performance.
 
 <div align="start" >
