@@ -82,17 +82,23 @@ const StyledDrawerItemLink = styled(LinkScroll)(({ theme }) => ({
 
 const StyledATagWrapper = styled(Box)(({ theme }) => ({
   display: "flex",
-  flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
+  marginTop: "auto",
+  marginBottom: theme.spacing(5),
   "& a": {
     padding: theme.spacing(2),
-    color: theme.palette.common.white,
+    textDecoration: "none",
+    color: theme.palette.common.greyAccent,
+    "& :hover": {
+      color: theme.palette.common.white,
+    },
   },
-  "&:hover": {
-    transition: "all 0.2s ease",
-    backgroundColor: theme.palette.common.black,
-    cursor: "pointer",
+  "& .MuiTypography-root": {
+    borderBottom: `1px ${theme.palette.customColors.greyAccent} solid`,
+    "& :hover": {
+      borderBottom: `1px ${theme.palette.common.white} solid`,
+    },
   },
 }));
 
@@ -104,43 +110,46 @@ const AppBarWithDrawer: FC = () => {
 
   // const { isDarkMode } = useThemeContext();
   const navItemColor = getNavItemColor(scrollPosition, isPastTarget);
-
   const drawer = (
-    <Box>
+    <Box height="100%" display="flex" flexDirection="column">
       <IconButton
         aria-label="menu icon"
         sx={{
           color: theme.palette.common.white,
           fontSize: theme.spacing(7),
           margin: "8px 0",
+          justifySelf: "flex-start",
+          alignSelf: "start",
         }}
         onClick={handleDrawerToggle}
       >
         <IoCloseOutline />
       </IconButton>
-      {navItems.map(({ id, navItemName, destination }) => (
-        <StyledDrawerItemLink
-          key={id}
-          to={destination}
-          smooth={true}
-          duration={1000}
-          onClick={handleDrawerToggle}
-        >
-          <Typography variant="h1" color="common.white">
-            {navItemName}
-          </Typography>
-        </StyledDrawerItemLink>
-      ))}
-      <Divider
-        sx={{ background: theme.palette.customColors.grey, my: "16px" }}
-      />
+
+      <Box mt={8}>
+        {navItems.map(({ id, navItemName, destination }) => (
+          <StyledDrawerItemLink
+            key={id}
+            to={destination}
+            smooth={true}
+            duration={1000}
+            onClick={handleDrawerToggle}
+          >
+            <Typography variant="h1" color="common.white">
+              {navItemName}
+            </Typography>
+          </StyledDrawerItemLink>
+        ))}
+      </Box>
+
       <StyledATagWrapper>
         <a
           href="https://www.linkedin.com/in/nikolay-shatalov/"
           rel="noopener noreferrer"
           target="_blank"
         >
-          <Typography variant="h2" color="common.white">
+          {/* <Typography variant="h2"> */}
+          <Typography variant="h2" color="customColors.greyAccent">
             LinkedIn
           </Typography>
         </a>
@@ -149,12 +158,14 @@ const AppBarWithDrawer: FC = () => {
           rel="noopener noreferrer"
           target="_blank"
         >
-          <Typography variant="h2" color="common.white">
+          <Typography variant="h2" color="customColors.greyAccent">
+            {/* <Typography variant="h2"> */}
             Github
           </Typography>
         </a>
         <a href="mailto:nikoobox@gmail.com">
-          <Typography variant="h2" color="common.white">
+          <Typography variant="h2" color="customColors.greyAccent">
+            {/* <Typography variant="h2"> */}
             Email
           </Typography>
         </a>
