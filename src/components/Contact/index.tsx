@@ -93,6 +93,9 @@ const Contact: FC = () => {
   const { ref: resumeRef, inView: resumeInView } = useInView({
     threshold,
   });
+  const { ref: contactFormRef, inView: contactFormInView } = useInView({
+    threshold,
+  });
 
   return (
     <>
@@ -212,12 +215,20 @@ const Contact: FC = () => {
       </PageSection>
 
       <PageSection>
-        <Box display="flex" justifyContent="center" alignItems="center">
-          <Typography variant="h1" mb={5} color="common.white">
-            Say Hi!
-          </Typography>
-        </Box>
-        <ContactForm />
+        <motion.div
+          className="img-box"
+          ref={contactFormRef}
+          initial={{ opacity: 0 }}
+          animate={contactFormInView && { opacity: 1 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
+          <Box display="flex" justifyContent="center" alignItems="center">
+            <Typography variant="h1" mb={5} color="common.white">
+              Say Hi!
+            </Typography>
+          </Box>
+          <ContactForm />
+        </motion.div>
       </PageSection>
 
       <MyDialog
