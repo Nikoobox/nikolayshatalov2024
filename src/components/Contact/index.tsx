@@ -7,6 +7,8 @@ import {
 } from "react-icons/hi";
 import Wave from "react-wavify";
 import { isMobile } from "react-device-detect";
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 
 import { Box, Typography, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -76,9 +78,24 @@ const StyledPDFViewerWrapper = styled(Box)(({ theme }) => ({
   },
 }));
 
+const threshold = 0.2;
+
 const Contact: FC = () => {
   const theme = useTheme();
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+
+  const { ref: imgRef, inView: imgInView } = useInView({
+    threshold,
+  });
+  const { ref: textRef, inView: textInView } = useInView({
+    threshold,
+  });
+  const { ref: resumeRef, inView: resumeInView } = useInView({
+    threshold,
+  });
+  const { ref: contactFormRef, inView: contactFormInView } = useInView({
+    threshold,
+  });
 
   return (
     <>
@@ -110,12 +127,18 @@ const Contact: FC = () => {
           width="90%"
           justifyContent="center"
           alignItems="center"
-          //   gap={6}
           margin="auto"
         >
-          <StyledImageWrapperBox>
-            <img src={profileImg} alt="profile" />
-          </StyledImageWrapperBox>
+          <motion.div
+            ref={imgRef}
+            initial={{ opacity: 0 }}
+            animate={imgInView && { opacity: 1 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
+            <StyledImageWrapperBox>
+              <img src={profileImg} alt="profile" />
+            </StyledImageWrapperBox>
+          </motion.div>
           <Box
             sx={{
               width: { sm: "100%", md: "50%" },
@@ -126,63 +149,83 @@ const Contact: FC = () => {
               textAlign: { xs: "center", sm: "start" },
             }}
           >
-            <Typography color="common.white" variant="h2">
-              {BIO_DATA.contactSection}
-            </Typography>
-
+            <motion.div
+              ref={textRef}
+              initial={{ y: 30, opacity: 0 }}
+              animate={textInView && { y: 0, opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+            >
+              <Typography color="common.white" variant="h2">
+                {BIO_DATA.contactSection}
+              </Typography>
+            </motion.div>
             <Box>
-              {isMobile ? (
-                <StyledDownloadLink
-                  href={resume}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  download="Nikolay_Shatalov_frontend_developer_resume.pdf"
-                >
-                  <Typography
-                    variant="h3"
-                    sx={{ display: "flex", alignItems: "center" }}
+              <motion.div
+                ref={resumeRef}
+                initial={{ y: 40, opacity: 0 }}
+                animate={resumeInView && { y: 0, opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
+              >
+                {isMobile ? (
+                  <StyledDownloadLink
+                    href={resume}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    download="Nikolay_Shatalov_frontend_developer_resume.pdf"
                   >
-                    Download My Resume
-                    <Box
-                      component={HiDownload}
-                      ml="6px"
-                      sx={{
-                        "& svg": { width: 1 },
-                      }}
-                    />
-                  </Typography>
-                </StyledDownloadLink>
-              ) : (
-                <StyledButton onClick={() => setIsOpenModal(true)}>
-                  <Typography
-                    color="common.white"
-                    variant="h3"
-                    sx={{ display: "flex", alignItems: "center" }}
-                  >
-                    View My Resume
-                    <Box
-                      component={HiOutlineDocumentText}
-                      ml="6px"
-                      sx={{
-                        color: "common.white",
-                        "& svg": { width: 1 },
-                      }}
-                    />
-                  </Typography>
-                </StyledButton>
-              )}
+                    <Typography
+                      variant="h3"
+                      sx={{ display: "flex", alignItems: "center" }}
+                    >
+                      Download My Resume
+                      <Box
+                        component={HiDownload}
+                        ml="6px"
+                        sx={{
+                          "& svg": { width: 1 },
+                        }}
+                      />
+                    </Typography>
+                  </StyledDownloadLink>
+                ) : (
+                  <StyledButton onClick={() => setIsOpenModal(true)}>
+                    <Typography
+                      color="common.white"
+                      variant="h3"
+                      sx={{ display: "flex", alignItems: "center" }}
+                    >
+                      View My Resume
+                      <Box
+                        component={HiOutlineDocumentText}
+                        ml="6px"
+                        sx={{
+                          color: "common.white",
+                          "& svg": { width: 1 },
+                        }}
+                      />
+                    </Typography>
+                  </StyledButton>
+                )}
+              </motion.div>
             </Box>
           </Box>
         </StyledContactInfoWrapper>
       </PageSection>
 
       <PageSection>
-        <Box display="flex" justifyContent="center" alignItems="center">
-          <Typography variant="h1" mb={5} color="common.white">
-            Say Hi!
-          </Typography>
-        </Box>
-        <ContactForm />
+        <motion.div
+          ref={contactFormRef}
+          initial={{ opacity: 0 }}
+          animate={contactFormInView && { opacity: 1 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
+          <Box display="flex" justifyContent="center" alignItems="center">
+            <Typography variant="h1" mb={5} color="common.white">
+              Say Hi!
+            </Typography>
+          </Box>
+          <ContactForm />
+        </motion.div>
       </PageSection>
 
       <MyDialog
