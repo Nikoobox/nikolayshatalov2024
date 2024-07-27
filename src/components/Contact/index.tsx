@@ -130,7 +130,6 @@ const Contact: FC = () => {
           margin="auto"
         >
           <motion.div
-            className="img-box"
             ref={imgRef}
             initial={{ opacity: 0 }}
             animate={imgInView && { opacity: 1 }}
@@ -151,7 +150,6 @@ const Contact: FC = () => {
             }}
           >
             <motion.div
-              className="info-text"
               ref={textRef}
               initial={{ y: 30, opacity: 0 }}
               animate={textInView && { y: 0, opacity: 1 }}
@@ -216,7 +214,6 @@ const Contact: FC = () => {
 
       <PageSection>
         <motion.div
-          className="img-box"
           ref={contactFormRef}
           initial={{ opacity: 0 }}
           animate={contactFormInView && { opacity: 1 }}

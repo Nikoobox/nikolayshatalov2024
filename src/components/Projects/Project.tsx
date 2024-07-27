@@ -97,7 +97,6 @@ const Project: FC<ProjectProps> = ({
         }}
       >
         <motion.div
-          className="card_box"
           ref={ref}
           initial={{ y: 30, opacity: 0 }}
           animate={inView && { y: 0, opacity: 1 }}
