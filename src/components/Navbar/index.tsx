@@ -14,7 +14,6 @@ import {
   Toolbar,
   Typography,
   Container,
-  Divider,
 } from "@mui/material";
 import { styled } from "@mui/system";
 import { useTheme } from "@mui/material/styles";
@@ -148,7 +147,6 @@ const AppBarWithDrawer: FC = () => {
           rel="noopener noreferrer"
           target="_blank"
         >
-          {/* <Typography variant="h2"> */}
           <Typography variant="h2" color="customColors.greyAccent">
             LinkedIn
           </Typography>
@@ -159,13 +157,11 @@ const AppBarWithDrawer: FC = () => {
           target="_blank"
         >
           <Typography variant="h2" color="customColors.greyAccent">
-            {/* <Typography variant="h2"> */}
             Github
           </Typography>
         </a>
         <a href="mailto:nikoobox@gmail.com">
           <Typography variant="h2" color="customColors.greyAccent">
-            {/* <Typography variant="h2"> */}
             Email
           </Typography>
         </a>
