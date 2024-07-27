@@ -2,6 +2,7 @@ import { FC } from "react";
 import { Link as LinkScroll } from "react-scroll";
 import { HiChevronDown } from "react-icons/hi";
 import Typewriter from "typewriter-effect";
+import { motion } from "framer-motion";
 
 import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/system";
@@ -68,37 +69,44 @@ const Landing: FC = () => {
         <ParticlesTS />
         <StyledHiBox>
           <Typography variant="h1" color="common.white">
-            <StyledTypewriterWrapper>
-              <Typewriter
-                onInit={(typewriter) => {
-                  typewriter
-                    .changeDelay(50)
-                    .typeString("Hello, I am Nikolay Shatalov")
-                    .pauseFor(750)
-                    .changeDeleteSpeed(10)
-                    .deleteChars(16)
-                    .typeString(
-                      '<span style="color: #35C2A3;">  Nikolay Shatalov</span>'
-                    )
-                    .pauseFor(300)
-                    .typeString(
-                      ". NYC based frontend developer with experience in Typescript"
-                    )
-                    .pauseFor(300)
-                    .typeString(", React")
-                    .pauseFor(300)
-                    .typeString(", Javascript")
-                    .pauseFor(300)
-                    .typeString(", Redux")
-                    .pauseFor(300)
-                    .typeString(", React Native")
-                    .pauseFor(300)
-                    .typeString(", Ruby, and more.")
-                    .callFunction(() => handleShowLink())
-                    .start();
-                }}
-              />
-            </StyledTypewriterWrapper>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.2, duration: 0.4, ease: "easeOut" }}
+            >
+              <StyledTypewriterWrapper>
+                <Typewriter
+                  onInit={(typewriter) => {
+                    typewriter
+                      .pauseFor(1200)
+                      .changeDelay(50)
+                      .typeString("Hello, I am Nikolay Shatalov")
+                      .pauseFor(750)
+                      .changeDeleteSpeed(10)
+                      .deleteChars(16)
+                      .typeString(
+                        '<span style="color: #35C2A3;">  Nikolay Shatalov</span>'
+                      )
+                      .pauseFor(300)
+                      .typeString(
+                        ". NYC based frontend developer with experience in Typescript"
+                      )
+                      .pauseFor(300)
+                      .typeString(", React")
+                      .pauseFor(300)
+                      .typeString(", Javascript")
+                      .pauseFor(300)
+                      .typeString(", Redux")
+                      .pauseFor(300)
+                      .typeString(", React Native")
+                      .pauseFor(300)
+                      .typeString(", Ruby, and more.")
+                      .callFunction(() => handleShowLink())
+                      .start();
+                  }}
+                />
+              </StyledTypewriterWrapper>
+            </motion.div>
           </Typography>
 
           <StyledLinkScroll
