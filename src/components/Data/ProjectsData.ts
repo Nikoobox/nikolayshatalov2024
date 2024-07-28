@@ -83,7 +83,6 @@ export const PROJECTS_DATA = [
       "Google Maps API",
       "UX/UI",
       "Logo Design",
-      "Google Analytics",
     ],
     info: "Fullstack web app to search, book, and review the most unique treehouses in the world",
     address: "https://tree-camp.herokuapp.com/#/",
