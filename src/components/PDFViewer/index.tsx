@@ -6,10 +6,6 @@ import { useTheme } from "@mui/material/styles";
 
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 
-// pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-//   "pdfjs-dist/build/pdf.worker.min.mjs",
-//   import.meta.url
-// ).toString();
 pdfjs.GlobalWorkerOptions.workerSrc = `${process.env.PUBLIC_URL}/pdf.worker.min.mjs`;
 
 interface PDFViewerProps {

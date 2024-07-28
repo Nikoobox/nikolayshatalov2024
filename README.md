@@ -4,10 +4,10 @@ A TypeScript-based portfolio single page website built with `Create React App` f
 
 `React.lazy` and `React.Suspense` are used to improve user experience by displaying a loading indicator while waiting for a component to load.
 
-Additionally, `EmailJS` has been integrated to manage contact form submissions, and the `react-hook-form` library is utilized for optimal form state management and validation performance.
+`EmailJS` has been integrated to manage contact form submissions, the `react-hook-form` library is utilized for optimal form state management and validation performance, and `react-pdf` package was used to render pdf resume inside the modal.
 
 <div align="start" >
-  <a href="https://nikolayshatalov2024.netlify.app/">Live Site</a>
+  <a href="https://nikolayshatalov.com/">Live Site</a>
 </div>
 
 # Getting Started with Create React App
