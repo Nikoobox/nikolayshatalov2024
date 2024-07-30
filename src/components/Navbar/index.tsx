@@ -54,6 +54,7 @@ const StyledNavItemLink = styled(LinkScroll)(({ theme }) => ({
     width: "0",
     height: "8px",
     background: theme.palette.customColors.tealAccent,
+    opacity: 0.75,
     transition: "width 0.4s",
     zIndex: -1,
   },

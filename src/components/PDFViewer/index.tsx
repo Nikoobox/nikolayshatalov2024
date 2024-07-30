@@ -24,7 +24,7 @@ const PDFViewer: FC<PDFViewerProps> = ({ fileToView }) => {
         justifyContent: "center",
       }}
     >
-      <CircularProgress sx={{ color: theme.palette.customColors.tealAccent }} />
+      <CircularProgress sx={{ color: theme.palette.customColors.blueDark }} />
     </div>
   );
   return (
