@@ -14,7 +14,6 @@ interface PDFViewerProps {
 
 const PDFViewer: FC<PDFViewerProps> = ({ fileToView }) => {
   const theme = useTheme();
-  console.log("process.env.PUBLIC_URL", process.env.PUBLIC_URL);
   const WrappedLoader = () => (
     <div
       style={{
