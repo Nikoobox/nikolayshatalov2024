@@ -78,11 +78,11 @@ const Landing: FC = () => {
                 <Typewriter
                   onInit={(typewriter) => {
                     typewriter
-                      .pauseFor(1200)
-                      .changeDelay(50)
+                      .pauseFor(2200)
+                      .changeDelay(45)
                       .typeString("Hello, I am Nikolay Shatalov")
                       .pauseFor(750)
-                      .changeDeleteSpeed(10)
+                      .changeDeleteSpeed(5)
                       .deleteChars(16)
                       .typeString(
                         '<span style="color: #35C2A3;">  Nikolay Shatalov</span>'
