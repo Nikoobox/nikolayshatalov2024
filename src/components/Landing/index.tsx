@@ -3,6 +3,7 @@ import { Link as LinkScroll } from "react-scroll";
 import { HiChevronDown } from "react-icons/hi";
 import Typewriter from "typewriter-effect";
 import { motion } from "framer-motion";
+import { useFeatureFlagEnabled } from "posthog-js/react";
 
 import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/system";
@@ -63,6 +64,9 @@ const handleShowLink = () => {
 };
 
 const Landing: FC = () => {
+  const testFlag = useFeatureFlagEnabled("test-posthog");
+  console.log("test flag", testFlag);
+
   return (
     <>
       <Box>
@@ -116,9 +120,11 @@ const Landing: FC = () => {
             smooth={true}
             duration={1200}
           >
-            <Typography variant="h2" color="common.white">
-              Say Hi
-            </Typography>
+            {testFlag && (
+              <Typography variant="h2" color="common.white">
+                Say Hi
+              </Typography>
+            )}
             <StyledHiChevronDown />
           </StyledLinkScroll>
         </StyledHiBox>
