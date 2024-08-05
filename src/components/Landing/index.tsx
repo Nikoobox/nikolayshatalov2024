@@ -63,10 +63,28 @@ const handleShowLink = () => {
   }, 1000);
 };
 
-const Landing: FC = () => {
-  const testFlag = useFeatureFlagEnabled("test-posthog");
-  console.log("test flag", testFlag);
+const getFlagNamePerEnvironment = ({
+  flagTest,
+  flagProd,
+}: {
+  flagTest: string;
+  flagProd: string;
+}): string => {
+  console.log("process.env.REACT_APP_ENV", process.env.REACT_APP_ENV);
 
+  return process.env.REACT_APP_ENV === "production" ? flagProd : flagTest;
+};
+
+const Landing: FC = () => {
+  const formDropzoneFlag = useFeatureFlagEnabled(
+    getFlagNamePerEnvironment({
+      flagTest: "formDropzoneFlagTest",
+      flagProd: "formDropzoneFlagProd",
+    })
+  );
+
+  // console.log("test formDropzoneFlagProd", formDropzoneFlagProd);
+  console.log("test formDropzoneFlag", formDropzoneFlag);
   return (
     <>
       <Box>
@@ -120,11 +138,10 @@ const Landing: FC = () => {
             smooth={true}
             duration={1200}
           >
-            {testFlag && (
-              <Typography variant="h2" color="common.white">
-                Say Hi
-              </Typography>
-            )}
+            <Typography variant="h2" color="common.white">
+              Say Hi
+            </Typography>
+
             <StyledHiChevronDown />
           </StyledLinkScroll>
         </StyledHiBox>
