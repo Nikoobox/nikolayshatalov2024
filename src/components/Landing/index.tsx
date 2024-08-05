@@ -9,6 +9,9 @@ import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/system";
 
 import ParticlesTS from "./Particles";
+import { FLAGS } from "../../helpers";
+
+const { getFlagNamePerEnvironment } = FLAGS;
 
 const StyledHiBox = styled(Box)(({ theme }) => ({
   position: "absolute",
@@ -63,18 +66,6 @@ const handleShowLink = () => {
   }, 1000);
 };
 
-const getFlagNamePerEnvironment = ({
-  flagTest,
-  flagProd,
-}: {
-  flagTest: string;
-  flagProd: string;
-}): string => {
-  console.log("process.env.REACT_APP_ENV", process.env.REACT_APP_ENV);
-
-  return process.env.REACT_APP_ENV === "production" ? flagProd : flagTest;
-};
-
 const Landing: FC = () => {
   const formDropzoneFlag = useFeatureFlagEnabled(
     getFlagNamePerEnvironment({
@@ -83,8 +74,7 @@ const Landing: FC = () => {
     })
   );
 
-  // console.log("test formDropzoneFlagProd", formDropzoneFlagProd);
-  console.log("test formDropzoneFlag", formDropzoneFlag);
+  console.log("test flag", formDropzoneFlag);
   return (
     <>
       <Box>
