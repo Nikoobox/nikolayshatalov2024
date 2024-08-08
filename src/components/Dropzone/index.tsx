@@ -1,8 +1,8 @@
-import { useCallback, useState, useMemo } from "react";
+import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import classNames from "classnames";
 
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 const StyledDiv = styled("div")(({ theme }) => ({
