@@ -1,10 +1,12 @@
 # nikolayshatalov2024
 
-A TypeScript-based portfolio single page website built with `Create React App` featuring `Material UI` for styling, `Particles.js`, `typewriter-effect`, `react-wavify`, and `framer-motion` for dynamic and interactive animations. The application employs reusable components and UI elements to ensure consistency and minimize code duplication. A custom `theme` has been implemented to define default styling.
+A TypeScript-based single-page portfolio built with `Create React App`, featuring `Material UI` library for styling, along with `Particles.js`, `typewriter-effect`, `react-wavify`, and `framer-motion` for dynamic and interactive animations. The application employs reusable components and UI elements to ensure consistency and reduce code duplication. A custom `mui theme` has been implemented to define default styling across the app.
 
 `React.lazy` and `React.Suspense` are used to improve user experience by displaying a loading indicator while waiting for a component to load.
 
-`EmailJS` has been integrated to manage contact form submissions, the `react-hook-form` library is utilized for optimal form state management and validation performance, and `react-pdf` package was used to render pdf resume inside the modal.
+`EmailJS` has been integrated to handle contact form submissions. The `react-hook-form` library is utilized for optimal form state management and validation, and the `react-pdf` package is used to render the PDF resume inside a modal.
+
+The `posthog-js` library provides feature flags, enabling a better development experience and smoother feature releases.
 
 <div align="start" >
   <a href="https://nikolayshatalov.com/">Live Site</a>
