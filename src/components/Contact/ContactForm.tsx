@@ -3,6 +3,7 @@ import emailjs from "@emailjs/browser";
 import { IoPaperPlaneOutline } from "react-icons/io5";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useSnackbar } from "notistack";
+import { useFeatureFlagEnabled } from "posthog-js/react";
 
 import { Box, Typography, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -10,6 +11,10 @@ import { styled } from "@mui/material/styles";
 import { TextField } from "../FormFields";
 import { FORM_FIELDS } from "../../constants";
 import { DEFAULT_VALUES } from "./DefaultValues";
+import { FLAGS } from "../../helpers";
+import MyDropzone from "../Dropzone";
+
+const { getFlagNamePerEnvironment } = FLAGS;
 
 const SUCCESS = "success";
 const ERROR = "error";
@@ -39,6 +44,12 @@ interface IFormInput {
 const ContactForm: FC = () => {
   const form = useRef<HTMLFormElement>(null);
   const { enqueueSnackbar } = useSnackbar();
+  const formDropzoneFlag = useFeatureFlagEnabled(
+    getFlagNamePerEnvironment({
+      flagTest: "formDropzoneFlagTest",
+      flagProd: "formDropzoneFlagProd",
+    })
+  );
 
   const {
     control,
@@ -159,6 +170,8 @@ const ContactForm: FC = () => {
             },
           }}
         >
+          {formDropzoneFlag && <MyDropzone />}
+
           <StyledButton type="submit" disabled={!isValid}>
             <Typography
               variant="h3"

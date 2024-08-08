@@ -3,15 +3,11 @@ import { Link as LinkScroll } from "react-scroll";
 import { HiChevronDown } from "react-icons/hi";
 import Typewriter from "typewriter-effect";
 import { motion } from "framer-motion";
-import { useFeatureFlagEnabled } from "posthog-js/react";
 
 import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/system";
 
 import ParticlesTS from "./Particles";
-import { FLAGS } from "../../helpers";
-
-const { getFlagNamePerEnvironment } = FLAGS;
 
 const StyledHiBox = styled(Box)(({ theme }) => ({
   position: "absolute",
@@ -67,14 +63,6 @@ const handleShowLink = () => {
 };
 
 const Landing: FC = () => {
-  const formDropzoneFlag = useFeatureFlagEnabled(
-    getFlagNamePerEnvironment({
-      flagTest: "formDropzoneFlagTest",
-      flagProd: "formDropzoneFlagProd",
-    })
-  );
-
-  console.log("test flag", formDropzoneFlag);
   return (
     <>
       <Box>
