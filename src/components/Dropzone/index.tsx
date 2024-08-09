@@ -90,7 +90,8 @@ const MyDropzone = () => {
     )
   ) : (
     <Typography color="customColors.grey">
-      Drag 'n' drop your file here, or click to select files
+      Drag 'n' drop your file here (pdf, jpeg, jpg or png), or click to select
+      files
     </Typography>
   );
 
