@@ -159,6 +159,7 @@ const ContactForm: FC = () => {
             minRows={3}
           />
         </Box>
+        <Box mt={3}>{formDropzoneFlag && <MyDropzone />}</Box>
         <Box
           mt={3}
           width="100%"
@@ -170,8 +171,6 @@ const ContactForm: FC = () => {
             },
           }}
         >
-          {formDropzoneFlag && <MyDropzone />}
-
           <StyledButton type="submit" disabled={!isValid}>
             <Typography
               variant="h3"
