@@ -49,7 +49,7 @@ const MyDialog: FC<PropsWithChildren<Props>> = ({
 }) => {
   return (
     <StyledDialog
-      onClose={() => onClose(false)}
+      onClose={onClose}
       aria-labelledby="customized-dialog-title"
       open={open}
       fullScreen={fullScreen}

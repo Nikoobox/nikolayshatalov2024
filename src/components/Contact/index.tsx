@@ -1,10 +1,5 @@
-import { FC, useState } from "react";
-import {
-  HiOutlineDocumentDownload,
-  HiOutlineDocumentText,
-  HiOutlineExternalLink,
-  HiDownload,
-} from "react-icons/hi";
+import { FC } from "react";
+import { HiOutlineDocumentText, HiDownload } from "react-icons/hi";
 import Wave from "react-wavify";
 import { isMobile } from "react-device-detect";
 import { motion } from "framer-motion";
@@ -17,10 +12,8 @@ import { useTheme } from "@mui/material/styles";
 import PageSection from "../PageSection";
 import { BIO_DATA } from "../Data";
 import { resume } from "../Documents";
-import MyDialog from "../MyDialog";
-import PDFViewer from "../PDFViewer";
-import { styling } from "../../constants";
 import ContactForm from "./ContactForm";
+import { useThemeContext } from "../../theme/ThemeContextProvider";
 
 const profileImg = `${process.env.PUBLIC_URL}/img/profile.jpg`;
 
@@ -62,27 +55,11 @@ const StyledDownloadLink = styled("a")(({ theme }) => ({
   marginTop: theme.spacing(4),
 }));
 
-const StyledPDFViewerWrapper = styled(Box)(({ theme }) => ({
-  height: "100%",
-  display: "flex",
-  justifyContent: "center",
-  padding: "2px 0",
-  "& .react-pdf__Page__canvas": {
-    maxHeight: "100%",
-    objectFit: "contain",
-    borderRadius: "4px",
-    boxShadow: styling.SHADOW,
-  },
-  "& .react-pdf__Page": {
-    height: "100%",
-  },
-}));
-
 const threshold = 0.2;
 
 const Contact: FC = () => {
   const theme = useTheme();
-  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const { toggleResumeModal } = useThemeContext();
 
   const { ref: imgRef, inView: imgInView } = useInView({
     threshold,
@@ -188,7 +165,7 @@ const Contact: FC = () => {
                     </Typography>
                   </StyledDownloadLink>
                 ) : (
-                  <StyledButton onClick={() => setIsOpenModal(true)}>
+                  <StyledButton onClick={toggleResumeModal}>
                     <Typography
                       color="common.white"
                       variant="h3"
@@ -227,56 +204,6 @@ const Contact: FC = () => {
           <ContactForm />
         </motion.div>
       </PageSection>
-
-      <MyDialog
-        open={isOpenModal}
-        onClose={setIsOpenModal}
-        title="My Resume"
-        actions={
-          <Box display="flex" gap={3}>
-            <a
-              href={resume}
-              target="_blank"
-              rel="noopener noreferrer"
-              download="Nikolay_Shatalov_frontend_developer_resume.pdf"
-            >
-              <Typography
-                variant="h3"
-                sx={{ display: "flex", alignItems: "center" }}
-              >
-                Download
-                <Box
-                  component={HiOutlineDocumentDownload}
-                  ml="6px"
-                  sx={{
-                    "& svg": { width: 1 },
-                  }}
-                />
-              </Typography>
-            </a>
-
-            <a href={resume} target="_blank" rel="noopener noreferrer">
-              <Typography
-                variant="h3"
-                sx={{ display: "flex", alignItems: "center" }}
-              >
-                View in browser
-                <Box
-                  component={HiOutlineExternalLink}
-                  ml="6px"
-                  sx={{
-                    "& svg": { width: 1 },
-                  }}
-                />
-              </Typography>
-            </a>
-          </Box>
-        }
-      >
-        <StyledPDFViewerWrapper>
-          <PDFViewer fileToView={resume} />
-        </StyledPDFViewerWrapper>
-      </MyDialog>
     </>
   );
 };

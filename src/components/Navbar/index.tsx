@@ -16,14 +16,15 @@ import {
   Container,
 } from "@mui/material";
 import { styled } from "@mui/system";
-import { useTheme } from "@mui/material/styles";
+import { useTheme, Theme } from "@mui/material/styles";
 
 import nsLogo from "../../images/logo.png";
 // import NightModeSwitch from "../NightModeSwitch";
-// import { useThemeContext } from "../../theme/ThemeContextProvider";
+import { useThemeContext } from "../../theme/ThemeContextProvider";
 import { navItems } from "./NavItems";
 import { useScrollPosition } from "../../hooks";
 import { getNavItemColor } from "./helpers";
+import { resume } from "../Documents";
 
 interface HideOnScrollProps {
   children: React.ReactElement;
@@ -38,14 +39,9 @@ const HideOnScroll = ({ children }: HideOnScrollProps) => {
   );
 };
 
-const StyledToolbar = styled(Toolbar)({
-  paddingTop: "16px",
-});
-
-const StyledNavItemLink = styled(LinkScroll)(({ theme }) => ({
+const commonNavItemStyles = (theme: Theme): object => ({
   position: "relative",
   cursor: "pointer",
-
   "& ::after": {
     top: "20px",
     position: "absolute",
@@ -65,6 +61,18 @@ const StyledNavItemLink = styled(LinkScroll)(({ theme }) => ({
     transition: "width 0.3s",
     zIndex: -1,
   },
+});
+
+const StyledToolbar = styled(Toolbar)({
+  paddingTop: "16px",
+});
+
+const StyledNavItemLink = styled(LinkScroll)(({ theme }) => ({
+  ...commonNavItemStyles(theme as Theme),
+}));
+
+const StyledResumeBox = styled(Box)(({ theme }) => ({
+  ...commonNavItemStyles(theme as Theme),
 }));
 
 const StyledDrawerItemLink = styled(LinkScroll)(({ theme }) => ({
@@ -87,7 +95,7 @@ const StyledATagWrapper = styled(Box)(({ theme }) => ({
   marginTop: "auto",
   marginBottom: theme.spacing(5),
   "& a": {
-    padding: theme.spacing(2),
+    padding: theme.spacing(1.5),
     textDecoration: "none",
     color: theme.palette.common.greyAccent,
     "& :hover": {
@@ -108,7 +116,7 @@ const AppBarWithDrawer: FC = () => {
   const [scrollPosition, isPastTarget] = useScrollPosition();
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
 
-  // const { isDarkMode } = useThemeContext();
+  const { toggleResumeModal } = useThemeContext();
   const navItemColor = getNavItemColor(scrollPosition, isPastTarget);
   const drawer = (
     <Box height="100%" display="flex" flexDirection="column">
@@ -148,7 +156,7 @@ const AppBarWithDrawer: FC = () => {
           rel="noopener noreferrer"
           target="_blank"
         >
-          <Typography variant="h2" color="customColors.greyAccent">
+          <Typography variant="h3" color="customColors.greyAccent">
             LinkedIn
           </Typography>
         </a>
@@ -157,13 +165,24 @@ const AppBarWithDrawer: FC = () => {
           rel="noopener noreferrer"
           target="_blank"
         >
-          <Typography variant="h2" color="customColors.greyAccent">
+          <Typography variant="h3" color="customColors.greyAccent">
             Github
           </Typography>
         </a>
         <a href="mailto:nikoobox@gmail.com">
-          <Typography variant="h2" color="customColors.greyAccent">
+          <Typography variant="h3" color="customColors.greyAccent">
             Email
+          </Typography>
+        </a>
+        <a
+          href={resume}
+          target="_blank"
+          rel="noopener noreferrer"
+          download="Nikolay_Shatalov_frontend_developer_resume.pdf"
+          onClick={handleDrawerToggle}
+        >
+          <Typography variant="h3" color="customColors.greyAccent">
+            Resume
           </Typography>
         </a>
       </StyledATagWrapper>
@@ -231,6 +250,11 @@ const AppBarWithDrawer: FC = () => {
                       </Typography>
                     </StyledNavItemLink>
                   ))}
+                  <StyledResumeBox onClick={toggleResumeModal}>
+                    <Typography variant="h2" color={navItemColor}>
+                      Resume
+                    </Typography>
+                  </StyledResumeBox>
                 </Box>
               </StyledToolbar>
             </Container>
