@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 
 import { PROJECTS_DATA } from "../Data";
 import PageSection from "../PageSection";
@@ -27,9 +27,11 @@ const Projects: FC = () => {
         justifyContent="center"
         flexDirection="column"
       >
-        <Typography variant="h1" mb={5} mt={20}>
-          Projects
-        </Typography>
+        <PageSection.PageSubheader>
+          <Box mb={5} mt={20}>
+            Projects
+          </Box>
+        </PageSection.PageSubheader>
         <Box
           display="flex"
           justifyContent="center"
@@ -44,9 +46,11 @@ const Projects: FC = () => {
           {projects}
         </Box>
 
-        <Typography variant="h1" mb={5} mt={20}>
-          Other Projects
-        </Typography>
+        <PageSection.PageSubheader>
+          <Box mb={5} mt={20}>
+            Other Projects
+          </Box>
+        </PageSection.PageSubheader>
         <Box
           display="flex"
           justifyContent="center"

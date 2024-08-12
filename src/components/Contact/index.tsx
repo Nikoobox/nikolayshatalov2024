@@ -94,9 +94,9 @@ const Contact: FC = () => {
 
       <PageSection id="contact-destination">
         <Box display="flex" justifyContent="center" alignItems="center">
-          <Typography variant="h1" mb={5} color="common.white">
-            Contact
-          </Typography>
+          <PageSection.PageSubheader color="white">
+            <Box mb={5}>Contact</Box>
+          </PageSection.PageSubheader>
         </Box>
 
         <StyledContactInfoWrapper

@@ -1,8 +1,7 @@
 import { FC } from "react";
 import Wave from "react-wavify";
 
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+import { Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 import PageSection from "../PageSection";
@@ -57,9 +56,9 @@ const Skills: FC = () => {
           justifyContent="center"
           flexDirection="column"
         >
-          <Typography variant="h1" mb={5}>
-            Skills
-          </Typography>
+          <PageSection.PageSubheader>
+            <Box mb={5}>Skills</Box>
+          </PageSection.PageSubheader>
 
           <Box
             display="flex"
@@ -74,9 +73,11 @@ const Skills: FC = () => {
             {mainSkills}
           </Box>
 
-          <Typography variant="h1" mb={5} mt={20}>
-            Additional Skills & Tools
-          </Typography>
+          <PageSection.PageSubheader>
+            <Box mb={5} mt={20}>
+              Additional Skills & Tools
+            </Box>
+          </PageSection.PageSubheader>
           <Box
             display="flex"
             alignItems="center"
