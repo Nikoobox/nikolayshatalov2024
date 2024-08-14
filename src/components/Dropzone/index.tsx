@@ -1,4 +1,4 @@
-import { useCallback, useState, SyntheticEvent } from "react";
+import { useCallback, useState, SyntheticEvent, FC } from "react";
 import { useDropzone } from "react-dropzone";
 import classNames from "classnames";
 import { HiOutlineDocumentText } from "react-icons/hi";
@@ -43,12 +43,17 @@ const StyledDiv = styled("div")(({ theme }) => ({
   },
 }));
 
-const MyDropzone = () => {
+interface MyDropzoneProps {
+  onFileAttach?: (file: File | null) => void;
+}
+
+const MyDropzone: FC<MyDropzoneProps> = ({ onFileAttach }) => {
   const [file, setFile] = useState<File | null>(null);
   const onDrop = useCallback((acceptedFiles: any) => {
     // Do something with the files
     console.log("acceptedFiles: ", acceptedFiles);
     setFile(acceptedFiles[0]);
+    onFileAttach && onFileAttach(acceptedFiles[0]);
   }, []);
   const {
     getRootProps,
