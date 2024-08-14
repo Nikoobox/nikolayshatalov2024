@@ -4,7 +4,7 @@ import Wave from "react-wavify";
 import { Box, Typography, Container } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
-const getYear = () => new Date().getFullYear();
+const getYear = () => "2019 - " + new Date().getFullYear();
 
 const Footer: FC = () => {
   const theme = useTheme();

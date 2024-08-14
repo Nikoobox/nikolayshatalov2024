@@ -1,4 +1,4 @@
-import { useRef, FC } from "react";
+import { useRef, FC, useState } from "react";
 import emailjs from "@emailjs/browser";
 import { IoPaperPlaneOutline } from "react-icons/io5";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -51,6 +51,8 @@ const ContactForm: FC = () => {
     })
   );
 
+  const [fileToAttach, setFileToAttach] = useState<File | null>(null);
+
   const {
     control,
     handleSubmit,
@@ -68,6 +70,12 @@ const ContactForm: FC = () => {
   };
 
   const sendEmail = (formElement: HTMLFormElement) => {
+    const formData = new FormData(formElement);
+
+    if (fileToAttach) {
+      formData.append("my_file", fileToAttach); // 'my_file' matches the parameter name in your EmailJS template
+    }
+
     emailjs
       .sendForm(
         process.env.REACT_APP_YOUR_SERVICE_ID as string,
@@ -81,6 +89,7 @@ const ContactForm: FC = () => {
             variant: SUCCESS,
           });
           reset();
+          setFileToAttach(null);
           console.log(result.text);
         },
         (error) => {
@@ -88,9 +97,16 @@ const ContactForm: FC = () => {
             variant: ERROR,
           });
           reset();
+          setFileToAttach(null);
           console.log(error.text);
         }
       );
+  };
+
+  const onFileAttach = (file: File | null) => {
+    if (file instanceof File) {
+      setFileToAttach(file);
+    }
   };
 
   return (
@@ -159,7 +175,9 @@ const ContactForm: FC = () => {
             minRows={3}
           />
         </Box>
-        <Box mt={3}>{formDropzoneFlag && <MyDropzone />}</Box>
+        <Box mt={3}>
+          {formDropzoneFlag && <MyDropzone onFileAttach={onFileAttach} />}
+        </Box>
         <Box
           mt={3}
           width="100%"
