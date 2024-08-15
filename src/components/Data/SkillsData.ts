@@ -9,7 +9,7 @@ import {
   SiTypescript,
   SiMongodb,
   SiChartdotjs,
-  // SiFirebase,
+  SiFirebase,
   SiTestinglibrary,
   SiMockserviceworker,
   SiMui,
@@ -129,9 +129,9 @@ export const SKILLS_DATA = [
     iconType: SiMongodb,
     type: ADDITIONAL,
   },
-  // {
-  //   skillName: "Firebase",
-  //   iconType: SiFirebase,
-  //   type: ADDITIONAL,
-  // },
+  {
+    skillName: "Firebase",
+    iconType: SiFirebase,
+    type: ADDITIONAL,
+  },
 ];
