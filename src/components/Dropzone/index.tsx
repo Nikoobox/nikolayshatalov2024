@@ -49,12 +49,15 @@ interface MyDropzoneProps {
 
 const MyDropzone: FC<MyDropzoneProps> = ({ onFileAttach }) => {
   const [file, setFile] = useState<File | null>(null);
-  const onDrop = useCallback((acceptedFiles: any) => {
-    // Do something with the files
-    console.log("acceptedFiles: ", acceptedFiles);
-    setFile(acceptedFiles[0]);
-    onFileAttach && onFileAttach(acceptedFiles[0]);
-  }, []);
+  const onDrop = useCallback(
+    (acceptedFiles: any) => {
+      // Do something with the files
+      console.log("acceptedFiles: ", acceptedFiles);
+      setFile(acceptedFiles[0]);
+      onFileAttach && onFileAttach(acceptedFiles[0]);
+    },
+    [onFileAttach]
+  );
   const {
     getRootProps,
     getInputProps,
