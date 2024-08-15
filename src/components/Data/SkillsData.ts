@@ -8,7 +8,10 @@ import {
   SiCss3,
   SiTypescript,
   SiMongodb,
-  SiFirebase,
+  SiChartdotjs,
+  // SiFirebase,
+  SiTestinglibrary,
+  SiMockserviceworker,
   SiMui,
   SiStorybook,
   SiJest,
@@ -24,7 +27,12 @@ const ADDITIONAL = "additional";
 
 export const SKILLS_DATA = [
   {
-    skillName: "Javascript", // former 'name'
+    skillName: "Typescript",
+    iconType: SiTypescript,
+    type: MAIN,
+  },
+  {
+    skillName: "Javascript",
     iconType: SiJavascript,
     type: MAIN,
   },
@@ -38,15 +46,25 @@ export const SKILLS_DATA = [
     iconType: SiRedux,
     type: MAIN,
   },
+  {
+    skillName: "Redux-saga",
+    iconType: SiReduxsaga,
+    type: MAIN,
+  },
 
   {
-    skillName: "Typescript",
-    iconType: SiTypescript,
+    skillName: "Jest",
+    iconType: SiJest,
     type: MAIN,
   },
   {
-    skillName: "ReactNative",
-    iconType: SiReact,
+    skillName: "Testing Library",
+    iconType: SiTestinglibrary,
+    type: MAIN,
+  },
+  {
+    skillName: "MSW",
+    iconType: SiMockserviceworker,
     type: MAIN,
   },
   {
@@ -61,23 +79,18 @@ export const SKILLS_DATA = [
     type: MAIN,
   },
   {
-    skillName: "Jest",
-    iconType: SiJest,
-    type: MAIN,
-  },
-  {
-    skillName: "Redux-saga",
-    iconType: SiReduxsaga,
-    type: MAIN,
-  },
-  {
     skillName: "HTML5",
     iconType: SiHtml5,
     type: MAIN,
   },
   {
-    skillName: "CSS3",
+    skillName: "CSS",
     iconType: SiCss3,
+    type: MAIN,
+  },
+  {
+    skillName: "Chart.js",
+    iconType: SiChartdotjs,
     type: MAIN,
   },
   {
@@ -116,9 +129,9 @@ export const SKILLS_DATA = [
     iconType: SiMongodb,
     type: ADDITIONAL,
   },
-  {
-    skillName: "Firebase",
-    iconType: SiFirebase,
-    type: ADDITIONAL,
-  },
+  // {
+  //   skillName: "Firebase",
+  //   iconType: SiFirebase,
+  //   type: ADDITIONAL,
+  // },
 ];
