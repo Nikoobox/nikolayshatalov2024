@@ -5,16 +5,22 @@ import { useInView } from "react-intersection-observer";
 import { Box, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
+import { useThemeContext } from "../../theme/ThemeContextProvider";
+
 interface Props {
   skillName: string;
   iconType: ElementType;
 }
 
 const Skill: FC<Props> = ({ skillName, iconType: TechIcon }) => {
+  const { isDarkMode } = useThemeContext();
   const theme = useTheme();
   const { ref, inView } = useInView({
     threshold: 0.5,
   });
+  const iconColor = isDarkMode
+    ? theme.palette.common.white
+    : theme.palette.primary.main;
 
   return (
     <motion.div
@@ -31,7 +37,7 @@ const Skill: FC<Props> = ({ skillName, iconType: TechIcon }) => {
         justifyContent="center"
         minWidth="90px"
       >
-        <TechIcon color={theme.palette.primary.main} size={theme.spacing(8)} />
+        <TechIcon color={iconColor} size={theme.spacing(8)} />
         <Typography variant="body1" mt={1}>
           {skillName}
         </Typography>

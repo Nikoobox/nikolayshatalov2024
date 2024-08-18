@@ -30,7 +30,11 @@ const StyledBox = styled(Box)(({ theme }) => ({
     height: "260px",
     width: "100%",
     objectFit: "cover",
-    border: `1px solid ${theme.palette.customColors.greyLitest}`,
+    border: `1px solid ${
+      theme.palette.mode === "light"
+        ? theme.palette.customColors.greyLitest
+        : theme.palette.customColors.blueDark
+    }`,
     objectPosition: "top",
   },
   "& .icon": {
@@ -121,8 +125,8 @@ const Project: FC<ProjectProps> = ({
               justifyContent="center"
               gap={4}
               sx={{
-                backgroundColor: theme.palette.common.black,
-                opacity: isHovered ? 0.9 : 0,
+                backgroundColor: theme.palette.customColors.blueDark,
+                opacity: isHovered ? 0.95 : 0,
                 position: "absolute",
                 top: 0,
                 borderRadius: theme.spacing(2),
@@ -175,9 +179,7 @@ const Project: FC<ProjectProps> = ({
             justifyContent="space-between"
             my={1}
           >
-            <Typography variant="h2" color="common.black">
-              {name}
-            </Typography>
+            <Typography variant="h2">{name}</Typography>
 
             <Box display="flex" gap={1.5}>
               {isResponsive && <IoMdPhonePortrait className="icon" />}
@@ -185,7 +187,7 @@ const Project: FC<ProjectProps> = ({
               <IoMdDesktop className="icon" />
             </Box>
           </Box>
-          <Typography variant="body1" color="common.black" my={1.5}>
+          <Typography variant="body1" my={1.5}>
             {info}
           </Typography>
           <Box display="flex" flexWrap="wrap">
