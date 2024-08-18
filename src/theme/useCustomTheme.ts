@@ -15,16 +15,26 @@ const getDesignTokens = (mode: PaletteMode) => ({
       ? {
           ...(themeOptions.palette as Palette),
           mode,
+          //test
+          background: {
+            default: "#FFFFFF", // Light mode background color
+            paper: "#F5F5F5", // Light mode paper background color
+          },
         }
-      : {
+      : // DARK MODE
+        {
           ...(themeOptions.palette as Palette),
-          primary: { ...themeOptions?.palette?.primary, main: "#FFFF00" },
+          // primary: { ...themeOptions?.palette?.primary, main: "#FFFF00" },
           mode,
+          background: {
+            default: themeOptions.palette?.customColors.blueDark, // Light mode background color
+            paper: themeOptions.palette?.customColors.blueDark, // Light mode paper background color
+          },
         }),
   },
 });
 
-export const useDarkTheme = () => {
+export const useCustomTheme = () => {
   const savedMode = localStorage.getItem(LOCAL_STORAGE_COLOR_MODE_KEY);
   const initialMode: PaletteMode = savedMode
     ? (savedMode as PaletteMode)
@@ -46,7 +56,7 @@ export const useDarkTheme = () => {
 
   return {
     theme: modifiedTheme,
-    isDarkMode: mode===DARK,
+    isDarkMode: mode === DARK,
     toggleDarkMode,
   };
 };

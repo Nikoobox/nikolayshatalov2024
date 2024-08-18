@@ -8,7 +8,7 @@ import {
 
 import { createTheme, Theme } from "@mui/material/styles";
 
-import { useDarkTheme } from "./useDarkTheme";
+import { useCustomTheme } from "./useCustomTheme";
 
 interface ThemeContextProps {
   isDarkMode: boolean;
@@ -28,7 +28,7 @@ export const ThemeContext = createContext<ThemeContextProps>({
 
 export const ThemeContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const [isResumeModalOpen, setIsResumeModalOpen] = useState<boolean>(false);
-  const value = useDarkTheme();
+  const value = useCustomTheme();
 
   const toggleResumeModal = () => setIsResumeModalOpen((prev) => !prev);
 

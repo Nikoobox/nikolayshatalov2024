@@ -3,6 +3,7 @@ import { Link as LinkScroll, animateScroll as scroll } from "react-scroll";
 import { HiMenuAlt2 } from "react-icons/hi";
 import { IoCloseOutline } from "react-icons/io5";
 import { motion } from "framer-motion";
+import { useFeatureFlagEnabled } from "posthog-js/react";
 
 import {
   AppBar,
@@ -19,12 +20,13 @@ import { styled } from "@mui/system";
 import { useTheme, Theme } from "@mui/material/styles";
 
 import nsLogo from "../../images/logo.png";
-// import NightModeSwitch from "../NightModeSwitch";
+import NightModeSwitch from "../NightModeSwitch";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
 import { navItems } from "./NavItems";
 import { useScrollPosition } from "../../hooks";
 import { getNavItemColor } from "./helpers";
 import { resume } from "../Documents";
+import { getFlagNamePerEnvironment } from "../../helpers/flags";
 
 interface HideOnScrollProps {
   children: React.ReactElement;
@@ -110,14 +112,26 @@ const StyledATagWrapper = styled(Box)(({ theme }) => ({
   },
 }));
 
-const AppBarWithDrawer: FC = () => {
+const Navbar: FC = () => {
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrollPosition, isPastTarget] = useScrollPosition();
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
 
-  const { toggleResumeModal } = useThemeContext();
+  const themeContext = useThemeContext();
+  const { toggleResumeModal } = themeContext;
+  const darkModeFlag = useFeatureFlagEnabled(
+    getFlagNamePerEnvironment({
+      flagTest: "darkModeFlagTest",
+      flagProd: "darkModeFlagProd",
+    })
+  );
+  console.log("themeContext", themeContext);
+  console.log("theme", theme);
+  console.log("darkModeFlag", darkModeFlag);
+
   const navItemColor = getNavItemColor(scrollPosition, isPastTarget);
+
   const drawer = (
     <Box height="100%" display="flex" flexDirection="column">
       <IconButton
@@ -213,7 +227,6 @@ const AppBarWithDrawer: FC = () => {
                 >
                   <HiMenuAlt2 />
                 </IconButton>
-
                 <Box
                   width="80px"
                   height="80px"
@@ -229,8 +242,7 @@ const AppBarWithDrawer: FC = () => {
                 >
                   <img src={nsLogo} alt="ns-logo" />
                 </Box>
-
-                {/* <NightModeSwitch /> */}
+                {darkModeFlag && <NightModeSwitch />}
                 <Box
                   sx={{
                     display: { xs: "none", sm: "flex" },
@@ -288,4 +300,4 @@ const AppBarWithDrawer: FC = () => {
   );
 };
 
-export default AppBarWithDrawer;
+export default Navbar;
