@@ -130,7 +130,7 @@ const Project: FC<ProjectProps> = ({
                 position: "absolute",
                 top: 0,
                 borderRadius: theme.spacing(2),
-                transition: "opacity 0.3s ease-out",
+                transition: "opacity 0.1s ease-out",
                 border: `3px solid ${getRandomColor()}`,
               }}
             >
