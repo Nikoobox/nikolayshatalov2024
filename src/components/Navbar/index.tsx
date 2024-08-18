@@ -126,9 +126,6 @@ const Navbar: FC = () => {
       flagProd: "darkModeFlagProd",
     })
   );
-  console.log("themeContext", themeContext);
-  console.log("theme", theme);
-  console.log("darkModeFlag", darkModeFlag);
 
   const navItemColor = getNavItemColor(scrollPosition, isPastTarget);
 
