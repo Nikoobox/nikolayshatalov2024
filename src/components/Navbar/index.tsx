@@ -126,7 +126,8 @@ const Navbar: FC = () => {
       flagProd: "darkModeFlagProd",
     })
   );
-
+  // console.log("darkModeFlag", darkModeFlag);
+  // const navItemColor = getNavItemColor(scrollPosition, isPastTarget);
   const navItemColor = getNavItemColor(scrollPosition, isPastTarget);
 
   const drawer = (
@@ -254,15 +255,11 @@ const Navbar: FC = () => {
                       smooth={true}
                       duration={1000}
                     >
-                      <Typography variant="h2" color={navItemColor}>
-                        {navItemName}
-                      </Typography>
+                      <Typography variant="h2">{navItemName}</Typography>
                     </StyledNavItemLink>
                   ))}
                   <StyledResumeBox onClick={toggleResumeModal}>
-                    <Typography variant="h2" color={navItemColor}>
-                      Resume
-                    </Typography>
+                    <Typography variant="h2">Resume</Typography>
                   </StyledResumeBox>
                 </Box>
               </StyledToolbar>

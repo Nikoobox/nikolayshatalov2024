@@ -7,7 +7,8 @@ export const COLORS = {
   TEAL: "#35C2A3",
   GREY_MAIN: "#6C757D",
   GREY_LIGHT: "#D3D3D3",
-  GREY_LITEST: "#F5F5F5",
+  GREY_LIGHTEST: "#F5F5F5",
+  GREY_900: "#212121",
   WHITE_ACCENT: "#F3FAFF",
   PURPLE_ACCENT: "#BD10E0",
   GREEN_ACCENT: "#B8E986",
@@ -16,6 +17,8 @@ export const COLORS = {
   RED_ACCENT: "#E86363",
   WHITE: "#FFF",
   BLACK: "#222",
+  CHARCOAL_BLACK: "#0A0F14", // optionally good pair with dark blue
+  DEEP_SLATE: "#0B161D", // pair with dark blue
 };
 
 // "#BD10E0", "#B8E986", "#50E3C2", "#FFD300", "#E86363";

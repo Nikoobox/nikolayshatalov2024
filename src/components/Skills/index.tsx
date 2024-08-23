@@ -38,7 +38,7 @@ const Skills: FC = () => {
         paused={false}
         style={{
           display: "flex",
-          background: theme.palette.customColors.blueDark,
+          background: theme.palette.background.default,
           transform: "rotate(180)",
         }}
         options={{

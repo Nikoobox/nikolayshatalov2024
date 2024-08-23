@@ -9,6 +9,7 @@ import { useTheme } from "@mui/material/styles";
 import { CircularProgress } from "@mui/material";
 
 import { COLORS } from "../../theme";
+import { useThemeContext } from "../../theme/ThemeContextProvider";
 
 const {
   WHITE_ACCENT,
@@ -18,6 +19,7 @@ const {
   YELLOW_ACCENT,
   RED_ACCENT,
   BLUE_DARK,
+  DEEP_SLATE,
 } = COLORS;
 
 const StyledParticles = styled(Particles)({
@@ -31,6 +33,7 @@ const StyledParticles = styled(Particles)({
 const ParticlesTS = () => {
   const [init, setInit] = useState(false);
   const theme = useTheme();
+  const { isDarkMode } = useThemeContext();
 
   useEffect(() => {
     initParticlesEngine(async (engine) => {
@@ -47,7 +50,9 @@ const ParticlesTS = () => {
       fullScreen: false,
       background: {
         color: {
-          value: BLUE_DARK,
+          value: isDarkMode
+            ? theme.palette.customColors.deepSlate
+            : theme.palette.common.white,
         },
       },
       fpsLimit: 120,
@@ -82,6 +87,7 @@ const ParticlesTS = () => {
         links: {
           enable: true,
           opacity: 0.09,
+          color: isDarkMode ? WHITE_ACCENT : DEEP_SLATE,
         },
         move: {
           enable: true,
@@ -95,7 +101,7 @@ const ParticlesTS = () => {
           value: 80,
         },
         opacity: {
-          value: 0.3,
+          value: isDarkMode ? 0.3 : 0.7,
           anim: {
             enable: true,
             speed: 1,
@@ -112,7 +118,7 @@ const ParticlesTS = () => {
       },
       detectRetina: true,
     }),
-    []
+    [theme]
   );
 
   if (init) {

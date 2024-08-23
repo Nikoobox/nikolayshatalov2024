@@ -26,7 +26,7 @@ const StyledHiBox = styled(Box)(({ theme }) => ({
 }));
 
 const StyledLinkScroll = styled(LinkScroll)(({ theme }) => ({
-  color: "white",
+  // color: "white",
   border: "solid white 3px",
   borderRadius: theme.spacing(4),
   textDecoration: "none",
@@ -68,7 +68,7 @@ const Landing: FC = () => {
       <Box>
         <ParticlesTS />
         <StyledHiBox>
-          <Typography variant="h1" color="common.white">
+          <Typography variant="h1">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -116,9 +116,7 @@ const Landing: FC = () => {
             smooth={true}
             duration={1200}
           >
-            <Typography variant="h2" color="common.white">
-              Say Hi
-            </Typography>
+            <Typography variant="h2">Say Hi</Typography>
 
             <StyledHiChevronDown />
           </StyledLinkScroll>

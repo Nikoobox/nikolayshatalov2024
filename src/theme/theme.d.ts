@@ -34,13 +34,18 @@ interface customColors {
   customColors: {
     whiteAccent: string;
     grey: string;
+    greyLightest: string;
     greyAccent: string;
+    grey200: string;
     purpleAccent: string;
     greenAccent: string;
     tealAccent: string;
     yellowAccent: string;
     redAccent: string;
     blueDark: string;
+    charcoalBlack: string;
+    deepSlate: string;
+    backgroundCustom: string;
   };
 }
 
@@ -55,10 +60,12 @@ declare module "@mui/material/styles/createPalette" {
   interface Palette {
     customColors;
     common;
+    textColor: string;
   }
 
   interface PaletteOptions {
     customColors;
     common;
+    textColor: string;
   }
 }
