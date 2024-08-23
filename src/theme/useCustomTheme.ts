@@ -1,5 +1,4 @@
 import { useState, useMemo, useEffect } from "react";
-import { merge } from "lodash";
 
 import { createTheme, Palette } from "@mui/material/styles";
 import { PaletteMode } from "@mui/material";
