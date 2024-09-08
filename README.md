@@ -1,6 +1,15 @@
 # nikolayshatalov2024
 
-A TypeScript-based single-page portfolio built with `Create React App`, featuring `Material UI` library for styling, along with `Particles.js`, `typewriter-effect`, `react-wavify`, and `framer-motion` for dynamic and interactive animations. The application employs reusable components and UI elements to ensure consistency and reduce code duplication. A custom `mui theme` has been implemented to define default styling across the app.
+🚀 A `TypeScript` single-page portfolio built with `Create React App`, featuring `Material UI` library for styling, along with `Particles.js`, `typewriter-effect`, `react-wavify`, and `framer-motion` for dynamic and interactive animations. The application employs reusable components and UI elements to ensure consistency and reduce code duplication. A custom `mui theme` has been implemented to define default styling across the app.
+
+🌗 `Dark Mode` & `Light Mode` Implementation
+This project includes a custom theme toggle between `dark` and `light` modes, utilizing `MUI` theming system. The implementation leverages React's state management to persist user preferences:
+
+Custom Design Tokens: `getDesignTokens` generates theme variations based on the active mode (`light` or `dark`). These tokens define custom palettes, backgrounds, and typography settings.
+State Management: The `useCustomTheme` hook manages the theme mode using React's `useState`, and persists the user's preference in `localStorage`.
+Theme Creation: The active theme is dynamically generated with `createTheme` and memoized via `useMemo` for performance optimization.
+Mode Toggle: Users can switch between modes using the `toggleDarkMode` function, which updates the state and re-applies the theme.
+This setup ensures a consistent and customizable user interface, adapting to both user preferences and system settings.
 
 `React.lazy` and `React.Suspense` are used to improve user experience by displaying a loading indicator while waiting for a component to load.
 

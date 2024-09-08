@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useState, PointerEvent } from "react";
 import { IoMdPhonePortrait, IoMdDesktop, IoMdLaptop } from "react-icons/io";
 import { isMobile } from "react-device-detect";
 import { HiOutlineExternalLink } from "react-icons/hi";
@@ -21,6 +21,8 @@ const BORDER_COLORS = [
   COLORS.YELLOW_ACCENT,
   COLORS.RED_ACCENT,
 ];
+
+const MOUSE = "mouse";
 
 const getRandomColor = () =>
   BORDER_COLORS[Math.floor(Math.random() * BORDER_COLORS.length)];
@@ -81,11 +83,13 @@ const Project: FC<ProjectProps> = ({
   });
   const theme = useTheme();
 
-  const handleOnMouseOver = () => {
-    setIsHovered(true);
+  const handleOnPointerOver = (e: PointerEvent) => {
+    if (!isMobile && e.pointerType === MOUSE) {
+      setIsHovered(true);
+    }
   };
 
-  const handleOnMouseOut = () => {
+  const handleOnPointerOut = () => {
     setIsHovered(false);
   };
 
@@ -119,8 +123,8 @@ const Project: FC<ProjectProps> = ({
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
           <Box
-            onMouseOver={handleOnMouseOver}
-            onMouseOut={handleOnMouseOut}
+            onPointerOver={handleOnPointerOver}
+            onPointerOut={handleOnPointerOut}
             width="100%"
             height="260px"
             sx={{
@@ -138,11 +142,11 @@ const Project: FC<ProjectProps> = ({
               gap={4}
               sx={{
                 backgroundColor: theme.palette.customColors.deepSlate,
-                opacity: isHovered ? 0.97 : 0,
+                display: isHovered ? "flex" : "none",
                 position: "absolute",
                 top: 0,
                 borderRadius: theme.spacing(2),
-                transition: "opacity 0.15s ease-out",
+                transition: "display 0.15s ease-out",
                 border: `3px solid ${getRandomColor()}`,
               }}
             >
