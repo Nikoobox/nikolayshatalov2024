@@ -54,16 +54,22 @@ const StyledButton = styled(Button)(({ theme }) => {
   };
 });
 
-const StyledDownloadLink = styled("a")(({ theme }) => ({
-  color: "white",
-  border: "solid white 3px",
-  borderRadius: theme.spacing(4),
-  textDecoration: "none",
-  padding: `${theme.spacing(1)} ${theme.spacing(3)}`,
-  display: "inline-flex",
-  alignItems: "center",
-  marginTop: theme.spacing(4),
-}));
+const StyledDownloadLink = styled("a")(({ theme }) => {
+  const isDarkMode = theme.palette.mode === "dark";
+  const color = isDarkMode
+    ? theme.palette.common.white
+    : theme.palette.common.black;
+  return {
+    color,
+    border: `solid ${color} 3px`,
+    borderRadius: theme.spacing(4),
+    textDecoration: "none",
+    padding: `${theme.spacing(1)} ${theme.spacing(3)}`,
+    display: "inline-flex",
+    alignItems: "center",
+    marginTop: theme.spacing(4),
+  };
+});
 
 const threshold = 0.2;
 
