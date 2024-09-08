@@ -68,7 +68,7 @@ export const useCustomTheme = () => {
   const savedMode = localStorage.getItem(LOCAL_STORAGE_COLOR_MODE_KEY);
   const initialMode: PaletteMode = savedMode
     ? (savedMode as PaletteMode)
-    : LIGHT;
+    : DARK;
 
   const [mode, setMode] = useState<PaletteMode>(initialMode);
 
