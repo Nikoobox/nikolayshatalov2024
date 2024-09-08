@@ -169,6 +169,7 @@ const Contact: FC = () => {
                     sx={{
                       display: "flex",
                       alignItems: "center",
+                      fontWeight: isDarkMode ? {} : 500,
                     }}
                   >
                     Download My Resume
