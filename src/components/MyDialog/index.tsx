@@ -58,6 +58,10 @@ const MyDialog: FC<PropsWithChildren<Props>> = ({
       PaperProps={{
         sx: {
           minHeight: minHeight || "95vh",
+          background: (theme) =>
+            theme.palette.mode === "dark"
+              ? theme.palette.customColors.grey900
+              : theme.palette.customColors.greyLightest,
         },
       }}
     >

@@ -11,6 +11,7 @@
     "@mui/styles": "^5.15.2",
     "@react-pdf/renderer": "^3.4.4",
     "@simplepdf/react-embed-pdf": "^1.8.0",
+    "@theme-toggles/react": "^4.1.0",
     "@tsparticles/engine": "^3.1.0",
     "@tsparticles/react": "^3.0.0",
     "@types/jest": "^27.5.2",

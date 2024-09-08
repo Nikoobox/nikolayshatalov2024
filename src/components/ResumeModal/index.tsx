@@ -30,7 +30,8 @@ const StyledPDFViewerWrapper = styled(Box)({
 });
 
 const ResumeModal: FC = () => {
-  const { isResumeModalOpen, toggleResumeModal } = useThemeContext();
+  const { isResumeModalOpen, toggleResumeModal, isDarkMode } =
+    useThemeContext();
 
   return (
     <MyDialog
@@ -38,7 +39,11 @@ const ResumeModal: FC = () => {
       onClose={toggleResumeModal}
       title="My Resume"
       actions={
-        <Box display="flex" gap={3}>
+        <Box
+          display="flex"
+          gap={3}
+          sx={{ "& a": isDarkMode ? { color: "white" } : {} }}
+        >
           <a
             href={resume}
             target="_blank"

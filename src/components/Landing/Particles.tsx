@@ -9,7 +9,6 @@ import { useTheme } from "@mui/material/styles";
 import { CircularProgress } from "@mui/material";
 
 import { COLORS } from "../../theme";
-import { useThemeContext } from "../../theme/ThemeContextProvider";
 
 const {
   WHITE_ACCENT,
@@ -18,8 +17,6 @@ const {
   TEAL_ACCENT,
   YELLOW_ACCENT,
   RED_ACCENT,
-  BLUE_DARK,
-  DEEP_SLATE,
 } = COLORS;
 
 const StyledParticles = styled(Particles)({
@@ -33,7 +30,6 @@ const StyledParticles = styled(Particles)({
 const ParticlesTS = () => {
   const [init, setInit] = useState(false);
   const theme = useTheme();
-  const { isDarkMode } = useThemeContext();
 
   useEffect(() => {
     initParticlesEngine(async (engine) => {
@@ -50,9 +46,7 @@ const ParticlesTS = () => {
       fullScreen: false,
       background: {
         color: {
-          value: isDarkMode
-            ? theme.palette.customColors.deepSlate
-            : theme.palette.common.white,
+          value: theme.palette.customColors.deepSlate,
         },
       },
       fpsLimit: 120,
@@ -87,7 +81,7 @@ const ParticlesTS = () => {
         links: {
           enable: true,
           opacity: 0.09,
-          color: isDarkMode ? WHITE_ACCENT : DEEP_SLATE,
+          color: WHITE_ACCENT,
         },
         move: {
           enable: true,
@@ -101,7 +95,8 @@ const ParticlesTS = () => {
           value: 80,
         },
         opacity: {
-          value: isDarkMode ? 0.3 : 0.7,
+          value: 0.3,
+
           anim: {
             enable: true,
             speed: 1,
@@ -139,7 +134,7 @@ const ParticlesTS = () => {
       alignItems="center"
       justifyContent="center"
       position="absolute"
-      sx={{ background: theme.palette.customColors.blueDark, top: 0 }}
+      sx={{ background: theme.palette.backgroundCustom.main, top: 0 }}
     >
       <CircularProgress sx={{ color: theme.palette.customColors.tealAccent }} />
     </Box>

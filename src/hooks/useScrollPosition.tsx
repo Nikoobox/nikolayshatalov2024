@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 
+// currently unused
 const useScrollPosition = (): [number, boolean] => {
   const [scrollPosition, setScrollPosition] = useState<number>(0);
   const [isPastTarget, setIsPastTarget] = useState<boolean>(false);

@@ -27,9 +27,9 @@ const StyledDiv = styled("div")(({ theme }) => ({
   flexDirection: "column",
   alignItems: "center",
   padding: `${theme.spacing(5)} ${theme.spacing(3)}`,
-  border: `2px solid ${theme.palette.customColors.blueDark}`,
+  border: `2px solid ${theme.palette.customColors.grey}`,
   borderRadius: theme.spacing(2),
-  backgroundColor: theme.palette.customColors.blueDark,
+  backgroundColor: theme.palette.background.default,
   outline: "none",
   transition: "border .2s ease",
   //   "&.dropzone--focused": {

@@ -3,6 +3,23 @@ import "@mui/material/styles/createTypography";
 
 import "@mui/material/styles";
 
+import {
+  TypographyOptions,
+  TypographyStyleOptions,
+} from "@mui/material/styles";
+
+export interface CustomTypographyOptions extends TypographyOptions {
+  h1?: TypographyStyleOptions;
+  h2?: TypographyStyleOptions;
+  h3?: TypographyStyleOptions;
+  h4?: TypographyStyleOptions;
+  body1?: TypographyStyleOptions;
+  subtitleRegular?: TypographyStyleOptions;
+  subtitleBold?: TypographyStyleOptions;
+  labelBold?: TypographyStyleOptions;
+  labelRegular?: TypographyStyleOptions;
+}
+
 declare module "@mui/material/styles" {
   interface TypographyVariants {
     subtitleRegular: React.CSSProperties;
@@ -11,7 +28,6 @@ declare module "@mui/material/styles" {
     labelRegular: React.CSSProperties;
   }
 
-  // allow configuration using `createTheme`
   interface TypographyVariantsOptions {
     subtitleRegular?: React.CSSProperties;
     subtitleBold?: React.CSSProperties;
@@ -20,7 +36,6 @@ declare module "@mui/material/styles" {
   }
 }
 
-// Update the Typography's variant prop options
 declare module "@mui/material/Typography" {
   interface TypographyPropsVariantOverrides {
     subtitleRegular: true;
@@ -40,12 +55,19 @@ interface customColors {
     purpleAccent: string;
     greenAccent: string;
     tealAccent: string;
+    aliceBlue: string;
     yellowAccent: string;
     redAccent: string;
     blueDark: string;
     charcoalBlack: string;
     deepSlate: string;
-    backgroundCustom: string;
+  };
+}
+
+interface backgroundCustom {
+  backgroundCustom: {
+    primary: string;
+    secondary: string;
   };
 }
 
@@ -56,16 +78,27 @@ interface common {
   };
 }
 
+interface commonCustom {
+  commonCustom: {
+    front: string;
+    back: string;
+  };
+}
+
 declare module "@mui/material/styles/createPalette" {
   interface Palette {
     customColors;
     common;
     textColor: string;
+    backgroundCustom;
+    commonCustom;
   }
 
   interface PaletteOptions {
     customColors;
     common;
     textColor: string;
+    backgroundCustom;
+    commonCustom;
   }
 }

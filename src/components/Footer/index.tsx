@@ -8,14 +8,15 @@ const getYear = () => "2019 - " + new Date().getFullYear();
 
 const Footer: FC = () => {
   const theme = useTheme();
+
   return (
-    <Box sx={{ background: theme.palette.customColors.blueDark }}>
+    <Box sx={{ background: theme.palette.customColors.charcoalBlack }}>
       <Wave
-        fill={theme.palette.customColors.blueDark}
+        fill={theme.palette.customColors.charcoalBlack}
         paused={false}
         style={{
           display: "flex",
-          background: theme.palette.primary.main,
+          background: theme.palette.backgroundCustom.primary,
           height: theme.spacing(4),
         }}
         options={{
@@ -55,7 +56,7 @@ const Footer: FC = () => {
               rel="noopener noreferrer"
               target="_blank"
             >
-              <Typography variant="h3" color="customColors.grey">
+              <Typography variant="h3" color="customColors.greyAccent">
                 LinkedIn
               </Typography>
             </a>
@@ -65,13 +66,13 @@ const Footer: FC = () => {
               rel="noopener noreferrer"
               target="_blank"
             >
-              <Typography variant="h3" color="customColors.grey">
+              <Typography variant="h3" color="customColors.greyAccent">
                 Github
               </Typography>
             </a>
 
             <a href="mailto:nikoobox@gmail.com">
-              <Typography variant="h3" color="customColors.grey">
+              <Typography variant="h3" color="customColors.greyAccent">
                 Email
               </Typography>
             </a>

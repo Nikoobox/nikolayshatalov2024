@@ -19,20 +19,33 @@ const { getFlagNamePerEnvironment } = FLAGS;
 const SUCCESS = "success";
 const ERROR = "error";
 
-const StyledButton = styled(Button)(({ theme, disabled }) => ({
-  border: `solid 2px ${
-    disabled ? theme.palette.customColors.grey : theme.palette.common.white
-  }`,
-  borderRadius: theme.spacing(4),
-  padding: `${theme.spacing(1.5)} ${theme.spacing(3)}`,
-  svg: {
-    width: theme.spacing(2.5),
-    height: "auto",
-    color: disabled
-      ? theme.palette.customColors.grey
-      : theme.palette.common.white,
-  },
-}));
+const StyledButton = styled(Button)(({ theme, disabled }) => {
+  const isDarkMode = theme.palette.mode === "dark";
+  const bgColorEnabled = isDarkMode
+    ? "transparent"
+    : theme.palette.customColors.tealAccent;
+  return {
+    border: `solid 2px ${
+      disabled
+        ? theme.palette.customColors.grey
+        : theme.palette.commonCustom.front
+    }`,
+    background: disabled ? "transparent" : bgColorEnabled,
+    borderRadius: theme.spacing(4),
+    padding: `${theme.spacing(1.5)} ${theme.spacing(3)}`,
+    svg: {
+      width: theme.spacing(2.5),
+      height: "auto",
+      color: disabled
+        ? theme.palette.customColors.grey
+        : theme.palette.commonCustom.front,
+    },
+
+    "&:hover": {
+      backgroundColor: disabled ? "transparent" : bgColorEnabled,
+    },
+  };
+});
 
 interface IFormInput {
   user_name: string;
@@ -44,6 +57,7 @@ interface IFormInput {
 const ContactForm: FC = () => {
   const form = useRef<HTMLFormElement>(null);
   const { enqueueSnackbar } = useSnackbar();
+
   const formDropzoneFlag = useFeatureFlagEnabled(
     getFlagNamePerEnvironment({
       flagTest: "formDropzoneFlagTest",
@@ -192,7 +206,7 @@ const ContactForm: FC = () => {
           <StyledButton type="submit" disabled={!isValid}>
             <Typography
               variant="h3"
-              color={isValid ? "common.white" : "customColors.grey"}
+              color={isValid ? "commonCustom.front" : "customColors.grey"}
             >
               Send
             </Typography>

@@ -2,11 +2,11 @@ import { FC } from "react";
 import Wave from "react-wavify";
 
 import { Box } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
 
 import PageSection from "../PageSection";
 import { SKILLS_DATA } from "../Data";
 import Skill from "./Skill";
+import { useThemeContext } from "../../theme/ThemeContextProvider";
 
 const MAIN = "main";
 const ADDITIONAL = "additional";
@@ -26,7 +26,7 @@ const renderSkills = ({ type }: { type: string }) =>
   );
 
 const Skills: FC = () => {
-  const theme = useTheme();
+  const { theme } = useThemeContext();
 
   const mainSkills = renderSkills({ type: MAIN });
   const additionalSkills = renderSkills({ type: ADDITIONAL });
@@ -34,11 +34,11 @@ const Skills: FC = () => {
   return (
     <>
       <Wave
-        fill={theme.palette.common.white}
+        fill={theme.palette.backgroundCustom.secondary}
         paused={false}
         style={{
           display: "flex",
-          background: theme.palette.background.default,
+          background: theme.palette.backgroundCustom.primary,
           transform: "rotate(180)",
         }}
         options={{

@@ -100,6 +100,15 @@ const themeOptions: ThemeOptions = {
       white: COLORS.WHITE,
       black: COLORS.BLACK,
     },
+    commonCustom: {
+      //used to switch white black for white for simple elements
+      front: COLORS.WHITE,
+      back: COLORS.BLACK,
+    },
+    backgroundCustom: {
+      primary: COLORS.DEEP_SLATE,
+      secondary: COLORS.BLUE_DARK,
+    },
     textColor: COLORS.BLACK,
     customColors: {
       whiteAccent: COLORS.WHITE_ACCENT,
@@ -110,12 +119,21 @@ const themeOptions: ThemeOptions = {
       purpleAccent: COLORS.PURPLE_ACCENT,
       greenAccent: COLORS.GREEN_ACCENT,
       tealAccent: COLORS.TEAL_ACCENT,
+      aliceBlue: COLORS.ALICE_BLUE,
       yellowAccent: COLORS.YELLOW_ACCENT,
       redAccent: COLORS.RED_ACCENT,
       blueDark: COLORS.BLUE_DARK,
       charcoalBlack: COLORS.CHARCOAL_BLACK,
       deepSlate: COLORS.DEEP_SLATE,
-      backgroundCustom: COLORS.DEEP_SLATE,
+    },
+  },
+  // Change dark mode background opacity
+  // Change the background opacity based on the elevation in dark mode.
+  // This change was made to better conform to the Material Design guidelines.
+  // You can revert it in the theme:
+  components: {
+    MuiPaper: {
+      styleOverrides: { root: { backgroundImage: "unset" } },
     },
   },
 };

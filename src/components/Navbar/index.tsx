@@ -23,8 +23,6 @@ import nsLogo from "../../images/logo.png";
 import NightModeSwitch from "../NightModeSwitch";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
 import { navItems } from "./NavItems";
-import { useScrollPosition } from "../../hooks";
-import { getNavItemColor } from "./helpers";
 import { resume } from "../Documents";
 import { getFlagNamePerEnvironment } from "../../helpers/flags";
 
@@ -115,7 +113,6 @@ const StyledATagWrapper = styled(Box)(({ theme }) => ({
 const Navbar: FC = () => {
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [scrollPosition, isPastTarget] = useScrollPosition();
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
 
   const themeContext = useThemeContext();
@@ -126,9 +123,6 @@ const Navbar: FC = () => {
       flagProd: "darkModeFlagProd",
     })
   );
-  // console.log("darkModeFlag", darkModeFlag);
-  // const navItemColor = getNavItemColor(scrollPosition, isPastTarget);
-  const navItemColor = getNavItemColor(scrollPosition, isPastTarget);
 
   const drawer = (
     <Box height="100%" display="flex" flexDirection="column">
@@ -219,7 +213,7 @@ const Navbar: FC = () => {
                   sx={{
                     mr: 2,
                     display: { sm: "none" },
-                    color: navItemColor,
+                    color: theme.palette.commonCustom.front,
                     fontSize: theme.spacing(5),
                   }}
                 >
@@ -240,27 +234,35 @@ const Navbar: FC = () => {
                 >
                   <img src={nsLogo} alt="ns-logo" />
                 </Box>
-                {darkModeFlag && <NightModeSwitch />}
                 <Box
                   sx={{
-                    display: { xs: "none", sm: "flex" },
+                    display: "flex",
                     gap: 3,
                     marginLeft: "auto",
+                    alignItems: "center",
                   }}
                 >
-                  {navItems.map(({ id, navItemName, destination }) => (
-                    <StyledNavItemLink
-                      key={id}
-                      to={destination}
-                      smooth={true}
-                      duration={1000}
-                    >
-                      <Typography variant="h2">{navItemName}</Typography>
-                    </StyledNavItemLink>
-                  ))}
-                  <StyledResumeBox onClick={toggleResumeModal}>
-                    <Typography variant="h2">Resume</Typography>
-                  </StyledResumeBox>
+                  <Box
+                    sx={{
+                      display: { xs: "none", sm: "flex" },
+                      gap: 3,
+                    }}
+                  >
+                    {navItems.map(({ id, navItemName, destination }) => (
+                      <StyledNavItemLink
+                        key={id}
+                        to={destination}
+                        smooth={true}
+                        duration={1000}
+                      >
+                        <Typography variant="h2">{navItemName}</Typography>
+                      </StyledNavItemLink>
+                    ))}
+                    <StyledResumeBox onClick={toggleResumeModal}>
+                      <Typography variant="h2">Resume</Typography>
+                    </StyledResumeBox>
+                  </Box>
+                  {darkModeFlag && <NightModeSwitch />}
                 </Box>
               </StyledToolbar>
             </Container>
@@ -283,7 +285,7 @@ const Navbar: FC = () => {
             sx: {
               boxSizing: "border-box",
               width: "100%",
-              backgroundColor: "black",
+              backgroundColor: theme.palette.customColors.charcoalBlack,
             },
           }}
         >

@@ -5,7 +5,6 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* background-color: white; */
 }
 
 code {
@@ -13,20 +12,9 @@ code {
     monospace;
 }
 
-/* // Workaround to remove autofill color from inputs */
-input,
-select {
-  color: #fff !important;
-  -webkit-text-fill-color: #fff !important;
-  -webkit-background-clip: text !important;
-  background-clip: text !important;
+/* needed for toggling dark mode color smooth transitions body, */
+h1,
+p,
+button {
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
-
-/* body,
-html,
-.MuiPaper-root,
-.MuiAppBar-root,
-.MuiButton-root {
-  transition: background-color 0.3s ease, color 0.3s ease,
-    border-color 0.3s ease;
-} */

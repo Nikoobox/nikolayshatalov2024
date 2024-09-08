@@ -17,7 +17,7 @@ const Splash: FC = () => {
       <Box mt={"100vh"}>
         <Skills />
         <Projects />
-        <PageSectionWrapper bgColor={theme.palette.primary.main}>
+        <PageSectionWrapper bgColor={theme.palette.backgroundCustom.primary}>
           <Contact />
         </PageSectionWrapper>
       </Box>
