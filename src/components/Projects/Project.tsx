@@ -12,6 +12,7 @@ import { useTheme } from "@mui/material/styles";
 import { ProjectProps } from "./ProjectProps";
 import { COLORS } from "../../theme/";
 import MyDialog from "../MyDialog";
+import { useThemeContext } from "../../theme/ThemeContextProvider";
 
 const BORDER_COLORS = [
   COLORS.PURPLE_ACCENT,
@@ -24,34 +25,41 @@ const BORDER_COLORS = [
 const getRandomColor = () =>
   BORDER_COLORS[Math.floor(Math.random() * BORDER_COLORS.length)];
 
-const StyledBox = styled(Box)(({ theme }) => ({
-  "& .project-image": {
-    borderRadius: theme.spacing(2),
-    height: "260px",
-    width: "100%",
-    objectFit: "cover",
-    border: `1px solid ${
-      theme.palette.mode === "light"
-        ? theme.palette.customColors.greyLitest
-        : theme.palette.customColors.blueDark
-    }`,
-    objectPosition: "top",
-  },
-  "& .icon": {
-    color: theme.palette.customColors.grey,
-    height: theme.spacing(3),
-    width: theme.spacing(3),
-  },
-  "& .tool": {
-    margin: "2px 10px 8px 2px",
-    padding: "5px 10px",
-    borderRadius: theme.spacing(2),
-    background: theme.palette.customColors.greyLitest,
-  },
-  "& .link": {
-    textDecoration: "none",
-  },
-}));
+const StyledBox = styled(Box)(({ theme }) => {
+  const isDarkMode = theme.palette.mode === "dark";
+  return {
+    "& .project-image": {
+      borderRadius: theme.spacing(2),
+      height: "260px",
+      width: "100%",
+      objectFit: "cover",
+      border: `1px solid ${
+        theme.palette.mode === "light"
+          ? theme.palette.customColors.greyLightest
+          : theme.palette.customColors.blueDark
+      }`,
+      objectPosition: "top",
+    },
+    "& .icon": {
+      color: isDarkMode
+        ? theme.palette.customColors.greyLightest
+        : theme.palette.customColors.grey900,
+      height: theme.spacing(3),
+      width: theme.spacing(3),
+    },
+    "& .tool": {
+      margin: "2px 10px 8px 2px",
+      padding: "5px 10px",
+      borderRadius: theme.spacing(2),
+      background: isDarkMode
+        ? theme.palette.customColors.greyLightest
+        : theme.palette.common.white,
+    },
+    "& .link": {
+      textDecoration: "none",
+    },
+  };
+});
 
 const Project: FC<ProjectProps> = ({
   name,
@@ -67,6 +75,7 @@ const Project: FC<ProjectProps> = ({
 }) => {
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const { isDarkMode } = useThemeContext();
   const { ref, inView } = useInView({
     threshold: 0.2,
   });
@@ -84,8 +93,11 @@ const Project: FC<ProjectProps> = ({
     setIsOpenModal(true);
   };
 
+  const techToolColor = isDarkMode
+    ? "customColors.grey900"
+    : "customColors.grey";
   const techTools = tools.map((tool) => (
-    <Typography color="customColors.grey" className="tool" key={tool}>
+    <Typography color={techToolColor} className="tool" key={tool}>
       {tool}
     </Typography>
   ));
@@ -125,12 +137,12 @@ const Project: FC<ProjectProps> = ({
               justifyContent="center"
               gap={4}
               sx={{
-                backgroundColor: theme.palette.customColors.blueDark,
-                opacity: isHovered ? 0.95 : 0,
+                backgroundColor: theme.palette.customColors.deepSlate,
+                opacity: isHovered ? 0.97 : 0,
                 position: "absolute",
                 top: 0,
                 borderRadius: theme.spacing(2),
-                transition: "opacity 0.3s ease-out",
+                transition: "opacity 0.15s ease-out",
                 border: `3px solid ${getRandomColor()}`,
               }}
             >
@@ -187,7 +199,7 @@ const Project: FC<ProjectProps> = ({
               <IoMdDesktop className="icon" />
             </Box>
           </Box>
-          <Typography variant="body1" my={1.5}>
+          <Typography variant="body1" mt={1.5} mb={2}>
             {info}
           </Typography>
           <Box display="flex" flexWrap="wrap">
@@ -198,21 +210,25 @@ const Project: FC<ProjectProps> = ({
           {isMobile && (
             <Box display="flex" gap={3} mt={1.5}>
               {showRepo && (
-                <a href={repo} target="_blank" rel="noopener noreferrer">
-                  <Box display="flex" alignItems="center">
-                    <Typography mr={0.5}>Git Repo</Typography>
-                    <HiOutlineExternalLink />
-                  </Box>
-                </a>
+                <Box sx={{ "& a": isDarkMode ? { color: "white" } : {} }}>
+                  <a href={repo} target="_blank" rel="noopener noreferrer">
+                    <Box display="flex" alignItems="center">
+                      <Typography mr={0.5}>Git Repo</Typography>
+                      <HiOutlineExternalLink />
+                    </Box>
+                  </a>
+                </Box>
               )}
 
               {showLink && (
-                <a href={address} target="_blank" rel="noopener noreferrer">
-                  <Box display="flex" alignItems="center">
-                    <Typography mr={0.5}>Live Link</Typography>
-                    <HiOutlineExternalLink />
-                  </Box>
-                </a>
+                <Box sx={{ "& a": isDarkMode ? { color: "white" } : {} }}>
+                  <a href={address} target="_blank" rel="noopener noreferrer">
+                    <Box display="flex" alignItems="center">
+                      <Typography mr={0.5}>Live Link</Typography>
+                      <HiOutlineExternalLink />
+                    </Box>
+                  </a>
+                </Box>
               )}
             </Box>
           )}
@@ -226,12 +242,14 @@ const Project: FC<ProjectProps> = ({
         fullScreen={isMobile}
         maxWidth="lg"
         actions={
-          <a href={repo} target="_blank" rel="noopener noreferrer">
-            <Box display="flex" alignItems="center">
-              <Typography>Visit Git Repo</Typography>
-              <HiOutlineExternalLink style={{ marginLeft: "4px" }} />
-            </Box>
-          </a>
+          <Box sx={{ "& a": isDarkMode ? { color: "white" } : {} }}>
+            <a href={repo} target="_blank" rel="noopener noreferrer">
+              <Box display="flex" alignItems="center">
+                <Typography>Visit Git Repo</Typography>
+                <HiOutlineExternalLink style={{ marginLeft: "4px" }} />
+              </Box>
+            </a>
+          </Box>
         }
       >
         <Box

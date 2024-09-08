@@ -2,8 +2,9 @@ import { FC } from "react";
 import { Controller, UseFormReturn, RegisterOptions } from "react-hook-form";
 
 import { TextField as MuiTextField, TextFieldProps } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
 import { styled } from "@mui/material/styles";
+
+import { useThemeContext } from "../../theme/ThemeContextProvider";
 
 export type Props = {
   name: string;
@@ -23,18 +24,18 @@ const StyledMuiTextField = styled(MuiTextField)(({ theme }) => ({
     borderRadius: theme.spacing(2),
 
     "& .MuiOutlinedInput-notchedOutline": {
-      border: `2px solid ${theme.palette.common.white}`,
+      border: `2px solid ${theme.palette.commonCustom.front}`,
     },
     "&.Mui-focused": {
       "& .MuiOutlinedInput-notchedOutline": {
-        border: `3px solid ${theme.palette.common.white}`,
+        border: `3px solid ${theme.palette.commonCustom.front}`,
       },
     },
     "&:hover .MuiOutlinedInput-notchedOutline": {
-      border: `3px solid ${theme.palette.common.white}`,
+      border: `3px solid ${theme.palette.commonCustom.front}`,
     },
     "&.Mui-error .MuiOutlinedInput-notchedOutline": {
-      border: `2px solid ${theme.palette.common.white}`,
+      border: `2px solid ${theme.palette.commonCustom.front}`,
     },
     "& .MuiInputBase-multiline": {
       resize: "vertical",
@@ -45,10 +46,16 @@ const StyledMuiTextField = styled(MuiTextField)(({ theme }) => ({
   },
 }));
 
-const TextField: FC<Props> = (props) => {
-  const { control, name, label, required, rules, errors, ...rest } = props;
-
-  const theme = useTheme();
+const TextField: FC<Props> = ({
+  control,
+  name,
+  label,
+  required,
+  rules,
+  errors,
+  ...rest
+}) => {
+  const { theme } = useThemeContext();
 
   return (
     <Controller
@@ -64,16 +71,16 @@ const TextField: FC<Props> = (props) => {
             label={label}
             InputLabelProps={{
               style: {
-                color: theme.palette.common.white,
+                color: theme.palette.commonCustom.front,
                 top: theme.spacing(1),
                 left: theme.spacing(1),
-                background: theme.palette.primary.main,
+                background: theme.palette.backgroundCustom.primary,
               },
               sx: {
                 "& .MuiFormLabel-asterisk": {
-                  color: theme.palette.common.white,
+                  color: theme.palette.commonCustom.front,
                   "&.Mui-error": {
-                    color: theme.palette.common.white,
+                    color: theme.palette.commonCustom.front,
                   },
                 },
                 "&.MuiInputLabel-shrink": {
@@ -83,12 +90,18 @@ const TextField: FC<Props> = (props) => {
               },
             }}
             sx={{
+              "& .MuiOutlinedInput-input": {
+                color: theme.palette.commonCustom.front,
+                "&:-webkit-autofill": {
+                  WebkitBoxShadow: `0 0 0 100px ${theme.palette.backgroundCustom.primary} inset`,
+                },
+              },
               input: {
-                color: theme.palette.common.white,
+                color: theme.palette.commonCustom.front,
               },
               textarea: {
                 resize: "both",
-                color: theme.palette.common.white,
+                color: theme.palette.commonCustom.front,
                 marginRight: "16px",
                 marginBottom: "24px",
               },

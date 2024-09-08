@@ -32,17 +32,27 @@ const StyledImageWrapperBox = styled(Box)({
   overflow: "hidden",
   borderRadius: "50%",
   width: "260px",
+  height: "260px",
   img: {
     width: "100%",
+    height: "auto",
   },
 });
 
-const StyledButton = styled(Button)(({ theme }) => ({
-  border: "2px white solid",
-  padding: `${theme.spacing(1)} ${theme.spacing(3)}`,
-  borderRadius: theme.spacing(3),
-  marginTop: theme.spacing(3),
-}));
+const StyledButton = styled(Button)(({ theme }) => {
+  const isDarkMode = theme.palette.mode === "dark";
+  const borderColor = isDarkMode
+    ? theme.palette.common.white
+    : theme.palette.common.black;
+
+  return {
+    border: `2px ${borderColor} solid`,
+    padding: `${theme.spacing(1)} ${theme.spacing(3)}`,
+    borderRadius: theme.spacing(3),
+    marginTop: theme.spacing(3),
+    color: isDarkMode ? "white" : "inherit",
+  };
+});
 
 const StyledDownloadLink = styled("a")(({ theme }) => ({
   color: "white",
@@ -59,7 +69,7 @@ const threshold = 0.2;
 
 const Contact: FC = () => {
   const theme = useTheme();
-  const { toggleResumeModal } = useThemeContext();
+  const { toggleResumeModal, isDarkMode } = useThemeContext();
 
   const { ref: imgRef, inView: imgInView } = useInView({
     threshold,
@@ -78,11 +88,11 @@ const Contact: FC = () => {
     <>
       <Wave
         id="wave-contact"
-        fill={theme.palette.primary.main}
+        fill={theme.palette.backgroundCustom.primary}
         paused={false}
         style={{
           display: "flex",
-          background: theme.palette.common.white,
+          background: theme.palette.backgroundCustom.secondary,
         }}
         options={{
           height: 40,
@@ -94,7 +104,7 @@ const Contact: FC = () => {
 
       <PageSection id="contact-destination">
         <Box display="flex" justifyContent="center" alignItems="center">
-          <PageSection.PageSubheader color="white">
+          <PageSection.PageSubheader>
             <Box mb={5}>Contact</Box>
           </PageSection.PageSubheader>
         </Box>
@@ -132,59 +142,61 @@ const Contact: FC = () => {
               animate={textInView && { y: 0, opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
             >
-              <Typography color="common.white" variant="h2">
-                {BIO_DATA.contactSection}
-              </Typography>
+              <Typography variant="h2">{BIO_DATA.contactSection}</Typography>
             </motion.div>
-            <Box>
-              <motion.div
-                ref={resumeRef}
-                initial={{ y: 40, opacity: 0 }}
-                animate={resumeInView && { y: 0, opacity: 1 }}
-                transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
-              >
-                {isMobile ? (
-                  <StyledDownloadLink
-                    href={resume}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    download="Nikolay_Shatalov_frontend_developer_resume.pdf"
+
+            <motion.div
+              ref={resumeRef}
+              initial={{ y: 40, opacity: 0 }}
+              animate={resumeInView && { y: 0, opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
+            >
+              {isMobile ? (
+                <StyledDownloadLink
+                  href={resume}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  download="Nikolay_Shatalov_frontend_developer_resume.pdf"
+                >
+                  <Typography
+                    variant="h3"
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                    }}
                   >
-                    <Typography
-                      variant="h3"
-                      sx={{ display: "flex", alignItems: "center" }}
-                    >
-                      Download My Resume
-                      <Box
-                        component={HiDownload}
-                        ml="6px"
-                        sx={{
-                          "& svg": { width: 1 },
-                        }}
-                      />
-                    </Typography>
-                  </StyledDownloadLink>
-                ) : (
-                  <StyledButton onClick={toggleResumeModal}>
-                    <Typography
-                      color="common.white"
-                      variant="h3"
-                      sx={{ display: "flex", alignItems: "center" }}
-                    >
-                      View My Resume
-                      <Box
-                        component={HiOutlineDocumentText}
-                        ml="6px"
-                        sx={{
-                          color: "common.white",
-                          "& svg": { width: 1 },
-                        }}
-                      />
-                    </Typography>
-                  </StyledButton>
-                )}
-              </motion.div>
-            </Box>
+                    Download My Resume
+                    <Box
+                      component={HiDownload}
+                      ml="6px"
+                      sx={{
+                        "& svg": { width: 1 },
+                      }}
+                    />
+                  </Typography>
+                </StyledDownloadLink>
+              ) : (
+                <StyledButton onClick={toggleResumeModal}>
+                  <Typography
+                    variant="h3"
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      fontWeight: isDarkMode ? {} : 500,
+                    }}
+                  >
+                    View My Resume
+                    <Box
+                      component={HiOutlineDocumentText}
+                      ml="6px"
+                      sx={{
+                        "& svg": { width: 1 },
+                      }}
+                    />
+                  </Typography>
+                </StyledButton>
+              )}
+            </motion.div>
           </Box>
         </StyledContactInfoWrapper>
       </PageSection>
@@ -197,7 +209,7 @@ const Contact: FC = () => {
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
           <Box display="flex" justifyContent="center" alignItems="center">
-            <Typography variant="h1" mb={5} color="common.white">
+            <Typography variant="h1" mb={5}>
               Say Hi!
             </Typography>
           </Box>

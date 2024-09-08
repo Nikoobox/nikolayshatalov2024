@@ -17,7 +17,6 @@ const {
   TEAL_ACCENT,
   YELLOW_ACCENT,
   RED_ACCENT,
-  BLUE_DARK,
 } = COLORS;
 
 const StyledParticles = styled(Particles)({
@@ -47,7 +46,7 @@ const ParticlesTS = () => {
       fullScreen: false,
       background: {
         color: {
-          value: BLUE_DARK,
+          value: theme.palette.customColors.deepSlate,
         },
       },
       fpsLimit: 120,
@@ -82,6 +81,7 @@ const ParticlesTS = () => {
         links: {
           enable: true,
           opacity: 0.09,
+          color: WHITE_ACCENT,
         },
         move: {
           enable: true,
@@ -96,6 +96,7 @@ const ParticlesTS = () => {
         },
         opacity: {
           value: 0.3,
+
           anim: {
             enable: true,
             speed: 1,
@@ -112,7 +113,7 @@ const ParticlesTS = () => {
       },
       detectRetina: true,
     }),
-    []
+    [theme]
   );
 
   if (init) {
@@ -133,7 +134,7 @@ const ParticlesTS = () => {
       alignItems="center"
       justifyContent="center"
       position="absolute"
-      sx={{ background: theme.palette.customColors.blueDark, top: 0 }}
+      sx={{ background: theme.palette.backgroundCustom.main, top: 0 }}
     >
       <CircularProgress sx={{ color: theme.palette.customColors.tealAccent }} />
     </Box>

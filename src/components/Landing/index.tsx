@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useRef } from "react";
 import { Link as LinkScroll } from "react-scroll";
 import { HiChevronDown } from "react-icons/hi";
 import Typewriter from "typewriter-effect";
@@ -8,6 +8,7 @@ import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/system";
 
 import ParticlesTS from "./Particles";
+import { useThemeContext } from "../../theme/ThemeContextProvider";
 
 const StyledHiBox = styled(Box)(({ theme }) => ({
   position: "absolute",
@@ -23,23 +24,31 @@ const StyledHiBox = styled(Box)(({ theme }) => ({
     minWidth: "auto",
     width: "100%",
   },
+  zIndex: 2,
 }));
 
-const StyledLinkScroll = styled(LinkScroll)(({ theme }) => ({
-  color: "white",
-  border: "solid white 3px",
-  borderRadius: theme.spacing(4),
-  textDecoration: "none",
-  padding: `${theme.spacing(1)} ${theme.spacing(3)}`,
-  display: "inline-flex",
-  alignItems: "center",
-  marginTop: theme.spacing(2),
-  opacity: 0,
-  transition: "opacity 0.3s ease",
-  "&.visible": {
-    opacity: 1,
-  },
-}));
+const StyledLinkScroll = styled(LinkScroll)(({ theme }) => {
+  const isDarkMode = theme.palette.mode === "dark";
+  const mainColor = isDarkMode
+    ? theme.palette.common.white
+    : theme.palette.common.black;
+  const bgColor = isDarkMode
+    ? "transparent"
+    : theme.palette.customColors.tealAccent;
+
+  return {
+    color: mainColor,
+    border: `solid ${mainColor} 3px`,
+    borderRadius: theme.spacing(4),
+    textDecoration: "none",
+    padding: `${theme.spacing(1)} ${theme.spacing(3)}`,
+    display: "inline-flex",
+    alignItems: "center",
+    marginTop: theme.spacing(2),
+    transition: "all 0.3s ease",
+    backgroundColor: bgColor,
+  };
+});
 
 const StyledHiChevronDown = styled(HiChevronDown)({
   marginLeft: "6px",
@@ -53,62 +62,86 @@ const StyledTypewriterWrapper = styled(Box)(({ theme }) => ({
   },
 }));
 
-const handleShowLink = () => {
-  setTimeout(() => {
-    const linkElement = document.getElementById("say-hi-link");
-    if (linkElement) {
-      linkElement.classList.add("visible");
-    }
-  }, 1000);
-};
+const StyledBox = styled(Box)(({ theme }) => ({
+  opacity: 0,
+  transition: "all 0.3s ease",
+  "&.visible": {
+    opacity: 1,
+  },
+}));
 
 const Landing: FC = () => {
-  return (
-    <>
-      <Box>
-        <ParticlesTS />
-        <StyledHiBox>
-          <Typography variant="h1" color="common.white">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.2, duration: 0.4, ease: "easeOut" }}
-            >
-              <StyledTypewriterWrapper>
-                <Typewriter
-                  onInit={(typewriter) => {
-                    typewriter
-                      .pauseFor(2200)
-                      .changeDelay(45)
-                      .typeString("Hello, I am Nikolay Shatalov")
-                      .pauseFor(750)
-                      .changeDeleteSpeed(5)
-                      .deleteChars(16)
-                      .typeString(
-                        '<span style="color: #35C2A3;">  Nikolay Shatalov</span>'
-                      )
-                      .pauseFor(300)
-                      .typeString(
-                        ". NYC based frontend developer with experience in Typescript"
-                      )
-                      .pauseFor(300)
-                      .typeString(", React")
-                      .pauseFor(300)
-                      .typeString(", Javascript")
-                      .pauseFor(300)
-                      .typeString(", Redux")
-                      .pauseFor(300)
-                      .typeString(", React Native")
-                      .pauseFor(300)
-                      .typeString(", Ruby, and more.")
-                      .callFunction(() => handleShowLink())
-                      .start();
-                  }}
-                />
-              </StyledTypewriterWrapper>
-            </motion.div>
-          </Typography>
+  const linkRef = useRef<HTMLAnchorElement | null>(null);
 
+  const { isDarkMode, theme } = useThemeContext();
+
+  const handleShowLink = () => {
+    setTimeout(() => {
+      if (linkRef.current) {
+        linkRef.current.classList.add("visible");
+      }
+    }, 1000);
+  };
+
+  return (
+    <Box>
+      {isDarkMode ? (
+        <ParticlesTS />
+      ) : (
+        <Box
+          sx={{
+            backgroundColor: theme.palette.backgroundCustom.primary,
+            position: "absolute",
+            width: "100%",
+            height: "100vh",
+            left: 0,
+            top: 0,
+          }}
+        ></Box>
+      )}
+      <StyledHiBox>
+        <Typography variant="h1">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.2, duration: 0.4, ease: "easeOut" }}
+          >
+            <StyledTypewriterWrapper>
+              <Typewriter
+                onInit={(typewriter) => {
+                  typewriter
+                    .pauseFor(2200)
+                    .changeDelay(45)
+                    .typeString("Hello, I am Nikolay Shatalov")
+                    .pauseFor(750)
+                    .changeDeleteSpeed(5)
+                    .deleteChars(16)
+                    .typeString(
+                      `<span style="color: ${theme.palette.customColors.tealAccent};">  Nikolay Shatalov</span>`
+                    )
+                    .pauseFor(300)
+                    .typeString(
+                      ". NYC based frontend developer with experience in Typescript"
+                    )
+                    .pauseFor(300)
+                    .typeString(", React")
+                    .pauseFor(300)
+                    .typeString(", Javascript")
+                    .pauseFor(300)
+                    .typeString(", Redux")
+                    .pauseFor(300)
+                    .typeString(", React Native")
+                    .pauseFor(300)
+                    .typeString(", Ruby, and more.")
+                    .callFunction(() => handleShowLink())
+                    .start();
+                }}
+              />
+            </StyledTypewriterWrapper>
+          </motion.div>
+        </Typography>
+
+        <StyledBox ref={linkRef}>
           <StyledLinkScroll
             id="say-hi-link"
             href="/"
@@ -116,15 +149,13 @@ const Landing: FC = () => {
             smooth={true}
             duration={1200}
           >
-            <Typography variant="h2" color="common.white">
-              Say Hi
-            </Typography>
+            <Typography variant="h2">Say Hi</Typography>
 
             <StyledHiChevronDown />
           </StyledLinkScroll>
-        </StyledHiBox>
-      </Box>
-    </>
+        </StyledBox>
+      </StyledHiBox>
+    </Box>
   );
 };
 export default Landing;
