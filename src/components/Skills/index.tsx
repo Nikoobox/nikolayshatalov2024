@@ -75,7 +75,7 @@ const Skills: FC = () => {
 
           <PageSection.PageSubheader>
             <Box mb={5} mt={20}>
-              Additional Skills & Tools
+              Additional Skills
             </Box>
           </PageSection.PageSubheader>
           <Box
