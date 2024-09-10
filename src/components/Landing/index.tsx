@@ -9,23 +9,27 @@ import { styled } from "@mui/system";
 
 import ParticlesTS from "./Particles";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
+import LightModeBackground from "./LightModeBackground";
 
-const StyledHiBox = styled(Box)(({ theme }) => ({
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  textAlign: "center",
-  maxWidth: "700px",
-  width: "100%",
-  padding: theme.spacing(2),
-  [theme.breakpoints.down("sm")]: {
-    maxWidth: "auto",
-    minWidth: "auto",
+const StyledHiBox = styled(Box)(({ theme }) => {
+  return {
+    position: "absolute",
+    top: `calc(50% + 48px)`,
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    textAlign: "center",
+    maxWidth: "700px",
     width: "100%",
-  },
-  zIndex: 2,
-}));
+    padding: theme.spacing(2),
+    [theme.breakpoints.down("sm")]: {
+      maxWidth: "auto",
+      minWidth: "auto",
+      width: "100%",
+      top: `calc(50% + 36px)`,
+    },
+    zIndex: 2,
+  };
+});
 
 const StyledLinkScroll = styled(LinkScroll)(({ theme }) => {
   const isDarkMode = theme.palette.mode === "dark";
@@ -62,13 +66,13 @@ const StyledTypewriterWrapper = styled(Box)(({ theme }) => ({
   },
 }));
 
-const StyledBox = styled(Box)(({ theme }) => ({
+const StyledBox = styled(Box)({
   opacity: 0,
   transition: "all 0.3s ease",
   "&.visible": {
     opacity: 1,
   },
-}));
+});
 
 const Landing: FC = () => {
   const linkRef = useRef<HTMLAnchorElement | null>(null);
@@ -88,16 +92,17 @@ const Landing: FC = () => {
       {isDarkMode ? (
         <ParticlesTS />
       ) : (
-        <Box
-          sx={{
-            backgroundColor: theme.palette.backgroundCustom.primary,
-            position: "absolute",
-            width: "100%",
-            height: "100vh",
-            left: 0,
-            top: 0,
-          }}
-        ></Box>
+        // <Box
+        //   sx={{
+        //     backgroundColor: theme.palette.backgroundCustom.primary,
+        //     position: "absolute",
+        //     width: "100%",
+        //     height: "100vh",
+        //     left: 0,
+        //     top: 0,
+        //   }}
+        // ></Box>
+        <LightModeBackground />
       )}
       <StyledHiBox>
         <Typography variant="h1">
@@ -132,7 +137,7 @@ const Landing: FC = () => {
                     .pauseFor(300)
                     .typeString(", React Native")
                     .pauseFor(300)
-                    .typeString(", Ruby, and more.")
+                    .typeString(", and more.")
                     .callFunction(() => handleShowLink())
                     .start();
                 }}
