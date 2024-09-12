@@ -38,7 +38,6 @@ const NightModeSwitch: FC = () => {
         toggled={isDarkMode}
         toggle={toggleDarkMode}
         placeholder=""
-        color="red"
       />
     </StyledBox>
   );
