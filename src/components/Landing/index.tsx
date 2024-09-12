@@ -137,7 +137,7 @@ const Landing: FC = () => {
                     .pauseFor(300)
                     .typeString(", React Native")
                     .pauseFor(300)
-                    .typeString(",Node, and more.")
+                    .typeString(", Node, and more.")
                     .callFunction(() => handleShowLink())
                     .start();
                 }}
