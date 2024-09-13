@@ -12,17 +12,38 @@ const StyledBox = styled(Box)(({ theme }) => {
   const currentColor = isDarkMode
     ? theme.palette.common.white
     : theme.palette.common.black;
+
   return {
     button: {
+      position: "relative",
       color: currentColor,
       border: `2px solid ${currentColor}`,
       borderRadius: "50%",
       width: "48px",
       height: "48px",
       padding: 0,
+      overflow: "hidden",
+
+      "::before": {
+        content: '""',
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        backgroundColor: theme.palette.customColors.tealAccent,
+        transform: "scaleX(0)",
+        transformOrigin: "left",
+        transition: "transform 0.3s",
+        zIndex: -1,
+      },
+      "&:hover::before": {
+        transform: "scaleX(1)",
+      },
       svg: {
         width: "26px",
         height: "26px",
+        position: "relative",
       },
     },
   };

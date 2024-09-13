@@ -29,13 +29,27 @@ const StyledContactInfoWrapper = styled(Box)(({ theme }) => ({
 }));
 
 const StyledImageWrapperBox = styled(Box)({
-  overflow: "hidden",
-  borderRadius: "50%",
   width: "260px",
   height: "260px",
+  borderRadius: "60% 40% 30% 70% / 60% 30% 70% 40%",
+  overflow: "hidden",
   img: {
     width: "100%",
     height: "auto",
+  },
+  animation: "morph 16s ease-in-out infinite",
+  transition: "all 1s ease-in-out",
+
+  "@keyframes morph": {
+    "0%": {
+      borderRadius: "60% 40% 30% 70% / 60% 30% 70% 40%",
+    },
+    "50%": {
+      borderRadius: "30% 60% 70% 40% / 50% 60% 30% 60%",
+    },
+    "100%": {
+      borderRadius: "60% 40% 30% 70% / 60% 30% 70% 40%",
+    },
   },
 });
 
