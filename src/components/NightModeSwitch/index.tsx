@@ -1,13 +1,14 @@
 import { FC } from "react";
-import { Box } from "@mui/material";
+import { isMobile } from "react-device-detect";
+import { Classic } from "@theme-toggles/react";
+import "@theme-toggles/react/css/Classic.css";
 
-import { useThemeContext } from "../../theme/ThemeContextProvider";
+import { Box } from "@mui/material";
 import { styled } from "@mui/system";
 
-import "@theme-toggles/react/css/Classic.css";
-import { Classic } from "@theme-toggles/react";
+import { useThemeContext } from "../../theme/ThemeContextProvider";
 
-const StyledBox = styled(Box)(({ theme }) => {
+const StyledBox = styled(Box)<{ isMobile: boolean }>(({ theme, isMobile }) => {
   const isDarkMode = theme.palette.mode === "dark";
   const currentColor = isDarkMode
     ? theme.palette.common.white
@@ -23,23 +24,26 @@ const StyledBox = styled(Box)(({ theme }) => {
       height: "48px",
       padding: 0,
       overflow: "hidden",
-
-      "::before": {
-        content: '""',
-        position: "absolute",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
-        backgroundColor: theme.palette.customColors.tealAccent,
-        transform: "scaleX(0)",
-        transformOrigin: "left",
-        transition: "transform 0.3s",
-        zIndex: -1,
-      },
-      "&:hover::before": {
-        transform: "scaleX(1)",
-      },
+      ...(isMobile
+        ? {}
+        : {
+            "::before": {
+              content: '""',
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              backgroundColor: theme.palette.customColors.tealAccent,
+              transform: "scaleX(0)",
+              transformOrigin: "left",
+              transition: "transform 0.3s",
+              zIndex: -1,
+            },
+            "&:hover::before": {
+              transform: "scaleX(1)",
+            },
+          }),
       svg: {
         width: "26px",
         height: "26px",
@@ -53,7 +57,7 @@ const NightModeSwitch: FC = () => {
   const { isDarkMode, toggleDarkMode } = useThemeContext();
 
   return (
-    <StyledBox display="flex" alignItems="center">
+    <StyledBox isMobile={isMobile} display="flex" alignItems="center">
       <Classic
         duration={750}
         toggled={isDarkMode}
