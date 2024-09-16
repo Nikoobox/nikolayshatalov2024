@@ -8,7 +8,11 @@ import { styled } from "@mui/system";
 
 import { useThemeContext } from "../../theme/ThemeContextProvider";
 
-const StyledBox = styled(Box)<{ isMobile: boolean }>(({ theme, isMobile }) => {
+const IS_MOBILE = "isMobile";
+
+const StyledBox = styled(Box, {
+  shouldForwardProp: (prop) => prop !== IS_MOBILE,
+})<{ isMobile: boolean }>(({ theme, isMobile }) => {
   const isDarkMode = theme.palette.mode === "dark";
   const currentColor = isDarkMode
     ? theme.palette.common.white
