@@ -7,12 +7,13 @@ import { useInView } from "react-intersection-observer";
 
 import { Box, Typography, Button } from "@mui/material";
 import { styled } from "@mui/system";
-import { useTheme } from "@mui/material/styles";
+import { useTheme, alpha } from "@mui/material/styles";
 
 import { ProjectProps } from "./ProjectProps";
 import { COLORS } from "../../theme/";
 import MyDialog from "../MyDialog";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
+import { MyLink } from "../UI";
 
 const BORDER_COLORS = [
   COLORS.PURPLE_ACCENT,
@@ -141,7 +142,9 @@ const Project: FC<ProjectProps> = ({
               justifyContent="center"
               gap={4}
               sx={{
-                backgroundColor: theme.palette.customColors.deepSlate,
+                backgroundColor: isHovered
+                  ? alpha(theme.palette.customColors.deepSlate, 0.95)
+                  : "transparent",
                 display: isHovered ? "flex" : "none",
                 position: "absolute",
                 top: 0,
@@ -151,30 +154,10 @@ const Project: FC<ProjectProps> = ({
               }}
             >
               {showLink && (
-                <a
-                  href={`${address}`}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                  className="link"
-                >
-                  <Typography variant="h2" color="common.white">
-                    Live Link
-                  </Typography>
-                </a>
+                <MyLink label="Live Link" link={address} className="link" />
               )}
 
-              {showRepo && (
-                <a
-                  href={`${repo}`}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                  className="link"
-                >
-                  <Typography variant="h2" color="common.white">
-                    Repo
-                  </Typography>
-                </a>
-              )}
+              {showRepo && <MyLink label="Repo" link={repo} className="link" />}
 
               {overview && (
                 <Button
