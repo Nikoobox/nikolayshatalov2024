@@ -198,23 +198,29 @@ const Project: FC<ProjectProps> = ({
             <Box display="flex" gap={3} mt={1.5}>
               {showRepo && (
                 <Box sx={{ "& a": isDarkMode ? { color: "white" } : {} }}>
-                  <a href={repo} target="_blank" rel="noopener noreferrer">
-                    <Box display="flex" alignItems="center">
-                      <Typography mr={0.5}>Git Repo</Typography>
-                      <HiOutlineExternalLink />
-                    </Box>
-                  </a>
+                  <MyLink
+                    link={repo}
+                    customLabel={
+                      <Box display="flex" alignItems="center">
+                        <Typography mr={0.5}>Git Repo</Typography>
+                        <HiOutlineExternalLink />
+                      </Box>
+                    }
+                  />
                 </Box>
               )}
 
               {showLink && (
                 <Box sx={{ "& a": isDarkMode ? { color: "white" } : {} }}>
-                  <a href={address} target="_blank" rel="noopener noreferrer">
-                    <Box display="flex" alignItems="center">
-                      <Typography mr={0.5}>Live Link</Typography>
-                      <HiOutlineExternalLink />
-                    </Box>
-                  </a>
+                  <MyLink
+                    link={address}
+                    customLabel={
+                      <Box display="flex" alignItems="center">
+                        <Typography mr={0.5}>Live Link</Typography>
+                        <HiOutlineExternalLink />
+                      </Box>
+                    }
+                  />
                 </Box>
               )}
             </Box>
@@ -230,12 +236,15 @@ const Project: FC<ProjectProps> = ({
         maxWidth="lg"
         actions={
           <Box sx={{ "& a": isDarkMode ? { color: "white" } : {} }}>
-            <a href={repo} target="_blank" rel="noopener noreferrer">
-              <Box display="flex" alignItems="center">
-                <Typography>Visit Git Repo</Typography>
-                <HiOutlineExternalLink style={{ marginLeft: "4px" }} />
-              </Box>
-            </a>
+            <MyLink
+              link={repo}
+              customLabel={
+                <Box display="flex" alignItems="center">
+                  <Typography>Visit Git Repo</Typography>
+                  <HiOutlineExternalLink style={{ marginLeft: "4px" }} />
+                </Box>
+              }
+            />
           </Box>
         }
       >
