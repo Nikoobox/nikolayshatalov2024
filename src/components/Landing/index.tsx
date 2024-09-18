@@ -89,21 +89,7 @@ const Landing: FC = () => {
 
   return (
     <Box>
-      {isDarkMode ? (
-        <ParticlesTS />
-      ) : (
-        // <Box
-        //   sx={{
-        //     backgroundColor: theme.palette.backgroundCustom.primary,
-        //     position: "absolute",
-        //     width: "100%",
-        //     height: "100vh",
-        //     left: 0,
-        //     top: 0,
-        //   }}
-        // ></Box>
-        <LightModeBackground />
-      )}
+      {isDarkMode ? <ParticlesTS /> : <LightModeBackground />}
       <StyledHiBox>
         <Typography variant="h1">
           <motion.div
@@ -126,7 +112,7 @@ const Landing: FC = () => {
                     )
                     .pauseFor(300)
                     .typeString(
-                      ". NYC based frontend developer with experience in Typescript"
+                      ". NYC based frontend engineer with experience in Typescript"
                     )
                     .pauseFor(300)
                     .typeString(", React")
