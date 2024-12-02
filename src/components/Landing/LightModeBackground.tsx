@@ -1,10 +1,4 @@
-// import React from "react";
-
-import {
-  Box,
-  // Typography
-} from "@mui/material";
-// import { styled, keyframes } from "@mui/system";
+import { Box } from "@mui/material";
 
 import { useThemeContext } from "../../theme/ThemeContextProvider";
 
@@ -21,7 +15,7 @@ const LightModeBackground = () => {
         top: 0,
         zIndex: 1,
       }}
-    ></Box>
+    />
   );
 };
 
