@@ -19,8 +19,12 @@ import {
   SiSentry,
   SiMixpanel,
   SiLooker,
+  SiApollographql,
+  SiGraphql,
+  SiTailwindcss,
 } from "react-icons/si";
 import { IoLogoNodejs } from "react-icons/io";
+import { RiNextjsLine } from "react-icons/ri";
 
 const MAIN = "main";
 const ADDITIONAL = "additional";
@@ -89,10 +93,16 @@ export const SKILLS_DATA = [
     type: MAIN,
   },
   {
+    skillName: "Tailwindcss",
+    iconType: SiTailwindcss,
+    type: ADDITIONAL,
+  },
+  {
     skillName: "Chart.js",
     iconType: SiChartdotjs,
     type: MAIN,
   },
+
   {
     skillName: "Sentry",
     iconType: SiSentry,
@@ -115,6 +125,11 @@ export const SKILLS_DATA = [
     type: ADDITIONAL,
   },
   {
+    skillName: "Next.js",
+    iconType: RiNextjsLine,
+    type: ADDITIONAL,
+  },
+  {
     skillName: "Looker",
     iconType: SiLooker,
     type: ADDITIONAL,
@@ -132,6 +147,16 @@ export const SKILLS_DATA = [
   {
     skillName: "Firebase",
     iconType: SiFirebase,
+    type: ADDITIONAL,
+  },
+  {
+    skillName: "Graphql",
+    iconType: SiGraphql,
+    type: ADDITIONAL,
+  },
+  {
+    skillName: "Apollo",
+    iconType: SiApollographql,
     type: ADDITIONAL,
   },
 ];
