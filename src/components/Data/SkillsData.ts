@@ -46,6 +46,11 @@ export const SKILLS_DATA = [
     type: MAIN,
   },
   {
+    skillName: "NextJS",
+    iconType: RiNextjsLine,
+    type: MAIN,
+  },
+  {
     skillName: "Redux",
     iconType: SiRedux,
     type: MAIN,
@@ -56,6 +61,38 @@ export const SKILLS_DATA = [
     type: MAIN,
   },
 
+  {
+    skillName: "Material UI",
+    iconType: SiMui,
+    type: MAIN,
+  },
+  {
+    skillName: "Graphql",
+    iconType: SiGraphql,
+    type: MAIN,
+  },
+  {
+    skillName: "Apollo",
+    iconType: SiApollographql,
+    type: MAIN,
+  },
+
+  {
+    skillName: "Tailwindcss",
+    iconType: SiTailwindcss,
+    type: MAIN,
+  },
+
+  {
+    skillName: "HTML5",
+    iconType: SiHtml5,
+    type: MAIN,
+  },
+  {
+    skillName: "CSS",
+    iconType: SiCss3,
+    type: MAIN,
+  },
   {
     skillName: "Jest",
     iconType: SiJest,
@@ -75,34 +112,13 @@ export const SKILLS_DATA = [
     skillName: "Storybook",
     class: "skill-name",
     iconType: SiStorybook,
-    type: MAIN,
-  },
-  {
-    skillName: "Material UI",
-    iconType: SiMui,
-    type: MAIN,
-  },
-  {
-    skillName: "HTML5",
-    iconType: SiHtml5,
-    type: MAIN,
-  },
-  {
-    skillName: "CSS",
-    iconType: SiCss3,
-    type: MAIN,
-  },
-  {
-    skillName: "Tailwindcss",
-    iconType: SiTailwindcss,
     type: ADDITIONAL,
   },
   {
     skillName: "Chart.js",
     iconType: SiChartdotjs,
-    type: MAIN,
+    type: ADDITIONAL,
   },
-
   {
     skillName: "Sentry",
     iconType: SiSentry,
@@ -113,7 +129,6 @@ export const SKILLS_DATA = [
     iconType: SiMixpanel,
     type: ADDITIONAL,
   },
-
   {
     skillName: "Ruby",
     iconType: SiRuby,
@@ -122,11 +137,6 @@ export const SKILLS_DATA = [
   {
     skillName: "Rails",
     iconType: SiRubyonrails,
-    type: ADDITIONAL,
-  },
-  {
-    skillName: "Next.js",
-    iconType: RiNextjsLine,
     type: ADDITIONAL,
   },
   {
@@ -147,16 +157,6 @@ export const SKILLS_DATA = [
   {
     skillName: "Firebase",
     iconType: SiFirebase,
-    type: ADDITIONAL,
-  },
-  {
-    skillName: "Graphql",
-    iconType: SiGraphql,
-    type: ADDITIONAL,
-  },
-  {
-    skillName: "Apollo",
-    iconType: SiApollographql,
     type: ADDITIONAL,
   },
 ];

@@ -15,7 +15,9 @@ const LightModeBackground = () => {
         top: 0,
         zIndex: 1,
       }}
-    />
+    >
+      =
+    </Box>
   );
 };
 
