@@ -119,7 +119,7 @@ const Landing: FC = () => {
                     .pauseFor(300)
                     .typeString(", Javascript")
                     .pauseFor(300)
-                    .typeString(", Redux")
+                    .typeString(", NextJS")
                     .pauseFor(300)
                     .typeString(", React Native")
                     .pauseFor(300)
