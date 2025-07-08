@@ -18,7 +18,7 @@ export const PROJECTS_DATA = [
       "Neon",
       "React Hook Form",
     ],
-    info: "Avarts is a space where athletes can dive deeper into their Strava data through clean visuals, insightful comparisons, and meaningful trends that make training feel more connected and motivating",
+    info: "Avarts is a space where athletes can dive deeper into their Strava data through clean visuals, insightful comparisons, and meaningful trends that make training feel more connected and motivating. Powered by Strava",
     address: "https://www.avarts.app/",
     repo: "https://github.com/Nikoobox/avarts",
     isResponsive: true,
