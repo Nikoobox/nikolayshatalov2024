@@ -48,7 +48,7 @@ const ResumeModal: FC = () => {
             href={resume}
             target="_blank"
             rel="noopener noreferrer"
-            download="Nikolay_Shatalov_frontend_developer_resume.pdf"
+            download="nikolay_shatalov_frontend_developer_resume.pdf"
           >
             <Typography
               variant="h3"
