@@ -1,3 +1,3 @@
-import resume from "./Nikolay_Shatalov_9_2024.pdf";
+import resume from "./Nikolay_Shatalov_July_2024_v3.pdf";
 
 export { resume };
