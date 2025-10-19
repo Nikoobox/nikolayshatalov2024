@@ -19,6 +19,8 @@ export const PROJECTS_DATA = [
       "Vercel",
       "Neon",
       "React Hook Form",
+      "Sentry",
+      "Posthog",
     ],
     info: "A space where athletes dive deeper into their Strava data through clean visuals, insightful comparisons, and meaningful trends that make training feel more motivating. Approved and powered by Strava",
     address: "https://www.avarts.app/",
