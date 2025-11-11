@@ -11,7 +11,7 @@ interface MyLinkProps {
 const MyLink: FC<MyLinkProps> = ({ link, className, label, customLabel }) => {
   return (
     <a
-      href={`${link}`}
+      href={link}
       rel="noopener noreferrer"
       target="_blank"
       className={className}

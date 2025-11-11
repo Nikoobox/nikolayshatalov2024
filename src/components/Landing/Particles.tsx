@@ -2,7 +2,6 @@ import { useEffect, useState, useMemo } from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { type Container, type ISourceOptions } from "@tsparticles/engine";
 import { loadFull } from "tsparticles";
-
 import { styled } from "@mui/system";
 import { Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
