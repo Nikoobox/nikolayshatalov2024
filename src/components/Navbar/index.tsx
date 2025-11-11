@@ -3,7 +3,6 @@ import { Link as LinkScroll, animateScroll as scroll } from "react-scroll";
 import { HiMenuAlt2 } from "react-icons/hi";
 import { IoCloseOutline } from "react-icons/io5";
 import { motion } from "framer-motion";
-import { useFeatureFlagEnabled } from "posthog-js/react";
 
 import {
   AppBar,
@@ -24,7 +23,6 @@ import NightModeSwitch from "../NightModeSwitch";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
 import { navItems } from "./NavItems";
 import { resume } from "../Documents";
-import { getFlagNamePerEnvironment } from "../../helpers/flags";
 
 interface HideOnScrollProps {
   children: React.ReactElement;
@@ -117,12 +115,6 @@ const Navbar: FC = () => {
 
   const themeContext = useThemeContext();
   const { toggleResumeModal } = themeContext;
-  const darkModeFlag = useFeatureFlagEnabled(
-    getFlagNamePerEnvironment({
-      flagTest: "darkModeFlagTest",
-      flagProd: "darkModeFlagProd",
-    })
-  );
 
   const drawer = (
     <Box height="100%" display="flex" flexDirection="column">
@@ -262,7 +254,7 @@ const Navbar: FC = () => {
                       <Typography variant="h2">Resume</Typography>
                     </StyledResumeBox>
                   </Box>
-                  {darkModeFlag && <NightModeSwitch />}
+                  <NightModeSwitch />
                 </Box>
               </StyledToolbar>
             </Container>
