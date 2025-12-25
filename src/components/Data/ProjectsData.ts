@@ -3,6 +3,7 @@ export const PROJECTS_DATA = [
     id: 8,
     name: "Avarts 🚀",
     img: "./img/avarts_heatmap3.png",
+    year: 2025,
     tools: [
       "NextJS",
       "TypeScript",
@@ -22,7 +23,7 @@ export const PROJECTS_DATA = [
       "Sentry",
       "Posthog",
     ],
-    info: "A space where athletes dive deeper into their Strava data through clean visuals, insightful comparisons, and meaningful trends that make training feel more motivating. Approved and powered by Strava",
+    info: "A space where athletes dive deeper into their Strava data through clean visuals, insightful comparisons, and meaningful trends that make training feel more motivating. Approved and powered by Strava.",
     address: "https://www.avarts.app/",
     repo: "https://github.com/Nikoobox/avarts",
     isResponsive: true,
@@ -33,6 +34,7 @@ export const PROJECTS_DATA = [
   {
     id: 1,
     name: "Cyberaction Samara",
+    year: 2022,
     img: "./img/ca2.png",
     tools: [
       "React",
@@ -44,9 +46,8 @@ export const PROJECTS_DATA = [
       "Logo Design",
       "Google Analytics",
     ],
-    info: "The first and largest Virtual Reality Gaming Arena located in Samara, Russia. Fully responsive",
+    info: "The first and largest Virtual Reality Gaming Arena located in Samara, Russia. Fully responsive.",
     address: "https://cyberaction-samara.netlify.app/",
-    // address: "https://cyberaction-samara.ru/",
     repo: "https://github.com/Nikoobox/cyberaction2022",
     isResponsive: true,
     showLink: true,
@@ -56,6 +57,7 @@ export const PROJECTS_DATA = [
   {
     id: 2,
     name: "ECS Pool Panels",
+    year: 2021,
     img: "./img/ECS_Pool_Panels.png",
     tools: [
       "React",
@@ -67,7 +69,7 @@ export const PROJECTS_DATA = [
       "Google Analytics",
       "Framer Motion",
     ],
-    info: "Steel pool panels and custom-designed pools built with the highest quality steel",
+    info: "Steel pool panels and custom-designed pools built with the highest quality steel.",
     address: "https://ecspoolpanels.com/",
     repo: "https://github.com/Nikoobox/pool-panels",
     isResponsive: true,
@@ -78,6 +80,7 @@ export const PROJECTS_DATA = [
   {
     id: 3,
     name: "Karena Huang",
+    year: 2021,
     img: "./img/karenahuangNew.png",
     tools: [
       "React",
@@ -90,7 +93,7 @@ export const PROJECTS_DATA = [
       "UX/UI",
       "Google Analytics",
     ],
-    info: "Website portfolio for an NYC-based Graphic Designer and Art Director, working with packaging design, branding direction, and event collateral",
+    info: "Website portfolio for an NYC-based Graphic Designer and Art Director, working with packaging design, branding direction, and event collateral.",
     address: "https://karenahuang.com/",
     repo: "https://github.com/Nikoobox//karenahuang",
     isResponsive: true,
@@ -101,6 +104,7 @@ export const PROJECTS_DATA = [
   {
     id: 4,
     name: "Tree Camp",
+    year: 2021,
     img: "./img/treecamp2.png",
     tools: [
       "Ruby",
@@ -115,7 +119,7 @@ export const PROJECTS_DATA = [
       "UX/UI",
       "Logo Design",
     ],
-    info: "Fullstack web app to search, book, and review the most unique treehouses in the world",
+    info: "Fullstack web app to search, book, and review the most unique treehouses in the world.",
     address: "https://tree-camp.herokuapp.com/#/",
     repo: "https://github.com/Nikoobox/TreeCamp",
     isResponsive: false,
@@ -128,6 +132,7 @@ export const PROJECTS_DATA = [
   {
     id: 5,
     name: "90 Plus",
+    year: 2021,
     img: "./img/SOCCER_PAGE.png",
     tools: [
       "Node.js",
@@ -139,7 +144,7 @@ export const PROJECTS_DATA = [
       "Firestore",
       "UX/UI",
     ],
-    info: "An interactive soccer live scores app with dynamic data visualizations, built with Vanilla JavaScript",
+    info: "An interactive soccer live scores app with dynamic data visualizations, built with Vanilla JavaScript.",
     address: "https://ninetyplus.onrender.com/",
     repo: "https://github.com/Nikoobox/ninetyplus",
     isResponsive: false,
@@ -174,9 +179,10 @@ export const PROJECTS_DATA = [
   {
     id: 7,
     name: "Drunken Snake",
+    year: 2020,
     img: "./img/ds22.png",
     tools: ["HTML", "CSS", "Javascript"],
-    info: "The best online game in the world. Allows you to hunt for your favorite beer while staying sober",
+    info: "The best online game in the world. Allows you to hunt for your favorite beer while staying sober.",
     address: "https://nikoobox.github.io/drunkensnake/",
     repo: "https://github.com/Nikoobox/drunkensnake",
     isResponsive: false,
@@ -184,24 +190,4 @@ export const PROJECTS_DATA = [
     showRepo: true,
     isMainProject: false,
   },
-  // {
-  //   id: 8,
-  //   name: "Personal Website",
-  //   img: "./img/ns2.png",
-  //   tools: [
-  //     "React",
-  //     "HTML",
-  //     "SCSS",
-  //     "Javascript",
-  //     "Particles.js",
-  //     "Framer Motion",
-  //   ],
-  //   info: "Fully responsive, functional portfolio with a beautiful and minimalistic interface and smooth on scroll animation",
-  //   address: "https://nikolayshatalov.com/",
-  //   repo: "https://github.com/Nikoobox/nikolayshatalov",
-  //   isResponsive: false,
-  //   showLink: true,
-  //   showRepo: true,
-  //   isMainProject: false,
-  // },
 ];
