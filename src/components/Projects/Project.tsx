@@ -75,6 +75,7 @@ const Project: FC<ProjectProps> = ({
   showLink,
   showRepo,
   overview,
+  year,
 }) => {
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
@@ -181,6 +182,15 @@ const Project: FC<ProjectProps> = ({
             <Typography variant="h2">{name}</Typography>
 
             <Box display="flex" gap={1.5}>
+              <Typography
+                variant="body2"
+                color="grey"
+                alignSelf="flex-end"
+                noWrap
+                sx={{ flexShrink: 0 }}
+              >
+                Est. {year}
+              </Typography>
               {isResponsive && <IoMdPhonePortrait className="icon" />}
               <IoMdLaptop className="icon" />
               <IoMdDesktop className="icon" />

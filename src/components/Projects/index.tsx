@@ -8,15 +8,11 @@ import Project from "./Project";
 
 const Projects: FC = () => {
   const projects = PROJECTS_DATA.filter((proj) => proj.isMainProject).map(
-    (proj) => {
-      return <Project key={proj.id} {...proj} />;
-    }
+    (proj) => <Project key={proj.id} {...proj} />
   );
 
   const otherProjects = PROJECTS_DATA.filter((proj) => !proj.isMainProject).map(
-    (proj) => {
-      return <Project key={proj.id} {...proj} />;
-    }
+    (proj) => <Project key={proj.id} {...proj} />
   );
 
   return (
