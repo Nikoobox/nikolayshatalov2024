@@ -140,7 +140,7 @@ export const PROJECTS_DATA = [
       "UX/UI",
     ],
     info: "An interactive soccer live scores app with dynamic data visualizations, built with Vanilla JavaScript",
-    address: "https://ninety-plus.herokuapp.com/",
+    address: "https://ninetyplus.onrender.com/",
     repo: "https://github.com/Nikoobox/ninetyplus",
     isResponsive: false,
     showLink: true,
