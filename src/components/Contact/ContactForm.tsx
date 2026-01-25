@@ -3,7 +3,6 @@ import emailjs from "@emailjs/browser";
 import { IoPaperPlaneOutline } from "react-icons/io5";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useSnackbar } from "notistack";
-import { useFeatureFlagEnabled } from "posthog-js/react";
 
 import { Box, Typography, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -11,10 +10,6 @@ import { styled } from "@mui/material/styles";
 import { TextField } from "../FormFields";
 import { FORM_FIELDS } from "../../constants";
 import { DEFAULT_VALUES } from "./DefaultValues";
-import { FLAGS } from "../../helpers";
-import MyDropzone from "../Dropzone";
-
-const { getFlagNamePerEnvironment } = FLAGS;
 
 const SUCCESS = "success";
 const ERROR = "error";
@@ -58,13 +53,6 @@ const ContactForm: FC = () => {
   const form = useRef<HTMLFormElement>(null);
   const { enqueueSnackbar } = useSnackbar();
 
-  const formDropzoneFlag = useFeatureFlagEnabled(
-    getFlagNamePerEnvironment({
-      flagTest: "formDropzoneFlagTest",
-      flagProd: "formDropzoneFlagProd",
-    })
-  );
-
   const [fileToAttach, setFileToAttach] = useState<File | null>(null);
 
   const {
@@ -95,7 +83,7 @@ const ContactForm: FC = () => {
         process.env.REACT_APP_YOUR_SERVICE_ID as string,
         process.env.REACT_APP_YOUR_TEMPLATE_ID as string,
         formElement,
-        process.env.REACT_APP_YOUR_PUBLIC_KEY as string
+        process.env.REACT_APP_YOUR_PUBLIC_KEY as string,
       )
       .then(
         (result) => {
@@ -113,14 +101,8 @@ const ContactForm: FC = () => {
           reset();
           setFileToAttach(null);
           console.log(error.text);
-        }
+        },
       );
-  };
-
-  const onFileAttach = (file: File | null) => {
-    if (file instanceof File) {
-      setFileToAttach(file);
-    }
   };
 
   return (
@@ -188,9 +170,6 @@ const ContactForm: FC = () => {
             multiline
             minRows={3}
           />
-        </Box>
-        <Box mt={3}>
-          {formDropzoneFlag && <MyDropzone onFileAttach={onFileAttach} />}
         </Box>
         <Box
           mt={3}

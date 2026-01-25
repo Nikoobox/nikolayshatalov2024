@@ -99,7 +99,7 @@ export const SKILLS_DATA = [
     type: MAIN,
   },
   {
-    skillName: "Testing Library",
+    skillName: "Testing Lib",
     iconType: SiTestinglibrary,
     type: MAIN,
   },
