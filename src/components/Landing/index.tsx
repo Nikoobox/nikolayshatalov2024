@@ -25,7 +25,7 @@ const StyledTypewriterContainer = styled(Box)(({ theme }) => {
     width: "100%",
     padding: theme.spacing(2),
     [theme.breakpoints.down("sm")]: {
-      top: "clamp(120px, 8vh, 320px)", // also down on small screens
+      top: "clamp(120px, 8vh, 320px)",
       maxWidth: "auto",
       minWidth: "auto",
       width: "100%",
@@ -80,11 +80,12 @@ const StyledTypewriterWrapper = styled(Box)(({ theme }) => ({
   },
 }));
 
-const StyledBox = styled(Box)(({ theme }) => {
+const StyledSayHiBox = styled(Box)(({ theme }) => {
   return {
     position: "absolute",
     bottom: "64px",
     left: "50%",
+    zIndex: 3,
     transform: "translate(-50%, -20px)",
     opacity: 0,
     willChange: "transform, opacity",
@@ -155,7 +156,7 @@ const Landing: FC = () => {
           </StyledTypewriterWrapper>
         </motion.div>
       </StyledTypewriterContainer>
-      <StyledBox ref={linkRef}>
+      <StyledSayHiBox ref={linkRef}>
         <StyledLinkScroll
           id="say-hi-link"
           href="/"
@@ -167,7 +168,7 @@ const Landing: FC = () => {
 
           <StyledHiChevronDown />
         </StyledLinkScroll>
-      </StyledBox>
+      </StyledSayHiBox>
     </Box>
   );
 };
