@@ -22,7 +22,7 @@ const renderSkills = ({ type }: { type: string }) =>
   SKILLS_DATA.filter((item) => item.type === type).map(
     ({ skillName, iconType: TechIcon }) => (
       <Skill key={skillName} skillName={skillName} iconType={TechIcon} />
-    )
+    ),
   );
 
 const Skills: FC = () => {
@@ -64,7 +64,7 @@ const Skills: FC = () => {
             display="flex"
             alignItems="center"
             justifyContent="center"
-            gap={6}
+            gap={{ xs: 5, sm: 7 }}
             flexWrap="wrap"
             sx={{
               width: SKILLS_WRAPPER_WIDTH,
@@ -82,7 +82,7 @@ const Skills: FC = () => {
             display="flex"
             alignItems="center"
             justifyContent="center"
-            gap={6}
+            gap={{ xs: 5, sm: 7 }}
             flexWrap="wrap"
             sx={{
               width: SKILLS_WRAPPER_WIDTH,

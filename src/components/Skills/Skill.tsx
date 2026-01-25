@@ -35,7 +35,7 @@ const Skill: FC<Props> = ({ skillName, iconType: TechIcon }) => {
         flexDirection="column"
         alignItems="center"
         justifyContent="center"
-        minWidth="90px"
+        width="88px"
       >
         <TechIcon color={iconColor} size={theme.spacing(8)} />
         <Typography variant="body1" mt={1}>

@@ -20,11 +20,13 @@ const getDesignTokens = (mode: PaletteMode): ThemeOptions => {
             ...(themeOptions.palette as any),
             mode,
             background: {
-              default: themeOptions.palette?.customColors.aliceBlue,
+              // default: themeOptions.palette?.customColors.aliceBlue,
+              default: themeOptions.palette?.customColors.greyLightest,
             },
             backgroundCustom: {
               primary: themeOptions.palette?.common?.white,
-              secondary: themeOptions.palette?.customColors.aliceBlue,
+              secondary: themeOptions.palette?.customColors.greyLightest,
+              // secondary:yellow
             },
             commonCustom: {
               front: themeOptions.palette?.common?.black,
@@ -77,7 +79,7 @@ export const useCustomTheme = () => {
 
   const modifiedTheme = useMemo(
     () => createTheme(getDesignTokens(mode)),
-    [mode]
+    [mode],
   );
 
   useEffect(() => {

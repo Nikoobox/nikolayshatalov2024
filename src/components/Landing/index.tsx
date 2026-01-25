@@ -5,7 +5,7 @@ import Typewriter from "typewriter-effect";
 import { motion } from "framer-motion";
 
 import { Box, Typography } from "@mui/material";
-import { styled } from "@mui/material/styles"; // ✅ change this (was @mui/system)
+import { styled } from "@mui/material/styles";
 
 import ParticlesTS from "./Particles";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
@@ -39,9 +39,8 @@ const StyledLinkScroll = styled(LinkScroll)(({ theme }) => {
   const mainColor = isDarkMode
     ? theme.palette.common.white
     : theme.palette.common.black;
-  const bgColor = isDarkMode
-    ? "transparent"
-    : theme.palette.customColors.tealAccent;
+
+  const fontWeight = isDarkMode ? "normal" : "bold";
 
   return {
     color: mainColor,
@@ -53,7 +52,11 @@ const StyledLinkScroll = styled(LinkScroll)(({ theme }) => {
     alignItems: "center",
     marginTop: theme.spacing(5),
     transition: "all 0.3s ease",
-    backgroundColor: bgColor,
+    backgroundColor: "transparent",
+    fontWeight,
+    "& .MuiTypography-root": {
+      fontWeight: "inherit",
+    },
   };
 });
 

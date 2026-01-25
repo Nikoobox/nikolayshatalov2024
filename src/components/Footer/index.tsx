@@ -30,8 +30,8 @@ const Footer: FC = () => {
         <Box
           display="flex"
           width="100%"
-          py={2}
-          pb={5}
+          py={6}
+          pb={12}
           sx={{
             flexDirection: { xs: "column", sm: "row" },
             justifyContent: { xs: "center", sm: "space-between" },
