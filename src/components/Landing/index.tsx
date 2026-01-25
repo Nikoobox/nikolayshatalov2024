@@ -5,27 +5,30 @@ import Typewriter from "typewriter-effect";
 import { motion } from "framer-motion";
 
 import { Box, Typography } from "@mui/material";
-import { styled } from "@mui/system";
+import { styled } from "@mui/material/styles"; // ✅ change this (was @mui/system)
 
 import ParticlesTS from "./Particles";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
 import LightModeBackground from "./LightModeBackground";
 
-const StyledHiBox = styled(Box)(({ theme }) => {
+// clamp guide:
+// min = 140px → top will never be less than 140px
+// preferred = 32vh → try to use 32% of the viewport height
+// max = 320px → top will never be more than 320px
+const StyledTypewriterContainer = styled(Box)(({ theme }) => {
   return {
     position: "absolute",
-    top: `calc(50% + 48px)`,
+    top: "clamp(140px, 32vh, 320px)", // moved down
     left: "50%",
-    transform: "translate(-50%, -50%)",
-    textAlign: "center",
+    transform: "translateX(-50%)",
     maxWidth: "700px",
     width: "100%",
     padding: theme.spacing(2),
     [theme.breakpoints.down("sm")]: {
+      top: "clamp(120px, 8vh, 320px)", // also down on small screens
       maxWidth: "auto",
       minWidth: "auto",
       width: "100%",
-      top: `calc(50% + 36px)`,
     },
     zIndex: 2,
   };
@@ -42,13 +45,13 @@ const StyledLinkScroll = styled(LinkScroll)(({ theme }) => {
 
   return {
     color: mainColor,
-    border: `solid ${mainColor} 3px`,
-    borderRadius: theme.spacing(4),
     textDecoration: "none",
+    border: `2px ${mainColor} solid`,
     padding: `${theme.spacing(1)} ${theme.spacing(3)}`,
+    borderRadius: theme.spacing(3),
     display: "inline-flex",
     alignItems: "center",
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(5),
     transition: "all 0.3s ease",
     backgroundColor: bgColor,
   };
@@ -61,17 +64,39 @@ const StyledHiChevronDown = styled(HiChevronDown)({
 });
 
 const StyledTypewriterWrapper = styled(Box)(({ theme }) => ({
+  width: "100%",
+  maxWidth: 700,
+  margin: "0 auto",
+  wordBreak: "break-word",
+  "& .Typewriter__wrapper": {
+    display: "inline",
+    whiteSpace: "pre-wrap",
+    ...theme.typography.h1,
+  },
   "& .Typewriter__cursor": {
+    display: "inline",
     color: theme.palette.customColors.tealAccent,
+    ...theme.typography.h1,
   },
 }));
 
-const StyledBox = styled(Box)({
-  opacity: 0,
-  transition: "all 0.3s ease",
-  "&.visible": {
-    opacity: 1,
-  },
+const StyledBox = styled(Box)(({ theme }) => {
+  return {
+    position: "absolute",
+    bottom: "64px",
+    left: "50%",
+    transform: "translate(-50%, -20px)",
+    opacity: 0,
+    willChange: "transform, opacity",
+    transition: "opacity 0.4s ease, transform 0.4s ease",
+    "&.visible": {
+      opacity: 1,
+      transform: "translate(-50%, 0)",
+    },
+    [theme.breakpoints.down("sm")]: {
+      bottom: "32px",
+    },
+  };
 });
 
 const Landing: FC = () => {
@@ -90,62 +115,59 @@ const Landing: FC = () => {
   return (
     <Box>
       {isDarkMode ? <ParticlesTS /> : <LightModeBackground />}
-      <StyledHiBox>
-        <Typography variant="h1">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.2, duration: 0.4, ease: "easeOut" }}
-          >
-            <StyledTypewriterWrapper>
-              <Typewriter
-                onInit={(typewriter) => {
-                  typewriter
-                    .pauseFor(2200)
-                    .changeDelay(45)
-                    .typeString("Hello, I am Nikolay Shatalov")
-                    .pauseFor(750)
-                    .changeDeleteSpeed(5)
-                    .deleteChars(16)
-                    .typeString(
-                      `<span style="color: ${theme.palette.customColors.tealAccent};">  Nikolay Shatalov</span>`
-                    )
-                    .pauseFor(300)
-                    .typeString(
-                      ". NYC based frontend engineer with experience in Typescript"
-                    )
-                    .pauseFor(300)
-                    .typeString(", React")
-                    .pauseFor(300)
-                    .typeString(", Javascript")
-                    .pauseFor(300)
-                    .typeString(", NextJS")
-                    .pauseFor(300)
-                    .typeString(", React Native")
-                    .pauseFor(300)
-                    .typeString(", Node, and more.")
-                    .callFunction(() => handleShowLink())
-                    .start();
-                }}
-              />
-            </StyledTypewriterWrapper>
-          </motion.div>
-        </Typography>
+      <StyledTypewriterContainer>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.2, duration: 0.4, ease: "easeOut" }}
+        >
+          <StyledTypewriterWrapper>
+            <Typewriter
+              onInit={(typewriter) => {
+                typewriter
+                  .pauseFor(2200)
+                  .changeDelay(45)
+                  .typeString("Hello, I am Nikolay Shatalov")
+                  .pauseFor(750)
+                  .changeDeleteSpeed(5)
+                  .deleteChars(16)
+                  .typeString(
+                    `<span style="color: ${theme.palette.customColors.tealAccent};">Nikolay Shatalov</span>`,
+                  )
+                  .pauseFor(300)
+                  .typeString(
+                    ". NYC based frontend engineer with experience in Typescript",
+                  )
+                  .pauseFor(300)
+                  .typeString(", React")
+                  .pauseFor(300)
+                  .typeString(", Javascript")
+                  .pauseFor(300)
+                  .typeString(", NextJS")
+                  .pauseFor(300)
+                  .typeString(", React Native")
+                  .pauseFor(300)
+                  .typeString(", Node, and more.")
+                  .callFunction(() => handleShowLink())
+                  .start();
+              }}
+            />
+          </StyledTypewriterWrapper>
+        </motion.div>
+      </StyledTypewriterContainer>
+      <StyledBox ref={linkRef}>
+        <StyledLinkScroll
+          id="say-hi-link"
+          href="/"
+          to="contact-destination"
+          smooth={true}
+          duration={1200}
+        >
+          <Typography variant="h3">Say Hi</Typography>
 
-        <StyledBox ref={linkRef}>
-          <StyledLinkScroll
-            id="say-hi-link"
-            href="/"
-            to="contact-destination"
-            smooth={true}
-            duration={1200}
-          >
-            <Typography variant="h2">Say Hi</Typography>
-
-            <StyledHiChevronDown />
-          </StyledLinkScroll>
-        </StyledBox>
-      </StyledHiBox>
+          <StyledHiChevronDown />
+        </StyledLinkScroll>
+      </StyledBox>
     </Box>
   );
 };

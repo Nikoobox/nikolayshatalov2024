@@ -14,7 +14,7 @@ const Splash: FC = () => {
   return (
     <Box>
       <Landing />
-      <Box mt={"100vh"}>
+      <Box mt="100vh">
         <Skills />
         <Projects />
         <PageSectionWrapper bgColor={theme.palette.backgroundCustom.primary}>
