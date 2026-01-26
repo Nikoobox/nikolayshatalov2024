@@ -153,7 +153,7 @@ const Contact: FC = () => {
               flexDirection: "column",
               alignItems: { xs: "center", sm: "flex-start" },
               justifyContent: { xs: "center" },
-              textAlign: { xs: "center", sm: "start" },
+              textAlign: "start",
             }}
           >
             <motion.div
@@ -165,59 +165,71 @@ const Contact: FC = () => {
               <Typography variant="h2">{BIO_DATA.contactSection}</Typography>
             </motion.div>
 
-            <motion.div
-              ref={resumeRef}
-              initial={{ y: 40, opacity: 0 }}
-              animate={resumeInView && { y: 0, opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: {
+                  xs: "center",
+                  sm: "center",
+                  md: "flex-start",
+                }, // center on small, left on md+
+              }}
             >
-              {isMobile ? (
-                <StyledDownloadLink
-                  href={resume}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  download="nikolay_shatalov_frontend_developer_resume.pdf"
-                >
-                  <Typography
-                    variant="h3"
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      fontWeight: isDarkMode ? {} : 500,
-                    }}
+              <motion.div
+                ref={resumeRef}
+                initial={{ y: 40, opacity: 0 }}
+                animate={resumeInView && { y: 0, opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
+                style={{ display: "flex", justifyContent: "center" }}
+              >
+                {isMobile ? (
+                  <StyledDownloadLink
+                    href={resume}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    download="nikolay_shatalov_frontend_developer_resume.pdf"
                   >
-                    Download My Resume
-                    <Box
-                      component={HiDownload}
-                      ml="6px"
+                    <Typography
+                      variant="h3"
                       sx={{
-                        "& svg": { width: 1 },
+                        display: "flex",
+                        alignItems: "center",
+                        fontWeight: isDarkMode ? {} : 500,
                       }}
-                    />
-                  </Typography>
-                </StyledDownloadLink>
-              ) : (
-                <StyledButton onClick={toggleResumeModal}>
-                  <Typography
-                    variant="h3"
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      fontWeight: isDarkMode ? {} : 500,
-                    }}
-                  >
-                    View My Resume
-                    <Box
-                      component={HiOutlineDocumentText}
-                      ml="6px"
+                    >
+                      Download My Resume
+                      <Box
+                        component={HiDownload}
+                        ml="6px"
+                        sx={{
+                          "& svg": { width: 1 },
+                        }}
+                      />
+                    </Typography>
+                  </StyledDownloadLink>
+                ) : (
+                  <StyledButton onClick={toggleResumeModal}>
+                    <Typography
+                      variant="h3"
                       sx={{
-                        "& svg": { width: 1 },
+                        display: "flex",
+                        alignItems: "center",
+                        fontWeight: isDarkMode ? {} : 500,
                       }}
-                    />
-                  </Typography>
-                </StyledButton>
-              )}
-            </motion.div>
+                    >
+                      View My Resume
+                      <Box
+                        component={HiOutlineDocumentText}
+                        ml="6px"
+                        sx={{
+                          "& svg": { width: 1 },
+                        }}
+                      />
+                    </Typography>
+                  </StyledButton>
+                )}
+              </motion.div>
+            </Box>
           </Box>
         </StyledContactInfoWrapper>
       </PageSection>
