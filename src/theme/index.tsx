@@ -29,7 +29,6 @@ export const styleP = {
   fontWeight: 400,
   fontSize: `16px`,
   lineHeight: `24px`,
-  // letterSpacing: `-0.01em`,
 };
 
 // export const numericalLarge = {

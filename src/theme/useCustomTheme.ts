@@ -15,18 +15,16 @@ const getDesignTokens = (mode: PaletteMode): ThemeOptions => {
   return {
     ...themeOptions,
     palette: {
-      ...(mode === "light"
+      ...(mode === LIGHT
         ? {
             ...(themeOptions.palette as any),
             mode,
             background: {
-              // default: themeOptions.palette?.customColors.aliceBlue,
               default: themeOptions.palette?.customColors.greyLightest,
             },
             backgroundCustom: {
               primary: themeOptions.palette?.common?.white,
               secondary: themeOptions.palette?.customColors.greyLightest,
-              // secondary:yellow
             },
             commonCustom: {
               front: themeOptions.palette?.common?.black,
@@ -47,7 +45,7 @@ const getDesignTokens = (mode: PaletteMode): ThemeOptions => {
           }),
     },
     typography: {
-      ...(mode === "light"
+      ...(mode === LIGHT
         ? {
             ...baseTypography,
             h1: {

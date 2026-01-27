@@ -80,10 +80,10 @@ const ContactForm: FC = () => {
 
     emailjs
       .sendForm(
-        process.env.REACT_APP_YOUR_SERVICE_ID as string,
-        process.env.REACT_APP_YOUR_TEMPLATE_ID as string,
+        import.meta.env.VITE_EMAILJS_SERVICE_ID as string,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string,
         formElement,
-        process.env.REACT_APP_YOUR_PUBLIC_KEY as string,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY as string,
       )
       .then(
         (result) => {
