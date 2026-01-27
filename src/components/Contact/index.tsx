@@ -15,7 +15,7 @@ import { resume } from "../Documents";
 import ContactForm from "./ContactForm";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
 
-const profileImg = `${process.env.PUBLIC_URL}/img/profile.jpg`;
+const profileImg = "/img/profile.jpg";
 
 const StyledContactInfoWrapper = styled(Box)(({ theme }) => ({
   gap: theme.spacing(6),

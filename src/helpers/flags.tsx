@@ -7,7 +7,7 @@ const getFlagNamePerEnvironment = ({
   flagTest,
   flagProd,
 }: FlagFuncProps): string => {
-  return process.env.REACT_APP_ENV === "production" ? flagProd : flagTest;
+  return import.meta.env.PROD ? flagProd : flagTest;
 };
 
 export { getFlagNamePerEnvironment };
