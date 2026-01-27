@@ -1,0 +1,9 @@
+[build]
+  command = "yarn build"
+  publish = "dist"
+
+# SPA fallback (React Router)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
