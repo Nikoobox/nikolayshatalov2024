@@ -8,9 +8,8 @@ import CssBaseline from "@mui/material/CssBaseline";
 
 import { useThemeContext } from "../../theme/ThemeContextProvider";
 
-// Vite: use import.meta.env (and env vars must be prefixed with VITE_)
 const options = {
-  api_host: import.meta.env.VITE_PUBLIC_POSTHOG_HOST as string | undefined,
+  api_host: import.meta.env.VITE_PUBLIC_POSTHOG_HOST as string,
 };
 
 const AppProviders: FC<PropsWithChildren> = ({ children }) => {
@@ -18,7 +17,7 @@ const AppProviders: FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <PostHogProvider
-      apiKey={import.meta.env.VITE_PUBLIC_POSTHOG_KEY as string | undefined}
+      apiKey={import.meta.env.VITE_PUBLIC_POSTHOG_KEY as string}
       options={options}
     >
       <ThemeProvider theme={theme}>

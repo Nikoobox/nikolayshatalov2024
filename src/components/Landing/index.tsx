@@ -162,7 +162,6 @@ const Landing: FC = () => {
       <StyledSayHiBox ref={linkRef}>
         <StyledLinkScroll
           id="say-hi-link"
-          href="/"
           to="contact-destination"
           smooth={true}
           duration={1200}
