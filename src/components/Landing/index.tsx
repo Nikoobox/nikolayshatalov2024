@@ -1,5 +1,7 @@
 import { FC, useRef } from "react";
+import type { ComponentType } from "react";
 import { Link as LinkScroll } from "react-scroll";
+import type { LinkProps } from "react-scroll";
 import { HiChevronDown } from "react-icons/hi";
 import Typewriter from "typewriter-effect";
 import { motion } from "framer-motion";
@@ -34,7 +36,9 @@ const StyledTypewriterContainer = styled(Box)(({ theme }) => {
   };
 });
 
-const StyledLinkScroll = styled(LinkScroll)(({ theme }) => {
+const StyledLinkScroll = styled(
+  LinkScroll as unknown as ComponentType<LinkProps>,
+)<LinkProps>(({ theme }) => {
   const isDarkMode = theme.palette.mode === "dark";
   const mainColor = isDarkMode
     ? theme.palette.common.white
@@ -162,7 +166,6 @@ const Landing: FC = () => {
       <StyledSayHiBox ref={linkRef}>
         <StyledLinkScroll
           id="say-hi-link"
-          href="/"
           to="contact-destination"
           smooth={true}
           duration={1200}

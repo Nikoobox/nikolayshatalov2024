@@ -1,5 +1,7 @@
 import { useState, FC } from "react";
+import type { ComponentType } from "react";
 import { Link as LinkScroll, animateScroll as scroll } from "react-scroll";
+import type { LinkProps } from "react-scroll";
 import { HiMenuAlt2 } from "react-icons/hi";
 import { IoCloseOutline } from "react-icons/io5";
 import { motion } from "framer-motion";
@@ -65,7 +67,9 @@ const StyledToolbar = styled(Toolbar)({
   paddingTop: "16px",
 });
 
-const StyledNavItemLink = styled(LinkScroll)(({ theme }) => ({
+const ScrollLink = LinkScroll as unknown as ComponentType<LinkProps>;
+
+const StyledNavItemLink = styled(ScrollLink)<LinkProps>(({ theme }) => ({
   ...commonNavItemStyles(theme as Theme),
 }));
 
@@ -73,7 +77,7 @@ const StyledResumeBox = styled(Box)(({ theme }) => ({
   ...commonNavItemStyles(theme as Theme),
 }));
 
-const StyledDrawerItemLink = styled(LinkScroll)(({ theme }) => ({
+const StyledDrawerItemLink = styled(ScrollLink)<LinkProps>(({ theme }) => ({
   width: "100%",
   display: "flex",
   justifyContent: "center",
