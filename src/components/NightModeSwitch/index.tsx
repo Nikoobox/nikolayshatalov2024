@@ -62,12 +62,8 @@ const NightModeSwitch: FC = () => {
 
   return (
     <StyledBox isMobile={isMobile} display="flex" alignItems="center">
-      <Classic
-        duration={750}
-        toggled={isDarkMode}
-        toggle={toggleDarkMode}
-        placeholder=""
-      />
+      {/* @ts-expect-error - @theme-toggles/react types incompatible with React 18 */}
+      <Classic duration={750} toggled={isDarkMode} toggle={toggleDarkMode} />
     </StyledBox>
   );
 };
