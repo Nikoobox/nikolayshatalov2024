@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
+import { styled } from "@mui/system";
 
 import { COLORS } from "../../theme";
-import "./styles.css";
 
 const {
   WHITE_ACCENT,
@@ -40,6 +40,16 @@ const ACCENT_COLORS = [
 ];
 
 const COLORED_CHANCE = 0.005;
+
+const StyledCanvas = styled("canvas")({
+  position: "absolute",
+  width: "100%",
+  height: "100vh",
+  left: 0,
+  top: 0,
+  zIndex: 0,
+  pointerEvents: "none",
+});
 
 export default function FlickeringGrid() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -139,5 +149,5 @@ export default function FlickeringGrid() {
     };
   }, []);
 
-  return <canvas ref={canvasRef} className="flickeringGrid" />;
+  return <StyledCanvas ref={canvasRef} />;
 }
