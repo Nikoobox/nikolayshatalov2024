@@ -39,7 +39,6 @@ const ACCENT_COLORS = [
   RED_ACCENT,
 ];
 
-// Chance for a square to be colored (e.g., 0.005 = 0.5%)
 const COLORED_CHANCE = 0.005;
 
 export default function FlickeringGrid() {
@@ -71,7 +70,6 @@ export default function FlickeringGrid() {
           const fadeMultiplier = 1 - row / rows;
           const maxOpacity = MAX_OPACITY * fadeMultiplier;
 
-          // Randomly pick accent color or default
           const isColored = Math.random() < COLORED_CHANCE;
           const color = isColored
             ? ACCENT_COLORS[Math.floor(Math.random() * ACCENT_COLORS.length)]
@@ -105,14 +103,11 @@ export default function FlickeringGrid() {
         if (Math.abs(sq.opacity - sq.targetOpacity) < 0.01) {
           sq.targetOpacity = Math.random() * sq.maxOpacity;
 
-          // When a colored square fades out, move color to a different square
           if (sq.isColored && sq.targetOpacity < 0.05) {
-            // Remove color from this square
             sq.isColored = false;
             sq.color = COLOR;
-            sq.maxOpacity = sq.maxOpacity / 1.5; // reset to normal
+            sq.maxOpacity = sq.maxOpacity / 1.5;
 
-            // Pick a random square to become colored
             const randomIndex = Math.floor(Math.random() * squares.length);
             const newColoredSquare = squares[randomIndex];
             const fadeMultiplier = 1 - newColoredSquare.y / canvas.height;
