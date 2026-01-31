@@ -3,13 +3,13 @@ import { FC } from "react";
 import { useTheme } from "@mui/material/styles";
 import { Box } from "@mui/material";
 
-import Landing from "../Landing";
-import Skills from "../Skills";
-import Projects from "../Projects";
-import Contact from "../Contact";
-import PageSectionWrapper from "../PageSectionWrapper";
+import Landing from "../../components/Landing";
+import Skills from "../../components/Skills";
+import Projects from "../../components/Projects";
+import Contact from "../../components/Contact";
+import PageSectionWrapper from "../../components/PageSectionWrapper";
 
-const Splash: FC = () => {
+const MainPage: FC = () => {
   const theme = useTheme();
   return (
     <Box>
@@ -24,4 +24,4 @@ const Splash: FC = () => {
     </Box>
   );
 };
-export default Splash;
+export default MainPage;
