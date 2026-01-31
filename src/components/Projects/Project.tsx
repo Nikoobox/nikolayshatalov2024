@@ -4,6 +4,7 @@ import { isMobile } from "react-device-detect";
 import { HiOutlineExternalLink } from "react-icons/hi";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import { Link } from "react-router-dom";
 
 import { Box, Typography, Button } from "@mui/material";
 import { styled } from "@mui/system";
@@ -76,6 +77,7 @@ const Project: FC<ProjectProps> = ({
   showRepo,
   overview,
   year,
+  id,
 }) => {
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
@@ -202,6 +204,8 @@ const Project: FC<ProjectProps> = ({
           <Box display="flex" flexWrap="wrap">
             {techTools}
           </Box>
+
+          <Link to={`/projects/${id}`}>DETAILS </Link>
 
           {/* mobile view */}
           {isMobile && (
