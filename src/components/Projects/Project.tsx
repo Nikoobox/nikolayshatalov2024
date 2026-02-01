@@ -205,7 +205,7 @@ const Project: FC<ProjectProps> = ({
             {techTools}
           </Box>
 
-          <Link to={`/projects/${id}`}>DETAILS </Link>
+          {/* <Link to={`/projects/${id}`}>DETAILS </Link> */}
 
           {/* mobile view */}
           {isMobile && (
