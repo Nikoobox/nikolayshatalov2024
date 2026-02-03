@@ -9,6 +9,7 @@ export const PROJECTS_DATA = [
       "TypeScript",
       "Prisma",
       "PostgreSQL",
+      "Webhooks",
       "Tailwind",
       "DaisyUI",
       "React Query",
