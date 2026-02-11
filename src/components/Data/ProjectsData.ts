@@ -2,7 +2,7 @@ export const PROJECTS_DATA = [
   {
     id: 8,
     name: "Avarts 🚀",
-    img: "./img/avarts_heatmap3.png",
+    img: "/img/avarts_heatmap3.png",
     year: 2025,
     tools: [
       "NextJS",
@@ -36,7 +36,7 @@ export const PROJECTS_DATA = [
     id: 1,
     name: "Cyberaction Samara",
     year: 2022,
-    img: "./img/ca2.png",
+    img: "/img/ca2.png",
     tools: [
       "React",
       "HTML",
@@ -59,7 +59,7 @@ export const PROJECTS_DATA = [
     id: 2,
     name: "ECS Pool Panels",
     year: 2021,
-    img: "./img/ECS_Pool_Panels.png",
+    img: "/img/ECS_Pool_Panels.png",
     tools: [
       "React",
       "Hooks",
@@ -82,7 +82,7 @@ export const PROJECTS_DATA = [
     id: 3,
     name: "Karena Huang",
     year: 2021,
-    img: "./img/karenahuangNew.png",
+    img: "/img/karenahuangNew.png",
     tools: [
       "React",
       "Hooks",
@@ -106,7 +106,7 @@ export const PROJECTS_DATA = [
     id: 4,
     name: "Tree Camp",
     year: 2021,
-    img: "./img/treecamp2.png",
+    img: "/img/treecamp2.png",
     tools: [
       "Ruby",
       "Ruby on Rails",
@@ -126,7 +126,7 @@ export const PROJECTS_DATA = [
     isResponsive: false,
     showLink: false,
     showRepo: true,
-    overview: "./img/overview/map_spots.gif",
+    overview: "/img/overview/map_spots.gif",
     isMainProject: false,
   },
 
@@ -134,7 +134,7 @@ export const PROJECTS_DATA = [
     id: 5,
     name: "90 Plus",
     year: 2021,
-    img: "./img/SOCCER_PAGE.png",
+    img: "/img/SOCCER_PAGE.png",
     tools: [
       "Node.js",
       "Javascript",
@@ -157,7 +157,7 @@ export const PROJECTS_DATA = [
     id: 7,
     name: "Drunken Snake",
     year: 2020,
-    img: "./img/ds22.png",
+    img: "/img/ds22.png",
     tools: ["HTML", "CSS", "Javascript"],
     info: "The best online game in the world. Allows you to hunt for your favorite beer while staying sober.",
     address: "https://nikoobox.github.io/drunkensnake/",

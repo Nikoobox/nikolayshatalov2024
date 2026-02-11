@@ -191,6 +191,8 @@ const Navbar: FC = () => {
     </Box>
   );
 
+  const handleLogoClick = () => scroll.scrollToTop();
+
   return (
     <>
       <HideOnScroll>
@@ -226,7 +228,7 @@ const Navbar: FC = () => {
                       cursor: "pointer",
                     },
                   }}
-                  onClick={scroll.scrollToTop}
+                  onClick={handleLogoClick}
                 >
                   <img src={nsLogo} alt="ns-logo" />
                 </Box>
