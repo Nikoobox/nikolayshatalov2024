@@ -25,12 +25,15 @@ export const PROJECTS_DATA = [
       "Posthog",
     ],
     info: "A space where athletes dive deeper into their Strava data through clean visuals, insightful comparisons, and meaningful trends that make training feel more motivating. Approved and powered by Strava.",
+    infoLong:
+      "Avarts is a data visualization platform for athletes, providing deep insights into Strava activity data. Users can explore interactive heatmaps, compare performance trends, and discover new ways to stay motivated. Built with a modern stack including NextJS, Prisma, and Mapbox GL, Avarts delivers a seamless and visually engaging experience. The project is officially approved by Strava and leverages advanced analytics tools like Sentry and Posthog for monitoring and improvement.",
     address: "https://www.avarts.app/",
     repo: "https://github.com/Nikoobox/avarts",
     isResponsive: true,
     showLink: true,
     showRepo: false,
     isMainProject: true,
+    status: "Live and flying 🚀",
   },
   {
     id: 1,
@@ -48,12 +51,15 @@ export const PROJECTS_DATA = [
       "Google Analytics",
     ],
     info: "The first and largest Virtual Reality Gaming Arena located in Samara, Russia. Fully responsive.",
+    infoLong:
+      "Cyberaction Samara is the premier VR gaming arena in Samara, Russia, offering immersive experiences and advanced booking features. The website features a custom booking widget, dynamic animations with Framer Motion, and a modern UI built with Material UI. The project also includes branding and logo design, as well as integration with Google Analytics for performance tracking.",
     address: "https://cyberaction-samara.netlify.app/",
     repo: "https://github.com/Nikoobox/cyberaction2022",
     isResponsive: true,
     showLink: true,
     showRepo: true,
     isMainProject: true,
+    status: "Live, but moved to a demo domain due to business closure",
   },
   {
     id: 2,
@@ -71,12 +77,15 @@ export const PROJECTS_DATA = [
       "Framer Motion",
     ],
     info: "Steel pool panels and custom-designed pools built with the highest quality steel.",
+    infoLong:
+      "ECS Pool Panels specializes in custom steel pool panel solutions. The website showcases their products with a clean, responsive design and smooth animations powered by Framer Motion. Built with React and SCSS, the site emphasizes both aesthetics and usability, while Google Analytics integration provides valuable insights into user engagement.",
     address: "https://ecspoolpanels.com/",
     repo: "https://github.com/Nikoobox/pool-panels",
     isResponsive: true,
     showLink: true,
     showRepo: false,
     isMainProject: true,
+    status: "Live and kicking",
   },
   {
     id: 3,
@@ -95,12 +104,15 @@ export const PROJECTS_DATA = [
       "Google Analytics",
     ],
     info: "Website portfolio for an NYC-based Graphic Designer and Art Director, working with packaging design, branding direction, and event collateral.",
+    infoLong:
+      "This portfolio site for Karena Huang, a New York-based designer, highlights her work in packaging, branding, and event collateral. The site features a responsive masonry layout, smooth transitions with Framer Motion, and a modern, user-friendly interface. Built with React and SCSS, it provides an engaging showcase for her creative projects.",
     address: "https://karenahuang.com/",
     repo: "https://github.com/Nikoobox//karenahuang",
     isResponsive: true,
     showLink: true,
     showRepo: false,
     isMainProject: true,
+    status: "Live and kicking",
   },
   {
     id: 4,
@@ -121,6 +133,8 @@ export const PROJECTS_DATA = [
       "Logo Design",
     ],
     info: "Fullstack web app to search, book, and review the most unique treehouses in the world.",
+    infoLong:
+      "Tree Camp is a fullstack web application for discovering and booking unique treehouse accommodations worldwide. Built with Ruby on Rails and React, it features interactive maps, user reviews, and a robust booking system. The project leverages AWS for hosting and storage, and includes custom branding and UI design.",
     address: "https://tree-camp.herokuapp.com/#/",
     repo: "https://github.com/Nikoobox/TreeCamp",
     isResponsive: false,
@@ -128,8 +142,8 @@ export const PROJECTS_DATA = [
     showRepo: true,
     overview: "/img/overview/map_spots.gif",
     isMainProject: false,
+    status: "Retired due to Heroku free tier changes",
   },
-
   {
     id: 5,
     name: "90 Plus",
@@ -146,12 +160,15 @@ export const PROJECTS_DATA = [
       "UX/UI",
     ],
     info: "An interactive soccer live scores app with dynamic data visualizations, built with Vanilla JavaScript.",
+    infoLong:
+      "90 Plus is an interactive web app for soccer fans, providing live scores and dynamic data visualizations. Built with Node.js, Express, and D3.js, it offers real-time updates and engaging charts. The app is styled with SCSS and features a clean, user-friendly interface, with Firestore used for data storage.",
     address: "https://ninetyplus.onrender.com/",
     repo: "https://github.com/Nikoobox/ninetyplus",
     isResponsive: false,
     showLink: false,
     showRepo: true,
     isMainProject: false,
+    status: "Retired due to Soccer API discontinuation",
   },
   {
     id: 7,
@@ -160,11 +177,14 @@ export const PROJECTS_DATA = [
     img: "/img/ds22.png",
     tools: ["HTML", "CSS", "Javascript"],
     info: "The best online game in the world. Allows you to hunt for your favorite beer while staying sober.",
+    infoLong:
+      "Drunken Snake is a fun and quirky online game where players guide a snake to collect beers while avoiding obstacles. Built with HTML, CSS, and JavaScript, the game features simple controls and addictive gameplay, making it a favorite for casual gamers.",
     address: "https://nikoobox.github.io/drunkensnake/",
     repo: "https://github.com/Nikoobox/drunkensnake",
     isResponsive: false,
     showLink: true,
     showRepo: true,
     isMainProject: false,
+    status: "Live",
   },
 ];

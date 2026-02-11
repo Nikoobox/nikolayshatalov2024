@@ -14,6 +14,7 @@ const StyledImageWrapperBox = styled(Box)(({ theme }) => {
       borderRadius: theme.spacing(2),
       height: "auto",
       width: "50%",
+      objectFit: "cover",
     },
   };
 });
@@ -32,12 +33,14 @@ const ProjectPage = () => {
     year,
     tools,
     info,
+    infoLong,
     address,
     repo,
     isResponsive,
     showLink,
     showRepo,
     isMainProject,
+    status,
   } = projectData!;
 
   console.log("projectData", projectData);
@@ -64,7 +67,11 @@ const ProjectPage = () => {
             </Box>
             <Box display="flex" gap={2}>
               <Box minWidth="120px">Description</Box>
-              <Box>{info}</Box>
+              <Box>{infoLong}</Box>
+            </Box>
+            <Box display="flex" gap={2}>
+              <Box minWidth="120px">Status</Box>
+              <Box>{status}</Box>
             </Box>
           </Box>
         </StyledImageWrapperBox>
