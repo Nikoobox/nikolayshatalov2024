@@ -11,4 +11,5 @@ export interface ProjectProps {
   showRepo: boolean;
   overview?: string;
   year: number;
+  isMainProject: boolean;
 }
