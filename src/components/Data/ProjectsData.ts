@@ -26,7 +26,7 @@ export const PROJECTS_DATA = [
     ],
     info: "A space where athletes dive deeper into their Strava data through clean visuals, insightful comparisons, and meaningful trends that make training feel more motivating. Approved and powered by Strava.",
     infoLong:
-      "Avarts is a data visualization platform for athletes, providing deep insights into Strava activity data. Users can explore interactive heatmaps, compare performance trends, and discover new ways to stay motivated. Built with a modern stack including NextJS, Prisma, and Mapbox GL, Avarts delivers a seamless and visually engaging experience. The project is officially approved by Strava and leverages advanced analytics tools like Sentry and Posthog for monitoring and improvement.",
+      "Avarts is a free data visualization platform for athletes, built to help you understand your Strava activity data through clear visuals, interactive heatmaps, and insightful comparisons. Whether you run, cycle, swim, or lift, Avarts pulls your exact data directly from Strava and presents it in a motivating, easy-to-explore interface. You can log in securely via Strava OAuth, or try a demo account to preview features. Avarts supports a wide range of sports and lets you save favorite activities, share achievements, and explore trends with advanced GPS maps. Your data is always safe, and you can delete it anytime. The app highlights your training patterns and favorite routes, making your progress more visible and engaging.",
     address: "https://www.avarts.app/",
     repo: "https://github.com/Nikoobox/avarts",
     isResponsive: true,
@@ -34,6 +34,8 @@ export const PROJECTS_DATA = [
     showRepo: false,
     isMainProject: true,
     status: "Live and flying 🚀",
+    learningGoal:
+      "To create a secure, user-friendly platform that visualizes Strava data for athletes, focusing on interactive heatmaps, activity insights, and seamless sharing—while learning advanced data handling, OAuth authentication, and modern frontend techniques.",
   },
   {
     id: 1,
@@ -60,6 +62,8 @@ export const PROJECTS_DATA = [
     showRepo: true,
     isMainProject: true,
     status: "Live, but moved to a demo domain due to business closure",
+    learningGoal:
+      "To develop a fully responsive VR gaming arena website with advanced booking features and dynamic animations.",
   },
   {
     id: 2,
