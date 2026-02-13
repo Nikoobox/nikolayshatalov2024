@@ -4,7 +4,7 @@ import { isMobile } from "react-device-detect";
 import { HiOutlineExternalLink } from "react-icons/hi";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 import { Box, Typography, Button } from "@mui/material";
 import { styled } from "@mui/system";
