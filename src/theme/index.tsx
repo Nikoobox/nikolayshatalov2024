@@ -124,6 +124,7 @@ const themeOptions: ThemeOptions = {
       blueDark: COLORS.BLUE_DARK,
       charcoalBlack: COLORS.CHARCOAL_BLACK,
       deepSlate: COLORS.DEEP_SLATE,
+      classicBlue: COLORS.CLASSIC_BLUE,
     },
   },
   // Change dark mode background opacity

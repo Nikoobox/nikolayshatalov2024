@@ -8,6 +8,8 @@ import { PROJECTS_DATA } from "@/components/Data";
 import Page from "@/components/Page";
 import { ProjectProps } from "@/components/Projects/ProjectProps";
 import { useDarkTheme } from "@/hooks";
+import { MyLink } from "@/components/UI";
+import InfoLinkRow from "./InfoLinkRow";
 
 const AnimatedImageWrapper = styled("div")(({ theme }) => ({
   width: "100%",
@@ -98,7 +100,6 @@ const ProjectPage = () => {
         sx={{ borderRadius: theme.spacing(2) }}
       >
         <Box width={"100%"} display="flex" flexDirection="column" gap={4}>
-          {/* <img src={img} alt={name} className="project-image" /> */}
           <AnimatedImageWrapper>
             <AnimatedImage src={img} alt={name} />
           </AnimatedImageWrapper>
@@ -129,6 +130,14 @@ const ProjectPage = () => {
               <Typography minWidth="120px">Status</Typography>
               <Typography>{status}</Typography>
             </Box>
+
+            <InfoLinkRow label="Site" link={address} linkLabel={address} />
+
+            <InfoLinkRow
+              label="Git Repo"
+              link={repo}
+              linkLabel="Visit github repository"
+            />
           </Box>
         </Box>
       </Box>

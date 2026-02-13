@@ -61,6 +61,7 @@ interface customColors {
     blueDark: string;
     charcoalBlack: string;
     deepSlate: string;
+    classicBlue: string;
   };
 }
 
