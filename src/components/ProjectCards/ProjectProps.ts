@@ -4,7 +4,7 @@ export interface ProjectProps {
   img: string;
   tools: string[];
   info: string;
-  infoLong: string;
+  infoLong?: string;
   address: string;
   repo: string;
   isResponsive: boolean;
@@ -14,4 +14,5 @@ export interface ProjectProps {
   year: number;
   isMainProject: boolean;
   status: string;
+  techDescription: string;
 }

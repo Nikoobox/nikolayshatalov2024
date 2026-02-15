@@ -11,9 +11,11 @@ const Page = ({ children }: { children: React.ReactNode }) => {
   return (
     <Box
       minHeight={calculatedMinHeight}
-      sx={{ background: theme.palette.backgroundCustom.primary, pt: 12 }}
+      sx={{ background: theme.palette.backgroundCustom.secondary, pt: 12 }}
     >
-      <Container maxWidth="lg">{children}</Container>
+      <Container maxWidth="lg">
+        <Box mb={10}>{children}</Box>
+      </Container>
     </Box>
   );
 };

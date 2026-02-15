@@ -1,5 +1,4 @@
 import { FC } from "react";
-import Wave from "react-wavify";
 
 import { Box, Typography, Container } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
@@ -11,21 +10,6 @@ const Footer: FC = () => {
 
   return (
     <Box sx={{ background: theme.palette.customColors.charcoalBlack }}>
-      <Wave
-        fill={theme.palette.customColors.charcoalBlack}
-        paused={false}
-        style={{
-          display: "flex",
-          background: theme.palette.backgroundCustom.primary,
-          height: theme.spacing(4),
-        }}
-        options={{
-          height: 20,
-          amplitude: 20,
-          speed: 0.1,
-          points: 4,
-        }}
-      />
       <Container maxWidth="lg">
         <Box
           display="flex"

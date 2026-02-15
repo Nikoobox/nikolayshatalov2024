@@ -1,15 +1,15 @@
 import { useParams } from "react-router-dom";
-
 import { useTheme } from "@mui/material/styles";
 import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/system";
+import { IoMdPhonePortrait, IoMdDesktop, IoMdLaptop } from "react-icons/io";
 
 import { PROJECTS_DATA } from "@/components/Data";
 import Page from "@/components/Page";
 import { ProjectProps } from "@/components/Projects/ProjectProps";
 import { useDarkTheme } from "@/hooks";
-import { MyLink } from "@/components/UI";
 import InfoLinkRow from "./InfoLinkRow";
+import { LABEL_MIN_WIDTH } from "./configs";
 
 const AnimatedImageWrapper = styled("div")(({ theme }) => ({
   width: "100%",
@@ -52,6 +52,19 @@ const ToolsBox = styled(Box)(({ theme }) => {
   };
 });
 
+const IconsBox = styled(Box)(({ theme }) => {
+  const isDarkMode = theme.palette.mode === "dark";
+  return {
+    "& .icon": {
+      color: isDarkMode
+        ? theme.palette.customColors.greyLightest
+        : theme.palette.customColors.grey900,
+      height: theme.spacing(3),
+      width: theme.spacing(3),
+    },
+  };
+});
+
 const ProjectPage = () => {
   const { projectId } = useParams();
   const theme = useTheme();
@@ -73,11 +86,10 @@ const ProjectPage = () => {
     isResponsive,
     showLink,
     showRepo,
-    isMainProject,
+    techDescription,
     status,
   } = projectData!;
 
-  console.log("projectData", projectData);
   const techToolColor = isDarkMode
     ? "customColors.grey900"
     : "customColors.grey";
@@ -106,38 +118,51 @@ const ProjectPage = () => {
 
           <Box display="flex" flexDirection={"column"} gap={2}>
             <Box display="flex" gap={2}>
-              <Typography minWidth="120px">Project Name</Typography>
+              <Typography minWidth={LABEL_MIN_WIDTH}>Project Name</Typography>
               <Typography>{name}</Typography>
             </Box>
             <Box display="flex" gap={2} alignItems={"center"}>
-              <Typography minWidth="120px">Year</Typography>
-
+              <Typography minWidth={LABEL_MIN_WIDTH}>Year</Typography>
               <Typography>{year}</Typography>
             </Box>
             <Box display="flex" gap={2}>
-              <Typography minWidth="120px">Description </Typography>
+              <Typography minWidth={LABEL_MIN_WIDTH}>Description</Typography>
               <Typography>{infoLong}</Typography>
             </Box>
-
             <Box display="flex" gap={2}>
-              <Typography minWidth="120px">Built With</Typography>
-              <ToolsBox flexWrap="wrap" display={"flex"}>
+              <Typography minWidth={LABEL_MIN_WIDTH}>Optimized For</Typography>
+              <IconsBox display="flex" gap={1.5}>
+                {isResponsive && <IoMdPhonePortrait className="icon" />}
+                <IoMdLaptop className="icon" />
+                <IoMdDesktop className="icon" />
+              </IconsBox>
+            </Box>
+            <Box display="flex" gap={2}>
+              <Typography minWidth={LABEL_MIN_WIDTH}>Built With</Typography>
+              <ToolsBox flexWrap="wrap" display="flex">
                 {techTools}
               </ToolsBox>
             </Box>
-
             <Box display="flex" gap={2}>
-              <Typography minWidth="120px">Status</Typography>
+              <Typography minWidth={LABEL_MIN_WIDTH}>
+                Tech Description
+              </Typography>
+              <Typography>{techDescription}</Typography>
+            </Box>
+            <Box display="flex" gap={2}>
+              <Typography minWidth={LABEL_MIN_WIDTH}>Status</Typography>
               <Typography>{status}</Typography>
             </Box>
-
-            <InfoLinkRow label="Site" link={address} linkLabel={address} />
-
-            <InfoLinkRow
-              label="Git Repo"
-              link={repo}
-              linkLabel="Visit github repository"
-            />
+            {showLink && (
+              <InfoLinkRow label="Site" link={address} linkLabel={address} />
+            )}
+            {showRepo && (
+              <InfoLinkRow
+                label="Github"
+                link={repo}
+                linkLabel="Visit github repository"
+              />
+            )}
           </Box>
         </Box>
       </Box>

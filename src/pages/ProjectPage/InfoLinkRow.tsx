@@ -3,6 +3,7 @@ import { useTheme } from "@mui/material/styles";
 import { FC } from "react";
 import { useDarkTheme } from "@/hooks";
 import { MyLink } from "@/components/UI";
+import { LABEL_MIN_WIDTH } from "./configs";
 
 interface InfoLinkRowProps {
   label: string;
@@ -27,7 +28,7 @@ const InfoLinkRow: FC<InfoLinkRowProps> = ({ label, link, linkLabel }) => {
         },
       }}
     >
-      <Typography minWidth="120px">{label}</Typography>
+      <Typography minWidth={LABEL_MIN_WIDTH}>{label}</Typography>
       <MyLink
         label={linkLabel}
         link={link}

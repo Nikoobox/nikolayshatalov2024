@@ -4,15 +4,15 @@ import { Box } from "@mui/material";
 
 import { PROJECTS_DATA } from "../Data";
 import PageSection from "../PageSection";
-import Project from "./Project";
+import ProjectCard from "./ProjectCard";
 
-const Projects: FC = () => {
+const ProjectCards: FC = () => {
   const projects = PROJECTS_DATA.filter((proj) => proj.isMainProject).map(
-    (proj) => <Project key={proj.id} {...proj} />
+    (proj) => <ProjectCard key={proj.id} {...proj} />,
   );
 
   const otherProjects = PROJECTS_DATA.filter((proj) => !proj.isMainProject).map(
-    (proj) => <Project key={proj.id} {...proj} />
+    (proj) => <ProjectCard key={proj.id} {...proj} />,
   );
 
   return (
@@ -64,4 +64,4 @@ const Projects: FC = () => {
     </PageSection>
   );
 };
-export default Projects;
+export default ProjectCards;

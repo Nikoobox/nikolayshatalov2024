@@ -11,7 +11,7 @@ import { styled } from "@mui/system";
 import { useTheme, alpha } from "@mui/material/styles";
 
 import { ProjectProps } from "./ProjectProps";
-import { COLORS } from "../../theme/";
+import { COLORS } from "../../theme";
 import MyDialog from "../MyDialog";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
 import { MyLink } from "../UI";
@@ -65,7 +65,7 @@ const StyledBox = styled(Box)(({ theme }) => {
   };
 });
 
-const Project: FC<ProjectProps> = ({
+const ProjectCard: FC<ProjectProps> = ({
   name,
   img,
   tools,
@@ -283,4 +283,4 @@ const Project: FC<ProjectProps> = ({
   );
 };
 
-export default Project;
+export default ProjectCard;
