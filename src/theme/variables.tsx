@@ -19,6 +19,7 @@ export const COLORS = {
   BLACK: "#222",
   CHARCOAL_BLACK: "#0A0F14", // blackest black
   DEEP_SLATE: "#0d171e",
+  CLASSIC_BLUE: "#1a0dab",
 };
 
 export const fontFamily = `-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif`;

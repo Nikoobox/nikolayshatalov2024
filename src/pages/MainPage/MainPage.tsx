@@ -5,7 +5,7 @@ import { Box } from "@mui/material";
 
 import Landing from "../../components/Landing";
 import Skills from "../../components/Skills";
-import Projects from "../../components/Projects";
+import ProjectCards from "../../components/ProjectCards";
 import Contact from "../../components/Contact";
 import PageSectionWrapper from "../../components/PageSectionWrapper";
 
@@ -16,7 +16,7 @@ const MainPage: FC = () => {
       <Landing />
       <Box mt="100vh">
         <Skills />
-        <Projects />
+        <ProjectCards />
         <PageSectionWrapper bgColor={theme.palette.backgroundCustom.primary}>
           <Contact />
         </PageSectionWrapper>
