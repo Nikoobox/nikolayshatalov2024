@@ -6,7 +6,7 @@ import { IoMdPhonePortrait, IoMdDesktop, IoMdLaptop } from "react-icons/io";
 
 import { PROJECTS_DATA } from "@/components/Data";
 import Page from "@/components/Page";
-import { ProjectProps } from "@/components/Projects/ProjectProps";
+import { ProjectProps } from "@/components/ProjectCards/ProjectProps";
 import { useDarkTheme } from "@/hooks";
 import InfoLinkRow from "./InfoLinkRow";
 import { LABEL_MIN_WIDTH } from "./configs";
@@ -74,12 +74,10 @@ const ProjectPage = () => {
     (project) => project.id === +projectId!,
   );
   const {
-    id,
     name,
     img,
     year,
     tools,
-    info,
     infoLong,
     address,
     repo,
@@ -93,7 +91,7 @@ const ProjectPage = () => {
   const techToolColor = isDarkMode
     ? "customColors.grey900"
     : "customColors.grey";
-  const techTools = tools.map((tool) => (
+  const techTools = tools.map((tool: string) => (
     <Typography color={techToolColor} className="tool" key={tool}>
       {tool}
     </Typography>
@@ -102,68 +100,157 @@ const ProjectPage = () => {
   return (
     <Page>
       <Box
-        mt={6}
-        p={4}
-        bgcolor={
-          isDarkMode
-            ? theme.palette.customColors.charcoalBlack
-            : theme.palette.customColors.greyLightest
-        }
-        sx={{ borderRadius: theme.spacing(2) }}
+        mt={{ xs: 2, sm: 6 }}
+        p={{ xs: 0, sm: 4 }}
+        sx={{
+          borderRadius: theme.spacing(2),
+          background: {
+            xs: "transparent",
+            sm: isDarkMode
+              ? theme.palette.customColors.charcoalBlack
+              : theme.palette.customColors.greyLightest,
+          },
+        }}
       >
-        <Box width={"100%"} display="flex" flexDirection="column" gap={4}>
+        <Box width="100%" display="flex" flexDirection="column" gap={4}>
           <AnimatedImageWrapper>
             <AnimatedImage src={img} alt={name} />
           </AnimatedImageWrapper>
 
-          <Box display="flex" flexDirection={"column"} gap={2}>
-            <Box display="flex" gap={2}>
-              <Typography minWidth={LABEL_MIN_WIDTH}>Project Name</Typography>
-              <Typography>{name}</Typography>
-            </Box>
-            <Box display="flex" gap={2} alignItems={"center"}>
-              <Typography minWidth={LABEL_MIN_WIDTH}>Year</Typography>
-              <Typography>{year}</Typography>
-            </Box>
-            <Box display="flex" gap={2}>
-              <Typography minWidth={LABEL_MIN_WIDTH}>Description</Typography>
-              <Typography>{infoLong}</Typography>
-            </Box>
-            <Box display="flex" gap={2}>
-              <Typography minWidth={LABEL_MIN_WIDTH}>Optimized For</Typography>
-              <IconsBox display="flex" gap={1.5}>
-                {isResponsive && <IoMdPhonePortrait className="icon" />}
-                <IoMdLaptop className="icon" />
-                <IoMdDesktop className="icon" />
-              </IconsBox>
-            </Box>
-            <Box display="flex" gap={2}>
-              <Typography minWidth={LABEL_MIN_WIDTH}>Built With</Typography>
-              <ToolsBox flexWrap="wrap" display="flex">
-                {techTools}
-              </ToolsBox>
-            </Box>
-            <Box display="flex" gap={2}>
-              <Typography minWidth={LABEL_MIN_WIDTH}>
-                Tech Description
-              </Typography>
-              <Typography>{techDescription}</Typography>
-            </Box>
-            <Box display="flex" gap={2}>
-              <Typography minWidth={LABEL_MIN_WIDTH}>Status</Typography>
-              <Typography>{status}</Typography>
-            </Box>
-            {showLink && (
-              <InfoLinkRow label="Site" link={address} linkLabel={address} />
-            )}
-            {showRepo && (
-              <InfoLinkRow
-                label="Github"
-                link={repo}
-                linkLabel="Visit github repository"
-              />
-            )}
+          <Box
+            display="flex"
+            gap={{ xs: 1, sm: 2 }}
+            sx={{ flexDirection: { xs: "column", sm: "row" } }}
+          >
+            <Typography
+              minWidth={LABEL_MIN_WIDTH}
+              color={
+                isDarkMode ? theme.palette.customColors.greyAccent : "inherit"
+              }
+              variant="h3"
+            >
+              Project Name
+            </Typography>
+            <Typography variant="h3">{name}</Typography>
           </Box>
+
+          <Box
+            display="flex"
+            gap={{ xs: 1, sm: 2 }}
+            sx={{ flexDirection: { xs: "column", sm: "row" } }}
+          >
+            <Typography
+              minWidth={LABEL_MIN_WIDTH}
+              color={
+                isDarkMode ? theme.palette.customColors.greyAccent : "inherit"
+              }
+              variant="h3"
+            >
+              Year
+            </Typography>
+            <Typography variant="h3">{year}</Typography>
+          </Box>
+
+          <Box
+            display="flex"
+            gap={{ xs: 1, sm: 2 }}
+            sx={{ flexDirection: { xs: "column", sm: "row" } }}
+          >
+            <Typography
+              minWidth={LABEL_MIN_WIDTH}
+              color={
+                isDarkMode ? theme.palette.customColors.greyAccent : "inherit"
+              }
+              variant="h3"
+            >
+              Description
+            </Typography>
+            <Typography variant="h3">{infoLong}</Typography>
+          </Box>
+
+          <Box
+            display="flex"
+            gap={{ xs: 1, sm: 2 }}
+            sx={{ flexDirection: { xs: "column", sm: "row" } }}
+          >
+            <Typography
+              minWidth={LABEL_MIN_WIDTH}
+              color={
+                isDarkMode ? theme.palette.customColors.greyAccent : "inherit"
+              }
+              variant="h3"
+            >
+              Optimized For
+            </Typography>
+            <IconsBox display="flex" gap={1.5}>
+              {isResponsive && <IoMdPhonePortrait className="icon" />}
+              <IoMdLaptop className="icon" />
+              <IoMdDesktop className="icon" />
+            </IconsBox>
+          </Box>
+
+          <Box
+            display="flex"
+            gap={{ xs: 1, sm: 2 }}
+            sx={{ flexDirection: { xs: "column", sm: "row" } }}
+          >
+            <Typography
+              minWidth={LABEL_MIN_WIDTH}
+              color={
+                isDarkMode ? theme.palette.customColors.greyAccent : "inherit"
+              }
+              variant="h3"
+            >
+              Built With
+            </Typography>
+            <ToolsBox flexWrap="wrap" display="flex">
+              {techTools}
+            </ToolsBox>
+          </Box>
+
+          <Box
+            display="flex"
+            gap={{ xs: 1, sm: 2 }}
+            sx={{ flexDirection: { xs: "column", sm: "row" } }}
+          >
+            <Typography
+              minWidth={LABEL_MIN_WIDTH}
+              color={
+                isDarkMode ? theme.palette.customColors.greyAccent : "inherit"
+              }
+              variant="h3"
+            >
+              Tech Description
+            </Typography>
+            <Typography variant="h3">{techDescription}</Typography>
+          </Box>
+
+          <Box
+            display="flex"
+            gap={{ xs: 1, sm: 2 }}
+            sx={{ flexDirection: { xs: "column", sm: "row" } }}
+          >
+            <Typography
+              minWidth={LABEL_MIN_WIDTH}
+              color={
+                isDarkMode ? theme.palette.customColors.greyAccent : "inherit"
+              }
+              variant="h3"
+            >
+              Status
+            </Typography>
+            <Typography variant="h3">{status}</Typography>
+          </Box>
+          {showLink && (
+            <InfoLinkRow label="Site" link={address} linkLabel={address} />
+          )}
+          {showRepo && (
+            <InfoLinkRow
+              label="Github"
+              link={repo}
+              linkLabel="Visit github repository"
+            />
+          )}
         </Box>
       </Box>
     </Page>

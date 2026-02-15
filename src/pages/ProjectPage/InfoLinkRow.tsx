@@ -18,9 +18,10 @@ const InfoLinkRow: FC<InfoLinkRowProps> = ({ label, link, linkLabel }) => {
   return (
     <Box
       display="flex"
-      gap={2}
-      alignItems={"center"}
+      gap={{ sm: 2 }}
       sx={{
+        flexDirection: { xs: "column", sm: "row" },
+        alignItems: { xs: "flex-start", sm: "center" },
         "& .site-link": {
           textDecorationColor: isDarkMode
             ? theme.palette.customColors.tealAccent
@@ -28,11 +29,17 @@ const InfoLinkRow: FC<InfoLinkRowProps> = ({ label, link, linkLabel }) => {
         },
       }}
     >
-      <Typography minWidth={LABEL_MIN_WIDTH}>{label}</Typography>
+      <Typography
+        variant="h3"
+        minWidth={LABEL_MIN_WIDTH}
+        color={isDarkMode ? theme.palette.customColors.greyAccent : "inherit"}
+      >
+        {label}
+      </Typography>
       <MyLink
         label={linkLabel}
         link={link}
-        variant="h4"
+        variant="h3"
         color={
           isDarkMode
             ? theme.palette.customColors.tealAccent
