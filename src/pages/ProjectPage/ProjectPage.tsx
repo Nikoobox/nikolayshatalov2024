@@ -18,6 +18,7 @@ import { ProjectProps } from "@/components/ProjectCards/ProjectProps";
 import { useDarkTheme } from "@/hooks";
 import InfoLinkRow from "./InfoLinkRow";
 import { LABEL_MIN_WIDTH, LABEL_FONT_WEIGHT } from "./configs";
+import ProjectInfoRow from "./ProjectInfoRow";
 
 const AnimatedImageWrapper = styled("div")(({ theme }) => ({
   width: "100%",
@@ -127,6 +128,51 @@ const ProjectPage = () => {
     </Typography>
   ));
 
+  const labelUnderlineSx = {
+    fontWeight: LABEL_FONT_WEIGHT,
+    position: "relative",
+    display: "inline-block",
+    zIndex: 1,
+    height: "max-content",
+    "&::after": {
+      content: '""',
+      position: "absolute",
+      left: 0,
+      bottom: 1,
+      width: "75%",
+      height: "8px",
+      background: theme.palette.customColors.tealAccent,
+      opacity: 0.6,
+      zIndex: -1,
+    },
+  };
+
+  const infoRows = [
+    { label: "Project name", value: name },
+    { label: "Year", value: year },
+    { label: "Description", value: infoLong },
+    {
+      label: "Optimized for",
+      value: (
+        <IconsBox display="flex" gap={1.5}>
+          {isResponsive && <IoMdPhonePortrait className="icon" />}
+          <IoMdLaptop className="icon" />
+          <IoMdDesktop className="icon" />
+        </IconsBox>
+      ),
+    },
+    {
+      label: "Built with",
+      value: (
+        <ToolsBox flexWrap="wrap" display="flex">
+          {techTools}
+        </ToolsBox>
+      ),
+    },
+    { label: "Tech description", value: techDescription },
+    { label: "Status", value: status },
+  ];
+
   return (
     <Page>
       <BackBox sx={{ paddingTop: { xs: 2, sm: theme.spacing(4) } }}>
@@ -159,140 +205,28 @@ const ProjectPage = () => {
             <AnimatedImage src={img} alt={name} />
           </AnimatedImageWrapper>
 
-          <Box
-            display="flex"
-            gap={{ xs: 1, sm: 2 }}
-            sx={{ flexDirection: { xs: "column", sm: "row" } }}
-          >
-            <Typography
+          {infoRows.map(({ label, value }) => (
+            <ProjectInfoRow
+              key={label}
+              label={label}
+              value={value}
+              labelSx={{
+                ...labelUnderlineSx,
+                color: isDarkMode
+                  ? theme.palette.customColors.greyAccent
+                  : "inherit",
+              }}
               minWidth={LABEL_MIN_WIDTH}
-              color={
-                isDarkMode ? theme.palette.customColors.greyAccent : "inherit"
-              }
-              variant="h3"
-              sx={{ fontWeight: LABEL_FONT_WEIGHT }}
-            >
-              Project name
-            </Typography>
-            <Typography variant="h3">{name}</Typography>
-          </Box>
-
-          <Box
-            display="flex"
-            gap={{ xs: 1, sm: 2 }}
-            sx={{ flexDirection: { xs: "column", sm: "row" } }}
-          >
-            <Typography
-              minWidth={LABEL_MIN_WIDTH}
-              color={
-                isDarkMode ? theme.palette.customColors.greyAccent : "inherit"
-              }
-              variant="h3"
-              sx={{ fontWeight: LABEL_FONT_WEIGHT }}
-            >
-              Year
-            </Typography>
-            <Typography variant="h3">{year}</Typography>
-          </Box>
-
-          <Box
-            display="flex"
-            gap={{ xs: 1, sm: 2 }}
-            sx={{ flexDirection: { xs: "column", sm: "row" } }}
-          >
-            <Typography
-              minWidth={LABEL_MIN_WIDTH}
-              color={
-                isDarkMode ? theme.palette.customColors.greyAccent : "inherit"
-              }
-              variant="h3"
-              sx={{ fontWeight: LABEL_FONT_WEIGHT }}
-            >
-              Description
-            </Typography>
-            <Typography variant="h3">{infoLong}</Typography>
-          </Box>
-
-          <Box
-            display="flex"
-            gap={{ xs: 1, sm: 2 }}
-            sx={{ flexDirection: { xs: "column", sm: "row" } }}
-          >
-            <Typography
-              minWidth={LABEL_MIN_WIDTH}
-              color={
-                isDarkMode ? theme.palette.customColors.greyAccent : "inherit"
-              }
-              variant="h3"
-              sx={{ fontWeight: LABEL_FONT_WEIGHT }}
-            >
-              Optimized for
-            </Typography>
-            <IconsBox display="flex" gap={1.5}>
-              {isResponsive && <IoMdPhonePortrait className="icon" />}
-              <IoMdLaptop className="icon" />
-              <IoMdDesktop className="icon" />
-            </IconsBox>
-          </Box>
-
-          <Box
-            display="flex"
-            gap={{ xs: 1, sm: 2 }}
-            sx={{ flexDirection: { xs: "column", sm: "row" } }}
-          >
-            <Typography
-              minWidth={LABEL_MIN_WIDTH}
-              color={
-                isDarkMode ? theme.palette.customColors.greyAccent : "inherit"
-              }
-              variant="h3"
-              sx={{ fontWeight: LABEL_FONT_WEIGHT }}
-            >
-              Built with
-            </Typography>
-            <ToolsBox flexWrap="wrap" display="flex">
-              {techTools}
-            </ToolsBox>
-          </Box>
-
-          <Box
-            display="flex"
-            gap={{ xs: 1, sm: 2 }}
-            sx={{ flexDirection: { xs: "column", sm: "row" } }}
-          >
-            <Typography
-              minWidth={LABEL_MIN_WIDTH}
-              color={
-                isDarkMode ? theme.palette.customColors.greyAccent : "inherit"
-              }
-              variant="h3"
-              sx={{ fontWeight: LABEL_FONT_WEIGHT }}
-            >
-              Tech description
-            </Typography>
-            <Typography variant="h3">{techDescription}</Typography>
-          </Box>
-
-          <Box
-            display="flex"
-            gap={{ xs: 1, sm: 2 }}
-            sx={{ flexDirection: { xs: "column", sm: "row" } }}
-          >
-            <Typography
-              minWidth={LABEL_MIN_WIDTH}
-              color={
-                isDarkMode ? theme.palette.customColors.greyAccent : "inherit"
-              }
-              variant="h3"
-              sx={{ fontWeight: LABEL_FONT_WEIGHT }}
-            >
-              Status
-            </Typography>
-            <Typography variant="h3">{status}</Typography>
-          </Box>
+            />
+          ))}
 
           {showLink && (
-            <InfoLinkRow label="Site" link={address} linkLabel={address} />
+            <InfoLinkRow
+              label="Site"
+              link={address}
+              linkLabel={address}
+              labelUnderlineSx={labelUnderlineSx}
+            />
           )}
 
           {showRepo && (
@@ -300,6 +234,7 @@ const ProjectPage = () => {
               label="Github"
               link={repo}
               linkLabel="Visit github repository"
+              labelUnderlineSx={labelUnderlineSx}
             />
           )}
         </Box>

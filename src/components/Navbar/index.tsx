@@ -58,7 +58,7 @@ const commonNavItemStyles = (theme: Theme): object => ({
   "& :hover::after": {
     position: "absolute",
     left: "0",
-    width: "100%",
+    width: "75%",
     transition: "width 0.3s",
     zIndex: -1,
   },

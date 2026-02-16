@@ -9,11 +9,15 @@ interface InfoLinkRowProps {
   label: string;
   link: string;
   linkLabel: string;
+  labelUnderlineSx?: object;
 }
 
-const LABEL_FONT_WEIGHT = 500;
-
-const InfoLinkRow: FC<InfoLinkRowProps> = ({ label, link, linkLabel }) => {
+const InfoLinkRow: FC<InfoLinkRowProps> = ({
+  label,
+  link,
+  linkLabel,
+  labelUnderlineSx,
+}) => {
   const theme = useTheme();
   const isDarkMode = useDarkTheme();
 
@@ -31,14 +35,15 @@ const InfoLinkRow: FC<InfoLinkRowProps> = ({ label, link, linkLabel }) => {
         },
       }}
     >
-      <Typography
-        variant="h3"
-        minWidth={LABEL_MIN_WIDTH}
-        color={isDarkMode ? theme.palette.customColors.greyAccent : "inherit"}
-        sx={{ fontWeight: LABEL_FONT_WEIGHT }}
-      >
-        {label}
-      </Typography>
+      <Box minWidth={LABEL_MIN_WIDTH}>
+        <Typography
+          variant="h3"
+          color={isDarkMode ? theme.palette.customColors.greyAccent : "inherit"}
+          sx={labelUnderlineSx}
+        >
+          {label}
+        </Typography>
+      </Box>
       <MyLink
         label={linkLabel}
         link={link}
