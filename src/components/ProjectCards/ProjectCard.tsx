@@ -68,6 +68,10 @@ const StyledBox = styled(Box)(({ theme }) => {
       color: "white",
       textDecoration: "none",
     },
+    "& .link-internal-mob": {
+      color: isDarkMode ? theme.palette.common.white : {},
+      textDecoration: "none",
+    },
   };
 });
 
@@ -265,15 +269,9 @@ const ProjectCard: FC<ProjectProps> = ({
               </Box>
             )}
 
-            <Link className="link" to={`/projects/${id}`}>
+            <Link className="link-internal-mob" to={`/projects/${id}`}>
               <Box display="flex" alignItems="center">
-                <Typography
-                  variant="h4"
-                  color={isDarkMode ? "common.white" : "inherit"}
-                  mr={0.5}
-                >
-                  View Details
-                </Typography>
+                <Typography mr={0.5}>View Details</Typography>
                 <IoIosArrowForward />
               </Box>
             </Link>
