@@ -9,7 +9,13 @@ const Footer: FC = () => {
   const theme = useTheme();
 
   return (
-    <Box sx={{ background: theme.palette.customColors.charcoalBlack }}>
+    <Box
+      sx={{
+        background: theme.palette.customColors.charcoalBlack,
+        position: "relative",
+        zIndex: 1,
+      }}
+    >
       <Container maxWidth="lg">
         <Box
           display="flex"
