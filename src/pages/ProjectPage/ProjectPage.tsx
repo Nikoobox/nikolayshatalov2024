@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { animateScroll as scroll } from "react-scroll";
 
 import { useTheme } from "@mui/material/styles";
 import { Box, Typography } from "@mui/material";
@@ -100,7 +99,7 @@ const ProjectPage = () => {
   );
 
   useEffect(() => {
-    scroll.scrollToTop();
+    window.scrollTo(0, 0);
   }, []);
 
   const {
