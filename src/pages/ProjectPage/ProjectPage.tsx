@@ -1,15 +1,21 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+
 import { useTheme } from "@mui/material/styles";
 import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/system";
-import { IoMdPhonePortrait, IoMdDesktop, IoMdLaptop } from "react-icons/io";
+import {
+  IoMdPhonePortrait,
+  IoMdDesktop,
+  IoMdLaptop,
+  IoIosArrowRoundBack,
+} from "react-icons/io";
 
 import { PROJECTS_DATA } from "@/components/Data";
 import Page from "@/components/Page";
 import { ProjectProps } from "@/components/ProjectCards/ProjectProps";
 import { useDarkTheme } from "@/hooks";
 import InfoLinkRow from "./InfoLinkRow";
-import { LABEL_MIN_WIDTH } from "./configs";
+import { LABEL_MIN_WIDTH, LABEL_FONT_WEIGHT } from "./configs";
 
 const AnimatedImageWrapper = styled("div")(({ theme }) => ({
   width: "100%",
@@ -65,6 +71,22 @@ const IconsBox = styled(Box)(({ theme }) => {
   };
 });
 
+const BackBox = styled(Box)(({ theme }) => {
+  const isDarkMode = theme.palette.mode === "dark";
+  return {
+    a: {
+      textDecoration: "none",
+      color: isDarkMode
+        ? theme.palette.customColors.greyLightest
+        : theme.palette.customColors.grey900,
+    },
+    "& .icon": {
+      height: theme.spacing(4),
+      width: theme.spacing(4),
+    },
+  };
+});
+
 const ProjectPage = () => {
   const { projectId } = useParams();
   const theme = useTheme();
@@ -73,6 +95,7 @@ const ProjectPage = () => {
   const projectData: ProjectProps | undefined = PROJECTS_DATA.find(
     (project) => project.id === +projectId!,
   );
+
   const {
     name,
     img,
@@ -91,6 +114,7 @@ const ProjectPage = () => {
   const techToolColor = isDarkMode
     ? "customColors.grey900"
     : "customColors.grey";
+
   const techTools = tools.map((tool: string) => (
     <Typography color={techToolColor} className="tool" key={tool}>
       {tool}
@@ -99,8 +123,20 @@ const ProjectPage = () => {
 
   return (
     <Page>
+      <BackBox sx={{ paddingTop: { xs: 2, sm: theme.spacing(4) } }}>
+        <Link to="/">
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <IoIosArrowRoundBack className="icon" /> Back
+          </Box>
+        </Link>
+      </BackBox>
       <Box
-        mt={{ xs: 2, sm: 6 }}
+        mt={{ xs: 2, sm: 1 }}
         p={{ xs: 0, sm: 4 }}
         sx={{
           borderRadius: theme.spacing(2),
@@ -128,8 +164,9 @@ const ProjectPage = () => {
                 isDarkMode ? theme.palette.customColors.greyAccent : "inherit"
               }
               variant="h3"
+              sx={{ fontWeight: LABEL_FONT_WEIGHT }}
             >
-              Project Name
+              Project name
             </Typography>
             <Typography variant="h3">{name}</Typography>
           </Box>
@@ -145,6 +182,7 @@ const ProjectPage = () => {
                 isDarkMode ? theme.palette.customColors.greyAccent : "inherit"
               }
               variant="h3"
+              sx={{ fontWeight: LABEL_FONT_WEIGHT }}
             >
               Year
             </Typography>
@@ -162,6 +200,7 @@ const ProjectPage = () => {
                 isDarkMode ? theme.palette.customColors.greyAccent : "inherit"
               }
               variant="h3"
+              sx={{ fontWeight: LABEL_FONT_WEIGHT }}
             >
               Description
             </Typography>
@@ -179,8 +218,9 @@ const ProjectPage = () => {
                 isDarkMode ? theme.palette.customColors.greyAccent : "inherit"
               }
               variant="h3"
+              sx={{ fontWeight: LABEL_FONT_WEIGHT }}
             >
-              Optimized For
+              Optimized for
             </Typography>
             <IconsBox display="flex" gap={1.5}>
               {isResponsive && <IoMdPhonePortrait className="icon" />}
@@ -200,8 +240,9 @@ const ProjectPage = () => {
                 isDarkMode ? theme.palette.customColors.greyAccent : "inherit"
               }
               variant="h3"
+              sx={{ fontWeight: LABEL_FONT_WEIGHT }}
             >
-              Built With
+              Built with
             </Typography>
             <ToolsBox flexWrap="wrap" display="flex">
               {techTools}
@@ -219,8 +260,9 @@ const ProjectPage = () => {
                 isDarkMode ? theme.palette.customColors.greyAccent : "inherit"
               }
               variant="h3"
+              sx={{ fontWeight: LABEL_FONT_WEIGHT }}
             >
-              Tech Description
+              Tech description
             </Typography>
             <Typography variant="h3">{techDescription}</Typography>
           </Box>
@@ -236,14 +278,17 @@ const ProjectPage = () => {
                 isDarkMode ? theme.palette.customColors.greyAccent : "inherit"
               }
               variant="h3"
+              sx={{ fontWeight: LABEL_FONT_WEIGHT }}
             >
               Status
             </Typography>
             <Typography variant="h3">{status}</Typography>
           </Box>
+
           {showLink && (
             <InfoLinkRow label="Site" link={address} linkLabel={address} />
           )}
+
           {showRepo && (
             <InfoLinkRow
               label="Github"

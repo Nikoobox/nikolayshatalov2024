@@ -1,10 +1,15 @@
 import { FC, useState, PointerEvent } from "react";
-import { IoMdPhonePortrait, IoMdDesktop, IoMdLaptop } from "react-icons/io";
+import {
+  IoMdPhonePortrait,
+  IoMdDesktop,
+  IoMdLaptop,
+  IoIosArrowForward,
+} from "react-icons/io";
 import { isMobile } from "react-device-detect";
 import { HiOutlineExternalLink } from "react-icons/hi";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { Box, Typography, Button } from "@mui/material";
 import { styled } from "@mui/system";
@@ -162,6 +167,12 @@ const ProjectCard: FC<ProjectProps> = ({
 
               {showRepo && <MyLink label="Repo" link={repo} className="link" />}
 
+              <Link className="link" to={`/projects/${id}`}>
+                <Typography variant="h2" color={"common.white"}>
+                  View Details
+                </Typography>
+              </Link>
+
               {overview && (
                 <Button
                   className="overview-button"
@@ -237,6 +248,19 @@ const ProjectCard: FC<ProjectProps> = ({
                   />
                 </Box>
               )}
+
+              <Link className="link" to={`/projects/${id}`}>
+                <Typography variant="h4" color={"common.white"}>
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    sx={{ textDecoration: "underline" }}
+                  >
+                    <Typography mr={0.5}> View Details</Typography>
+                    <IoIosArrowForward />
+                  </Box>
+                </Typography>
+              </Link>
             </Box>
           )}
         </motion.div>
