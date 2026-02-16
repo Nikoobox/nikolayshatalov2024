@@ -236,7 +236,7 @@ const ProjectCard: FC<ProjectProps> = ({
 
         {/* MOBILE */}
         {isMobile && (
-          <Box display="flex" gap={3} mt={1.5}>
+          <Box display="flex" alignItems="center" gap={3} mt={1.5}>
             {showRepo && (
               <Box sx={{ "& a": isDarkMode ? { color: "white" } : {} }}>
                 <MyLink
