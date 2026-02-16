@@ -221,7 +221,12 @@ const ProjectPage = () => {
           ))}
 
           {showLink && (
-            <InfoLinkRow label="Site" link={address} linkLabel={address} />
+            <InfoLinkRow
+              label="Site"
+              link={address}
+              linkLabel={address}
+              labelUnderlineSx={labelUnderlineSx}
+            />
           )}
 
           {showRepo && (
@@ -229,6 +234,7 @@ const ProjectPage = () => {
               label="Github"
               link={repo}
               linkLabel="Visit github repository"
+              labelUnderlineSx={labelUnderlineSx}
             />
           )}
         </Box>

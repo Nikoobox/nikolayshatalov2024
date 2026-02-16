@@ -9,34 +9,17 @@ interface InfoLinkRowProps {
   label: string;
   link: string;
   linkLabel: string;
+  labelUnderlineSx?: object;
 }
 
-const LABEL_FONT_WEIGHT = 500;
-
-const InfoLinkRow: FC<InfoLinkRowProps> = ({ label, link, linkLabel }) => {
+const InfoLinkRow: FC<InfoLinkRowProps> = ({
+  label,
+  link,
+  linkLabel,
+  labelUnderlineSx,
+}) => {
   const theme = useTheme();
   const isDarkMode = useDarkTheme();
-
-  const labelUnderlineSx = {
-    fontWeight: LABEL_FONT_WEIGHT,
-    position: "relative",
-    display: "inline-block",
-    zIndex: 1,
-    height: "max-content",
-    "&::after": {
-      content: '""',
-      position: "absolute",
-      left: 0,
-      bottom: 1,
-      width: "75%",
-      height: "10px",
-      background: isDarkMode
-        ? theme.palette.customColors.tealAccent
-        : theme.palette.customColors.classicBlue,
-      opacity: 0.6,
-      zIndex: -1,
-    },
-  };
 
   return (
     <Box
