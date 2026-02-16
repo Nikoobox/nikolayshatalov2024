@@ -11,6 +11,8 @@ interface InfoLinkRowProps {
   linkLabel: string;
 }
 
+const LABEL_FONT_WEIGHT = 500;
+
 const InfoLinkRow: FC<InfoLinkRowProps> = ({ label, link, linkLabel }) => {
   const theme = useTheme();
   const isDarkMode = useDarkTheme();
@@ -33,6 +35,7 @@ const InfoLinkRow: FC<InfoLinkRowProps> = ({ label, link, linkLabel }) => {
         variant="h3"
         minWidth={LABEL_MIN_WIDTH}
         color={isDarkMode ? theme.palette.customColors.greyAccent : "inherit"}
+        sx={{ fontWeight: LABEL_FONT_WEIGHT }}
       >
         {label}
       </Typography>
