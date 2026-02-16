@@ -207,6 +207,10 @@ const ProjectPage = () => {
               ? theme.palette.customColors.charcoalBlack
               : theme.palette.common.white,
           },
+          boxShadow: {
+            xs: "none",
+            sm: `0 2px 8px ${theme.palette.customColors.charcoalBlack}0D`, // 0D = 5% opacity
+          },
         }}
       >
         <Box
