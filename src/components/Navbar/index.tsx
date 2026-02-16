@@ -25,6 +25,7 @@ import NightModeSwitch from "../NightModeSwitch";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
 import { navItems } from "./NavItems";
 import { resume } from "../Documents";
+import { useNavigate } from "react-router-dom";
 
 interface HideOnScrollProps {
   children: React.ReactElement;
@@ -114,6 +115,7 @@ const StyledATagWrapper = styled(Box)(({ theme }) => ({
 
 const Navbar: FC = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
 
@@ -193,6 +195,16 @@ const Navbar: FC = () => {
 
   const handleLogoClick = () => scroll.scrollToTop();
 
+  // Handler for nav item clicks
+  const handleNavItemClick = (destination: string) => {
+    if (location.pathname !== "/") {
+      navigate("/", { state: { scrollTo: destination } });
+    } else {
+      // Scroll to section as usual
+      scroll.scrollTo(+destination);
+    }
+  };
+
   return (
     <>
       <HideOnScroll>
@@ -252,6 +264,7 @@ const Navbar: FC = () => {
                         to={destination}
                         smooth={true}
                         duration={1000}
+                        onClick={() => handleNavItemClick(destination)}
                       >
                         <Typography variant="h2">{navItemName}</Typography>
                       </StyledNavItemLink>
