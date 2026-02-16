@@ -11,32 +11,29 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
 
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/system";
 import { useTheme, alpha } from "@mui/material/styles";
 
 import { ProjectProps } from "./ProjectProps";
-import { COLORS } from "../../theme";
-import MyDialog from "../MyDialog";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
 import { MyLink } from "../UI";
-
-const BORDER_COLORS = [
-  COLORS.PURPLE_ACCENT,
-  COLORS.GREEN_ACCENT,
-  COLORS.TEAL_ACCENT,
-  COLORS.YELLOW_ACCENT,
-  COLORS.RED_ACCENT,
-];
+import { getRandomColor } from "./helpers";
 
 const MOUSE = "mouse";
-
-const getRandomColor = () =>
-  BORDER_COLORS[Math.floor(Math.random() * BORDER_COLORS.length)];
 
 const StyledBox = styled(Box)(({ theme }) => {
   const isDarkMode = theme.palette.mode === "dark";
   return {
+    ".project-overlay": {
+      opacity: 0,
+      pointerEvents: "none",
+      transition: "opacity 0.3s ease",
+    },
+    ".project-overlay.overlay--visible ": {
+      opacity: 1,
+      pointerEvents: "auto",
+    },
     "& .project-image": {
       borderRadius: theme.spacing(2),
       height: "260px",
@@ -65,6 +62,10 @@ const StyledBox = styled(Box)(({ theme }) => {
         : theme.palette.common.white,
     },
     "& .link": {
+      color: "white",
+    },
+    "& .link-internal": {
+      color: "white",
       textDecoration: "none",
     },
   };
@@ -80,12 +81,10 @@ const ProjectCard: FC<ProjectProps> = ({
   isResponsive,
   showLink,
   showRepo,
-  overview,
   year,
   id,
 }) => {
   const [isHovered, setIsHovered] = useState<boolean>(false);
-  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const { isDarkMode } = useThemeContext();
   const { ref, inView } = useInView({
     threshold: 0.2,
@@ -102,10 +101,6 @@ const ProjectCard: FC<ProjectProps> = ({
     setIsHovered(false);
   };
 
-  const handleOverviewClick = () => {
-    setIsOpenModal(true);
-  };
-
   const techToolColor = isDarkMode
     ? "customColors.grey900"
     : "customColors.grey";
@@ -116,194 +111,176 @@ const ProjectCard: FC<ProjectProps> = ({
   ));
 
   return (
-    <>
-      <StyledBox
-        sx={{
-          width: {
-            sm: "100%",
-            md: "45%",
-          },
-        }}
-      >
-        <motion.div
-          ref={ref}
-          initial={{ y: 30, opacity: 0 }}
-          animate={inView && { y: 0, opacity: 1 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-        >
-          <Box
-            onPointerOver={handleOnPointerOver}
-            onPointerOut={handleOnPointerOut}
-            width="100%"
-            height="260px"
-            sx={{
-              position: "relative",
-              borderRadius: "16px",
-            }}
-          >
-            <img className="project-image" src={img} alt="project" />
-            <Box
-              width="100%"
-              height="260px"
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-              gap={4}
-              sx={{
-                backgroundColor: isHovered
-                  ? alpha(theme.palette.customColors.deepSlate, 0.95)
-                  : "transparent",
-                display: isHovered ? "flex" : "none",
-                position: "absolute",
-                top: 0,
-                borderRadius: theme.spacing(2),
-                transition: "display 0.15s ease-out",
-                border: `3px solid ${getRandomColor()}`,
-              }}
-            >
-              {showLink && (
-                <MyLink label="Live Link" link={address} className="link" />
-              )}
-
-              {showRepo && <MyLink label="Repo" link={repo} className="link" />}
-
-              <Link className="link" to={`/projects/${id}`}>
-                <Typography variant="h2" color={"common.white"}>
-                  View Details
-                </Typography>
-              </Link>
-
-              {overview && (
-                <Button
-                  className="overview-button"
-                  onClick={handleOverviewClick}
-                >
-                  <Typography variant="h2" color="common.white">
-                    Overview
-                  </Typography>
-                </Button>
-              )}
-            </Box>
-          </Box>
-
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
-            my={1}
-          >
-            <Typography variant="h2">{name}</Typography>
-
-            <Box display="flex" gap={1.5}>
-              <Typography
-                variant="body2"
-                color="grey"
-                alignSelf="flex-end"
-                noWrap
-                sx={{ flexShrink: 0 }}
-              >
-                Est. {year}
-              </Typography>
-              {isResponsive && <IoMdPhonePortrait className="icon" />}
-              <IoMdLaptop className="icon" />
-              <IoMdDesktop className="icon" />
-            </Box>
-          </Box>
-          <Typography variant="body1" mt={1.5} mb={2}>
-            {info}
-          </Typography>
-          <Box display="flex" flexWrap="wrap">
-            {techTools}
-          </Box>
-
-          {/* <Link to={`/projects/${id}`}>DETAILS </Link> */}
-
-          {/* mobile view */}
-          {isMobile && (
-            <Box display="flex" gap={3} mt={1.5}>
-              {showRepo && (
-                <Box sx={{ "& a": isDarkMode ? { color: "white" } : {} }}>
-                  <MyLink
-                    link={repo}
-                    customLabel={
-                      <Box display="flex" alignItems="center">
-                        <Typography mr={0.5}>Git Repo</Typography>
-                        <HiOutlineExternalLink />
-                      </Box>
-                    }
-                  />
-                </Box>
-              )}
-
-              {showLink && (
-                <Box sx={{ "& a": isDarkMode ? { color: "white" } : {} }}>
-                  <MyLink
-                    link={address}
-                    customLabel={
-                      <Box display="flex" alignItems="center">
-                        <Typography mr={0.5}>Live Link</Typography>
-                        <HiOutlineExternalLink />
-                      </Box>
-                    }
-                  />
-                </Box>
-              )}
-
-              <Link className="link" to={`/projects/${id}`}>
-                <Typography variant="h4" color={"common.white"}>
-                  <Box
-                    display="flex"
-                    alignItems="center"
-                    sx={{ textDecoration: "underline" }}
-                  >
-                    <Typography mr={0.5}> View Details</Typography>
-                    <IoIosArrowForward />
-                  </Box>
-                </Typography>
-              </Link>
-            </Box>
-          )}
-        </motion.div>
-      </StyledBox>
-
-      <MyDialog
-        open={isOpenModal}
-        onClose={setIsOpenModal}
-        title="Overview"
-        fullScreen={isMobile}
-        maxWidth="lg"
-        actions={
-          <Box sx={{ "& a": isDarkMode ? { color: "white" } : {} }}>
-            <MyLink
-              link={repo}
-              customLabel={
-                <Box display="flex" alignItems="center">
-                  <Typography>Visit Git Repo</Typography>
-                  <HiOutlineExternalLink style={{ marginLeft: "4px" }} />
-                </Box>
-              }
-            />
-          </Box>
-        }
+    <StyledBox
+      sx={{
+        width: {
+          sm: "100%",
+          md: "45%",
+        },
+      }}
+    >
+      <motion.div
+        ref={ref}
+        initial={{ y: 30, opacity: 0 }}
+        animate={inView && { y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
       >
         <Box
+          onPointerOver={handleOnPointerOver}
+          onPointerOut={handleOnPointerOut}
           width="100%"
-          height="100%"
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
+          height="260px"
           sx={{
-            img: {
-              margin: "2px 0",
-              height: "100%",
-              border: `1px solid ${theme.palette.customColors.greyLitest}`,
-            },
+            position: "relative",
+            borderRadius: "16px",
           }}
         >
-          <img src={overview} alt="overview" />
+          <img className="project-image" src={img} alt="project" />
+          <Box
+            className={`project-overlay${isHovered ? " overlay--visible" : ""}`}
+            width="100%"
+            height="260px"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            gap={4}
+            sx={{
+              backgroundColor: alpha(
+                theme.palette.customColors.deepSlate,
+                0.95,
+              ),
+              position: "absolute",
+              top: 0,
+              borderRadius: theme.spacing(2),
+              border: `3px solid ${getRandomColor()}`,
+            }}
+          >
+            {showLink && (
+              <MyLink
+                className="link"
+                link={address}
+                customLabel={
+                  <Box display="flex" alignItems="center">
+                    <Typography mr={0.5} variant="h3">
+                      Live Link
+                    </Typography>
+                    <HiOutlineExternalLink />
+                  </Box>
+                }
+              />
+            )}
+
+            {showRepo && (
+              <MyLink
+                className="link"
+                link={repo}
+                customLabel={
+                  <Box display="flex" alignItems="center">
+                    <Typography mr={0.5} variant="h3">
+                      Repo
+                    </Typography>
+                    <HiOutlineExternalLink />
+                  </Box>
+                }
+              />
+            )}
+
+            <Link to={`/projects/${id}`} className="link-internal">
+              <Box
+                display="flex"
+                alignItems="center"
+                sx={{
+                  "& .web-action-icon": {
+                    height: theme.spacing(2),
+                    width: theme.spacing(2),
+                  },
+                }}
+              >
+                <Typography variant="h3">View Details</Typography>
+
+                <IoIosArrowForward className="web-action-icon" />
+              </Box>
+            </Link>
+          </Box>
         </Box>
-      </MyDialog>
-    </>
+
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+          my={1}
+        >
+          <Typography variant="h2">{name}</Typography>
+
+          <Box display="flex" gap={1.5}>
+            <Typography
+              variant="body2"
+              color="grey"
+              alignSelf="flex-end"
+              noWrap
+              sx={{ flexShrink: 0 }}
+            >
+              Est. {year}
+            </Typography>
+            {isResponsive && <IoMdPhonePortrait className="icon" />}
+            <IoMdLaptop className="icon" />
+            <IoMdDesktop className="icon" />
+          </Box>
+        </Box>
+        <Typography variant="body1" mt={1.5} mb={2}>
+          {info}
+        </Typography>
+        <Box display="flex" flexWrap="wrap">
+          {techTools}
+        </Box>
+
+        {/* MOBILE */}
+        {isMobile && (
+          <Box display="flex" gap={3} mt={1.5}>
+            {showRepo && (
+              <Box sx={{ "& a": isDarkMode ? { color: "white" } : {} }}>
+                <MyLink
+                  link={repo}
+                  customLabel={
+                    <Box display="flex" alignItems="center">
+                      <Typography mr={0.5}>Git Repo</Typography>
+                      <HiOutlineExternalLink />
+                    </Box>
+                  }
+                />
+              </Box>
+            )}
+
+            {showLink && (
+              <Box sx={{ "& a": isDarkMode ? { color: "white" } : {} }}>
+                <MyLink
+                  link={address}
+                  customLabel={
+                    <Box display="flex" alignItems="center">
+                      <Typography mr={0.5}>Live Link</Typography>
+                      <HiOutlineExternalLink />
+                    </Box>
+                  }
+                />
+              </Box>
+            )}
+
+            <Link className="link" to={`/projects/${id}`}>
+              <Box display="flex" alignItems="center">
+                <Typography
+                  variant="h4"
+                  color={isDarkMode ? "common.white" : "inherit"}
+                  mr={0.5}
+                >
+                  View Details
+                </Typography>
+                <IoIosArrowForward />
+              </Box>
+            </Link>
+          </Box>
+        )}
+      </motion.div>
+    </StyledBox>
   );
 };
 
