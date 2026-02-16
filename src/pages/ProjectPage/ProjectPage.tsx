@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import { useTheme } from "@mui/material/styles";
-import { Box, Typography, useMediaQuery } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/system";
 import {
   IoMdPhonePortrait,
@@ -49,19 +49,12 @@ const AnimatedImage = styled("img")({
 });
 
 const ToolsBox = styled(Box)(({ theme }) => {
-  const isDarkMode = theme.palette.mode === "dark";
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-
   return {
     "& .tool": {
       margin: "2px 10px 8px 2px",
       padding: "5px 10px",
       borderRadius: theme.spacing(2),
-      background: isDarkMode
-        ? theme.palette.customColors.greyLightest
-        : isSmallScreen
-          ? theme.palette.customColors.greyLightest
-          : theme.palette.common.white,
+      background: theme.palette.customColors.greyLightest,
     },
   };
 });
@@ -212,7 +205,7 @@ const ProjectPage = () => {
             xs: "transparent",
             sm: isDarkMode
               ? theme.palette.customColors.charcoalBlack
-              : theme.palette.customColors.greyLightest,
+              : theme.palette.common.white,
           },
         }}
       >
