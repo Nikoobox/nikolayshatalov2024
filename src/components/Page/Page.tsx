@@ -24,7 +24,7 @@ const Page = ({
     >
       {customBackground}
       <Container maxWidth="lg">
-        <Box mb={10}>{children}</Box>
+        <Box mb={20}>{children}</Box>
       </Container>
     </Box>
   );
