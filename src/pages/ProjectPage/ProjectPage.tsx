@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { animateScroll as scroll } from "react-scroll";
 
 import { useTheme } from "@mui/material/styles";
 import { Box, Typography } from "@mui/material";
@@ -19,6 +18,8 @@ import { useDarkTheme } from "@/hooks";
 import InfoLinkRow from "./InfoLinkRow";
 import { LABEL_MIN_WIDTH, LABEL_FONT_WEIGHT } from "./configs";
 import ProjectInfoRow from "./ProjectInfoRow";
+import ParticlesTS from "@/components/Landing/Particles";
+import LightModeBackground from "@/components/Landing/LightModeBackground";
 
 const AnimatedImageWrapper = styled("div")(({ theme }) => ({
   width: "100%",
@@ -48,15 +49,12 @@ const AnimatedImage = styled("img")({
 });
 
 const ToolsBox = styled(Box)(({ theme }) => {
-  const isDarkMode = theme.palette.mode === "dark";
   return {
     "& .tool": {
       margin: "2px 10px 8px 2px",
       padding: "5px 10px",
       borderRadius: theme.spacing(2),
-      background: isDarkMode
-        ? theme.palette.customColors.greyLightest
-        : theme.palette.common.white,
+      background: theme.palette.customColors.greyLightest,
     },
   };
 });
@@ -100,7 +98,7 @@ const ProjectPage = () => {
   );
 
   useEffect(() => {
-    scroll.scrollToTop();
+    window.scrollTo(0, 0);
   }, []);
 
   const {
@@ -174,7 +172,18 @@ const ProjectPage = () => {
   ];
 
   return (
-    <Page>
+    <Page
+      customBackground={
+        isDarkMode ? (
+          <ParticlesTS
+            fixed
+            customBgColor={theme.palette.backgroundCustom.secondary}
+          />
+        ) : (
+          <LightModeBackground fixed />
+        )
+      }
+    >
       <BackBox sx={{ paddingTop: { xs: 2, sm: theme.spacing(4) } }}>
         <Link to="/">
           <Box
@@ -196,11 +205,20 @@ const ProjectPage = () => {
             xs: "transparent",
             sm: isDarkMode
               ? theme.palette.customColors.charcoalBlack
-              : theme.palette.customColors.greyLightest,
+              : theme.palette.common.white,
+          },
+          boxShadow: {
+            xs: "none",
+            sm: `0 2px 8px ${theme.palette.customColors.charcoalBlack}0D`, // 0D = 5% opacity
           },
         }}
       >
-        <Box width="100%" display="flex" flexDirection="column" gap={4}>
+        <Box
+          width="100%"
+          display="flex"
+          flexDirection="column"
+          gap={{ xs: 4, sm: 6 }}
+        >
           <AnimatedImageWrapper>
             <AnimatedImage src={img} alt={name} />
           </AnimatedImageWrapper>

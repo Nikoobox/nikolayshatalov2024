@@ -10,8 +10,8 @@ import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 import ParticlesTS from "./Particles";
-import { useThemeContext } from "../../theme/ThemeContextProvider";
 import LightModeBackground from "./LightModeBackground";
+import { useThemeContext } from "../../theme/ThemeContextProvider";
 
 // clamp guide:
 // min = 140px → top will never be less than 140px
@@ -57,6 +57,7 @@ const StyledLinkScroll = styled(
     marginTop: theme.spacing(5),
     transition: "all 0.3s ease",
     backgroundColor: "transparent",
+    cursor: "pointer",
     fontWeight,
     "& .MuiTypography-root": {
       fontWeight: "inherit",

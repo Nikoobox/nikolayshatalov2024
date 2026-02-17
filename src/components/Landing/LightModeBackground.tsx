@@ -41,17 +41,19 @@ const ACCENT_COLORS = [
 
 const COLORED_CHANCE = 0.005;
 
-const StyledCanvas = styled("canvas")({
-  position: "absolute",
+const StyledCanvas = styled("canvas", {
+  shouldForwardProp: (prop) => prop !== "fixed",
+})<{ fixed?: boolean }>(({ fixed }) => ({
+  position: fixed ? "fixed" : "absolute",
   width: "100%",
   height: "100vh",
   left: 0,
   top: 0,
-  zIndex: 0,
+  zIndex: -1,
   pointerEvents: "none",
-});
+}));
 
-export default function FlickeringGrid() {
+const LightModeBackground = ({ fixed }: { fixed?: boolean }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
@@ -149,5 +151,7 @@ export default function FlickeringGrid() {
     };
   }, []);
 
-  return <StyledCanvas ref={canvasRef} />;
-}
+  return <StyledCanvas ref={canvasRef} fixed={fixed} />;
+};
+
+export default LightModeBackground;

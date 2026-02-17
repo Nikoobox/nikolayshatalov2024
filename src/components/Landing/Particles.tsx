@@ -18,15 +18,25 @@ const {
   RED_ACCENT,
 } = COLORS;
 
-const StyledParticles = styled(Particles)({
-  position: "absolute",
-  width: "100%",
+const StyledParticles = styled(Particles, {
+  shouldForwardProp: (prop) => prop !== "fixed",
+})<{ fixed?: boolean }>(({ fixed }) => ({
+  position: fixed ? "fixed" : "absolute",
+  width: "100vw",
   height: "100vh",
   left: 0,
   top: 0,
-});
+  zIndex: -1,
+  pointerEvents: "none",
+}));
 
-const ParticlesTS = () => {
+const ParticlesTS = ({
+  fixed = false,
+  customBgColor,
+}: {
+  fixed?: boolean;
+  customBgColor?: string;
+}) => {
   const [init, setInit] = useState(false);
   const theme = useTheme();
 
@@ -39,13 +49,13 @@ const ParticlesTS = () => {
   }, []);
 
   const particlesLoaded = async (_container?: Container): Promise<void> => {};
-
+  console.log("customBgColor", customBgColor);
   const options: ISourceOptions = useMemo(
     () => ({
       fullScreen: false,
       background: {
         color: {
-          value: theme.palette.customColors.deepSlate,
+          value: customBgColor || theme.palette.customColors.deepSlate,
         },
       },
       fpsLimit: 120,
@@ -112,7 +122,7 @@ const ParticlesTS = () => {
       },
       detectRetina: true,
     }),
-    [theme]
+    [theme],
   );
 
   if (init) {
@@ -121,6 +131,7 @@ const ParticlesTS = () => {
         id="tsparticles"
         particlesLoaded={particlesLoaded}
         options={options}
+        fixed={fixed}
       />
     );
   }
