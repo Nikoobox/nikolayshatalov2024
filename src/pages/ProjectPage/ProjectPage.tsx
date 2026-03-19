@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import { motion } from "framer-motion";
 
 import { useTheme } from "@mui/material/styles";
 import { Box, Typography } from "@mui/material";
@@ -184,79 +185,124 @@ const ProjectPage = () => {
         )
       }
     >
-      <BackBox sx={{ paddingTop: { xs: 2, sm: theme.spacing(4) } }}>
-        <Link to="/">
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <IoIosArrowRoundBack className="icon" /> Back
-          </Box>
-        </Link>
-      </BackBox>
-      <Box
-        mt={{ xs: 2, sm: 1 }}
-        p={{ xs: 0, sm: 4 }}
-        sx={{
-          borderRadius: theme.spacing(2),
-          background: {
-            xs: "transparent",
-            sm: isDarkMode
-              ? theme.palette.customColors.charcoalBlack
-              : theme.palette.common.white,
-          },
-          boxShadow: {
-            xs: "none",
-            sm: `0 2px 8px ${theme.palette.customColors.charcoalBlack}0D`, // 0D = 5% opacity
-          },
-        }}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
       >
-        <Box
-          width="100%"
-          display="flex"
-          flexDirection="column"
-          gap={{ xs: 4, sm: 6 }}
-        >
-          <AnimatedImageWrapper>
-            <AnimatedImage src={img} alt={name} />
-          </AnimatedImageWrapper>
-
-          {infoRows.map(({ label, value }) => (
-            <ProjectInfoRow
-              key={label}
-              label={label}
-              value={value}
-              labelSx={{
-                ...labelUnderlineSx,
-                color: isDarkMode
-                  ? theme.palette.customColors.greyAccent
-                  : "inherit",
+        <BackBox sx={{ paddingTop: { xs: 2, sm: theme.spacing(4) } }}>
+          <Link to="/">
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
               }}
-              minWidth={LABEL_MIN_WIDTH}
-            />
-          ))}
+            >
+              <IoIosArrowRoundBack className="icon" /> Back
+            </Box>
+          </Link>
+        </BackBox>
+        <Box
+          mt={{ xs: 2, sm: 1 }}
+          p={{ xs: 0, sm: 4 }}
+          sx={{
+            borderRadius: theme.spacing(2),
+            background: {
+              xs: "transparent",
+              sm: isDarkMode
+                ? theme.palette.customColors.charcoalBlack
+                : theme.palette.common.white,
+            },
+            boxShadow: {
+              xs: "none",
+              sm: `0 2px 8px ${theme.palette.customColors.charcoalBlack}0D`, // 0D = 5% opacity
+            },
+          }}
+        >
+          <Box
+            width="100%"
+            display="flex"
+            flexDirection="column"
+            gap={{ xs: 4, sm: 6 }}
+          >
+            <motion.div
+              initial={{ y: 30, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{
+                duration: 0.6,
+                ease: "easeOut",
+                delay: 0.1,
+              }}
+            >
+              <AnimatedImageWrapper>
+                <AnimatedImage src={img} alt={name} />
+              </AnimatedImageWrapper>
+            </motion.div>
 
-          {showLink && (
-            <InfoLinkRow
-              label="Site"
-              link={address}
-              linkLabel={address}
-              labelUnderlineSx={labelUnderlineSx}
-            />
-          )}
+            {infoRows.map(({ label, value }, idx) => (
+              <motion.div
+                initial={{ y: 30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{
+                  duration: 0.6,
+                  ease: "easeOut",
+                  delay: 0.2 + Number(idx) / 10,
+                }}
+              >
+                <ProjectInfoRow
+                  key={label}
+                  label={label}
+                  value={value}
+                  labelSx={{
+                    ...labelUnderlineSx,
+                    color: isDarkMode
+                      ? theme.palette.customColors.greyAccent
+                      : "inherit",
+                  }}
+                  minWidth={LABEL_MIN_WIDTH}
+                />
+              </motion.div>
+            ))}
+            {showLink && (
+              <motion.div
+                initial={{ y: 30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{
+                  duration: 0.6,
+                  ease: "easeOut",
+                  delay: 0.4,
+                }}
+              >
+                <InfoLinkRow
+                  label="Site"
+                  link={address}
+                  linkLabel={address}
+                  labelUnderlineSx={labelUnderlineSx}
+                />
+              </motion.div>
+            )}
 
-          {showRepo && (
-            <InfoLinkRow
-              label="Github"
-              link={repo}
-              linkLabel="Visit github repository"
-              labelUnderlineSx={labelUnderlineSx}
-            />
-          )}
+            {showRepo && (
+              <motion.div
+                initial={{ y: 30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{
+                  duration: 0.6,
+                  ease: "easeOut",
+                  delay: 0.4,
+                }}
+              >
+                <InfoLinkRow
+                  label="Github"
+                  link={repo}
+                  linkLabel="Visit github repository"
+                  labelUnderlineSx={labelUnderlineSx}
+                />
+              </motion.div>
+            )}
+          </Box>
         </Box>
-      </Box>
+      </motion.div>
     </Page>
   );
 };
