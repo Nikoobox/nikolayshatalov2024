@@ -145,7 +145,7 @@ const Landing: FC = () => {
                   )
                   .pauseFor(300)
                   .typeString(
-                    ". NYC based frontend engineer with experience in Typescript",
+                    ". NYC based senior frontend engineer with experience in Typescript",
                   )
                   .pauseFor(300)
                   .typeString(", React")
@@ -156,7 +156,7 @@ const Landing: FC = () => {
                   .pauseFor(300)
                   .typeString(", React Native")
                   .pauseFor(300)
-                  .typeString(", Node, and more.")
+                  .typeString(", and more.")
                   .callFunction(() => handleShowLink())
                   .start();
               }}

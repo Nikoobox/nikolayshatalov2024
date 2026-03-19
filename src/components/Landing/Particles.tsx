@@ -49,7 +49,7 @@ const ParticlesTS = ({
   }, []);
 
   const particlesLoaded = async (_container?: Container): Promise<void> => {};
-  console.log("customBgColor", customBgColor);
+
   const options: ISourceOptions = useMemo(
     () => ({
       fullScreen: false,
