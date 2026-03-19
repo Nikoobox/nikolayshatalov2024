@@ -10,6 +10,7 @@ export const PROJECTS_DATA = [
       "Prisma",
       "PostgreSQL",
       "Webhooks",
+      "OpenAI API",
       "Tailwind",
       "DaisyUI",
       "React Query",
@@ -28,7 +29,7 @@ export const PROJECTS_DATA = [
     infoLong:
       "Avarts is a free data visualization platform for athletes, built to help you understand your Strava activity data through clear visuals, interactive heatmaps, and insightful comparisons. Whether you run, cycle, swim, or lift, Avarts pulls your exact data directly from Strava and presents it in a motivating, easy-to-explore interface. You can log in securely via Strava OAuth, or try a demo account to preview features. Avarts supports a wide range of sports and lets you save favorite activities, share achievements, and explore trends with advanced GPS maps. Your data is always safe, and you can delete it anytime. The app highlights your training patterns and favorite routes, making your progress more visible and engaging.",
     techDescription:
-      "Avarts is built with Next.js and TypeScript, styled using Tailwind CSS and DaisyUI. Data is managed with Prisma and PostgreSQL, while React Query handles fetching and caching. Interactive maps and heatmaps are powered by Leaflet and Mapbox GL. Chart.js provides visualizations, and Strava API integration (with OAuth and webhooks) keeps activities in sync. QStash and Upstash Redis manage background jobs. Sentry and Posthog handle monitoring and analytics. The app is deployed on Vercel, with Neon for database hosting, and features advanced UI animations with Framer Motion and GSAP.",
+      "Avarts is built with Next.js and TypeScript, styled using Tailwind CSS and DaisyUI. Data is managed with Prisma and PostgreSQL, while React Query handles fetching and caching. Interactive maps and heatmaps are powered by Leaflet and Mapbox GL. Chart.js provides visualizations, and Strava API integration (with OAuth and webhooks) keeps activities in sync. QStash and Upstash Redis manage background jobs. Sentry and Posthog handle monitoring and analytics. The app is deployed on Vercel, with Neon for database hosting, and features advanced UI animations with Framer Motion and GSAP. The OpenAI API powers AI-driven activity analysis, generating insights from workout data. The analysis takes into account Strava activity data along with contextual factors such as weather conditions and precise location to provide more accurate and personalized performance insights.",
     address: "https://www.avarts.app/",
     repo: "https://github.com/Nikoobox/avarts",
     isResponsive: true,
