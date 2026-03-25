@@ -25,11 +25,12 @@ export const PROJECTS_DATA = [
       "Sentry",
       "Posthog",
     ],
-    info: "A space where athletes dive deeper into their Strava data through clean visuals, insightful comparisons, and meaningful trends that make training feel more motivating. Approved and powered by Strava.",
+    info: "Platform that transforms Strava activity data into interactive maps, trends, and performance insights. Approved and powered by Strava.",
     infoLong:
-      "Avarts is a free data visualization platform for athletes, built to help you understand your Strava activity data through clear visuals, interactive heatmaps, and insightful comparisons. Whether you run, cycle, swim, or lift, Avarts pulls your exact data directly from Strava and presents it in a motivating, easy-to-explore interface. You can log in securely via Strava OAuth, or try a demo account to preview features. Avarts supports a wide range of sports and lets you save favorite activities, share achievements, and explore trends with advanced GPS maps. Your data is always safe, and you can delete it anytime. The app highlights your training patterns and favorite routes, making your progress more visible and engaging.",
+      "Avarts is a full-stack web application that helps athletes explore and understand their Strava activity data through interactive visualizations and insights. It integrates directly with Strava via OAuth and webhooks to sync activity data in real time. The platform combines activity metrics with contextual data such as weather and geolocation to provide deeper insight into training patterns and performance. Users can explore their activities through GPS maps, heatmaps, and trend-based charts, and save favorite activities for quicker access to key workouts and routes.Built with a production-ready architecture, Avarts includes asynchronous data processing, caching, monitoring, and analytics to ensure performance and reliability. The application was approved by Strava for production use, meeting their API and security requirements.",
+
     techDescription:
-      "Avarts is built with Next.js and TypeScript, styled using Tailwind CSS and DaisyUI. Data is managed with Prisma and PostgreSQL, while React Query handles fetching and caching. Interactive maps and heatmaps are powered by Leaflet and Mapbox GL. Chart.js provides visualizations, and Strava API integration (with OAuth and webhooks) keeps activities in sync. QStash and Upstash Redis manage background jobs. Sentry and Posthog handle monitoring and analytics. The app is deployed on Vercel, with Neon for database hosting, and features advanced UI animations with Framer Motion and GSAP. The OpenAI API powers AI-driven activity analysis, generating insights from workout data. The analysis takes into account Strava activity data along with contextual factors such as weather conditions and precise location to provide more accurate and personalized performance insights.",
+      "Built with Next.js and TypeScript, Avarts uses Prisma and PostgreSQL (Neon) for data management, with React Query handling caching and data synchronization. Strava integration is implemented via OAuth and webhooks for real-time updates.\n\nInteractive maps and heatmaps are powered by Leaflet and Mapbox GL, with Chart.js used for data visualization. Background jobs are processed asynchronously using QStash and Redis to handle data enrichment tasks outside the main request cycle.\n\nThe application is deployed on Vercel with continuous deployment, and includes monitoring (Sentry) and feature flagging/analytics (PostHog, Google Analytics). Additional data processing incorporates contextual factors such as weather and location to enhance activity insights.",
     address: "https://www.avarts.app/",
     repo: "https://github.com/Nikoobox/avarts",
     isResponsive: true,
@@ -38,7 +39,7 @@ export const PROJECTS_DATA = [
     isMainProject: true,
     status: "Live and flying 🚀",
     learningGoal:
-      "To create a secure, user-friendly platform that visualizes Strava data for athletes, focusing on interactive heatmaps, activity insights, and seamless sharing—while learning advanced data handling, OAuth authentication, and modern frontend techniques.",
+      "Focused on building a production-ready platform with real-time data integration, geospatial visualization, and scalable architecture, while deepening expertise in API design, async processing, and modern frontend systems.",
   },
   {
     id: 1,
