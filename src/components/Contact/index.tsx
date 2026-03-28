@@ -133,7 +133,7 @@ const Contact: FC = () => {
           display="flex"
           width="90%"
           justifyContent="center"
-          alignItems="center"
+          alignItems="flex-start"
           margin="auto"
         >
           <motion.div
@@ -148,7 +148,7 @@ const Contact: FC = () => {
           </motion.div>
           <Box
             sx={{
-              width: { sm: "100%", md: "50%" },
+              width: "100%",
               display: { sm: "flex", md: "block" },
               flexDirection: "column",
               alignItems: { xs: "center", sm: "flex-start" },
@@ -162,7 +162,11 @@ const Contact: FC = () => {
               animate={textInView && { y: 0, opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
             >
-              <Typography variant="h2">{BIO_DATA.contactSection}</Typography>
+              {BIO_DATA.contactSection.map((paragraph, i) => (
+                <Typography variant="h2" key={i} paragraph>
+                  {paragraph}
+                </Typography>
+              ))}
             </motion.div>
 
             <Box
