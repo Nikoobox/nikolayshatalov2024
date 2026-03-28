@@ -136,27 +136,39 @@ const Landing: FC = () => {
                 typewriter
                   .pauseFor(2200)
                   .changeDelay(45)
-                  .typeString("Hello, I am Nikolay Shatalov")
-                  .pauseFor(750)
+
+                  .typeString("Hello, I am ")
+
+                  .typeString("Nikolay Shatalov")
+                  .pauseFor(700)
+
                   .changeDeleteSpeed(5)
                   .deleteChars(16)
+                  .pauseFor(200)
+
                   .typeString(
-                    `<span style="color: ${theme.palette.customColors.tealAccent};">Nikolay Shatalov</span>`,
+                    `<span style="color: ${theme.palette.customColors.tealAccent};">Nikolay Shatalov</span>.`,
                   )
-                  .pauseFor(300)
-                  .typeString(
-                    ". NYC based senior frontend engineer with experience in Typescript",
-                  )
-                  .pauseFor(300)
-                  .typeString(", React")
-                  .pauseFor(300)
-                  .typeString(", Javascript")
-                  .pauseFor(300)
-                  .typeString(", NextJS")
-                  .pauseFor(300)
-                  .typeString(", React Native")
-                  .pauseFor(300)
-                  .typeString(", and more.")
+                  .pauseFor(400)
+
+                  .typeString(" NYC-based Senior Frontend Engineer")
+                  .pauseFor(500)
+
+                  .typeString(" focused on building")
+                  .pauseFor(400)
+
+                  .typeString(" scalable, high-performance")
+                  .pauseFor(400)
+
+                  .typeString(" web applications")
+                  .pauseFor(400)
+
+                  .typeString(" with TypeScript, React, Next.js,")
+                  .pauseFor(500)
+
+                  .typeString(" and modern web technologies.")
+                  .pauseFor(500)
+
                   .callFunction(() => handleShowLink())
                   .start();
               }}
