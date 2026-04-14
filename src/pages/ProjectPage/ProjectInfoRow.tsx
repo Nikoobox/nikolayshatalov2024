@@ -24,7 +24,9 @@ const ProjectInfoRow = ({
         {label}
       </Typography>
     </Box>
-    <Typography variant="h3">{value}</Typography>
+    <Typography variant="h3" sx={{ whiteSpace: "pre-line" }}>
+      {value}
+    </Typography>
   </Box>
 );
 
