@@ -19,18 +19,20 @@ export const PROJECTS_DATA = [
       "Mapbox GL",
       "Chart.js",
       "Strava API",
+      "PWA",
+      "Service Worker",
       "Vercel",
       "Neon",
       "React Hook Form",
       "Sentry",
-      "Posthog",
+      "PostHog",
     ],
-    info: "Platform that transforms Strava activity data into interactive maps, trends, and performance insights. Approved and powered by Strava.",
+    info: "A Strava-powered platform that turns activity data into interactive maps, trends, and AI-driven performance insights. Approved by Strava.",
     infoLong:
-      "Avarts is a full-stack web application that helps athletes explore and understand their Strava activity data through interactive visualizations and insights. It integrates directly with Strava via OAuth and webhooks to sync activity data in real time. The platform combines activity metrics with contextual data such as weather and geolocation to provide deeper insight into training patterns and performance. Users can explore their activities through GPS maps, heatmaps, and trend-based charts, and save favorite activities for quicker access to key workouts and routes.Built with a production-ready architecture, Avarts includes asynchronous data processing, caching, monitoring, and analytics to ensure performance and reliability. The application was approved by Strava for production use, meeting their API and security requirements.",
-
+      "Avarts is a full-stack platform that helps athletes explore and understand their Strava activity data through interactive visualizations and AI-generated insights powered by the OpenAI API. It connects to Strava via OAuth and webhooks to keep activity data in sync in real time, and enriches each activity with contextual information such as weather and geolocation. Users can browse their rides, runs, and swims on GPS maps and heatmaps, analyze long-term trends through charts, and save favorite activities for quick access.\n\nThe app is built as a Progressive Web App with offline support, so it degrades gracefully without a network connection: cached activities remain accessible, and navigation items and interactive controls that depend on connectivity are automatically disabled, giving users a clear, predictable experience instead of broken states. Avarts was approved by Strava for production use, meeting their API, performance, and security requirements.",
     techDescription:
-      "Built with Next.js and TypeScript, Avarts uses Prisma and PostgreSQL (Neon) for data management, with React Query handling caching and data synchronization. Strava integration is implemented via OAuth and webhooks for real-time updates.\n\nInteractive maps and heatmaps are powered by Leaflet and Mapbox GL, with Chart.js used for data visualization. Background jobs are processed asynchronously using QStash and Redis to handle data enrichment tasks outside the main request cycle.\n\nThe application is deployed on Vercel with continuous deployment, and includes monitoring (Sentry) and feature flagging/analytics (PostHog, Google Analytics). Additional data processing incorporates contextual factors such as weather and location to enhance activity insights.",
+      "Built with Next.js (App Router) and TypeScript, Avarts uses Prisma with PostgreSQL on Neon for persistence, and React Query for client-side caching and synchronization. Strava integration is implemented through OAuth and webhooks for real-time activity updates.\n\nInteractive maps and heatmaps are powered by Leaflet and Mapbox GL, with Chart.js driving data visualizations. Asynchronous jobs (weather data and precise geolocation lookups) run through QStash and Redis outside the main request cycle to keep the UI responsive. AI-powered activity analysis is generated on demand through the OpenAI API.\n\nOffline behavior is handled through a service worker that caches recently viewed activities and core assets. Network status is observed at the app level, and navigation items and interactive controls that require connectivity are automatically disabled when the device goes offline, so users never hit broken states or dead-end routes.\n\nDeployment is on Vercel with continuous delivery, monitored through Sentry, with feature flags and analytics via PostHog and Google Analytics.",
+
     address: "https://www.avarts.app/",
     repo: "https://github.com/Nikoobox/avarts",
     isResponsive: true,
@@ -39,8 +41,9 @@ export const PROJECTS_DATA = [
     isMainProject: true,
     status: "Live and flying 🚀",
     learningGoal:
-      "Focused on building a production-ready platform with real-time data integration, geospatial visualization, and scalable architecture, while deepening expertise in API design, async processing, and modern frontend systems.",
+      "Building a production-grade platform with real-time data integration, geospatial visualization, AI-assisted insights, and offline-capable PWA behavior — while deepening expertise in API design, async processing, and modern frontend architecture.",
   },
+
   {
     id: 1,
     name: "Cyberaction Samara",

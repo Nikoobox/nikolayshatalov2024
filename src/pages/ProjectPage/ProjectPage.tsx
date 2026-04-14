@@ -241,6 +241,7 @@ const ProjectPage = () => {
 
             {infoRows.map(({ label, value }, idx) => (
               <motion.div
+                key={label}
                 initial={{ y: 30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{
@@ -250,7 +251,6 @@ const ProjectPage = () => {
                 }}
               >
                 <ProjectInfoRow
-                  key={label}
                   label={label}
                   value={value}
                   labelSx={{
