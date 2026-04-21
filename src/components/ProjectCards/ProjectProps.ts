@@ -2,6 +2,7 @@ export interface ProjectProps {
   id: number;
   name: string;
   img: string;
+  imgLanding?: string;
   tools: string[];
   info: string;
   infoLong?: string;
@@ -13,6 +14,9 @@ export interface ProjectProps {
   overview?: string;
   year: number;
   isMainProject: boolean;
+  isFeatured?: boolean;
   status: string;
+  statusSimple: string;
   techDescription: string;
+  learningGoal?: string;
 }

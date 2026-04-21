@@ -3,6 +3,7 @@ export const PROJECTS_DATA = [
     id: 8,
     name: "Avarts 🚀",
     img: "/img/avarts_heatmap3.png",
+    imgLanding: "/img/avarts_landing.png",
     year: 2025,
     tools: [
       "NextJS",
@@ -27,7 +28,7 @@ export const PROJECTS_DATA = [
       "Sentry",
       "PostHog",
     ],
-    info: "A Strava-powered platform that turns activity data into interactive maps, trends, and AI-driven performance insights. Approved by Strava.",
+    info: "A multi-user Strava-powered platform that transforms activity data into interactive maps, trends, and AI-driven insights for smarter training. Enriches each activity with weather conditions and location context for deeper performance analysis. Approved by Strava.",
     infoLong:
       "Avarts is a full-stack platform that helps athletes explore and understand their Strava activity data through interactive visualizations and AI-generated insights powered by the OpenAI API. It connects to Strava via OAuth and webhooks to keep activity data in sync in real time, and enriches each activity with contextual information such as weather and geolocation. Users can browse their rides, runs, and swims on GPS maps and heatmaps, analyze long-term trends through charts, and save favorite activities for quick access.\n\nThe app is built as a Progressive Web App with offline support, so it degrades gracefully without a network connection: cached activities remain accessible, and navigation items and interactive controls that depend on connectivity are automatically disabled, giving users a clear, predictable experience instead of broken states. Avarts was approved by Strava for production use, meeting their API, performance, and security requirements.",
     techDescription:
@@ -39,7 +40,9 @@ export const PROJECTS_DATA = [
     showLink: true,
     showRepo: false,
     isMainProject: true,
+    isFeatured: true,
     status: "Live and flying 🚀",
+    statusSimple: "Live",
     learningGoal:
       "Building a production-grade platform with real-time data integration, geospatial visualization, AI-assisted insights, and offline-capable PWA behavior — while deepening expertise in API design, async processing, and modern frontend architecture.",
   },
@@ -49,6 +52,7 @@ export const PROJECTS_DATA = [
     name: "Cyberaction Samara",
     year: 2022,
     img: "/img/ca2.png",
+    imgLanding: "/img/ca2.png",
     tools: [
       "React",
       "HTML",
@@ -71,6 +75,7 @@ export const PROJECTS_DATA = [
     showRepo: true,
     isMainProject: true,
     status: "Live on demo domain (business closed)",
+    statusSimple: "Live",
     learningGoal:
       "To develop a fully responsive VR gaming arena website with advanced booking features and dynamic animations.",
   },
@@ -79,6 +84,7 @@ export const PROJECTS_DATA = [
     name: "ECS Pool Panels",
     year: 2021,
     img: "/img/ECS_Pool_Panels.png",
+    imgLanding: "/img/ECS_Pool_Panels.png",
     tools: [
       "React",
       "Hooks",
@@ -100,13 +106,15 @@ export const PROJECTS_DATA = [
     showLink: true,
     showRepo: false,
     isMainProject: true,
-    status: "Live and kicking",
+    status: "Live and splashing 🌊",
+    statusSimple: "Live",
   },
   {
     id: 3,
     name: "Karena Huang",
     year: 2021,
     img: "/img/karenahuangNew.png",
+    imgLanding: "/img/karenahuangNew.png",
     tools: [
       "React",
       "Hooks",
@@ -129,13 +137,15 @@ export const PROJECTS_DATA = [
     showLink: true,
     showRepo: false,
     isMainProject: true,
-    status: "Live and kicking",
+    status: "Live and kicking 🎨",
+    statusSimple: "Live",
   },
   {
     id: 4,
     name: "Tree Camp",
     year: 2021,
     img: "/img/treecamp2.png",
+    imgLanding: "/img/treecamp2.png",
     tools: [
       "Ruby",
       "Ruby on Rails",
@@ -162,12 +172,14 @@ export const PROJECTS_DATA = [
     overview: "/img/overview/map_spots.gif",
     isMainProject: false,
     status: "Retired due to Heroku free tier changes",
+    statusSimple: "Retired",
   },
   {
     id: 5,
     name: "90 Plus",
     year: 2021,
     img: "/img/SOCCER_PAGE.png",
+    imgLanding: "/img/SOCCER_PAGE.png",
     tools: [
       "Node.js",
       "Javascript",
@@ -190,12 +202,14 @@ export const PROJECTS_DATA = [
     showRepo: true,
     isMainProject: false,
     status: "Retired due to Soccer API discontinuation",
+    statusSimple: "Retired",
   },
   {
     id: 7,
     name: "Drunken Snake",
     year: 2020,
     img: "/img/ds22.png",
+    imgLanding: "/img/ds22.png",
     tools: ["HTML", "CSS", "Javascript"],
     info: "The best online game in the world. Allows you to hunt for your favorite beer while staying sober.",
     infoLong:
@@ -208,6 +222,7 @@ export const PROJECTS_DATA = [
     showLink: true,
     showRepo: true,
     isMainProject: false,
-    status: "Live",
+    status: "Live and slithering 🐍",
+    statusSimple: "Live",
   },
 ];
