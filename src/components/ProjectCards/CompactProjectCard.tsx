@@ -12,7 +12,7 @@ import { ProjectProps } from "./ProjectProps";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
 import { getRandomColor } from "./helpers";
 
-const LIVE_GREEN_LIGHT = "#16a34a";
+const LIVE_GREEN_LIGHT = "#22ff66";
 
 const StyledCard = styled(Link, {
   shouldForwardProp: (prop) => prop !== "hoverColor",

@@ -18,7 +18,7 @@ import { ProjectProps } from "./ProjectProps";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
 import { MyLink } from "../UI";
 
-const LIVE_GREEN_LIGHT = "#16a34a";
+const LIVE_GREEN_LIGHT = "#22ff66";
 const LIVE_TEXT_LIGHT = "#14532d";
 
 const StyledBox = styled(Box)(({ theme }) => {
@@ -89,11 +89,13 @@ const StyledBox = styled(Box)(({ theme }) => {
     },
     "& .tool": {
       margin: "2px 8px 6px 0",
-      padding: "4px 8px",
+      padding: "2px 8px",
+      fontWeight: 500,
       borderRadius: theme.spacing(2),
       background: isDarkMode
         ? theme.palette.customColors.greyLightest
         : theme.palette.common.white,
+      color: theme.palette.customColors.grey900,
       border: `1px solid ${
         isDarkMode ? "transparent" : theme.palette.customColors.greyLightest
       }`,

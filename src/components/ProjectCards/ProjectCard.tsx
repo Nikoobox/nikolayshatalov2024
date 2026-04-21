@@ -22,7 +22,7 @@ import { getRandomColor } from "./helpers";
 
 const MOUSE = "mouse";
 
-const LIVE_GREEN_LIGHT = "#16a34a";
+const LIVE_GREEN_LIGHT = "#22ff66";
 const LIVE_TEXT_LIGHT = "#14532d";
 
 const StyledBox = styled(Box)(({ theme }) => {
@@ -61,8 +61,10 @@ const StyledBox = styled(Box)(({ theme }) => {
     },
     "& .tool": {
       margin: "2px 10px 8px 2px",
-      padding: "4px 8px",
+      padding: "2px 8px",
       fontSize: "13px",
+      fontWeight: 500,
+      color: theme.palette.customColors.grey900,
       borderRadius: theme.spacing(2),
       background: isDarkMode
         ? theme.palette.customColors.greyLightest
