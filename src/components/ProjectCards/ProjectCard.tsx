@@ -22,8 +22,14 @@ import { getRandomColor } from "./helpers";
 
 const MOUSE = "mouse";
 
+const LIVE_GREEN_LIGHT = "#16a34a";
+const LIVE_TEXT_LIGHT = "#14532d";
+
 const StyledBox = styled(Box)(({ theme }) => {
   const isDarkMode = theme.palette.mode === "dark";
+  const liveAccent = isDarkMode
+    ? theme.palette.customColors.greenAccent
+    : LIVE_GREEN_LIGHT;
   return {
     ".project-overlay": {
       opacity: 0,
@@ -72,6 +78,53 @@ const StyledBox = styled(Box)(({ theme }) => {
       color: isDarkMode ? theme.palette.common.white : {},
       textDecoration: "none",
     },
+    "& .status-badge": {
+      display: "inline-flex",
+      alignItems: "center",
+      gap: theme.spacing(0.75),
+      padding: "3px 10px",
+      borderRadius: "999px",
+      fontSize: "12px",
+      fontWeight: 500,
+      width: "fit-content",
+      lineHeight: "16px",
+    },
+    "& .status-badge::before": {
+      content: '""',
+      width: "7px",
+      height: "7px",
+      borderRadius: "50%",
+    },
+    "& .status-badge--live": {
+      background: alpha(liveAccent, isDarkMode ? 0.2 : 0.18),
+      color: isDarkMode
+        ? theme.palette.customColors.greenAccent
+        : LIVE_TEXT_LIGHT,
+    },
+    "& .status-badge--live::before": {
+      background: liveAccent,
+      boxShadow: `0 0 8px ${liveAccent}`,
+      animation: "livePulse 1.8s ease-in-out infinite",
+    },
+    "@keyframes livePulse": {
+      "0%, 100%": {
+        opacity: 1,
+        boxShadow: `0 0 8px ${liveAccent}`,
+      },
+      "50%": {
+        opacity: 0.55,
+        boxShadow: `0 0 2px ${liveAccent}`,
+      },
+    },
+    "& .status-badge--retired": {
+      background: alpha(theme.palette.customColors.grey, 0.15),
+      color: isDarkMode
+        ? theme.palette.customColors.greyAccent
+        : theme.palette.customColors.grey,
+    },
+    "& .status-badge--retired::before": {
+      background: theme.palette.customColors.grey,
+    },
   };
 });
 
@@ -87,7 +140,9 @@ const ProjectCard: FC<ProjectProps> = ({
   showRepo,
   year,
   id,
+  statusSimple,
 }) => {
+  const isLive = statusSimple === "Live";
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const { isDarkMode } = useThemeContext();
   const { ref, inView } = useInView({
@@ -231,6 +286,16 @@ const ProjectCard: FC<ProjectProps> = ({
             <IoMdDesktop className="icon" />
           </Box>
         </Box>
+        {statusSimple && (
+          <Box
+            className={`status-badge ${
+              isLive ? "status-badge--live" : "status-badge--retired"
+            }`}
+            mt={1}
+          >
+            {statusSimple}
+          </Box>
+        )}
         <Typography variant="body1" mt={1.5} mb={2}>
           {info}
         </Typography>

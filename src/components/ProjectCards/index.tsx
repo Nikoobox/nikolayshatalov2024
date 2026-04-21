@@ -5,14 +5,35 @@ import { Box } from "@mui/material";
 import { PROJECTS_DATA } from "../Data";
 import PageSection from "../PageSection";
 import ProjectCard from "./ProjectCard";
+import FeaturedProjectCard from "./FeaturedProjectCard";
+import CompactProjectCard from "./CompactProjectCard";
 
 const ProjectCards: FC = () => {
-  const projects = PROJECTS_DATA.filter((proj) => proj.isMainProject).map(
-    (proj) => <ProjectCard key={proj.id} {...proj} />,
-  );
+  const featuredProject = PROJECTS_DATA.find((proj) => proj.isFeatured);
+
+  const mainProjects = PROJECTS_DATA.filter(
+    (proj) => proj.isMainProject && !proj.isFeatured,
+  ).map((proj) => <ProjectCard key={proj.id} {...proj} />);
 
   const otherProjects = PROJECTS_DATA.filter((proj) => !proj.isMainProject).map(
-    (proj) => <ProjectCard key={proj.id} {...proj} />,
+    (proj) => (
+      <Box
+        key={proj.id}
+        sx={{
+          width: {
+            xs: "100%",
+            sm: "calc(50% - 16px)",
+            md: "calc(33.333% - 22px)",
+          },
+          mb: {
+            xs: 6,
+            sm: 0,
+          },
+        }}
+      >
+        <CompactProjectCard {...proj} />
+      </Box>
+    ),
   );
 
   return (
@@ -28,18 +49,28 @@ const ProjectCards: FC = () => {
             Projects
           </Box>
         </PageSection.PageSubheader>
+
+        {featuredProject && (
+          <Box width="100%" mb={{ xs: 16 }}>
+            <FeaturedProjectCard {...featuredProject} />
+          </Box>
+        )}
+
         <Box
           display="flex"
-          justifyContent="center"
+          justifyContent="space-between"
           flexWrap="wrap"
+          width="100%"
           sx={{
-            gap: {
-              xs: 12,
-              sm: 8,
+            columnGap: {
+              columnGap: 6,
+            },
+            rowGap: {
+              xs: 16,
             },
           }}
         >
-          {projects}
+          {mainProjects}
         </Box>
 
         <PageSection.PageSubheader>
@@ -51,12 +82,8 @@ const ProjectCards: FC = () => {
           display="flex"
           justifyContent="center"
           flexWrap="wrap"
-          sx={{
-            gap: {
-              xs: 12,
-              sm: 8,
-            },
-          }}
+          width="100%"
+          gap={4}
         >
           {otherProjects}
         </Box>
