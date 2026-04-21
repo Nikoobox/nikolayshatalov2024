@@ -22,14 +22,11 @@ import { getRandomColor } from "./helpers";
 
 const MOUSE = "mouse";
 
-const LIVE_GREEN_LIGHT = "#22ff66";
-const LIVE_TEXT_LIGHT = "#14532d";
-
 const StyledBox = styled(Box)(({ theme }) => {
   const isDarkMode = theme.palette.mode === "dark";
   const liveAccent = isDarkMode
     ? theme.palette.customColors.greenAccent
-    : LIVE_GREEN_LIGHT;
+    : theme.palette.customColors.greenNeon;
   return {
     ".project-overlay": {
       opacity: 0,
@@ -102,7 +99,7 @@ const StyledBox = styled(Box)(({ theme }) => {
       background: alpha(liveAccent, isDarkMode ? 0.2 : 0.18),
       color: isDarkMode
         ? theme.palette.customColors.greenAccent
-        : LIVE_TEXT_LIGHT,
+        : theme.palette.customColors.greenDark,
     },
     "& .status-badge--live::before": {
       background: liveAccent,

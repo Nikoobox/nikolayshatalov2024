@@ -12,15 +12,13 @@ import { ProjectProps } from "./ProjectProps";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
 import { getRandomColor } from "./helpers";
 
-const LIVE_GREEN_LIGHT = "#22ff66";
-
 const StyledCard = styled(Link, {
   shouldForwardProp: (prop) => prop !== "hoverColor",
 })<{ hoverColor: string }>(({ theme, hoverColor }) => {
   const isDarkMode = theme.palette.mode === "dark";
   const liveAccent = isDarkMode
     ? theme.palette.customColors.greenAccent
-    : LIVE_GREEN_LIGHT;
+    : theme.palette.customColors.greenNeon;
   return {
     display: "flex",
     flexDirection: "column",
