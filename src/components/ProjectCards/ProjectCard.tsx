@@ -61,7 +61,8 @@ const StyledBox = styled(Box)(({ theme }) => {
     },
     "& .tool": {
       margin: "2px 10px 8px 2px",
-      padding: "5px 10px",
+      padding: "4px 8px",
+      fontSize: "13px",
       borderRadius: theme.spacing(2),
       background: isDarkMode
         ? theme.palette.customColors.greyLightest
