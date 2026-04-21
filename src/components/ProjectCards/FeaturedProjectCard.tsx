@@ -59,7 +59,9 @@ const StyledBox = styled(Box)(({ theme }) => {
     },
     "& .status-badge--live": {
       background: alpha(liveAccent, isDarkMode ? 0.2 : 0.18),
-      color: isDarkMode ? theme.palette.customColors.greenAccent : LIVE_TEXT_LIGHT,
+      color: isDarkMode
+        ? theme.palette.customColors.greenAccent
+        : LIVE_TEXT_LIGHT,
     },
     "& .status-badge--live::before": {
       background: liveAccent,
@@ -87,7 +89,7 @@ const StyledBox = styled(Box)(({ theme }) => {
     },
     "& .tool": {
       margin: "2px 8px 6px 0",
-      padding: "4px 10px",
+      padding: "4px 8px",
       borderRadius: theme.spacing(2),
       background: isDarkMode
         ? theme.palette.customColors.greyLightest
