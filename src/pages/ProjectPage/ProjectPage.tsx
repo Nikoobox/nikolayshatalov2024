@@ -1,16 +1,16 @@
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-
-import { useTheme } from "@mui/material/styles";
-import { Box, Typography } from "@mui/material";
-import { styled } from "@mui/system";
 import {
   IoMdPhonePortrait,
   IoMdDesktop,
   IoMdLaptop,
   IoIosArrowRoundBack,
 } from "react-icons/io";
+
+import { useTheme } from "@mui/material/styles";
+import { Box, Typography } from "@mui/material";
+import { styled, alpha } from "@mui/system";
 
 import { PROJECTS_DATA } from "@/components/Data";
 import Page from "@/components/Page";
@@ -50,12 +50,17 @@ const AnimatedImage = styled("img")({
 });
 
 const ToolsBox = styled(Box)(({ theme }) => {
+  const isDarkMode = theme.palette.mode === "dark";
   return {
     "& .tool": {
-      margin: "2px 10px 8px 2px",
-      padding: "5px 10px",
-      borderRadius: theme.spacing(2),
-      background: theme.palette.customColors.greyLightest,
+      padding: "6px 10px",
+      color: isDarkMode
+        ? theme.palette.customColors.greyLightest
+        : theme.palette.customColors.charcoalBlack,
+      borderRadius: theme.spacing(1),
+      background: isDarkMode
+        ? alpha(theme.palette.customColors.grey, 0.25)
+        : theme.palette.customColors.greyLightest,
     },
   };
 });
@@ -122,7 +127,12 @@ const ProjectPage = () => {
     : "customColors.grey";
 
   const techTools = tools.map((tool: string) => (
-    <Typography color={techToolColor} className="tool" key={tool}>
+    <Typography
+      color={techToolColor}
+      className="tool"
+      key={tool}
+      variant="subtitleBold"
+    >
       {tool}
     </Typography>
   ));
@@ -163,7 +173,7 @@ const ProjectPage = () => {
     {
       label: "Built with",
       value: (
-        <ToolsBox flexWrap="wrap" display="flex">
+        <ToolsBox flexWrap="wrap" display="flex" gap={1}>
           {techTools}
         </ToolsBox>
       ),
