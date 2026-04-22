@@ -54,6 +54,8 @@ interface customColors {
     grey200: string;
     purpleAccent: string;
     greenAccent: string;
+    greenNeon: string;
+    greenDark: string;
     tealAccent: string;
     aliceBlue: string;
     yellowAccent: string;

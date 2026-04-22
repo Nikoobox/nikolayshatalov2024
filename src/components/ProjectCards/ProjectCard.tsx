@@ -22,14 +22,11 @@ import { getRandomColor } from "./helpers";
 
 const MOUSE = "mouse";
 
-const LIVE_GREEN_LIGHT = "#16a34a";
-const LIVE_TEXT_LIGHT = "#14532d";
-
 const StyledBox = styled(Box)(({ theme }) => {
   const isDarkMode = theme.palette.mode === "dark";
   const liveAccent = isDarkMode
     ? theme.palette.customColors.greenAccent
-    : LIVE_GREEN_LIGHT;
+    : theme.palette.customColors.greenNeon;
   return {
     ".project-overlay": {
       opacity: 0,
@@ -56,16 +53,17 @@ const StyledBox = styled(Box)(({ theme }) => {
       color: isDarkMode
         ? theme.palette.customColors.greyLightest
         : theme.palette.customColors.grey900,
-      height: theme.spacing(3),
-      width: theme.spacing(3),
+      height: theme.spacing(2.5),
+      width: theme.spacing(2.5),
     },
     "& .tool": {
-      margin: "2px 10px 8px 2px",
-      padding: "4px 8px",
-      fontSize: "13px",
-      borderRadius: theme.spacing(2),
+      padding: "6px 10px",
+      color: isDarkMode
+        ? theme.palette.customColors.whiteAccent
+        : theme.palette.customColors.grey900,
+      borderRadius: theme.spacing(1),
       background: isDarkMode
-        ? theme.palette.customColors.greyLightest
+        ? theme.palette.customColors.charcoalBlack
         : theme.palette.common.white,
     },
     "& .link": {
@@ -100,7 +98,7 @@ const StyledBox = styled(Box)(({ theme }) => {
       background: alpha(liveAccent, isDarkMode ? 0.2 : 0.18),
       color: isDarkMode
         ? theme.palette.customColors.greenAccent
-        : LIVE_TEXT_LIGHT,
+        : theme.palette.customColors.greenDark,
     },
     "& .status-badge--live::before": {
       background: liveAccent,
@@ -139,7 +137,6 @@ const ProjectCard: FC<ProjectProps> = ({
   isResponsive,
   showLink,
   showRepo,
-  year,
   id,
   statusSimple,
 }) => {
@@ -165,7 +162,12 @@ const ProjectCard: FC<ProjectProps> = ({
     ? "customColors.grey900"
     : "customColors.grey";
   const techTools = tools.map((tool) => (
-    <Typography color={techToolColor} className="tool" key={tool}>
+    <Typography
+      color={techToolColor}
+      className="tool"
+      key={tool}
+      variant="subtitleBold"
+    >
       {tool}
     </Typography>
   ));
@@ -271,36 +273,31 @@ const ProjectCard: FC<ProjectProps> = ({
           my={1}
         >
           <Typography variant="h2">{name}</Typography>
+        </Box>
 
-          <Box display="flex" gap={1.5}>
-            <Typography
-              variant="body2"
-              color="grey"
-              alignSelf="flex-end"
-              noWrap
-              sx={{ flexShrink: 0 }}
+        <Box display="flex" alignItems="center" gap={2}>
+          {statusSimple && (
+            <Box
+              className={`status-badge ${
+                statusSimple === "Live"
+                  ? "status-badge--live"
+                  : "status-badge--retired"
+              }`}
             >
-              Est. {year}
-            </Typography>
+              {statusSimple}
+            </Box>
+          )}
+          /
+          <Box display="flex" alignItems="center" gap={1.5}>
             {isResponsive && <IoMdPhonePortrait className="icon" />}
             <IoMdLaptop className="icon" />
             <IoMdDesktop className="icon" />
           </Box>
         </Box>
-        {statusSimple && (
-          <Box
-            className={`status-badge ${
-              isLive ? "status-badge--live" : "status-badge--retired"
-            }`}
-            mt={1}
-          >
-            {statusSimple}
-          </Box>
-        )}
         <Typography variant="body1" mt={1.5} mb={2}>
           {info}
         </Typography>
-        <Box display="flex" flexWrap="wrap">
+        <Box display="flex" flexWrap="wrap" gap={1}>
           {techTools}
         </Box>
 

@@ -193,7 +193,12 @@ const Navbar: FC = () => {
     </Box>
   );
 
-  const handleLogoClick = () => scroll.scrollToTop();
+  const handleLogoClick = () => {
+    if (location.pathname !== "/") {
+      navigate("/");
+    }
+    scroll.scrollToTop();
+  };
 
   // Handler for nav item clicks
   const handleNavItemClick = (destination: string) => {

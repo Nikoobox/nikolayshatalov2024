@@ -12,15 +12,13 @@ import { ProjectProps } from "./ProjectProps";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
 import { getRandomColor } from "./helpers";
 
-const LIVE_GREEN_LIGHT = "#16a34a";
-
 const StyledCard = styled(Link, {
   shouldForwardProp: (prop) => prop !== "hoverColor",
 })<{ hoverColor: string }>(({ theme, hoverColor }) => {
   const isDarkMode = theme.palette.mode === "dark";
   const liveAccent = isDarkMode
     ? theme.palette.customColors.greenAccent
-    : LIVE_GREEN_LIGHT;
+    : theme.palette.customColors.greenNeon;
   return {
     display: "flex",
     flexDirection: "column",
@@ -54,15 +52,14 @@ const StyledCard = styled(Link, {
       },
     },
     "& .tool": {
-      padding: "3px 8px",
-      borderRadius: theme.spacing(1.5),
+      padding: "6px 10px",
+      color: isDarkMode
+        ? theme.palette.customColors.greyLightest
+        : theme.palette.customColors.charcoalBlack,
+      borderRadius: theme.spacing(1),
       background: isDarkMode
-        ? alpha(theme.palette.customColors.greyLightest, 0.9)
+        ? alpha(theme.palette.customColors.grey, 0.25)
         : theme.palette.customColors.greyLightest,
-      color: theme.palette.customColors.grey900,
-      fontSize: "11px",
-      fontWeight: 500,
-      lineHeight: "16px",
     },
     "& .status-dot": {
       width: "6px",
@@ -95,7 +92,6 @@ const StyledCard = styled(Link, {
 const CompactProjectCard: FC<ProjectProps> = ({
   name,
   tools,
-  year,
   id,
   info,
   statusSimple,
@@ -106,7 +102,12 @@ const CompactProjectCard: FC<ProjectProps> = ({
   const [hoverColor, setHoverColor] = useState<string>(() => getRandomColor());
 
   const techTools = tools.map((tool) => (
-    <Typography className="tool" key={tool} component="span">
+    <Typography
+      className="tool"
+      key={tool}
+      component="span"
+      variant="labelBold"
+    >
       {tool}
     </Typography>
   ));
@@ -134,9 +135,6 @@ const CompactProjectCard: FC<ProjectProps> = ({
           <Typography variant="h2" sx={{ fontWeight: 400 }}>
             {name}
           </Typography>
-          <Typography variant="body2" color="grey" noWrap>
-            {year}
-          </Typography>
         </Box>
 
         <Typography
@@ -151,7 +149,7 @@ const CompactProjectCard: FC<ProjectProps> = ({
           {info}
         </Typography>
 
-        <Box display="flex" flexWrap="wrap" gap={0.75} mb={2}>
+        <Box display="flex" flexWrap="wrap" gap={1} mb={2}>
           {techTools}
         </Box>
 
@@ -186,7 +184,7 @@ const CompactProjectCard: FC<ProjectProps> = ({
             sx={{ ml: "auto" }}
           >
             <Typography variant="body2" sx={{ fontSize: "13px" }}>
-              Details
+              View Details
             </Typography>
             <IoIosArrowForward />
           </Box>

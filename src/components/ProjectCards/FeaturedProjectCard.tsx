@@ -18,14 +18,11 @@ import { ProjectProps } from "./ProjectProps";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
 import { MyLink } from "../UI";
 
-const LIVE_GREEN_LIGHT = "#16a34a";
-const LIVE_TEXT_LIGHT = "#14532d";
-
 const StyledBox = styled(Box)(({ theme }) => {
   const isDarkMode = theme.palette.mode === "dark";
   const liveAccent = isDarkMode
     ? theme.palette.customColors.greenAccent
-    : LIVE_GREEN_LIGHT;
+    : theme.palette.customColors.greenNeon;
   return {
     width: "100%",
     "& .featured-image": {
@@ -61,7 +58,7 @@ const StyledBox = styled(Box)(({ theme }) => {
       background: alpha(liveAccent, isDarkMode ? 0.2 : 0.18),
       color: isDarkMode
         ? theme.palette.customColors.greenAccent
-        : LIVE_TEXT_LIGHT,
+        : theme.palette.customColors.greenDark,
     },
     "& .status-badge--live::before": {
       background: liveAccent,
@@ -88,16 +85,14 @@ const StyledBox = styled(Box)(({ theme }) => {
       },
     },
     "& .tool": {
-      margin: "2px 8px 6px 0",
-      padding: "4px 8px",
-      borderRadius: theme.spacing(2),
+      padding: "5px 10px",
+      color: isDarkMode
+        ? theme.palette.customColors.whiteAccent
+        : theme.palette.customColors.grey900,
+      borderRadius: theme.spacing(1),
       background: isDarkMode
-        ? theme.palette.customColors.greyLightest
+        ? theme.palette.customColors.charcoalBlack
         : theme.palette.common.white,
-      border: `1px solid ${
-        isDarkMode ? "transparent" : theme.palette.customColors.greyLightest
-      }`,
-      fontSize: "13px",
     },
     "& .icon": {
       color: isDarkMode
@@ -126,7 +121,6 @@ const FeaturedProjectCard: FC<ProjectProps> = ({
   isResponsive,
   showLink,
   showRepo,
-  year,
   id,
   statusSimple,
 }) => {
@@ -137,7 +131,12 @@ const FeaturedProjectCard: FC<ProjectProps> = ({
     ? "customColors.grey900"
     : "customColors.grey";
   const techTools = tools.map((tool) => (
-    <Typography color={techToolColor} className="tool" key={tool}>
+    <Typography
+      color={techToolColor}
+      className="tool"
+      key={tool}
+      variant="subtitleBold"
+    >
       {tool}
     </Typography>
   ));
@@ -155,7 +154,8 @@ const FeaturedProjectCard: FC<ProjectProps> = ({
           display="flex"
           sx={{
             flexDirection: { xs: "column", md: "row" },
-            gap: { xs: 3, md: 5 },
+            alignItems: { md: "center" },
+            gap: { xs: 3, md: 7 },
           }}
         >
           <Box
@@ -198,31 +198,31 @@ const FeaturedProjectCard: FC<ProjectProps> = ({
               >
                 {name}
               </Typography>
+            </Box>
+
+            <Box display="flex" alignItems="center" gap={2}>
+              {statusSimple && (
+                <Box
+                  className={`status-badge ${
+                    statusSimple === "Live"
+                      ? "status-badge--live"
+                      : "status-badge--retired"
+                  }`}
+                >
+                  {statusSimple}
+                </Box>
+              )}
+              /
               <Box display="flex" alignItems="center" gap={1.5}>
-                <Typography variant="body2" color="grey" noWrap>
-                  Est. {year}
-                </Typography>
                 {isResponsive && <IoMdPhonePortrait className="icon" />}
                 <IoMdLaptop className="icon" />
                 <IoMdDesktop className="icon" />
               </Box>
             </Box>
 
-            {statusSimple && (
-              <Box
-                className={`status-badge ${
-                  statusSimple === "Live"
-                    ? "status-badge--live"
-                    : "status-badge--retired"
-                }`}
-              >
-                {statusSimple}
-              </Box>
-            )}
-
             <Typography variant="body1">{info}</Typography>
 
-            <Box display="flex" flexWrap="wrap">
+            <Box display="flex" flexWrap="wrap" gap={1}>
               {techTools}
             </Box>
 
@@ -233,7 +233,9 @@ const FeaturedProjectCard: FC<ProjectProps> = ({
                     link={address}
                     customLabel={
                       <Box display="flex" alignItems="center">
-                        <Typography mr={0.5}>Live Link</Typography>
+                        <Typography mr={0.5} sx={{ fontWeight: 600 }}>
+                          Live Link
+                        </Typography>
                         <HiOutlineExternalLink />
                       </Box>
                     }
@@ -247,7 +249,9 @@ const FeaturedProjectCard: FC<ProjectProps> = ({
                     link={repo}
                     customLabel={
                       <Box display="flex" alignItems="center">
-                        <Typography mr={0.5}>Git Repo</Typography>
+                        <Typography mr={0.5} sx={{ fontWeight: 600 }}>
+                          Git Repo
+                        </Typography>
                         <HiOutlineExternalLink />
                       </Box>
                     }
@@ -257,7 +261,9 @@ const FeaturedProjectCard: FC<ProjectProps> = ({
 
               <Link className="featured-link" to={`/projects/${id}`}>
                 <Box display="flex" alignItems="center">
-                  <Typography mr={0.5}>View Details</Typography>
+                  <Typography mr={0.5} sx={{ fontWeight: 600 }}>
+                    View Details
+                  </Typography>
                   <IoIosArrowForward />
                 </Box>
               </Link>
