@@ -1,4 +1,3 @@
-// ProjectInfoRow.tsx
 import { Box, Typography } from "@mui/material";
 
 interface ProjectInfoRowProps {

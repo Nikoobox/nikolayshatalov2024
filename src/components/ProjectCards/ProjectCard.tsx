@@ -223,7 +223,7 @@ const ProjectCard: FC<ProjectProps> = ({
                 link={address}
                 customLabel={
                   <Box display="flex" alignItems="center">
-                    <Typography mr={0.5} variant="h3">
+                    <Typography mr={0.5} variant="h3" sx={{ fontWeight: 600 }}>
                       Live Link
                     </Typography>
                     <HiOutlineExternalLink />
@@ -238,7 +238,7 @@ const ProjectCard: FC<ProjectProps> = ({
                 link={repo}
                 customLabel={
                   <Box display="flex" alignItems="center">
-                    <Typography mr={0.5} variant="h3">
+                    <Typography mr={0.5} variant="h3" sx={{ fontWeight: 600 }}>
                       Repo
                     </Typography>
                     <HiOutlineExternalLink />
@@ -258,7 +258,9 @@ const ProjectCard: FC<ProjectProps> = ({
                   },
                 }}
               >
-                <Typography variant="h3">View Details</Typography>
+                <Typography variant="h3" sx={{ fontWeight: 600 }}>
+                  View Details
+                </Typography>
 
                 <IoIosArrowForward className="web-action-icon" />
               </Box>
@@ -310,7 +312,9 @@ const ProjectCard: FC<ProjectProps> = ({
                   link={repo}
                   customLabel={
                     <Box display="flex" alignItems="center">
-                      <Typography mr={0.5}>Git Repo</Typography>
+                      <Typography mr={0.5} sx={{ fontWeight: 600 }}>
+                        Git Repo
+                      </Typography>
                       <HiOutlineExternalLink />
                     </Box>
                   }
@@ -324,7 +328,9 @@ const ProjectCard: FC<ProjectProps> = ({
                   link={address}
                   customLabel={
                     <Box display="flex" alignItems="center">
-                      <Typography mr={0.5}>Live Link</Typography>
+                      <Typography mr={0.5} sx={{ fontWeight: 600 }}>
+                        Live Link
+                      </Typography>
                       <HiOutlineExternalLink />
                     </Box>
                   }
@@ -334,7 +340,9 @@ const ProjectCard: FC<ProjectProps> = ({
 
             <Link className="link-internal-mob" to={`/projects/${id}`}>
               <Box display="flex" alignItems="center">
-                <Typography mr={0.5}>View Details</Typography>
+                <Typography mr={0.5} sx={{ fontWeight: 600 }}>
+                  View Details
+                </Typography>
                 <IoIosArrowForward />
               </Box>
             </Link>
