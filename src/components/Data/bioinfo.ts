@@ -1,8 +1,4 @@
 export const BIO_DATA = {
-  entrySection: {
-    hello: "Hello, I am Nikolay Shatalov.",
-    info: " NYC based senior frontend developer with experience in Javascript, React, Redux, React Native, Ruby, Typescript and more.",
-  },
   contactSection: [
     "I’m always interested in working on meaningful, well-crafted products, especially where frontend engineering plays a key role in shaping user experience and performance. I enjoy working through complex problems and building systems that feel both fast and intuitive.",
 

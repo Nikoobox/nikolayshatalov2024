@@ -137,7 +137,7 @@ const Landing: FC = () => {
                   .pauseFor(2200)
                   .changeDelay(45)
 
-                  .typeString("Hello, I am ")
+                  .typeString("Hi, I am ")
 
                   .typeString("Nikolay Shatalov")
                   .pauseFor(700)
@@ -166,7 +166,7 @@ const Landing: FC = () => {
                   .typeString(" with TypeScript, React, Next.js,")
                   .pauseFor(500)
 
-                  .typeString(" and modern web technologies.")
+                  .typeString(" and more.")
                   .pauseFor(500)
 
                   .callFunction(() => handleShowLink())
