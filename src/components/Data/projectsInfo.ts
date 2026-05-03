@@ -35,6 +35,8 @@ export const PROJECTS_DATA = [
       "Built with Next.js (App Router) and TypeScript, Avarts uses Prisma with PostgreSQL on Neon for persistence, and React Query for client-side caching and synchronization. Strava integration is implemented through OAuth and webhooks for real-time activity updates.\n\nInteractive maps and heatmaps are powered by Leaflet and Mapbox GL, with Chart.js driving data visualizations. Asynchronous jobs (weather data and precise geolocation lookups) run through QStash and Redis outside the main request cycle to keep the UI responsive. AI-powered activity analysis is generated on demand through the OpenAI API.\n\nOffline behavior is handled through a service worker that caches recently viewed activities and core assets. Network status is observed at the app level, and navigation items and interactive controls that require connectivity are automatically disabled when the device goes offline, so users never hit broken states or dead-end routes.\n\nDeployment is on Vercel with continuous delivery, monitored through Sentry, with feature flags and analytics via PostHog and Google Analytics.",
 
     address: "https://www.avarts.app/",
+    appStoreUrl:
+      "https://apps.apple.com/us/app/avarts-your-strava-heatmap/id6763459259",
     repo: "https://github.com/Nikoobox/avarts",
     isResponsive: true,
     showLink: true,

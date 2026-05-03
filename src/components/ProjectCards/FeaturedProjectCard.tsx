@@ -117,6 +117,7 @@ const FeaturedProjectCard: FC<ProjectProps> = ({
   tools,
   info,
   address,
+  appStoreUrl,
   repo,
   isResponsive,
   showLink,
@@ -220,13 +221,28 @@ const FeaturedProjectCard: FC<ProjectProps> = ({
               </Box>
             </Box>
 
+            {appStoreUrl && (
+              <a href={appStoreUrl} target="_blank" rel="noopener noreferrer">
+                <Box
+                  component="img"
+                  src={
+                    isDarkMode
+                      ? "/img/download_on_App_Store/Black_lockup/SVG/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg"
+                      : "/img/download_on_App_Store/White_lockup/SVG/Download_on_the_App_Store_Badge_US-UK_RGB_wht_092917.svg"
+                  }
+                  alt="Download on the App Store"
+                  sx={{ height: 36, display: "block" }}
+                />
+              </a>
+            )}
+
             <Typography variant="body1">{info}</Typography>
 
             <Box display="flex" flexWrap="wrap" gap={1}>
               {techTools}
             </Box>
 
-            <Box display="flex" alignItems="center" gap={3} mt={1}>
+            <Box display="flex" alignItems="center" gap={3}>
               {showLink && (
                 <Box sx={{ "& a": isDarkMode ? { color: "white" } : {} }}>
                   <MyLink
