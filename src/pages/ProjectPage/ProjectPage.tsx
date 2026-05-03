@@ -114,6 +114,7 @@ const ProjectPage = () => {
     tools,
     infoLong,
     address,
+    appStoreUrl,
     repo,
     isResponsive,
     showLink,
@@ -178,7 +179,22 @@ const ProjectPage = () => {
         </ToolsBox>
       ),
     },
-    { label: "Tech description", value: techDescription },
+    {
+      label: "Tech description",
+      value: (
+        <Box display="flex" flexDirection="column" gap={2}>
+          <Typography variant="body1">{techDescription}</Typography>
+          {appStoreUrl && (
+            <Typography variant="body1">
+              Avarts is also available as a native iOS app built with Capacitor,
+              wrapping the web platform in a WKWebView. Safe area insets,
+              haptics, and the offline-capable service worker are all wired for
+              the native context.
+            </Typography>
+          )}
+        </Box>
+      ),
+    },
     { label: "Status", value: status },
   ];
 
@@ -308,6 +324,57 @@ const ProjectPage = () => {
                   linkLabel="Visit github repository"
                   labelUnderlineSx={labelUnderlineSx}
                 />
+              </motion.div>
+            )}
+
+            {appStoreUrl && (
+              <motion.div
+                initial={{ y: 30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{
+                  duration: 0.6,
+                  ease: "easeOut",
+                  delay: 0.5,
+                }}
+              >
+                <Box
+                  display="flex"
+                  gap={{ sm: 2 }}
+                  sx={{
+                    flexDirection: { xs: "column", sm: "row" },
+                    alignItems: { xs: "flex-start", sm: "center" },
+                  }}
+                >
+                  <Box minWidth={LABEL_MIN_WIDTH}>
+                    <Typography
+                      variant="h3"
+                      color={
+                        isDarkMode
+                          ? theme.palette.customColors.greyAccent
+                          : "inherit"
+                      }
+                      sx={labelUnderlineSx}
+                    >
+                      iOS App
+                    </Typography>
+                  </Box>
+                  <a
+                    href={appStoreUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Box
+                      component="img"
+                      src={
+                        isDarkMode
+                          ? "/img/download_on_App_Store/Black_lockup/SVG/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg"
+                          : "/img/download_on_App_Store/White_lockup/SVG/Download_on_the_App_Store_Badge_US-UK_RGB_wht_092917.svg"
+                      }
+                      alt="Download on the App Store"
+                      sx={{ height: 36, display: "block", marginTop: 1 }}
+                    />
+                  </a>
+                </Box>
               </motion.div>
             )}
           </Box>
