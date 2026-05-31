@@ -29,7 +29,6 @@ export const PROJECTS_DATA = [
       "React Hook Form",
       "Sentry",
       "PostHog",
-      "Google Analytics",
     ],
     info: "A multi-user Strava-powered platform that transforms activity data into interactive maps, trends, and AI-driven insights for smarter training. Enriches each activity with weather conditions and location context for deeper performance analysis. Approved by Strava.",
     infoLong:
