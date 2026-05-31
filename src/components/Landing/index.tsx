@@ -135,7 +135,7 @@ const Landing: FC = () => {
               onInit={(typewriter) => {
                 typewriter
                   .pauseFor(2200)
-                  .changeDelay(45)
+                  .changeDelay(20)
 
                   .typeString("Hi, I am ")
 

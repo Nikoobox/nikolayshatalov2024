@@ -2,20 +2,17 @@ import {
   SiJavascript,
   SiReact,
   SiRedux,
-  SiRuby,
-  SiRubyonrails,
+  SiWebpack,
+  SiSocketdotio,
   SiHtml5,
   SiCss3,
   SiTypescript,
   SiMongodb,
   SiChartdotjs,
   SiFirebase,
-  SiTestinglibrary,
-  SiMockserviceworker,
   SiMui,
   SiStorybook,
   SiJest,
-  SiReduxsaga,
   SiSentry,
   SiMixpanel,
   SiLooker,
@@ -25,6 +22,7 @@ import {
 } from "react-icons/si";
 import { IoLogoNodejs } from "react-icons/io";
 import { RiNextjsLine } from "react-icons/ri";
+import { TbApi } from "react-icons/tb";
 
 const MAIN = "main";
 const ADDITIONAL = "additional";
@@ -56,14 +54,8 @@ export const SKILLS_DATA = [
     type: MAIN,
   },
   {
-    skillName: "Redux-saga",
-    iconType: SiReduxsaga,
-    type: MAIN,
-  },
-
-  {
-    skillName: "Material UI",
-    iconType: SiMui,
+    skillName: "RTK Query",
+    iconType: SiRedux,
     type: MAIN,
   },
   {
@@ -76,7 +68,16 @@ export const SKILLS_DATA = [
     iconType: SiApollographql,
     type: MAIN,
   },
-
+  {
+    skillName: "REST API",
+    iconType: TbApi,
+    type: MAIN,
+  },
+  {
+    skillName: "Material UI",
+    iconType: SiMui,
+    type: MAIN,
+  },
   {
     skillName: "Tailwindcss",
     iconType: SiTailwindcss,
@@ -94,18 +95,8 @@ export const SKILLS_DATA = [
     type: MAIN,
   },
   {
-    skillName: "Jest",
+    skillName: "Testing",
     iconType: SiJest,
-    type: MAIN,
-  },
-  {
-    skillName: "Testing Lib",
-    iconType: SiTestinglibrary,
-    type: MAIN,
-  },
-  {
-    skillName: "MSW",
-    iconType: SiMockserviceworker,
     type: MAIN,
   },
   {
@@ -130,13 +121,13 @@ export const SKILLS_DATA = [
     type: ADDITIONAL,
   },
   {
-    skillName: "Ruby",
-    iconType: SiRuby,
+    skillName: "Webpack 5",
+    iconType: SiWebpack,
     type: ADDITIONAL,
   },
   {
-    skillName: "Rails",
-    iconType: SiRubyonrails,
+    skillName: "WebSockets",
+    iconType: SiSocketdotio,
     type: ADDITIONAL,
   },
   {
