@@ -11,15 +11,12 @@
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.15.0",
     "@mui/material": "^5.14.20",
-    "@react-pdf/renderer": "^3.4.4",
-    "@simplepdf/react-embed-pdf": "^1.8.0",
     "@theme-toggles/react": "^4.1.0",
     "@tsparticles/engine": "^3.1.0",
     "@tsparticles/react": "^3.0.0",
     "classnames": "^2.5.1",
     "framer-motion": "^11.3.18",
     "notistack": "^3.0.1",
-    "pdfjs-dist": "^4.4.168",
     "posthog-js": "^1.154.2",
     "react": "^18.2.0",
     "react-device-detect": "^2.2.3",
@@ -27,7 +24,6 @@
     "react-hook-form": "^7.52.1",
     "react-icons": "^5.2.1",
     "react-intersection-observer": "^9.13.0",
-    "react-pdf": "^9.1.0",
     "react-router-dom": "^7.13.0",
     "react-scroll": "^1.9.3",
     "react-simple-snackbar": "^1.1.11",
@@ -36,7 +32,6 @@
     "typewriter-effect": "^2.21.0"
   },
   "devDependencies": {
-    "@types/pdfjs-dist": "^2.10.378",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@types/react-scroll": "^1.8.10",
@@ -49,7 +44,8 @@
     "dev": "vite",
     "start": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "resume:preview": "pdftoppm -png -r 200 -singlefile \"src/components/Documents/Nikolay Shatalov — Senior Frontend Engineer.pdf\" src/components/Documents/resume-preview"
   },
   "resolutions": {
     "tar": "^7.5.4"
