@@ -7,25 +7,22 @@ import {
 import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-import { resume } from "../Documents";
+import { resume, resumePreview } from "../Documents";
 import MyDialog from "../MyDialog";
-import PDFViewer from "../PDFViewer";
 import { styling } from "../../constants";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
 
-const StyledPDFViewerWrapper = styled(Box)({
+const StyledResumePreviewWrapper = styled(Box)({
   height: "100%",
   display: "flex",
   justifyContent: "center",
   padding: "2px 0",
-  "& .react-pdf__Page__canvas": {
+  "& img": {
     maxHeight: "100%",
+    maxWidth: "100%",
     objectFit: "contain",
     borderRadius: "4px",
     boxShadow: styling.SHADOW,
-  },
-  "& .react-pdf__Page": {
-    height: "100%",
   },
 });
 
@@ -83,9 +80,12 @@ const ResumeModal: FC = () => {
         </Box>
       }
     >
-      <StyledPDFViewerWrapper>
-        <PDFViewer fileToView={resume} />
-      </StyledPDFViewerWrapper>
+      <StyledResumePreviewWrapper>
+        <img
+          src={resumePreview}
+          alt="Nikolay Shatalov — Senior Frontend Engineer resume"
+        />
+      </StyledResumePreviewWrapper>
     </MyDialog>
   );
 };
