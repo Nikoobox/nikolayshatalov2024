@@ -1,3 +1,3 @@
-import resume from "./Nikolay_Shatalov_Resume_2026_v1.pdf";
+import resume from "./Nikolay Shatalov — Senior Frontend Engineer.pdf";
 
 export { resume };
