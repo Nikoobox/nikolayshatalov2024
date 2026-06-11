@@ -1,4 +1,4 @@
-import resume from "./Nikolay Shatalov — Senior Frontend Engineer.pdf";
+import resume from "./v2 Nikolay Shatalov - Senior Software Engineer, Frontend.pdf";
 
 // `resumePreview` is a high-res image of the resume's first page, shown in the
 // ResumeModal. It is generated from the PDF above — when you replace the PDF,

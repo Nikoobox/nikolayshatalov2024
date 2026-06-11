@@ -45,7 +45,7 @@
     "start": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "resume:preview": "pdftoppm -png -r 200 -singlefile \"src/components/Documents/Nikolay Shatalov — Senior Frontend Engineer.pdf\" src/components/Documents/resume-preview"
+    "resume:preview": "pdftoppm -png -r 200 -singlefile \"src/components/Documents/v2 Nikolay Shatalov - Senior Software Engineer, Frontend.pdf\" src/components/Documents/resume-preview"
   },
   "resolutions": {
     "tar": "^7.5.4"
