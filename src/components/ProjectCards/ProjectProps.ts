@@ -15,6 +15,7 @@ export interface ProjectProps {
   year: number;
   isMainProject: boolean;
   isFeatured?: boolean;
+  isHidden?: boolean;
   status: string;
   statusSimple: string;
   techDescription: string;
