@@ -1,4 +1,4 @@
-import { FC, useRef } from "react";
+import { FC, useRef, useState } from "react";
 import type { ComponentType } from "react";
 import { Link as LinkScroll } from "react-scroll";
 import type { LinkProps } from "react-scroll";
@@ -7,7 +7,7 @@ import Typewriter from "typewriter-effect";
 import { motion } from "framer-motion";
 
 import { Box, Typography } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { styled, alpha } from "@mui/material/styles";
 
 import ParticlesTS from "./Particles";
 import LightModeBackground from "./LightModeBackground";
@@ -71,6 +71,30 @@ const StyledHiChevronDown = styled(HiChevronDown)({
   height: "24px",
 });
 
+const StyledSkipButton = styled("button")(({ theme }) => {
+  const isDarkMode = theme.palette.mode === "dark";
+  const mainColor = isDarkMode
+    ? theme.palette.common.white
+    : theme.palette.common.black;
+
+  return {
+    display: "inline-flex",
+    alignItems: "center",
+    padding: `${theme.spacing(0.5)} ${theme.spacing(1.5)}`,
+    color: mainColor,
+    background: "transparent",
+    border: `1px solid ${alpha(mainColor, 0.4)}`,
+    borderRadius: theme.spacing(3),
+    cursor: "pointer",
+    opacity: 0.6,
+    transition: "opacity 0.2s ease, border-color 0.2s ease",
+    "&:hover": {
+      opacity: 1,
+      borderColor: mainColor,
+    },
+  };
+});
+
 const StyledTypewriterWrapper = styled(Box)(({ theme }) => ({
   width: "100%",
   maxWidth: 700,
@@ -113,68 +137,121 @@ const Landing: FC = () => {
 
   const { isDarkMode, theme } = useThemeContext();
 
-  const handleShowLink = () => {
-    setTimeout(() => {
-      if (linkRef.current) {
-        linkRef.current.classList.add("visible");
-      }
-    }, 1000);
+  const [skipped, setSkipped] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
+
+  const revealLink = () => {
+    if (linkRef.current) {
+      linkRef.current.classList.add("visible");
+    }
   };
+
+  const handleComplete = () => {
+    setIsComplete(true);
+    setTimeout(revealLink, 1000);
+  };
+
+  const handleSkip = () => {
+    setSkipped(true);
+    setIsComplete(true);
+    revealLink();
+  };
+
+  const fullIntro = (
+    <>
+      Hi, I am{" "}
+      <span style={{ color: theme.palette.customColors.tealAccent }}>
+        Nikolay Shatalov
+      </span>
+      . NYC-based Senior Frontend Engineer focused on building scalable,
+      high-performance web applications with TypeScript, React, Next.js, and
+      more.
+    </>
+  );
 
   return (
     <Box>
       {isDarkMode ? <ParticlesTS /> : <LightModeBackground />}
       <StyledTypewriterContainer>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2, duration: 0.4, ease: "easeOut" }}
-        >
-          <StyledTypewriterWrapper>
-            <Typewriter
-              onInit={(typewriter) => {
-                typewriter
-                  .pauseFor(2200)
-                  .changeDelay(20)
+        {!isComplete && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 5, duration: 0.4, ease: "easeOut" }}
+            style={{
+              position: "absolute",
+              top: -32,
+              left: "50%",
+              transform: "translateX(-50%)",
+            }}
+          >
+            <StyledSkipButton
+              type="button"
+              onClick={handleSkip}
+              aria-label="Skip intro animation"
+            >
+              <Typography variant="body2" component="span">
+                Skip intro
+              </Typography>
+            </StyledSkipButton>
+          </motion.div>
+        )}
+        <StyledTypewriterWrapper>
+          {skipped ? (
+            <Typography variant="h1" component="div">
+              {fullIntro}
+            </Typography>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.2, duration: 0.4, ease: "easeOut" }}
+            >
+              <Typewriter
+                onInit={(typewriter) => {
+                  typewriter
+                    .pauseFor(2200)
+                    .changeDelay(20)
 
-                  .typeString("Hi, I am ")
+                    .typeString("Hi, I am ")
 
-                  .typeString("Nikolay Shatalov")
-                  .pauseFor(700)
+                    .typeString("Nikolay Shatalov")
+                    .pauseFor(700)
 
-                  .changeDeleteSpeed(5)
-                  .deleteChars(16)
-                  .pauseFor(200)
+                    .changeDeleteSpeed(5)
+                    .deleteChars(16)
+                    .pauseFor(200)
 
-                  .typeString(
-                    `<span style="color: ${theme.palette.customColors.tealAccent};">Nikolay Shatalov</span>.`,
-                  )
-                  .pauseFor(400)
+                    .typeString(
+                      `<span style="color: ${theme.palette.customColors.tealAccent};">Nikolay Shatalov</span>.`,
+                    )
+                    .pauseFor(400)
 
-                  .typeString(" NYC-based Senior Frontend Engineer")
-                  .pauseFor(500)
+                    .typeString(" NYC-based Senior Frontend Engineer")
+                    .pauseFor(500)
 
-                  .typeString(" focused on building")
-                  .pauseFor(400)
+                    .typeString(" focused on building")
+                    .pauseFor(400)
 
-                  .typeString(" scalable, high-performance")
-                  .pauseFor(400)
+                    .typeString(" scalable, high-performance")
+                    .pauseFor(400)
 
-                  .typeString(" web applications")
-                  .pauseFor(400)
+                    .typeString(" web applications")
+                    .pauseFor(400)
 
-                  .typeString(" with TypeScript, React, Next.js,")
-                  .pauseFor(500)
+                    .typeString(" with TypeScript, React, Next.js,")
+                    .pauseFor(500)
 
-                  .typeString(" and more.")
-                  .pauseFor(500)
+                    .typeString(" and more.")
+                    .pauseFor(500)
 
-                  .callFunction(() => handleShowLink())
-                  .start();
-              }}
-            />
-          </StyledTypewriterWrapper>
-        </motion.div>
+                    .callFunction(() => handleComplete())
+                    .start();
+                }}
+              />
+            </motion.div>
+          )}
+        </StyledTypewriterWrapper>
       </StyledTypewriterContainer>
       <StyledSayHiBox ref={linkRef}>
         <StyledLinkScroll
