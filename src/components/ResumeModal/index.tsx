@@ -4,7 +4,7 @@ import {
   HiOutlineExternalLink,
 } from "react-icons/hi";
 
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box, Skeleton, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 import { resume, resumePreview } from "../Documents";
@@ -13,6 +13,7 @@ import { styling } from "../../constants";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
 
 const StyledResumePreviewWrapper = styled(Box)({
+  position: "relative",
   height: "100%",
   display: "flex",
   alignItems: "center",
@@ -85,8 +86,16 @@ const ResumeModal: FC = () => {
     >
       <StyledResumePreviewWrapper>
         {!isPreviewLoaded && (
-          <CircularProgress
-            sx={{ color: (theme) => theme.palette.customColors.blueDark }}
+          <Skeleton
+            variant="rounded"
+            animation="wave"
+            sx={{
+              position: "absolute",
+              height: "100%",
+              aspectRatio: "8.5 / 11",
+              maxWidth: "100%",
+              borderRadius: "4px",
+            }}
           />
         )}
         <img

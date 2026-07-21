@@ -10,12 +10,13 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
 
-import { Box, Typography } from "@mui/material";
+import { Box, Skeleton, Typography } from "@mui/material";
 import { styled } from "@mui/system";
 import { alpha } from "@mui/material/styles";
 
 import { ProjectProps } from "./ProjectProps";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
+import { useImageLoaded } from "../../hooks";
 import { MyLink } from "../UI";
 
 const StyledBox = styled(Box)(({ theme }) => {
@@ -127,6 +128,7 @@ const FeaturedProjectCard: FC<ProjectProps> = ({
 }) => {
   const { isDarkMode } = useThemeContext();
   const { ref, inView } = useInView({ threshold: 0.15 });
+  const { isLoaded, ref: imgRef, onLoad } = useImageLoaded();
 
   const techToolColor = isDarkMode
     ? "customColors.grey900"
@@ -161,16 +163,37 @@ const FeaturedProjectCard: FC<ProjectProps> = ({
         >
           <Box
             sx={{
+              position: "relative",
               width: { xs: "100%", md: "50%" },
               height: { xs: 280, sm: 360, md: "auto" },
               alignSelf: { md: "stretch" },
               flexShrink: 0,
             }}
           >
+            {!isLoaded && (
+              <Skeleton
+                variant="rounded"
+                animation="wave"
+                sx={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                  borderRadius: (theme) => theme.spacing(2),
+                }}
+              />
+            )}
             <img
+              ref={imgRef}
               className="featured-image"
               src={imgLanding || img}
               alt={name}
+              onLoad={onLoad}
+              style={{
+                opacity: isLoaded ? 1 : 0,
+                transition: "opacity 0.3s ease",
+              }}
             />
           </Box>
 

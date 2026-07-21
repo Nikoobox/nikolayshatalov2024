@@ -11,12 +11,13 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
 
-import { Box, Typography } from "@mui/material";
+import { Box, Skeleton, Typography } from "@mui/material";
 import { styled } from "@mui/system";
 import { useTheme, alpha } from "@mui/material/styles";
 
 import { ProjectProps } from "./ProjectProps";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
+import { useImageLoaded } from "../../hooks";
 import { MyLink } from "../UI";
 import { getRandomColor } from "./helpers";
 
@@ -143,6 +144,7 @@ const ProjectCard: FC<ProjectProps> = ({
   const isLive = statusSimple === "Live";
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const { isDarkMode } = useThemeContext();
+  const { isLoaded, ref: imgRef, onLoad } = useImageLoaded();
   const { ref, inView } = useInView({
     threshold: 0.2,
   });
@@ -197,7 +199,28 @@ const ProjectCard: FC<ProjectProps> = ({
             borderRadius: "16px",
           }}
         >
-          <img className="project-image" src={img} alt="project" />
+          {!isLoaded && (
+            <Skeleton
+              variant="rounded"
+              animation="wave"
+              sx={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "260px",
+                borderRadius: theme.spacing(2),
+              }}
+            />
+          )}
+          <img
+            ref={imgRef}
+            className="project-image"
+            src={img}
+            alt="project"
+            onLoad={onLoad}
+            style={{ opacity: isLoaded ? 1 : 0, transition: "opacity 0.3s ease" }}
+          />
           <Box
             className={`project-overlay${isHovered ? " overlay--visible" : ""}`}
             width="100%"
