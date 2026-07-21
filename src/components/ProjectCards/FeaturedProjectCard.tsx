@@ -158,7 +158,7 @@ const FeaturedProjectCard: FC<ProjectProps> = ({
           sx={{
             flexDirection: { xs: "column", md: "row" },
             alignItems: { md: "center" },
-            gap: { xs: 3, md: 7 },
+            gap: { xs: 3, md: 5 },
           }}
         >
           <Box
