@@ -9,13 +9,13 @@ import {
 } from "react-icons/io";
 
 import { useTheme } from "@mui/material/styles";
-import { Box, Typography } from "@mui/material";
+import { Box, Skeleton, Typography } from "@mui/material";
 import { styled, alpha } from "@mui/system";
 
 import { PROJECTS_DATA } from "@/components/Data";
 import Page from "@/components/Page";
 import { ProjectProps } from "@/components/ProjectCards/ProjectProps";
-import { useDarkTheme } from "@/hooks";
+import { useDarkTheme, useImageLoaded } from "@/hooks";
 import InfoLinkRow from "./InfoLinkRow";
 import { LABEL_MIN_WIDTH, LABEL_FONT_WEIGHT } from "./configs";
 import ProjectInfoRow from "./ProjectInfoRow";
@@ -98,6 +98,7 @@ const ProjectPage = () => {
   const { projectId } = useParams();
   const theme = useTheme();
   const isDarkMode = useDarkTheme();
+  const { isLoaded, ref: imgRef, onLoad } = useImageLoaded();
 
   const projectData: ProjectProps | undefined = PROJECTS_DATA.find(
     (project) => project.id === +projectId!,
@@ -261,7 +262,30 @@ const ProjectPage = () => {
               }}
             >
               <AnimatedImageWrapper>
-                <AnimatedImage src={img} alt={name} />
+                {!isLoaded && (
+                  <Skeleton
+                    variant="rounded"
+                    animation="wave"
+                    sx={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                      height: "100%",
+                      borderRadius: theme.spacing(2),
+                    }}
+                  />
+                )}
+                <AnimatedImage
+                  ref={imgRef}
+                  src={img}
+                  alt={name}
+                  onLoad={onLoad}
+                  style={{
+                    opacity: isLoaded ? 1 : 0,
+                    transition: "opacity 0.3s ease",
+                  }}
+                />
               </AnimatedImageWrapper>
             </motion.div>
 
