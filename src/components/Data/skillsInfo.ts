@@ -9,7 +9,6 @@ import {
   SiTypescript,
   SiMongodb,
   SiChartdotjs,
-  SiFirebase,
   SiMui,
   SiStorybook,
   SiJest,
@@ -19,6 +18,7 @@ import {
   SiApollographql,
   SiGraphql,
   SiTailwindcss,
+  SiPrisma,
 } from "react-icons/si";
 import { IoLogoNodejs } from "react-icons/io";
 import { RiNextjsLine } from "react-icons/ri";
@@ -46,6 +46,11 @@ export const SKILLS_DATA = [
   {
     skillName: "NextJS",
     iconType: RiNextjsLine,
+    type: MAIN,
+  },
+  {
+    skillName: "React Native",
+    iconType: SiReact,
     type: MAIN,
   },
   {
@@ -145,9 +150,14 @@ export const SKILLS_DATA = [
     iconType: SiMongodb,
     type: ADDITIONAL,
   },
+  // {
+  //   skillName: "SQL",
+  //   iconType: TbDatabase,
+  //   type: ADDITIONAL,
+  // },
   {
-    skillName: "Firebase",
-    iconType: SiFirebase,
+    skillName: "Prisma",
+    iconType: SiPrisma,
     type: ADDITIONAL,
   },
 ];

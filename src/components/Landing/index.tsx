@@ -191,7 +191,7 @@ const Landing: FC = () => {
               aria-label="Skip intro animation"
             >
               <Typography variant="body2" component="span">
-                Skip intro
+                Skip animation
               </Typography>
             </StyledSkipButton>
           </motion.div>
