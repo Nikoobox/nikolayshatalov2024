@@ -182,7 +182,7 @@ const Navbar: FC = () => {
           href={resume}
           target="_blank"
           rel="noopener noreferrer"
-          download="nikolay_shatalov_frontend_developer_resume.pdf"
+          download="Nikolay Shatalov Senior Software Engineer.pdf"
           onClick={handleDrawerToggle}
         >
           <Typography variant="h3" color="customColors.greyAccent">

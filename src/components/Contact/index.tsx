@@ -191,7 +191,7 @@ const Contact: FC = () => {
                     href={resume}
                     target="_blank"
                     rel="noopener noreferrer"
-                    download="nikolay_shatalov_frontend_developer_resume.pdf"
+                    download="Nikolay Shatalov Senior Software Engineer.pdf"
                   >
                     <Typography
                       variant="h3"
