@@ -19,6 +19,7 @@ export interface ProjectProps {
   status: string;
   statusSimple: string;
   techDescription: string;
+  testingDescription?: string;
   learningGoal?: string;
   appStoreUrl?: string;
 }
