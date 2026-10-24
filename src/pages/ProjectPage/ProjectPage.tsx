@@ -121,6 +121,7 @@ const ProjectPage = () => {
     showLink,
     showRepo,
     techDescription,
+    testingDescription,
     status,
   } = projectData!;
 
@@ -192,6 +193,9 @@ const ProjectPage = () => {
               haptics, and the offline-capable service worker are all wired for
               the native context.
             </Typography>
+          )}
+          {testingDescription && (
+            <Typography variant="body1">{testingDescription}</Typography>
           )}
         </Box>
       ),

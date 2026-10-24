@@ -150,11 +150,6 @@ export const SKILLS_DATA = [
     iconType: SiMongodb,
     type: ADDITIONAL,
   },
-  // {
-  //   skillName: "SQL",
-  //   iconType: TbDatabase,
-  //   type: ADDITIONAL,
-  // },
   {
     skillName: "Prisma",
     iconType: SiPrisma,
