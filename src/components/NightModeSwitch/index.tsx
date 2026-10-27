@@ -20,17 +20,14 @@ const StyledButton = styled("button")(({ theme }) => {
     padding: 0,
     border: 0,
     cursor: "pointer",
-    color: theme.palette.common.white,
+    color: isDarkMode
+      ? theme.palette.common.white
+      : theme.palette.customColors.purpleAccent,
     background: isDarkMode
       ? theme.palette.customColors.charcoalBlack
-      : theme.palette.common.black,
+      : theme.palette.common.white,
     boxShadow: pixelBorder(frame),
-    "&:hover": isDarkMode
-      ? { color: theme.palette.customColors.tealAccent }
-      : {
-          background: theme.palette.customColors.tealAccent,
-          color: theme.palette.common.black,
-        },
+    "&:hover": { color: theme.palette.customColors.tealAccent },
   };
 });
 

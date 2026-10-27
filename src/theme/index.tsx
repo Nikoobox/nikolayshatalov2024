@@ -114,6 +114,7 @@ const themeOptions: ThemeOptions = {
       greyAccent: COLORS.GREY_LIGHT,
       grey900: COLORS.GREY_900,
       tealAccent: COLORS.TEAL_ACCENT,
+      purpleAccent: COLORS.PURPLE_ACCENT,
       redAccent: COLORS.RED_ACCENT,
       blueDark: COLORS.BLUE_DARK,
       charcoalBlack: COLORS.CHARCOAL_BLACK,

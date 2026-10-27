@@ -74,3 +74,6 @@ export const closestApproach = (
 
 // how far apart flying ships should stay
 export const KEEP_APART = 260;
+
+// phones get smaller spacecraft (still whole-number pixel sizes)
+export const IS_PHONE = window.matchMedia("(max-width: 599px)").matches;
