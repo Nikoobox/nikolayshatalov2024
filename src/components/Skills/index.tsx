@@ -1,10 +1,10 @@
 import { FC } from "react";
-import Wave from "react-wavify";
 
 import { Box } from "@mui/material";
 
 import PageSection from "../PageSection";
 import { SKILLS_DATA } from "../Data";
+import { PixelHeading, PixelZigzag } from "../UI";
 import Skill from "./Skill";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
 
@@ -18,10 +18,15 @@ const SKILLS_WRAPPER_WIDTH = {
   lg: "60%", // 1280px - 1920px
 };
 
-const renderSkills = ({ type }: { type: string }) =>
+const renderSkills = ({ type }: { type: typeof MAIN | typeof ADDITIONAL }) =>
   SKILLS_DATA.filter((item) => item.type === type).map(
     ({ skillName, iconType: TechIcon }) => (
-      <Skill key={skillName} skillName={skillName} iconType={TechIcon} />
+      <Skill
+        key={skillName}
+        skillName={skillName}
+        iconType={TechIcon}
+        size={type}
+      />
     ),
   );
 
@@ -33,21 +38,12 @@ const Skills: FC = () => {
 
   return (
     <>
-      <Wave
-        fill={theme.palette.backgroundCustom.secondary}
-        paused={false}
-        style={{
-          display: "flex",
-          background: theme.palette.backgroundCustom.primary,
-          transform: "rotate(180)",
-        }}
-        options={{
-          height: 40,
-          amplitude: 40,
-          speed: 0.1,
-          points: 3,
-        }}
-      />
+      {/* edge between the landing and the sections: at night it is drawn
+          inside the landing background (so the ships fly over it); by day,
+          with white on both sides, it is a pixel zigzag line */}
+      {theme.palette.mode !== "dark" && (
+        <PixelZigzag color={theme.palette.customColors.greyAccent} />
+      )}
 
       <PageSection id="skills-destination">
         <Box
@@ -56,15 +52,16 @@ const Skills: FC = () => {
           justifyContent="center"
           flexDirection="column"
         >
-          <PageSection.PageSubheader>
-            <Box mb={5}>Skills</Box>
-          </PageSection.PageSubheader>
+          <Box mb={8}>
+            <PixelHeading>Skills</PixelHeading>
+          </Box>
 
           <Box
             display="flex"
-            alignItems="center"
+            alignItems="flex-start"
             justifyContent="center"
-            gap={{ xs: 5, sm: 7 }}
+            rowGap={{ xs: 5, sm: 6 }}
+            columnGap={{ xs: 1, sm: 3 }}
             flexWrap="wrap"
             sx={{
               width: SKILLS_WRAPPER_WIDTH,
@@ -73,16 +70,15 @@ const Skills: FC = () => {
             {mainSkills}
           </Box>
 
-          <PageSection.PageSubheader>
-            <Box mb={5} mt={20}>
-              Additional Skills
-            </Box>
-          </PageSection.PageSubheader>
+          <Box mb={6} mt={20}>
+            <PixelHeading size="small">Additional Skills</PixelHeading>
+          </Box>
           <Box
             display="flex"
-            alignItems="center"
+            alignItems="flex-start"
             justifyContent="center"
-            gap={{ xs: 5, sm: 7 }}
+            rowGap={{ xs: 4, sm: 5 }}
+            columnGap={{ xs: 1, sm: 3 }}
             flexWrap="wrap"
             sx={{
               width: SKILLS_WRAPPER_WIDTH,

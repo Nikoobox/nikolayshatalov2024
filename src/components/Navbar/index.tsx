@@ -2,8 +2,6 @@ import { useState, FC } from "react";
 import type { ComponentType } from "react";
 import { Link as LinkScroll, animateScroll as scroll } from "react-scroll";
 import type { LinkProps } from "react-scroll";
-import { HiMenuAlt2 } from "react-icons/hi";
-import { IoCloseOutline } from "react-icons/io5";
 import { motion } from "framer-motion";
 
 import {
@@ -12,7 +10,6 @@ import {
   Slide,
   Box,
   Drawer,
-  IconButton,
   Toolbar,
   Typography,
   Container,
@@ -20,8 +17,9 @@ import {
 import { styled } from "@mui/system";
 import { useTheme, Theme } from "@mui/material/styles";
 
-import nsLogo from "../../images/logo.png";
 import NightModeSwitch from "../NightModeSwitch";
+import { pixelBorder } from "../UI";
+import { pixelBodyFontFamily, pixelFontFamily } from "../../theme/variables";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
 import { navItems } from "./NavItems";
 import { resume } from "../Documents";
@@ -43,26 +41,51 @@ const HideOnScroll = ({ children }: HideOnScrollProps) => {
 const commonNavItemStyles = (theme: Theme): object => ({
   position: "relative",
   cursor: "pointer",
-  "& ::after": {
-    top: "20px",
-    position: "absolute",
-    content: '""',
-    display: "block",
-    width: "0",
-    height: "8px",
-    background: theme.palette.customColors.tealAccent,
-    opacity: 0.75,
-    transition: "width 0.4s",
-    zIndex: -1,
+  padding: "12px 4px",
+  "& .MuiTypography-root": {
+    position: "relative",
+    fontFamily: pixelFontFamily,
+    fontSize: "14px",
+    lineHeight: 1.6,
+    textTransform: "uppercase",
   },
-  "& :hover::after": {
+  "& .MuiTypography-root::before": {
+    content: '""',
     position: "absolute",
-    left: "0",
-    width: "75%",
-    transition: "width 0.3s",
-    zIndex: -1,
+    left: "-16px",
+    top: "50%",
+    width: "8px",
+    height: "14px",
+    transform: "translateY(-50%)",
+    background: theme.palette.customColors.tealAccent,
+    clipPath:
+      "polygon(0 0, 25% 0, 25% 7%, 50% 7%, 50% 21%, 75% 21%, 75% 36%, 100% 36%, 100% 64%, 75% 64%, 75% 79%, 50% 79%, 50% 93%, 25% 93%, 25% 100%, 0 100%)",
+    visibility: "hidden",
+  },
+  "&:hover .MuiTypography-root::before": {
+    visibility: "visible",
   },
 });
+
+const StyledDrawerClose = styled("button")(({ theme }) => ({
+  alignSelf: "flex-start",
+  width: 44,
+  height: 44,
+  margin: (theme as Theme).spacing(3, 2.5),
+  padding: 0,
+  border: 0,
+  cursor: "pointer",
+  fontFamily: pixelFontFamily,
+  fontSize: "14px",
+  lineHeight: 1,
+  color: (theme as Theme).palette.common.white,
+  background: "transparent",
+  boxShadow: pixelBorder((theme as Theme).palette.common.white),
+  "&:hover": {
+    background: (theme as Theme).palette.customColors.tealAccent,
+    color: (theme as Theme).palette.customColors.charcoalBlack,
+  },
+}));
 
 const StyledToolbar = styled(Toolbar)({
   paddingTop: "16px",
@@ -106,6 +129,8 @@ const StyledATagWrapper = styled(Box)(({ theme }) => ({
     },
   },
   "& .MuiTypography-root": {
+    fontFamily: pixelBodyFontFamily,
+    fontSize: "24px",
     borderBottom: `1px ${theme.palette.customColors.greyAccent} solid`,
     "& :hover": {
       borderBottom: `1px ${theme.palette.common.white} solid`,
@@ -124,19 +149,13 @@ const Navbar: FC = () => {
 
   const drawer = (
     <Box height="100%" display="flex" flexDirection="column">
-      <IconButton
-        aria-label="menu icon"
-        sx={{
-          color: theme.palette.common.white,
-          fontSize: theme.spacing(7),
-          margin: "8px 0",
-          justifySelf: "flex-start",
-          alignSelf: "start",
-        }}
+      <StyledDrawerClose
+        type="button"
+        aria-label="Close menu"
         onClick={handleDrawerToggle}
       >
-        <IoCloseOutline />
-      </IconButton>
+        X
+      </StyledDrawerClose>
 
       <Box mt={8}>
         {navItems.map(({ id, navItemName, destination }) => (
@@ -147,7 +166,15 @@ const Navbar: FC = () => {
             duration={1000}
             onClick={handleDrawerToggle}
           >
-            <Typography variant="h1" color="common.white">
+            <Typography
+              color="common.white"
+              sx={{
+                fontFamily: pixelFontFamily,
+                fontSize: "24px",
+                lineHeight: 1.6,
+                textTransform: "uppercase",
+              }}
+            >
               {navItemName}
             </Typography>
           </StyledDrawerItemLink>
@@ -221,33 +248,69 @@ const Navbar: FC = () => {
           >
             <Container maxWidth="lg">
               <StyledToolbar disableGutters>
-                <IconButton
-                  aria-label="open drawer"
-                  edge="start"
+                <Box
+                  component="button"
+                  type="button"
+                  aria-label="Open menu"
                   onClick={handleDrawerToggle}
                   sx={{
+                    display: { xs: "flex", sm: "none" },
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: 48,
+                    height: 48,
                     mr: 2,
-                    display: { sm: "none" },
+                    padding: 0,
+                    border: 0,
+                    background: "transparent",
+                    cursor: "pointer",
                     color: theme.palette.commonCustom.front,
-                    fontSize: theme.spacing(5),
                   }}
                 >
-                  <HiMenuAlt2 />
-                </IconButton>
+                  {/* pixel hamburger: three chunky bars */}
+                  <svg
+                    width="28"
+                    height="24"
+                    viewBox="0 0 7 6"
+                    fill="currentColor"
+                    shapeRendering="crispEdges"
+                    aria-hidden="true"
+                  >
+                    <rect x="0" y="0" width="7" height="1" />
+                    <rect x="0" y="2.5" width="5" height="1" />
+                    <rect x="0" y="5" width="7" height="1" />
+                  </svg>
+                </Box>
                 <Box
-                  width="80px"
-                  height="80px"
+                  component="button"
+                  type="button"
+                  aria-label="Nikolay Shatalov — back to top"
+                  width="64px"
+                  height="64px"
                   sx={{
-                    display: { xs: "none", sm: "block" },
-                    img: { width: "100%", height: "100%" },
-                    border: "1px white solid",
-                    "& :hover": {
-                      cursor: "pointer",
-                    },
+                    display: { xs: "none", sm: "flex" },
+                    // initials tucked into the bottom-right corner
+                    alignItems: "flex-end",
+                    justifyContent: "flex-end",
+                    padding: "6px 3px 6px 6px",
+                    border: 0,
+                    cursor: "pointer",
+                    fontFamily: pixelFontFamily,
+                    fontSize: "20px",
+                    lineHeight: 1,
+                    color: theme.palette.common.white,
+                    background:
+                      theme.palette.mode === "dark"
+                        ? theme.palette.customColors.charcoalBlack
+                        : theme.palette.common.black,
+                    boxShadow:
+                      theme.palette.mode === "dark"
+                        ? `${pixelBorder(theme.palette.common.white)}, 8px 8px 0 0 #000`
+                        : `${pixelBorder(theme.palette.common.black)}, 8px 8px 0 0 ${theme.palette.customColors.greyAccent}`,
                   }}
                   onClick={handleLogoClick}
                 >
-                  <img src={nsLogo} alt="ns-logo" />
+                  NS
                 </Box>
                 <Box
                   sx={{

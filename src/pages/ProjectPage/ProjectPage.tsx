@@ -1,41 +1,47 @@
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import {
-  IoMdPhonePortrait,
-  IoMdDesktop,
-  IoMdLaptop,
-  IoIosArrowRoundBack,
-} from "react-icons/io";
+import { IoMdPhonePortrait, IoMdDesktop, IoMdLaptop } from "react-icons/io";
 
 import { useTheme } from "@mui/material/styles";
 import { Box, Skeleton, Typography } from "@mui/material";
-import { styled, alpha } from "@mui/system";
+import { styled } from "@mui/system";
 
 import { PROJECTS_DATA } from "@/components/Data";
 import Page from "@/components/Page";
 import { ProjectProps } from "@/components/ProjectCards/ProjectProps";
-import { useDarkTheme, useImageLoaded } from "@/hooks";
-import InfoLinkRow from "./InfoLinkRow";
-import { LABEL_MIN_WIDTH, LABEL_FONT_WEIGHT } from "./configs";
-import ProjectInfoRow from "./ProjectInfoRow";
-import ParticlesTS from "@/components/Landing/Particles";
+import {
+  PixelArrow,
+  PixelTag,
+  StatusLight,
+  pixelBorder,
+} from "@/components/UI";
+import SectionStars from "@/components/SectionStars";
 import LightModeBackground from "@/components/Landing/LightModeBackground";
+import { useDarkTheme, useImageLoaded } from "@/hooks";
+import { pixelFontFamily } from "@/theme/variables";
+import InfoLinkRow from "./InfoLinkRow";
+import ProjectInfoRow from "./ProjectInfoRow";
+
+const IMAGE_HEIGHT = 300;
 
 const AnimatedImageWrapper = styled("div")(({ theme }) => ({
   width: "100%",
-  height: "300px",
+  height: `${IMAGE_HEIGHT}px`,
   position: "relative",
   overflow: "hidden",
-  borderRadius: theme.spacing(2),
+  boxShadow: pixelBorder(
+    theme.palette.mode === "dark"
+      ? theme.palette.customColors.greyAccent
+      : theme.palette.common.black,
+  ),
 }));
 
 const AnimatedImage = styled("img")({
   width: "100%",
-  height: "300px",
+  height: `${IMAGE_HEIGHT}px`,
   objectFit: "cover",
   position: "absolute",
-  overflow: "hidden",
   left: 0,
   top: 0,
   animation: "moveZoomImage 90s ease-in-out infinite alternate",
@@ -47,51 +53,47 @@ const AnimatedImage = styled("img")({
     "80%": { transform: "scale(1.08) translate(-15px, -5px)" },
     "100%": { transform: "scale(1) translate(0px, 0px)" },
   },
+  "@media (prefers-reduced-motion: reduce)": { animation: "none" },
 });
 
-const ToolsBox = styled(Box)(({ theme }) => {
+const StyledBackLink = styled(Link)(({ theme }) => ({
+  display: "inline-flex",
+  alignItems: "center",
+  gap: theme.spacing(1.5),
+  padding: "8px 0",
+  fontFamily: pixelFontFamily,
+  fontSize: "12px",
+  textDecoration: "none",
+  color:
+    theme.palette.mode === "dark"
+      ? theme.palette.common.white
+      : theme.palette.common.black,
+  "&:hover": { color: theme.palette.customColors.tealAccent },
+  "& svg": { transform: "scaleX(-1)" },
+}));
+
+const StyledCard = styled(Box)(({ theme }) => {
   const isDarkMode = theme.palette.mode === "dark";
   return {
-    "& .tool": {
-      padding: "6px 10px",
-      color: isDarkMode
-        ? theme.palette.customColors.greyLightest
-        : theme.palette.customColors.charcoalBlack,
-      borderRadius: theme.spacing(1),
-      background: isDarkMode
-        ? alpha(theme.palette.customColors.grey, 0.25)
-        : theme.palette.customColors.greyLightest,
+    padding: theme.spacing(5),
+    background: isDarkMode
+      ? theme.palette.customColors.charcoalBlack
+      : theme.palette.common.white,
+    boxShadow: `${pixelBorder(
+      isDarkMode ? theme.palette.common.white : theme.palette.common.black,
+    )}, 12px 12px 0 0 ${
+      isDarkMode ? "rgba(0, 0, 0, 0.6)" : "rgba(34, 34, 34, 0.18)"
+    }`,
+    [theme.breakpoints.down("sm")]: {
+      padding: theme.spacing(2.5),
     },
   };
 });
 
-const IconsBox = styled(Box)(({ theme }) => {
-  const isDarkMode = theme.palette.mode === "dark";
-  return {
-    "& .icon": {
-      color: isDarkMode
-        ? theme.palette.customColors.greyLightest
-        : theme.palette.customColors.grey900,
-      height: theme.spacing(3),
-      width: theme.spacing(3),
-    },
-  };
-});
-
-const BackBox = styled(Box)(({ theme }) => {
-  const isDarkMode = theme.palette.mode === "dark";
-  return {
-    a: {
-      textDecoration: "none",
-      color: isDarkMode
-        ? theme.palette.customColors.greyLightest
-        : theme.palette.customColors.grey900,
-    },
-    "& .icon": {
-      height: theme.spacing(4),
-      width: theme.spacing(4),
-    },
-  };
+const slideIn = (delay: number) => ({
+  initial: { y: 32, opacity: 0 },
+  animate: { y: 0, opacity: 1 },
+  transition: { duration: 0.6, ease: "easeOut", delay },
 });
 
 const ProjectPage = () => {
@@ -123,160 +125,117 @@ const ProjectPage = () => {
     techDescription,
     testingDescription,
     status,
+    statusSimple,
   } = projectData!;
 
-  const techToolColor = isDarkMode
-    ? "customColors.grey900"
-    : "customColors.grey";
-
-  const techTools = tools.map((tool: string) => (
-    <Typography
-      color={techToolColor}
-      className="tool"
-      key={tool}
-      variant="subtitleBold"
-    >
-      {tool}
-    </Typography>
-  ));
-
-  const labelUnderlineSx = {
-    fontWeight: LABEL_FONT_WEIGHT,
-    position: "relative",
-    display: "inline-block",
-    zIndex: 1,
-    height: "max-content",
-    "&::after": {
-      content: '""',
-      position: "absolute",
-      left: 0,
-      bottom: 1,
-      width: "75%",
-      height: "8px",
-      background: theme.palette.customColors.tealAccent,
-      opacity: 0.6,
-      zIndex: -1,
-    },
+  const iconSx = {
+    height: theme.spacing(3),
+    width: theme.spacing(3),
   };
 
   const infoRows = [
-    { label: "Project name", value: name },
     { label: "Year", value: year },
     { label: "Description", value: infoLong },
     {
       label: "Optimized for",
       value: (
-        <IconsBox display="flex" gap={1.5}>
-          {isResponsive && <IoMdPhonePortrait className="icon" />}
-          <IoMdLaptop className="icon" />
-          <IoMdDesktop className="icon" />
-        </IconsBox>
+        <Box display="flex" gap={1.5} pt="4px">
+          {isResponsive && <Box component={IoMdPhonePortrait} sx={iconSx} />}
+          <Box component={IoMdLaptop} sx={iconSx} />
+          <Box component={IoMdDesktop} sx={iconSx} />
+        </Box>
       ),
     },
     {
       label: "Built with",
       value: (
-        <ToolsBox flexWrap="wrap" display="flex" gap={1}>
-          {techTools}
-        </ToolsBox>
+        <Box display="flex" flexWrap="wrap" gap={1}>
+          {tools.map((tool) => (
+            <PixelTag key={tool}>{tool}</PixelTag>
+          ))}
+        </Box>
       ),
     },
     {
       label: "Tech description",
       value: (
         <Box display="flex" flexDirection="column" gap={2}>
-          <Typography variant="body1">{techDescription}</Typography>
+          <span>{techDescription}</span>
           {appStoreUrl && (
-            <Typography variant="body1">
+            <span>
               Avarts is also available as a native iOS app built with Capacitor,
               wrapping the web platform in a WKWebView. Safe area insets,
               haptics, and the offline-capable service worker are all wired for
               the native context.
-            </Typography>
+            </span>
           )}
-          {testingDescription && (
-            <Typography variant="body1">{testingDescription}</Typography>
-          )}
+          {testingDescription && <span>{testingDescription}</span>}
         </Box>
       ),
     },
-    { label: "Status", value: status },
+    {
+      label: "Status",
+      value: (
+        <Box display="flex" flexDirection="column" gap={1}>
+          {statusSimple && <StatusLight status={statusSimple} />}
+          <span>{status}</span>
+        </Box>
+      ),
+    },
   ];
 
   return (
     <Page
       customBackground={
         isDarkMode ? (
-          <ParticlesTS
-            fixed
-            customBgColor={theme.palette.backgroundCustom.secondary}
-          />
+          // same blinking pixels as the main page, minus the flying ships
+          <Box
+            sx={{
+              position: "fixed",
+              inset: 0,
+              zIndex: -1,
+              background: theme.palette.customColors.charcoalBlack,
+            }}
+          >
+            <SectionStars withShips={false} />
+          </Box>
         ) : (
           <LightModeBackground fixed />
         )
       }
     >
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-      >
-        <BackBox sx={{ paddingTop: { xs: 2, sm: theme.spacing(4) } }}>
-          <Link to="/">
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <IoIosArrowRoundBack className="icon" /> Back
-            </Box>
-          </Link>
-        </BackBox>
-        <Box
-          mt={{ xs: 2, sm: 1 }}
-          p={{ xs: 0, sm: 4 }}
-          sx={{
-            borderRadius: theme.spacing(2),
-            background: {
-              xs: "transparent",
-              sm: isDarkMode
-                ? theme.palette.customColors.charcoalBlack
-                : theme.palette.common.white,
-            },
-            boxShadow: {
-              xs: "none",
-              sm: `0 2px 8px ${theme.palette.customColors.charcoalBlack}0D`, // 0D = 5% opacity
-            },
-          }}
-        >
-          <Box
-            width="100%"
-            display="flex"
-            flexDirection="column"
-            gap={{ xs: 4, sm: 6 }}
-          >
-            <motion.div
-              initial={{ y: 30, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{
-                duration: 0.6,
-                ease: "easeOut",
-                delay: 0.1,
-              }}
-            >
+      <motion.div {...slideIn(0)}>
+        <Box pt={{ xs: 2, sm: 4 }} mb={3}>
+          <StyledBackLink to="/">
+            <PixelArrow width={6} height={10} />
+            BACK
+          </StyledBackLink>
+        </Box>
+
+        <StyledCard>
+          <Box display="flex" flexDirection="column" gap={{ xs: 4, sm: 5 }}>
+            <motion.div {...slideIn(0.1)}>
+              <Typography
+                component="h1"
+                sx={{
+                  fontFamily: pixelFontFamily,
+                  fontSize: { xs: "18px", sm: "24px" },
+                  lineHeight: 1.5,
+                  mb: 4,
+                }}
+              >
+                {name}
+              </Typography>
               <AnimatedImageWrapper>
                 {!isLoaded && (
                   <Skeleton
-                    variant="rounded"
+                    variant="rectangular"
                     animation="wave"
                     sx={{
                       position: "absolute",
-                      top: 0,
-                      left: 0,
+                      inset: 0,
                       width: "100%",
                       height: "100%",
-                      borderRadius: theme.spacing(2),
                     }}
                   />
                 )}
@@ -294,119 +253,54 @@ const ProjectPage = () => {
             </motion.div>
 
             {infoRows.map(({ label, value }, idx) => (
-              <motion.div
-                key={label}
-                initial={{ y: 30, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{
-                  duration: 0.6,
-                  ease: "easeOut",
-                  delay: 0.2 + Number(idx) / 10,
-                }}
-              >
-                <ProjectInfoRow
-                  label={label}
-                  value={value}
-                  labelSx={{
-                    ...labelUnderlineSx,
-                    color: isDarkMode
-                      ? theme.palette.customColors.greyAccent
-                      : "inherit",
-                  }}
-                  minWidth={LABEL_MIN_WIDTH}
-                />
+              <motion.div key={label} {...slideIn(0.2 + idx / 10)}>
+                <ProjectInfoRow label={label} value={value} />
               </motion.div>
             ))}
+
             {showLink && (
-              <motion.div
-                initial={{ y: 30, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{
-                  duration: 0.6,
-                  ease: "easeOut",
-                  delay: 0.4,
-                }}
-              >
-                <InfoLinkRow
-                  label="Site"
-                  link={address}
-                  linkLabel={address}
-                  labelUnderlineSx={labelUnderlineSx}
-                />
+              <motion.div {...slideIn(0.4)}>
+                <InfoLinkRow label="Site" link={address} linkLabel={address} />
               </motion.div>
             )}
 
             {showRepo && (
-              <motion.div
-                initial={{ y: 30, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{
-                  duration: 0.6,
-                  ease: "easeOut",
-                  delay: 0.4,
-                }}
-              >
+              <motion.div {...slideIn(0.4)}>
                 <InfoLinkRow
                   label="Github"
                   link={repo}
                   linkLabel="Visit github repository"
-                  labelUnderlineSx={labelUnderlineSx}
                 />
               </motion.div>
             )}
 
             {appStoreUrl && (
-              <motion.div
-                initial={{ y: 30, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{
-                  duration: 0.6,
-                  ease: "easeOut",
-                  delay: 0.5,
-                }}
-              >
-                <Box
-                  display="flex"
-                  gap={{ sm: 2 }}
-                  sx={{
-                    flexDirection: { xs: "column", sm: "row" },
-                    alignItems: { xs: "flex-start", sm: "center" },
-                  }}
-                >
-                  <Box minWidth={LABEL_MIN_WIDTH}>
-                    <Typography
-                      variant="h3"
-                      color={
-                        isDarkMode
-                          ? theme.palette.customColors.greyAccent
-                          : "inherit"
-                      }
-                      sx={labelUnderlineSx}
+              <motion.div {...slideIn(0.5)}>
+                <ProjectInfoRow
+                  label="iOS App"
+                  value={
+                    <a
+                      href={appStoreUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
                     >
-                      iOS App
-                    </Typography>
-                  </Box>
-                  <a
-                    href={appStoreUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Box
-                      component="img"
-                      src={
-                        isDarkMode
-                          ? "/img/download_on_App_Store/Black_lockup/SVG/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg"
-                          : "/img/download_on_App_Store/White_lockup/SVG/Download_on_the_App_Store_Badge_US-UK_RGB_wht_092917.svg"
-                      }
-                      alt="Download on the App Store"
-                      sx={{ height: 36, display: "block", marginTop: 1 }}
-                    />
-                  </a>
-                </Box>
+                      <Box
+                        component="img"
+                        src={
+                          isDarkMode
+                            ? "/img/download_on_App_Store/Black_lockup/SVG/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg"
+                            : "/img/download_on_App_Store/White_lockup/SVG/Download_on_the_App_Store_Badge_US-UK_RGB_wht_092917.svg"
+                        }
+                        alt="Download on the App Store"
+                        sx={{ height: 36, display: "block" }}
+                      />
+                    </a>
+                  }
+                />
               </motion.div>
             )}
           </Box>
-        </Box>
+        </StyledCard>
       </motion.div>
     </Page>
   );

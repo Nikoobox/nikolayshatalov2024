@@ -1,99 +1,44 @@
 import { FC } from "react";
-import {
-  IoMdPhonePortrait,
-  IoMdDesktop,
-  IoMdLaptop,
-  IoIosArrowForward,
-} from "react-icons/io";
-import { HiOutlineExternalLink } from "react-icons/hi";
+import { IoMdPhonePortrait, IoMdDesktop, IoMdLaptop } from "react-icons/io";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
 
 import { Box, Skeleton, Typography } from "@mui/material";
 import { styled } from "@mui/system";
-import { alpha } from "@mui/material/styles";
 
 import { ProjectProps } from "./ProjectProps";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
 import { useImageLoaded } from "../../hooks";
-import { MyLink } from "../UI";
+import {
+  MyLink,
+  PixelArrow,
+  PixelTag,
+  StatusLight,
+  pixelBorder,
+} from "../UI";
+import { pixelBodyFontFamily, pixelFontFamily } from "../../theme/variables";
 
 const StyledBox = styled(Box)(({ theme }) => {
   const isDarkMode = theme.palette.mode === "dark";
-  const liveAccent = isDarkMode
-    ? theme.palette.customColors.greenAccent
-    : theme.palette.customColors.greenNeon;
+  const frame = isDarkMode
+    ? theme.palette.common.white
+    : theme.palette.common.black;
+  const accent = theme.palette.customColors.tealAccent;
+  const shadow = isDarkMode ? "#000" : theme.palette.common.black;
+
   return {
     width: "100%",
+    "& .featured-frame": {
+      boxShadow: `${pixelBorder(frame)}, 12px 12px 0 0 ${
+        isDarkMode ? "rgba(0, 0, 0, 0.6)" : "rgba(34, 34, 34, 0.18)"
+      }`,
+    },
     "& .featured-image": {
       width: "100%",
       height: "100%",
       objectFit: "cover",
       display: "block",
-      borderRadius: theme.spacing(2),
-      border: `1px solid ${
-        isDarkMode
-          ? theme.palette.customColors.blueDark
-          : theme.palette.customColors.greyLightest
-      }`,
-    },
-    "& .status-badge": {
-      display: "inline-flex",
-      alignItems: "center",
-      gap: theme.spacing(0.75),
-      padding: "3px 10px",
-      borderRadius: "999px",
-      fontSize: "12px",
-      fontWeight: 500,
-      width: "fit-content",
-      lineHeight: "16px",
-    },
-    "& .status-badge::before": {
-      content: '""',
-      width: "7px",
-      height: "7px",
-      borderRadius: "50%",
-    },
-    "& .status-badge--live": {
-      background: alpha(liveAccent, isDarkMode ? 0.2 : 0.18),
-      color: isDarkMode
-        ? theme.palette.customColors.greenAccent
-        : theme.palette.customColors.greenDark,
-    },
-    "& .status-badge--live::before": {
-      background: liveAccent,
-      boxShadow: `0 0 8px ${liveAccent}`,
-      animation: "livePulse 1.8s ease-in-out infinite",
-    },
-    "& .status-badge--retired": {
-      background: alpha(theme.palette.customColors.grey, 0.15),
-      color: isDarkMode
-        ? theme.palette.customColors.greyAccent
-        : theme.palette.customColors.grey,
-    },
-    "& .status-badge--retired::before": {
-      background: theme.palette.customColors.grey,
-    },
-    "@keyframes livePulse": {
-      "0%, 100%": {
-        opacity: 1,
-        boxShadow: `0 0 8px ${liveAccent}`,
-      },
-      "50%": {
-        opacity: 0.55,
-        boxShadow: `0 0 2px ${liveAccent}`,
-      },
-    },
-    "& .tool": {
-      padding: "5px 10px",
-      color: isDarkMode
-        ? theme.palette.customColors.whiteAccent
-        : theme.palette.customColors.grey900,
-      borderRadius: theme.spacing(1),
-      background: isDarkMode
-        ? theme.palette.customColors.charcoalBlack
-        : theme.palette.common.white,
     },
     "& .icon": {
       color: isDarkMode
@@ -103,10 +48,35 @@ const StyledBox = styled(Box)(({ theme }) => {
       width: theme.spacing(3),
     },
     "& .featured-link": {
-      color: isDarkMode
-        ? theme.palette.common.white
-        : theme.palette.customColors.grey900,
+      display: "inline-flex",
+      alignItems: "center",
+      gap: theme.spacing(1),
+      fontFamily: pixelFontFamily,
+      fontSize: "12px",
+      lineHeight: 1,
+      color: frame,
       textDecoration: "none",
+    },
+    "& .featured-link--live:hover": {
+      textDecoration: "underline",
+      textDecorationThickness: "3px",
+      textUnderlineOffset: "6px",
+    },
+    "& .featured-link--details": {
+      padding: "14px 20px",
+      background: accent,
+      color: isDarkMode
+        ? theme.palette.customColors.charcoalBlack
+        : theme.palette.common.black,
+      boxShadow: `${pixelBorder(frame)}, 6px 6px 0 4px ${shadow}`,
+      "&:hover": {
+        transform: "translate(2px, 2px)",
+        boxShadow: `${pixelBorder(frame)}, 2px 2px 0 4px ${shadow}`,
+      },
+      "&:active": {
+        transform: "translate(6px, 6px)",
+        boxShadow: pixelBorder(frame),
+      },
     },
   };
 });
@@ -127,27 +97,15 @@ const FeaturedProjectCard: FC<ProjectProps> = ({
   statusSimple,
 }) => {
   const { isDarkMode } = useThemeContext();
-  const { ref, inView } = useInView({ threshold: 0.15 });
+  const { ref, inView } = useInView({ threshold: 0.15, triggerOnce: true });
   const { isLoaded, ref: imgRef, onLoad } = useImageLoaded();
 
-  const techToolColor = isDarkMode
-    ? "customColors.grey900"
-    : "customColors.grey";
-  const techTools = tools.map((tool) => (
-    <Typography
-      color={techToolColor}
-      className="tool"
-      key={tool}
-      variant="subtitleBold"
-    >
-      {tool}
-    </Typography>
-  ));
+  const techTools = tools.map((tool) => <PixelTag key={tool}>{tool}</PixelTag>);
 
   return (
     <motion.div
       ref={ref}
-      initial={{ y: 30, opacity: 0 }}
+      initial={{ y: 32, opacity: 0 }}
       animate={inView && { y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
       style={{ width: "100%" }}
@@ -158,10 +116,11 @@ const FeaturedProjectCard: FC<ProjectProps> = ({
           sx={{
             flexDirection: { xs: "column", md: "row" },
             alignItems: { md: "center" },
-            gap: { xs: 3, md: 5 },
+            gap: { xs: 5, md: 6 },
           }}
         >
           <Box
+            className="featured-frame"
             sx={{
               position: "relative",
               width: { xs: "100%", md: "50%" },
@@ -172,7 +131,7 @@ const FeaturedProjectCard: FC<ProjectProps> = ({
           >
             {!isLoaded && (
               <Skeleton
-                variant="rounded"
+                variant="rectangular"
                 animation="wave"
                 sx={{
                   position: "absolute",
@@ -180,7 +139,6 @@ const FeaturedProjectCard: FC<ProjectProps> = ({
                   left: 0,
                   width: "100%",
                   height: "100%",
-                  borderRadius: (theme) => theme.spacing(2),
                 }}
               />
             )}
@@ -202,41 +160,22 @@ const FeaturedProjectCard: FC<ProjectProps> = ({
               width: { xs: "100%", md: "50%" },
               display: "flex",
               flexDirection: "column",
-              gap: 2,
+              gap: 2.5,
             }}
           >
-            <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="space-between"
-              flexWrap="wrap"
-              gap={1}
+            <Typography
+              component="h3"
+              sx={{
+                fontFamily: pixelFontFamily,
+                fontSize: { xs: "18px", sm: "22px", md: "24px" },
+                lineHeight: 1.5,
+              }}
             >
-              <Typography
-                variant="h1"
-                sx={{
-                  fontSize: { xs: "24px", sm: "28px", md: "32px" },
-                  lineHeight: 1.2,
-                  fontWeight: 400,
-                }}
-              >
-                {name}
-              </Typography>
-            </Box>
+              {name}
+            </Typography>
 
             <Box display="flex" alignItems="center" gap={2}>
-              {statusSimple && (
-                <Box
-                  className={`status-badge ${
-                    statusSimple === "Live"
-                      ? "status-badge--live"
-                      : "status-badge--retired"
-                  }`}
-                >
-                  {statusSimple}
-                </Box>
-              )}
-              /
+              {statusSimple && <StatusLight status={statusSimple} />}
               <Box display="flex" alignItems="center" gap={1.5}>
                 {isResponsive && <IoMdPhonePortrait className="icon" />}
                 <IoMdLaptop className="icon" />
@@ -259,53 +198,46 @@ const FeaturedProjectCard: FC<ProjectProps> = ({
               </a>
             )}
 
-            <Typography variant="body1">{info}</Typography>
+            <Typography
+              sx={{
+                fontFamily: pixelBodyFontFamily,
+                fontSize: { xs: "22px", md: "24px" },
+                lineHeight: 1.35,
+                letterSpacing: "0.5px",
+                color: isDarkMode ? "customColors.greyAccent" : "common.black",
+              }}
+            >
+              {info}
+            </Typography>
 
             <Box display="flex" flexWrap="wrap" gap={1}>
               {techTools}
             </Box>
 
-            <Box display="flex" alignItems="center" gap={3}>
+            <Box display="flex" alignItems="center" flexWrap="wrap" gap={4} mt={1}>
+              <Link
+                className="featured-link featured-link--details"
+                to={`/projects/${id}`}
+              >
+                <PixelArrow />
+                VIEW DETAILS
+              </Link>
+
               {showLink && (
-                <Box sx={{ "& a": isDarkMode ? { color: "white" } : {} }}>
-                  <MyLink
-                    link={address}
-                    customLabel={
-                      <Box display="flex" alignItems="center">
-                        <Typography mr={0.5} sx={{ fontWeight: 600 }}>
-                          Live Link
-                        </Typography>
-                        <HiOutlineExternalLink />
-                      </Box>
-                    }
-                  />
-                </Box>
+                <MyLink
+                  link={address}
+                  className="featured-link featured-link--live"
+                  customLabel={<>LIVE LINK</>}
+                />
               )}
 
               {showRepo && (
-                <Box sx={{ "& a": isDarkMode ? { color: "white" } : {} }}>
-                  <MyLink
-                    link={repo}
-                    customLabel={
-                      <Box display="flex" alignItems="center">
-                        <Typography mr={0.5} sx={{ fontWeight: 600 }}>
-                          Git Repo
-                        </Typography>
-                        <HiOutlineExternalLink />
-                      </Box>
-                    }
-                  />
-                </Box>
+                <MyLink
+                  link={repo}
+                  className="featured-link featured-link--live"
+                  customLabel={<>GIT REPO</>}
+                />
               )}
-
-              <Link className="featured-link" to={`/projects/${id}`}>
-                <Box display="flex" alignItems="center">
-                  <Typography mr={0.5} sx={{ fontWeight: 600 }}>
-                    View Details
-                  </Typography>
-                  <IoIosArrowForward />
-                </Box>
-              </Link>
             </Box>
           </Box>
         </Box>

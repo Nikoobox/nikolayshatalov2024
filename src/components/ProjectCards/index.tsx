@@ -4,6 +4,7 @@ import { Box } from "@mui/material";
 
 import { PROJECTS_DATA } from "../Data";
 import PageSection from "../PageSection";
+import { PixelHeading } from "../UI";
 import FeaturedProjectCard from "./FeaturedProjectCard";
 import CompactProjectCard from "./CompactProjectCard";
 
@@ -18,8 +19,9 @@ const ProjectCards: FC = () => {
       sx={{
         width: {
           xs: "100%",
-          sm: "calc(50% - 16px)",
-          md: "calc(33.333% - 22px)",
+          // gap is 40px; leaves room for the cards' pixel frames and shadows
+          sm: "calc(50% - 20px)",
+          md: "calc(33.333% - 27px)",
         },
         mb: {
           xs: 6,
@@ -39,11 +41,9 @@ const ProjectCards: FC = () => {
         justifyContent="center"
         flexDirection="column"
       >
-        <PageSection.PageSubheader>
-          <Box mb={5} mt={20}>
-            Projects
-          </Box>
-        </PageSection.PageSubheader>
+        <Box mb={8} mt={20}>
+          <PixelHeading>Projects</PixelHeading>
+        </Box>
 
         {featuredProject && (
           <Box width="100%" mb={{ xs: 16 }}>
@@ -56,7 +56,7 @@ const ProjectCards: FC = () => {
           justifyContent="center"
           flexWrap="wrap"
           width="100%"
-          gap={4}
+          gap={5}
         >
           {otherProjects}
         </Box>

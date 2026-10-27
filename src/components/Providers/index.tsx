@@ -7,6 +7,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
 import { useThemeContext } from "../../theme/ThemeContextProvider";
+import PixelSnackbar from "./PixelSnackbar";
 
 const options = {
   api_host: import.meta.env.VITE_PUBLIC_POSTHOG_HOST as string,
@@ -25,6 +26,13 @@ const AppProviders: FC<PropsWithChildren> = ({ children }) => {
           anchorOrigin={{
             vertical: "bottom",
             horizontal: "center",
+          }}
+          Components={{
+            default: PixelSnackbar,
+            success: PixelSnackbar,
+            error: PixelSnackbar,
+            info: PixelSnackbar,
+            warning: PixelSnackbar,
           }}
         >
           <CssBaseline />

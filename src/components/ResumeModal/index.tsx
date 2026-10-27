@@ -1,37 +1,97 @@
 import { FC, useState } from "react";
-import {
-  HiOutlineDocumentDownload,
-  HiOutlineExternalLink,
-} from "react-icons/hi";
 
-import { Box, Skeleton, Typography } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { Box, Skeleton } from "@mui/material";
+import { styled, Theme } from "@mui/material/styles";
 
 import { resume, resumePreview } from "../Documents";
 import MyDialog from "../MyDialog";
-import { styling } from "../../constants";
+import { PixelArrow, pixelBorder } from "../UI";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
+import { pixelFontFamily } from "../../theme/variables";
 
-const StyledResumePreviewWrapper = styled(Box)({
+const StyledResumePreviewWrapper = styled(Box)(({ theme }) => ({
   position: "relative",
   height: "100%",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  padding: "2px 0",
+  padding: "8px 0",
   "& img": {
     maxHeight: "100%",
     maxWidth: "100%",
     objectFit: "contain",
-    borderRadius: "4px",
-    boxShadow: styling.SHADOW,
+    boxShadow: pixelBorder(
+      theme.palette.mode === "dark"
+        ? theme.palette.customColors.greyAccent
+        : theme.palette.common.black,
+      2,
+    ),
     transition: "opacity 0.3s ease",
   },
+}));
+
+const buttonBase = (theme: Theme) => {
+  const frame =
+    theme.palette.mode === "dark"
+      ? theme.palette.common.white
+      : theme.palette.common.black;
+  return {
+    frame,
+    styles: {
+      display: "inline-flex",
+      alignItems: "center",
+      gap: theme.spacing(1.5),
+      padding: "14px 20px",
+      textDecoration: "none",
+      fontFamily: pixelFontFamily,
+      fontSize: "12px",
+      lineHeight: 1,
+      cursor: "pointer",
+    },
+  };
+};
+
+const StyledPrimaryLink = styled("a")(({ theme }) => {
+  const { frame, styles } = buttonBase(theme);
+  const shadow =
+    theme.palette.mode === "dark" ? "#000" : theme.palette.common.black;
+  return {
+    ...styles,
+    background: theme.palette.customColors.tealAccent,
+    color:
+      theme.palette.mode === "dark"
+        ? theme.palette.customColors.charcoalBlack
+        : theme.palette.common.black,
+    boxShadow: `${pixelBorder(frame)}, 6px 6px 0 4px ${shadow}`,
+    "&:hover": {
+      transform: "translate(2px, 2px)",
+      boxShadow: `${pixelBorder(frame)}, 2px 2px 0 4px ${shadow}`,
+    },
+    "&:active": {
+      transform: "translate(6px, 6px)",
+      boxShadow: pixelBorder(frame),
+    },
+  };
+});
+
+const StyledSecondaryLink = styled("a")(({ theme }) => {
+  const { frame, styles } = buttonBase(theme);
+  return {
+    ...styles,
+    color: frame,
+    boxShadow: pixelBorder(frame),
+    "&:hover": {
+      background: theme.palette.customColors.tealAccent,
+      color:
+        theme.palette.mode === "dark"
+          ? theme.palette.customColors.charcoalBlack
+          : theme.palette.common.black,
+    },
+  };
 });
 
 const ResumeModal: FC = () => {
-  const { isResumeModalOpen, toggleResumeModal, isDarkMode } =
-    useThemeContext();
+  const { isResumeModalOpen, toggleResumeModal } = useThemeContext();
   const [isPreviewLoaded, setIsPreviewLoaded] = useState(false);
 
   return (
@@ -40,61 +100,37 @@ const ResumeModal: FC = () => {
       onClose={toggleResumeModal}
       title="My Resume"
       actions={
-        <Box
-          display="flex"
-          gap={3}
-          sx={{ "& a": isDarkMode ? { color: "white" } : {} }}
-        >
-          <a
+        <>
+          <StyledPrimaryLink
             href={resume}
             target="_blank"
             rel="noopener noreferrer"
             download="Nikolay Shatalov Senior Software Engineer.pdf"
           >
-            <Typography
-              variant="h3"
-              sx={{ display: "flex", alignItems: "center" }}
-            >
-              Download
-              <Box
-                component={HiOutlineDocumentDownload}
-                ml="6px"
-                sx={{
-                  "& svg": { width: 1 },
-                }}
-              />
-            </Typography>
-          </a>
-
-          <a href={resume} target="_blank" rel="noopener noreferrer">
-            <Typography
-              variant="h3"
-              sx={{ display: "flex", alignItems: "center" }}
-            >
-              View in browser
-              <Box
-                component={HiOutlineExternalLink}
-                ml="6px"
-                sx={{
-                  "& svg": { width: 1 },
-                }}
-              />
-            </Typography>
-          </a>
-        </Box>
+            <PixelArrow direction="down" />
+            DOWNLOAD
+          </StyledPrimaryLink>
+          <StyledSecondaryLink
+            href={resume}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <PixelArrow />
+            VIEW IN BROWSER
+          </StyledSecondaryLink>
+        </>
       }
     >
       <StyledResumePreviewWrapper>
         {!isPreviewLoaded && (
           <Skeleton
-            variant="rounded"
+            variant="rectangular"
             animation="wave"
             sx={{
               position: "absolute",
               height: "100%",
               aspectRatio: "8.5 / 11",
               maxWidth: "100%",
-              borderRadius: "4px",
             }}
           />
         )}

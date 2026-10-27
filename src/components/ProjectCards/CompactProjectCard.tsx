@@ -1,89 +1,50 @@
 import { FC, useState } from "react";
-import { IoIosArrowForward } from "react-icons/io";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
 
 import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/system";
-import { alpha } from "@mui/material/styles";
 
 import { ProjectProps } from "./ProjectProps";
+import { getNextColor } from "./helpers";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
-import { getRandomColor } from "./helpers";
+import { PixelArrow, PixelTag, StatusLight, pixelBorder } from "../UI";
+import { pixelBodyFontFamily, pixelFontFamily } from "../../theme/variables";
 
 const StyledCard = styled(Link, {
   shouldForwardProp: (prop) => prop !== "hoverColor",
 })<{ hoverColor: string }>(({ theme, hoverColor }) => {
   const isDarkMode = theme.palette.mode === "dark";
-  const liveAccent = isDarkMode
-    ? theme.palette.customColors.greenAccent
-    : theme.palette.customColors.greenNeon;
+  const frame = isDarkMode
+    ? theme.palette.customColors.greyAccent
+    : theme.palette.common.black;
+  const shadow = isDarkMode ? "rgba(0, 0, 0, 0.6)" : "rgba(34, 34, 34, 0.18)";
+  const accent = hoverColor;
+
   return {
     display: "flex",
     flexDirection: "column",
+    height: "100%",
+    padding: theme.spacing(3),
     textDecoration: "none",
     color: "inherit",
-    borderRadius: theme.spacing(4),
-    padding: theme.spacing(2.5),
     background: isDarkMode
-      ? theme.palette.backgroundCustom.primary
+      ? theme.palette.customColors.charcoalBlack
       : theme.palette.common.white,
-    border: `1px solid ${
-      isDarkMode
-        ? theme.palette.customColors.blueDark
-        : theme.palette.customColors.greyLightest
-    }`,
-    transition: "border-color 0.2s ease",
-    height: "100%",
+    boxShadow: `${pixelBorder(frame)}, 8px 8px 0 0 ${shadow}`,
     "&:hover": {
-      borderColor: hoverColor,
+      boxShadow: `${pixelBorder(accent)}, 8px 8px 0 0 ${shadow}`,
     },
     "& .compact-arrow": {
-      opacity: 0,
-      transition: "opacity 0.2s ease",
+      visibility: "hidden",
     },
-    "&:hover .compact-arrow": {
-      opacity: 1,
+    "&:hover .compact-arrow, &:focus-visible .compact-arrow": {
+      visibility: "visible",
     },
     [theme.breakpoints.down("sm")]: {
       "& .compact-arrow": {
-        opacity: 1,
-      },
-    },
-    "& .tool": {
-      padding: "6px 10px",
-      color: isDarkMode
-        ? theme.palette.customColors.greyLightest
-        : theme.palette.customColors.charcoalBlack,
-      borderRadius: theme.spacing(1),
-      background: isDarkMode
-        ? alpha(theme.palette.customColors.grey, 0.25)
-        : theme.palette.customColors.greyLightest,
-    },
-    "& .status-dot": {
-      width: "6px",
-      height: "6px",
-      borderRadius: "50%",
-      display: "inline-block",
-      marginRight: "6px",
-    },
-    "& .status-dot--live": {
-      background: liveAccent,
-      boxShadow: `0 0 6px ${liveAccent}`,
-      animation: "livePulse 1.8s ease-in-out infinite",
-    },
-    "& .status-dot--retired": {
-      background: theme.palette.customColors.grey,
-    },
-    "@keyframes livePulse": {
-      "0%, 100%": {
-        opacity: 1,
-        boxShadow: `0 0 6px ${liveAccent}`,
-      },
-      "50%": {
-        opacity: 0.55,
-        boxShadow: `0 0 1px ${liveAccent}`,
+        visibility: "visible",
       },
     },
   };
@@ -96,60 +57,51 @@ const CompactProjectCard: FC<ProjectProps> = ({
   info,
   statusSimple,
 }) => {
-  const isLive = statusSimple === "Live";
   const { isDarkMode } = useThemeContext();
-  const { ref, inView } = useInView({ threshold: 0.2 });
-  const [hoverColor, setHoverColor] = useState<string>(() => getRandomColor());
+  const { ref, inView } = useInView({ threshold: 0.2, triggerOnce: true });
+  const [hoverColor, setHoverColor] = useState(() => getNextColor());
 
-  const techTools = tools.map((tool) => (
-    <Typography
-      className="tool"
-      key={tool}
-      component="span"
-      variant="labelBold"
-    >
-      {tool}
-    </Typography>
-  ));
+  const techTools = tools.map((tool) => <PixelTag key={tool}>{tool}</PixelTag>);
 
   return (
     <motion.div
       ref={ref}
-      initial={{ y: 20, opacity: 0 }}
+      initial={{ y: 32, opacity: 0 }}
       animate={inView && { y: 0, opacity: 1 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
       style={{ height: "100%" }}
     >
       <StyledCard
         to={`/projects/${id}`}
         hoverColor={hoverColor}
-        onMouseEnter={() => setHoverColor(getRandomColor())}
+        onMouseLeave={() => setHoverColor((previous) => getNextColor(previous))}
       >
-        <Box
-          display="flex"
-          alignItems="baseline"
-          justifyContent="space-between"
-          gap={1}
-          mb={1}
+        <Typography
+          component="h3"
+          sx={{
+            fontFamily: pixelFontFamily,
+            fontSize: "14px",
+            lineHeight: 1.6,
+            mb: 1.5,
+          }}
         >
-          <Typography variant="h2" sx={{ fontWeight: 400 }}>
-            {name}
-          </Typography>
-        </Box>
+          {name}
+        </Typography>
 
         <Typography
-          variant="body1"
           sx={{
-            fontSize: "14px",
-            lineHeight: "20px",
+            fontFamily: pixelBodyFontFamily,
+            fontSize: "20px",
+            lineHeight: 1.3,
+            letterSpacing: "0.5px",
             color: isDarkMode ? "customColors.greyAccent" : "customColors.grey",
-            mb: 2,
+            mb: 2.5,
           }}
         >
           {info}
         </Typography>
 
-        <Box display="flex" flexWrap="wrap" gap={1} mb={2}>
+        <Box display="flex" flexWrap="wrap" gap={1} mb={3}>
           {techTools}
         </Box>
 
@@ -158,35 +110,21 @@ const CompactProjectCard: FC<ProjectProps> = ({
           alignItems="center"
           justifyContent="space-between"
           mt="auto"
-          pt={1}
         >
-          {statusSimple && (
-            <Box display="flex" alignItems="center">
-              <span
-                className={`status-dot ${
-                  isLive ? "status-dot--live" : "status-dot--retired"
-                }`}
-              />
-              <Typography
-                variant="body2"
-                sx={{ fontSize: "12px" }}
-                color="grey"
-              >
-                {statusSimple}
-              </Typography>
-            </Box>
-          )}
+          {statusSimple && <StatusLight status={statusSimple} />}
           <Box
-            display="flex"
-            alignItems="center"
-            gap={0.25}
             className="compact-arrow"
-            sx={{ ml: "auto" }}
+            sx={{
+              ml: "auto",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 1,
+              fontFamily: pixelFontFamily,
+              fontSize: "10px",
+            }}
           >
-            <Typography variant="body2" sx={{ fontSize: "13px" }}>
-              View Details
-            </Typography>
-            <IoIosArrowForward />
+            <PixelArrow />
+            DETAILS
           </Box>
         </Box>
       </StyledCard>

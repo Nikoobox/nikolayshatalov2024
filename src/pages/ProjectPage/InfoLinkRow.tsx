@@ -1,61 +1,44 @@
-import { Box, Typography } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
 import { FC } from "react";
-import { useDarkTheme } from "@/hooks";
-import { MyLink } from "@/components/UI";
-import { LABEL_MIN_WIDTH } from "./configs";
+
+import { Box } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+
+import ProjectInfoRow from "./ProjectInfoRow";
 
 interface InfoLinkRowProps {
   label: string;
   link: string;
   linkLabel: string;
-  labelUnderlineSx?: object;
 }
 
-const InfoLinkRow: FC<InfoLinkRowProps> = ({
-  label,
-  link,
-  linkLabel,
-  labelUnderlineSx,
-}) => {
+const InfoLinkRow: FC<InfoLinkRowProps> = ({ label, link, linkLabel }) => {
   const theme = useTheme();
-  const isDarkMode = useDarkTheme();
 
   return (
-    <Box
-      display="flex"
-      gap={{ sm: 2 }}
-      sx={{
-        flexDirection: { xs: "column", sm: "row" },
-        alignItems: { xs: "flex-start", sm: "center" },
-        "& .site-link": {
-          textDecorationColor: isDarkMode
-            ? theme.palette.customColors.tealAccent
-            : theme.palette.customColors.classicBlue,
-        },
-      }}
-    >
-      <Box minWidth={LABEL_MIN_WIDTH}>
-        <Typography
-          variant="h3"
-          color={isDarkMode ? theme.palette.customColors.greyAccent : "inherit"}
-          sx={labelUnderlineSx}
+    <ProjectInfoRow
+      label={label}
+      value={
+        <Box
+          component="a"
+          href={link}
+          target="_blank"
+          rel="noopener noreferrer"
+          sx={{
+            color: "inherit",
+            wordBreak: "break-all",
+            textDecoration: "underline",
+            textDecorationColor: theme.palette.customColors.tealAccent,
+            textDecorationThickness: "3px",
+            textUnderlineOffset: "5px",
+            "&:hover": {
+              color: theme.palette.customColors.tealAccent,
+            },
+          }}
         >
-          {label}
-        </Typography>
-      </Box>
-      <MyLink
-        label={linkLabel}
-        link={link}
-        variant="h3"
-        color={
-          isDarkMode
-            ? theme.palette.customColors.tealAccent
-            : theme.palette.customColors.classicBlue
-        }
-        className="site-link"
-      />
-    </Box>
+          {linkLabel}
+        </Box>
+      }
+    />
   );
 };
 

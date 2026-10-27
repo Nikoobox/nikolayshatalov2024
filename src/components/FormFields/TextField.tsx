@@ -5,6 +5,8 @@ import { TextField as MuiTextField, TextFieldProps } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 import { useThemeContext } from "../../theme/ThemeContextProvider";
+import { pixelBorder } from "../UI";
+import { pixelBodyFontFamily } from "../../theme/variables";
 
 export type Props = {
   name: string;
@@ -16,35 +18,50 @@ export type Props = {
   errors?: { [key: string]: { message?: string } };
 } & TextFieldProps;
 
-const StyledMuiTextField = styled(MuiTextField)(({ theme }) => ({
-  "& .MuiOutlinedInput-input": {
-    padding: `${theme.spacing(3)} ${theme.spacing(3)}`,
-  },
-  "& .MuiOutlinedInput-root": {
-    borderRadius: theme.spacing(2),
+const StyledMuiTextField = styled(MuiTextField)(({ theme }) => {
+  const frame = theme.palette.commonCustom.front;
 
-    "& .MuiOutlinedInput-notchedOutline": {
-      border: `2px solid ${theme.palette.commonCustom.front}`,
+  return {
+    "& .MuiOutlinedInput-input": {
+      padding: `${theme.spacing(2.5)} ${theme.spacing(3)}`,
+      fontFamily: pixelBodyFontFamily,
+      fontSize: "24px",
+      lineHeight: 1.3,
+      letterSpacing: "0.5px",
     },
-    "&.Mui-focused": {
+    "& .MuiOutlinedInput-root": {
+      borderRadius: 0,
+      // solid, so the background pixels and ships don't show through
+      background:
+        theme.palette.mode === "dark"
+          ? theme.palette.customColors.charcoalBlack
+          : theme.palette.common.white,
+      boxShadow: pixelBorder(frame),
       "& .MuiOutlinedInput-notchedOutline": {
-        border: `3px solid ${theme.palette.commonCustom.front}`,
+        border: "none",
+      },
+      "&.Mui-focused": {
+        boxShadow: pixelBorder(theme.palette.customColors.tealAccent),
+      },
+      "&.Mui-error": {
+        boxShadow: pixelBorder(theme.palette.customColors.redAccent),
+      },
+      "& .MuiInputBase-multiline": {
+        resize: "vertical",
       },
     },
-    "&:hover .MuiOutlinedInput-notchedOutline": {
-      border: `3px solid ${theme.palette.commonCustom.front}`,
-    },
-    "&.Mui-error .MuiOutlinedInput-notchedOutline": {
-      border: `2px solid ${theme.palette.commonCustom.front}`,
-    },
     "& .MuiInputBase-multiline": {
-      resize: "vertical",
+      padding: 0,
     },
-  },
-  "& .MuiInputBase-multiline": {
-    padding: 0,
-  },
-}));
+    "& .MuiFormHelperText-root": {
+      marginLeft: 0,
+      marginTop: theme.spacing(1.5),
+      fontFamily: pixelBodyFontFamily,
+      fontSize: "20px",
+      letterSpacing: "0.5px",
+    },
+  };
+});
 
 const TextField: FC<Props> = ({
   control,
@@ -72,11 +89,14 @@ const TextField: FC<Props> = ({
             InputLabelProps={{
               style: {
                 color: theme.palette.commonCustom.front,
-                top: theme.spacing(1),
+                top: theme.spacing(0.5),
                 left: theme.spacing(1),
                 background: theme.palette.backgroundCustom.primary,
               },
               sx: {
+                fontFamily: pixelBodyFontFamily,
+                fontSize: "22px",
+                letterSpacing: "0.5px",
                 "& .MuiFormLabel-asterisk": {
                   color: theme.palette.commonCustom.front,
                   "&.Mui-error": {
@@ -107,7 +127,7 @@ const TextField: FC<Props> = ({
               },
             }}
             FormHelperTextProps={{
-              style: { color: theme.palette.customColors.purpleAccent },
+              style: { color: theme.palette.customColors.redAccent },
             }}
             variant="outlined"
             required={required}
