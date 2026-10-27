@@ -1,70 +1,77 @@
 import { FC } from "react";
-import { isMobile } from "react-device-detect";
-import { Classic } from "@theme-toggles/react";
-import "@theme-toggles/react/css/Classic.css";
 
-import { Box } from "@mui/material";
-import { styled } from "@mui/system";
+import { styled } from "@mui/material/styles";
 
 import { useThemeContext } from "../../theme/ThemeContextProvider";
+import { pixelBorder } from "../UI";
 
-const IS_MOBILE = "isMobile";
-
-const StyledBox = styled(Box, {
-  shouldForwardProp: (prop) => prop !== IS_MOBILE,
-})<{ isMobile: boolean }>(({ theme, isMobile }) => {
+const StyledButton = styled("button")(({ theme }) => {
   const isDarkMode = theme.palette.mode === "dark";
-  const currentColor = isDarkMode
+  const frame = isDarkMode
     ? theme.palette.common.white
     : theme.palette.common.black;
 
   return {
-    button: {
-      position: "relative",
-      color: currentColor,
-      border: `2px solid ${currentColor}`,
-      borderRadius: "50%",
-      width: "48px",
-      height: "48px",
-      padding: 0,
-      overflow: "hidden",
-      ...(isMobile
-        ? {}
-        : {
-            "::before": {
-              content: '""',
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              backgroundColor: theme.palette.customColors.tealAccent,
-              transform: "scaleX(0)",
-              transformOrigin: "left",
-              transition: "transform 0.3s",
-              zIndex: -1,
-            },
-            "&:hover::before": {
-              transform: "scaleX(1)",
-            },
-          }),
-      svg: {
-        width: "26px",
-        height: "26px",
-        position: "relative",
-      },
-    },
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "48px",
+    height: "48px",
+    padding: 0,
+    border: 0,
+    cursor: "pointer",
+    // same dark square as the NS logo
+    color: theme.palette.common.white,
+    background: isDarkMode
+      ? theme.palette.customColors.charcoalBlack
+      : theme.palette.common.black,
+    boxShadow: pixelBorder(frame),
+    "&:hover": isDarkMode
+      ? { color: theme.palette.customColors.tealAccent }
+      : {
+          background: theme.palette.customColors.tealAccent,
+          color: theme.palette.common.black,
+        },
   };
 });
+
+const MoonIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 8 8" fill="currentColor" shapeRendering="crispEdges" aria-hidden="true">
+    <rect x="2" y="0" width="4" height="1" />
+    <rect x="1" y="1" width="3" height="1" />
+    <rect x="0" y="2" width="3" height="4" />
+    <rect x="1" y="6" width="3" height="1" />
+    <rect x="2" y="7" width="4" height="1" />
+  </svg>
+);
+
+const SunIcon = () => (
+  <svg width="30" height="30" viewBox="0 0 10 10" fill="currentColor" shapeRendering="crispEdges" aria-hidden="true">
+    <rect x="3" y="3" width="4" height="4" />
+    <rect x="2" y="4" width="6" height="2" />
+    <rect x="4" y="2" width="2" height="6" />
+    <rect x="4" y="0" width="2" height="1" />
+    <rect x="4" y="9" width="2" height="1" />
+    <rect x="0" y="4" width="1" height="2" />
+    <rect x="9" y="4" width="1" height="2" />
+    <rect x="1" y="1" width="1" height="1" />
+    <rect x="8" y="1" width="1" height="1" />
+    <rect x="1" y="8" width="1" height="1" />
+    <rect x="8" y="8" width="1" height="1" />
+  </svg>
+);
 
 const NightModeSwitch: FC = () => {
   const { isDarkMode, toggleDarkMode } = useThemeContext();
 
   return (
-    <StyledBox isMobile={isMobile} display="flex" alignItems="center">
-      {/* @ts-expect-error - @theme-toggles/react types incompatible with React 18 */}
-      <Classic duration={750} toggled={isDarkMode} toggle={toggleDarkMode} />
-    </StyledBox>
+    <StyledButton
+      type="button"
+      onClick={toggleDarkMode}
+      aria-label={isDarkMode ? "Switch to day mode" : "Switch to night mode"}
+    >
+      {isDarkMode ? <MoonIcon /> : <SunIcon />}
+    </StyledButton>
   );
 };
 

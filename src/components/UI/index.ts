@@ -1,3 +1,18 @@
 import MyLink from "./MyLink";
+import PixelArrow from "./PixelArrow";
+import PixelDivider from "./PixelDivider";
+import PixelHeading from "./PixelHeading";
+import PixelTag from "./PixelTag";
+import PixelZigzag from "./PixelZigzag";
+import StatusLight from "./StatusLight";
 
-export { MyLink };
+export {
+  MyLink,
+  PixelArrow,
+  PixelDivider,
+  PixelHeading,
+  PixelTag,
+  PixelZigzag,
+  StatusLight,
+};
+export { pixelBorder, stepEase } from "./pixel";

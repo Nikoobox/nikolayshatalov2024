@@ -1,6 +1,8 @@
 import React, { Suspense, lazy } from "react";
 import ReactDOM from "react-dom/client";
 
+import "@fontsource/press-start-2p";
+import "@fontsource/vt323";
 import "./index.css";
 import { ThemeContextProvider } from "./theme/ThemeContextProvider";
 import LoadingSpinner from "./components/Loader";

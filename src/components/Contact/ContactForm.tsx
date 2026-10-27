@@ -1,43 +1,58 @@
 import { useRef, FC, useState } from "react";
 import emailjs from "@emailjs/browser";
-import { IoPaperPlaneOutline } from "react-icons/io5";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useSnackbar } from "notistack";
 
-import { Box, Typography, Button } from "@mui/material";
+import { Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 import { TextField } from "../FormFields";
+import { PixelArrow, pixelBorder } from "../UI";
+import { pixelFontFamily } from "../../theme/variables";
 import { FORM_FIELDS } from "../../constants";
 import { DEFAULT_VALUES } from "./DefaultValues";
 
 const SUCCESS = "success";
 const ERROR = "error";
 
-const StyledButton = styled(Button)(({ theme, disabled }) => {
+// Teal pixel button that presses in like "Say hi"; grey outline while the
+// form is still invalid.
+const StyledButton = styled("button")(({ theme }) => {
   const isDarkMode = theme.palette.mode === "dark";
-  const bgColorEnabled = isDarkMode
-    ? "transparent"
-    : theme.palette.customColors.tealAccent;
-  return {
-    border: `solid 2px ${
-      disabled
-        ? theme.palette.customColors.grey
-        : theme.palette.commonCustom.front
-    }`,
-    background: disabled ? "transparent" : bgColorEnabled,
-    borderRadius: theme.spacing(4),
-    padding: `${theme.spacing(1.5)} ${theme.spacing(3)}`,
-    svg: {
-      width: theme.spacing(2.5),
-      height: "auto",
-      color: disabled
-        ? theme.palette.customColors.grey
-        : theme.palette.commonCustom.front,
-    },
+  const frame = isDarkMode
+    ? theme.palette.common.white
+    : theme.palette.common.black;
+  const shadow = isDarkMode ? "#000" : theme.palette.common.black;
+  const muted = theme.palette.customColors.grey;
 
-    "&:hover": {
-      backgroundColor: disabled ? "transparent" : bgColorEnabled,
+  return {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: theme.spacing(1.5),
+    padding: "16px 24px",
+    border: 0,
+    cursor: "pointer",
+    fontFamily: pixelFontFamily,
+    fontSize: "14px",
+    lineHeight: 1,
+    background: theme.palette.customColors.tealAccent,
+    color: isDarkMode
+      ? theme.palette.customColors.charcoalBlack
+      : theme.palette.common.black,
+    boxShadow: `${pixelBorder(frame)}, 6px 6px 0 4px ${shadow}`,
+    "&:hover:not(:disabled)": {
+      transform: "translate(2px, 2px)",
+      boxShadow: `${pixelBorder(frame)}, 2px 2px 0 4px ${shadow}`,
+    },
+    "&:active:not(:disabled)": {
+      transform: "translate(6px, 6px)",
+      boxShadow: pixelBorder(frame),
+    },
+    "&:disabled": {
+      cursor: "not-allowed",
+      background: "transparent",
+      color: muted,
+      boxShadow: pixelBorder(muted),
     },
   };
 });
@@ -108,7 +123,7 @@ const ContactForm: FC = () => {
   return (
     <Box margin="auto" sx={{ width: { sm: "100%", md: "60%" } }}>
       <form ref={form} onSubmit={handleSubmit(onSubmit)}>
-        <Box display="flex" flexDirection="column" gap={2}>
+        <Box display="flex" flexDirection="column" gap={4}>
           <TextField
             name={FORM_FIELDS.USER_NAME.name}
             label={FORM_FIELDS.USER_NAME.label}
@@ -172,7 +187,7 @@ const ContactForm: FC = () => {
           />
         </Box>
         <Box
-          mt={3}
+          mt={5}
           width="100%"
           display="flex"
           sx={{
@@ -183,17 +198,8 @@ const ContactForm: FC = () => {
           }}
         >
           <StyledButton type="submit" disabled={!isValid}>
-            <Typography
-              variant="h3"
-              color={isValid ? "commonCustom.front" : "customColors.grey"}
-            >
-              Send
-            </Typography>
-            <IoPaperPlaneOutline
-              style={{
-                marginLeft: "6px",
-              }}
-            />
+            <PixelArrow width={8} height={14} />
+            SEND
           </StyledButton>
         </Box>
       </form>

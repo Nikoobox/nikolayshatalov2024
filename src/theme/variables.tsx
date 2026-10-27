@@ -25,3 +25,7 @@ export const COLORS = {
 };
 
 export const fontFamily = `-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif`;
+
+// pixel redesign: headings / nav / buttons vs. readable body copy
+export const pixelFontFamily = `"Press Start 2P", monospace`;
+export const pixelBodyFontFamily = `"VT323", monospace`;

@@ -19,12 +19,13 @@ const getDesignTokens = (mode: PaletteMode): ThemeOptions => {
         ? {
             ...(themeOptions.palette as any),
             mode,
+            // plain white page in day mode (no grey section bands)
             background: {
-              default: themeOptions.palette?.customColors.greyLightest,
+              default: themeOptions.palette?.common?.white,
             },
             backgroundCustom: {
               primary: themeOptions.palette?.common?.white,
-              secondary: themeOptions.palette?.customColors.greyLightest,
+              secondary: themeOptions.palette?.common?.white,
             },
             commonCustom: {
               front: themeOptions.palette?.common?.black,
@@ -34,13 +35,14 @@ const getDesignTokens = (mode: PaletteMode): ThemeOptions => {
         : {
             ...(themeOptions.palette as any),
             mode,
+            // everything below the landing shares the footer's near-black
             background: {
-              default: themeOptions.palette?.customColors.blueDark,
+              default: themeOptions.palette?.customColors.charcoalBlack,
               paper: themeOptions.palette?.customColors.charcoalBlack,
             },
             backgroundCustom: {
-              primary: themeOptions.palette?.customColors.deepSlate,
-              secondary: themeOptions.palette?.customColors.blueDark,
+              primary: themeOptions.palette?.customColors.charcoalBlack,
+              secondary: themeOptions.palette?.customColors.charcoalBlack,
             },
           }),
     },

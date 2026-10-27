@@ -1,89 +1,77 @@
 import { FC } from "react";
-import { HiOutlineDocumentText, HiDownload } from "react-icons/hi";
-import Wave from "react-wavify";
+import { HiOutlineDocumentText } from "react-icons/hi";
 import { isMobile } from "react-device-detect";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
-import { Box, Typography, Button } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { Box, Typography } from "@mui/material";
+import { styled, Theme } from "@mui/material/styles";
 import { useTheme } from "@mui/material/styles";
 
 import PageSection from "../PageSection";
 import { BIO_DATA } from "../Data";
 import { resume } from "../Documents";
 import ContactForm from "./ContactForm";
+import ProfilePhoto from "./ProfilePhoto";
+import { PixelArrow, PixelDivider, PixelHeading, pixelBorder } from "../UI";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
+import { pixelBodyFontFamily, pixelFontFamily } from "../../theme/variables";
 
 const profileImg = "/img/profile.jpg";
 
 const StyledContactInfoWrapper = styled(Box)(({ theme }) => ({
-  gap: theme.spacing(6),
-  [theme.breakpoints.down("sm")]: {
+  gap: theme.spacing(8),
+  [theme.breakpoints.down("md")]: {
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "column",
-    gap: theme.spacing(3),
+    gap: theme.spacing(6),
   },
 }));
 
-const StyledImageWrapperBox = styled(Box)({
-  width: "260px",
-  height: "260px",
-  borderRadius: "60% 40% 30% 70% / 60% 30% 70% 40%",
-  overflow: "hidden",
-  img: {
-    width: "100%",
-    height: "auto",
-  },
-  animation: "morph 16s ease-in-out infinite",
-  transition: "all 1s ease-in-out",
-
-  "@keyframes morph": {
-    "0%": {
-      borderRadius: "60% 40% 30% 70% / 60% 30% 70% 40%",
-    },
-    "50%": {
-      borderRadius: "30% 60% 70% 40% / 50% 60% 30% 60%",
-    },
-    "100%": {
-      borderRadius: "60% 40% 30% 70% / 60% 30% 70% 40%",
-    },
-  },
-});
-
-const StyledButton = styled(Button)(({ theme }) => {
+// solid teal button that presses into its shadow on hover (same as "Say hi")
+const pixelButtonStyles = (theme: Theme) => {
   const isDarkMode = theme.palette.mode === "dark";
-  const borderColor = isDarkMode
+  const frame = isDarkMode
     ? theme.palette.common.white
     : theme.palette.common.black;
+  const shadow = isDarkMode ? "#000" : theme.palette.common.black;
 
   return {
-    border: `2px ${borderColor} solid`,
-    padding: `${theme.spacing(1)} ${theme.spacing(3)}`,
-    borderRadius: theme.spacing(3),
-    marginTop: theme.spacing(3),
-    color: isDarkMode ? "white" : "inherit",
-  };
-});
-
-const StyledDownloadLink = styled("a")(({ theme }) => {
-  const isDarkMode = theme.palette.mode === "dark";
-  const color = isDarkMode
-    ? theme.palette.common.white
-    : theme.palette.common.black;
-  return {
-    color,
-    border: `solid ${color} 3px`,
-    borderRadius: theme.spacing(4),
-    textDecoration: "none",
-    padding: `${theme.spacing(1)} ${theme.spacing(3)}`,
     display: "inline-flex",
     alignItems: "center",
+    gap: theme.spacing(1.5),
     marginTop: theme.spacing(4),
+    padding: "14px 20px",
+    border: 0,
+    cursor: "pointer",
+    textDecoration: "none",
+    fontFamily: pixelFontFamily,
+    fontSize: "12px",
+    lineHeight: 1,
+    background: theme.palette.customColors.tealAccent,
+    color: isDarkMode
+      ? theme.palette.customColors.charcoalBlack
+      : theme.palette.common.black,
+    boxShadow: `${pixelBorder(frame)}, 6px 6px 0 4px ${shadow}`,
+    "& svg:not(.pixel-arrow)": { width: "18px", height: "18px" },
+    "&:hover": {
+      transform: "translate(2px, 2px)",
+      boxShadow: `${pixelBorder(frame)}, 2px 2px 0 4px ${shadow}`,
+    },
+    "&:active": {
+      transform: "translate(6px, 6px)",
+      boxShadow: pixelBorder(frame),
+    },
   };
-});
+};
+
+const StyledResumeButton = styled("button")(({ theme }) =>
+  pixelButtonStyles(theme),
+);
+
+const StyledDownloadLink = styled("a")(({ theme }) => pixelButtonStyles(theme));
 
 const threshold = 0.2;
 
@@ -93,40 +81,35 @@ const Contact: FC = () => {
 
   const { ref: imgRef, inView: imgInView } = useInView({
     threshold,
+    triggerOnce: true,
   });
   const { ref: textRef, inView: textInView } = useInView({
     threshold,
+    triggerOnce: true,
   });
   const { ref: resumeRef, inView: resumeInView } = useInView({
     threshold,
+    triggerOnce: true,
   });
   const { ref: contactFormRef, inView: contactFormInView } = useInView({
     threshold,
+    triggerOnce: true,
   });
 
   return (
     <>
-      <Wave
-        id="wave-contact"
-        fill={theme.palette.backgroundCustom.primary}
-        paused={false}
-        style={{
-          display: "flex",
-          background: theme.palette.backgroundCustom.secondary,
-        }}
-        options={{
-          height: 40,
-          amplitude: 40,
-          speed: 0.1,
-          points: 3,
-        }}
-      />
+      {/* at night both sides are the same color, so the divider would only be
+          an invisible strip covering the background ships */}
+      {!isDarkMode && (
+        <PixelDivider
+          fill={theme.palette.backgroundCustom.primary}
+          background={theme.palette.backgroundCustom.secondary}
+        />
+      )}
 
       <PageSection id="contact-destination">
-        <Box display="flex" justifyContent="center" alignItems="center">
-          <PageSection.PageSubheader>
-            <Box mb={5}>Contact</Box>
-          </PageSection.PageSubheader>
+        <Box mb={8}>
+          <PixelHeading>Contact</PixelHeading>
         </Box>
 
         <StyledContactInfoWrapper
@@ -138,102 +121,68 @@ const Contact: FC = () => {
         >
           <motion.div
             ref={imgRef}
-            initial={{ opacity: 0 }}
-            animate={imgInView && { opacity: 1 }}
+            initial={{ y: 32, opacity: 0 }}
+            animate={imgInView && { y: 0, opacity: 1 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
-            <StyledImageWrapperBox>
-              <img src={profileImg} alt="profile" />
-            </StyledImageWrapperBox>
+            <ProfilePhoto src={profileImg} alt="Nikolay Shatalov" />
           </motion.div>
           <Box
             sx={{
               width: "100%",
-              display: { sm: "flex", md: "block" },
+              display: "flex",
               flexDirection: "column",
-              alignItems: { xs: "center", sm: "flex-start" },
-              justifyContent: { xs: "center" },
-              textAlign: "start",
+              alignItems: { xs: "center", md: "flex-start" },
             }}
           >
             <motion.div
               ref={textRef}
-              initial={{ y: 30, opacity: 0 }}
+              initial={{ y: 32, opacity: 0 }}
               animate={textInView && { y: 0, opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+              transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
             >
               {BIO_DATA.contactSection.map((paragraph, i) => (
-                <Typography variant="h2" key={i} paragraph>
+                <Typography
+                  key={i}
+                  paragraph
+                  sx={{
+                    fontFamily: pixelBodyFontFamily,
+                    fontSize: { xs: "22px", md: "26px" },
+                    lineHeight: 1.35,
+                    letterSpacing: "0.5px",
+                    color: isDarkMode
+                      ? "customColors.greyAccent"
+                      : "common.black",
+                  }}
+                >
                   {paragraph}
                 </Typography>
               ))}
             </motion.div>
 
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: {
-                  xs: "center",
-                  sm: "center",
-                  md: "flex-start",
-                }, // center on small, left on md+
-              }}
+            <motion.div
+              ref={resumeRef}
+              initial={{ y: 32, opacity: 0 }}
+              animate={resumeInView && { y: 0, opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
             >
-              <motion.div
-                ref={resumeRef}
-                initial={{ y: 40, opacity: 0 }}
-                animate={resumeInView && { y: 0, opacity: 1 }}
-                transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
-                style={{ display: "flex", justifyContent: "center" }}
-              >
-                {isMobile ? (
-                  <StyledDownloadLink
-                    href={resume}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    download="Nikolay Shatalov Senior Software Engineer.pdf"
-                  >
-                    <Typography
-                      variant="h3"
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        fontWeight: isDarkMode ? {} : 500,
-                      }}
-                    >
-                      Download My Resume
-                      <Box
-                        component={HiDownload}
-                        ml="6px"
-                        sx={{
-                          "& svg": { width: 1 },
-                        }}
-                      />
-                    </Typography>
-                  </StyledDownloadLink>
-                ) : (
-                  <StyledButton onClick={toggleResumeModal}>
-                    <Typography
-                      variant="h3"
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        fontWeight: isDarkMode ? {} : 500,
-                      }}
-                    >
-                      View My Resume
-                      <Box
-                        component={HiOutlineDocumentText}
-                        ml="6px"
-                        sx={{
-                          "& svg": { width: 1 },
-                        }}
-                      />
-                    </Typography>
-                  </StyledButton>
-                )}
-              </motion.div>
-            </Box>
+              {isMobile ? (
+                <StyledDownloadLink
+                  href={resume}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  download="Nikolay Shatalov Senior Software Engineer.pdf"
+                >
+                  <PixelArrow direction="down" />
+                  DOWNLOAD RESUME
+                </StyledDownloadLink>
+              ) : (
+                <StyledResumeButton type="button" onClick={toggleResumeModal}>
+                  VIEW MY RESUME
+                  <HiOutlineDocumentText aria-hidden="true" />
+                </StyledResumeButton>
+              )}
+            </motion.div>
           </Box>
         </StyledContactInfoWrapper>
       </PageSection>
@@ -241,14 +190,12 @@ const Contact: FC = () => {
       <PageSection>
         <motion.div
           ref={contactFormRef}
-          initial={{ opacity: 0 }}
-          animate={contactFormInView && { opacity: 1 }}
+          initial={{ y: 32, opacity: 0 }}
+          animate={contactFormInView && { y: 0, opacity: 1 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          <Box display="flex" justifyContent="center" alignItems="center">
-            <Typography variant="h1" mb={5}>
-              Say Hi!
-            </Typography>
+          <Box mb={8}>
+            <PixelHeading>Say Hi!</PixelHeading>
           </Box>
           <ContactForm />
         </motion.div>

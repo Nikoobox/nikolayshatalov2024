@@ -3,15 +3,7 @@ import { styled } from "@mui/system";
 
 import { COLORS } from "../../theme";
 
-const {
-  WHITE_ACCENT,
-  PURPLE_ACCENT,
-  GREEN_ACCENT,
-  TEAL_ACCENT,
-  YELLOW_ACCENT,
-  RED_ACCENT,
-  WHITE,
-} = COLORS;
+const { TEAL_ACCENT, BLACK, WHITE } = COLORS;
 
 interface GridSquare {
   x: number;
@@ -30,14 +22,8 @@ const COLOR = COLORS.GREY_LIGHT;
 const SPEED = 0.0015;
 const MAX_OPACITY = 0.5;
 
-const ACCENT_COLORS = [
-  WHITE_ACCENT,
-  PURPLE_ACCENT,
-  GREEN_ACCENT,
-  TEAL_ACCENT,
-  YELLOW_ACCENT,
-  RED_ACCENT,
-];
+// pixel redesign keeps to the main palette: teal plus the dark text color
+const ACCENT_COLORS = [TEAL_ACCENT, TEAL_ACCENT, BLACK];
 
 const COLORED_CHANCE = 0.005;
 
