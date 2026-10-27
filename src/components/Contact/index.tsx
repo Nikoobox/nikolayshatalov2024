@@ -1,5 +1,4 @@
 import { FC } from "react";
-import { HiOutlineDocumentText } from "react-icons/hi";
 import { isMobile } from "react-device-detect";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
@@ -179,7 +178,6 @@ const Contact: FC = () => {
               ) : (
                 <StyledResumeButton type="button" onClick={toggleResumeModal}>
                   VIEW MY RESUME
-                  <HiOutlineDocumentText aria-hidden="true" />
                 </StyledResumeButton>
               )}
             </motion.div>
