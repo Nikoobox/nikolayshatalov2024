@@ -18,7 +18,6 @@ export type Props = {
   errors?: { [key: string]: { message?: string } };
 } & TextFieldProps;
 
-// Square field with a notched pixel border: teal when focused, red on error.
 const StyledMuiTextField = styled(MuiTextField)(({ theme }) => {
   const frame = theme.palette.commonCustom.front;
 

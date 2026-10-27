@@ -5,8 +5,6 @@ import { styled } from "@mui/material/styles";
 import { pixelBorder } from "../UI";
 import { pixelBodyFontFamily } from "../../theme/variables";
 
-// notistack toast drawn as a pixel box: square, notched border colored by
-// variant (teal = success, red = error), hard drop shadow.
 const PixelSnackbar = styled(MaterialDesignContent)(({ theme }) => {
   const isDarkMode = theme.palette.mode === "dark";
   const base = isDarkMode

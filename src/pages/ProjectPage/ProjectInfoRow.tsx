@@ -9,7 +9,6 @@ interface ProjectInfoRowProps {
   value: React.ReactNode;
 }
 
-// Small pixel-font label beside (or above, on phones) a VT323 value.
 const ProjectInfoRow = ({ label, value }: ProjectInfoRowProps) => {
   const theme = useTheme();
   const isDarkMode = theme.palette.mode === "dark";

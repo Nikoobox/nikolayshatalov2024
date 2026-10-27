@@ -29,7 +29,6 @@ const StyledContactInfoWrapper = styled(Box)(({ theme }) => ({
   },
 }));
 
-// solid teal button that presses into its shadow on hover (same as "Say hi")
 const pixelButtonStyles = (theme: Theme) => {
   const isDarkMode = theme.palette.mode === "dark";
   const frame = isDarkMode

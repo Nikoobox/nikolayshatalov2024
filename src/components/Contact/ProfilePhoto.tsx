@@ -4,7 +4,6 @@ import { styled } from "@mui/material/styles";
 
 import { pixelBorder } from "../UI";
 
-// Real photo in a pixel window frame with a hard drop shadow.
 const StyledFrame = styled("div")(({ theme }) => {
   const isDarkMode = theme.palette.mode === "dark";
   const frame = isDarkMode

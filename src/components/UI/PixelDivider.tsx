@@ -10,7 +10,6 @@ interface Props {
   background: string;
 }
 
-// Stepped "pixel hills" edge between two section backgrounds.
 const PixelDivider: FC<Props> = ({ fill, background }) => {
   // same color on both sides: nothing to draw (and no strip covering what's
   // behind it)

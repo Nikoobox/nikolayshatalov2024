@@ -15,8 +15,6 @@ import { DEFAULT_VALUES } from "./DefaultValues";
 const SUCCESS = "success";
 const ERROR = "error";
 
-// Teal pixel button that presses in like "Say hi"; grey outline while the
-// form is still invalid.
 const StyledButton = styled("button")(({ theme }) => {
   const isDarkMode = theme.palette.mode === "dark";
   const frame = isDarkMode

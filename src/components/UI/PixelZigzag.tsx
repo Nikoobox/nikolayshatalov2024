@@ -8,8 +8,6 @@ interface Props {
   color: string;
 }
 
-// Full-width pixel zigzag line (two staggered rows of 8px dashes); transparent
-// between the dashes, so it works on any background.
 const PixelZigzag: FC<Props> = ({ color }) => (
   <Box
     aria-hidden="true"

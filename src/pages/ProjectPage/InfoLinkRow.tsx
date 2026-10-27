@@ -11,7 +11,6 @@ interface InfoLinkRowProps {
   linkLabel: string;
 }
 
-// Info row whose value is an external link with a thick teal underline.
 const InfoLinkRow: FC<InfoLinkRowProps> = ({ label, link, linkLabel }) => {
   const theme = useTheme();
 

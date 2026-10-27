@@ -5,8 +5,6 @@ import { Box } from "@mui/material";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
 import { pixelFontFamily } from "../../theme/variables";
 
-// 8 blocks around a 3x3 grid (clockwise from top-left); a bright block chases
-// around the ring leaving a fading trail, in hard steps like an old console
 const BLOCKS = [
   [0, 0],
   [1, 0],

@@ -14,7 +14,6 @@ interface Props {
   status: string;
 }
 
-// Square "LED" + label; live projects blink, retired ones stay dim.
 const StatusLight: FC<Props> = ({ status }) => {
   const isLive = status === "Live";
 

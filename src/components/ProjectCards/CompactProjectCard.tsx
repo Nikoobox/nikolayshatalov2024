@@ -12,8 +12,6 @@ import { useThemeContext } from "../../theme/ThemeContextProvider";
 import { PixelArrow, PixelTag, StatusLight, pixelBorder } from "../UI";
 import { pixelBodyFontFamily, pixelFontFamily } from "../../theme/variables";
 
-// Pixel window card: the frame turns a random accent color on hover (stays
-// put; no lift).
 const StyledCard = styled(Link, {
   shouldForwardProp: (prop) => prop !== "hoverColor",
 })<{ hoverColor: string }>(({ theme, hoverColor }) => {

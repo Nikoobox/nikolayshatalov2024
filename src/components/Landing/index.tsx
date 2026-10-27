@@ -25,7 +25,6 @@ const INTRO_NAME = "Nikolay Shatalov";
 const INTRO_BODY =
   "NYC-based Senior Frontend Engineer focused on building scalable, high-performance web applications with TypeScript, React, Next.js, and more.";
 
-// pixel ▼ caret: "Say hi" scrolls down to the contact section
 const pixelArrow = (
   <svg
     width="16"
@@ -60,7 +59,6 @@ const StyledIntroContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-// RPG-style dialog window
 const StyledDialog = styled("section")(({ theme }) => {
   const isDarkMode = theme.palette.mode === "dark";
   const background = isDarkMode
@@ -219,7 +217,6 @@ const StyledLinkScroll = styled(
     fontFamily: pixelFontFamily,
     fontSize: "16px",
     boxShadow: `${pixelBorder(frame)}, 6px 6px 0 4px ${shadow}`,
-    // blinking ▼ caret, like an old "press to continue" prompt
     "& svg": {
       animation: `${blink} 1s steps(1, end) infinite`,
       "@media (prefers-reduced-motion: reduce)": { animation: "none" },

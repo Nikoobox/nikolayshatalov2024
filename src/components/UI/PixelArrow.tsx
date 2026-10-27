@@ -8,7 +8,6 @@ interface Props {
   direction?: keyof typeof ROTATION;
 }
 
-// Pixel ▶ caret; takes the surrounding text color.
 const PixelArrow: FC<Props> = ({
   width = 6,
   height = 10,

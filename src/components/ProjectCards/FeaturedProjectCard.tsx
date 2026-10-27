@@ -29,7 +29,6 @@ const StyledBox = styled(Box)(({ theme }) => {
 
   return {
     width: "100%",
-    // screenshot in a pixel window frame with a hard drop shadow
     "& .featured-frame": {
       boxShadow: `${pixelBorder(frame)}, 12px 12px 0 0 ${
         isDarkMode ? "rgba(0, 0, 0, 0.6)" : "rgba(34, 34, 34, 0.18)"
@@ -63,7 +62,6 @@ const StyledBox = styled(Box)(({ theme }) => {
       textDecorationThickness: "3px",
       textUnderlineOffset: "6px",
     },
-    // same as the landing's "Say hi": teal button that presses into its shadow
     "& .featured-link--details": {
       padding: "14px 20px",
       background: accent,

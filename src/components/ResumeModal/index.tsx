@@ -20,7 +20,6 @@ const StyledResumePreviewWrapper = styled(Box)(({ theme }) => ({
     maxHeight: "100%",
     maxWidth: "100%",
     objectFit: "contain",
-    // resume page in a thin pixel frame
     boxShadow: pixelBorder(
       theme.palette.mode === "dark"
         ? theme.palette.customColors.greyAccent
@@ -52,7 +51,6 @@ const buttonBase = (theme: Theme) => {
   };
 };
 
-// solid teal button that presses into its shadow (like "Say hi")
 const StyledPrimaryLink = styled("a")(({ theme }) => {
   const { frame, styles } = buttonBase(theme);
   const shadow =
@@ -76,7 +74,6 @@ const StyledPrimaryLink = styled("a")(({ theme }) => {
   };
 });
 
-// outlined button that fills teal on hover (like "View details")
 const StyledSecondaryLink = styled("a")(({ theme }) => {
   const { frame, styles } = buttonBase(theme);
   return {

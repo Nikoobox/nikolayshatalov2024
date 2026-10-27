@@ -20,7 +20,6 @@ interface Props extends DialogProps {
   minHeight?: string;
 }
 
-// Pixel window: square corners, notched border, hard drop shadow.
 const StyledDialog = styled(Dialog)(({ theme }) => {
   const isDarkMode = theme.palette.mode === "dark";
   const frame = isDarkMode

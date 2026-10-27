@@ -25,7 +25,6 @@ import ProjectInfoRow from "./ProjectInfoRow";
 
 const IMAGE_HEIGHT = 300;
 
-// screenshot in a pixel frame, slowly panning and zooming
 const AnimatedImageWrapper = styled("div")(({ theme }) => ({
   width: "100%",
   height: `${IMAGE_HEIGHT}px`,
@@ -57,7 +56,6 @@ const AnimatedImage = styled("img")({
   "@media (prefers-reduced-motion: reduce)": { animation: "none" },
 });
 
-// "◀ BACK" in the pixel font
 const StyledBackLink = styled(Link)(({ theme }) => ({
   display: "inline-flex",
   alignItems: "center",
@@ -74,7 +72,6 @@ const StyledBackLink = styled(Link)(({ theme }) => ({
   "& svg": { transform: "scaleX(-1)" },
 }));
 
-// pixel window holding the whole project
 const StyledCard = styled(Box)(({ theme }) => {
   const isDarkMode = theme.palette.mode === "dark";
   return {

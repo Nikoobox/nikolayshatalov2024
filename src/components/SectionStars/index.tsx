@@ -9,7 +9,6 @@ import DockingSoyuz from "./DockingSoyuz";
 import SputnikFlight from "./SputnikFlight";
 import SpacePopup from "./SpacePopup";
 
-// mostly dim pixels that light up now and then
 const blink = keyframes`
   0%, 100% { opacity: 0.25; }
   50% { opacity: 0.9; }
@@ -47,7 +46,6 @@ const PIXELS = (() => {
   }));
 })();
 
-// Sparse blinking pixels behind the sections below the landing (night mode).
 interface Props {
   // the flying Sputnik/Soyuz (and their popup); off for quieter pages
   withShips?: boolean;

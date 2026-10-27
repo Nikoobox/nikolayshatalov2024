@@ -3,7 +3,6 @@ import { styled, alpha } from "@mui/material/styles";
 import { pixelBodyFontFamily } from "../../theme/variables";
 import { pixelBorder } from "./pixel";
 
-// Small square label with a notched pixel border (tech tools, etc.)
 const PixelTag = styled("span")(({ theme }) => {
   const isDarkMode = theme.palette.mode === "dark";
 

@@ -20,7 +20,6 @@ const StyledButton = styled("button")(({ theme }) => {
     padding: 0,
     border: 0,
     cursor: "pointer",
-    // same dark square as the NS logo
     color: theme.palette.common.white,
     background: isDarkMode
       ? theme.palette.customColors.charcoalBlack

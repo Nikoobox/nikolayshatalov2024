@@ -13,7 +13,6 @@ const SLOT_SIZES = {
   additional: { slot: 64, icon: 32, label: "20px" },
 };
 
-// Inventory slot: lifts one step and gets a teal frame on hover.
 const StyledSkill = styled(Box)(({ theme }) => {
   const isDarkMode = theme.palette.mode === "dark";
   const frame = isDarkMode

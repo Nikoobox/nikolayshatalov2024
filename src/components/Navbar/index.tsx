@@ -38,7 +38,6 @@ const HideOnScroll = ({ children }: HideOnScrollProps) => {
   );
 };
 
-// game-menu style: a ▶ cursor appears next to the hovered item
 const commonNavItemStyles = (theme: Theme): object => ({
   position: "relative",
   cursor: "pointer",
@@ -68,7 +67,6 @@ const commonNavItemStyles = (theme: Theme): object => ({
   },
 });
 
-// pixel "X" in a notched border, like the other close buttons
 const StyledDrawerClose = styled("button")(({ theme }) => ({
   alignSelf: "flex-start",
   width: 44,
