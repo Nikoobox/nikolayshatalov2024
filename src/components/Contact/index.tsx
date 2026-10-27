@@ -96,8 +96,6 @@ const Contact: FC = () => {
 
   return (
     <>
-      {/* at night both sides are the same color, so the divider would only be
-          an invisible strip covering the background ships */}
       {!isDarkMode && (
         <PixelDivider
           fill={theme.palette.backgroundCustom.primary}

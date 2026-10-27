@@ -8,7 +8,6 @@ interface Props {
   height: number;
 }
 
-// Renders pixel rects in grid units; size it with CSS on the parent.
 const PixelSprite: FC<Props> = ({ rects, width, height }) => (
   <svg
     viewBox={`0 0 ${width} ${height}`}

@@ -25,9 +25,7 @@ const Footer: FC = () => {
 
   return (
     <Box sx={{ position: "relative", zIndex: 1 }}>
-      {/* a step brighter than the page's near-black so the footer reads as its own band */}
       <Box sx={{ background: theme.palette.customColors.deepSlate }}>
-        {/* pixel zigzag border along the top of the footer */}
         <PixelZigzag color={borderColor} />
         <Container maxWidth="lg">
           <Box
