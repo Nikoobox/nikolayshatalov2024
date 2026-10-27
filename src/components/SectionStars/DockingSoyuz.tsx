@@ -13,13 +13,18 @@ import Soyuz, {
 import PixelSprite from "../Landing/PixelSprite";
 import { spriteRects } from "../Landing/pixelArt";
 import { isCovered } from "./spaceHitTest";
-import { KEEP_APART, Point, closestApproach } from "./spacePrediction";
+import {
+  IS_PHONE,
+  KEEP_APART,
+  Point,
+  closestApproach,
+} from "./spacePrediction";
 import { COMMAND_DOCKING_EVENT } from "./spaceInfo";
 import { usePixelSnap } from "./usePixelSnap";
 
 // one fixed, whole-number pixel size (screen px per sprite pixel) so every
 // sprite pixel stays sharp
-const UNIT = 5; // 11x11 grid -> 55px
+const UNIT = IS_PHONE ? 4 : 5; // 11x11 grid -> 44 / 55px
 const W_DOCK = SOYUZ_WIDTH * UNIT;
 const H_DOCK = SOYUZ_HEIGHT * UNIT;
 // Soyuz 4's probe tip sits inside Soyuz 5's cup when docked
@@ -37,15 +42,18 @@ const PAIR_WIDTH = 2 * W_DOCK - PROBE_OVERLAP;
 const PAIR_HEIGHT = H_DOCK;
 const CLEARANCE = 24;
 
-// where on screen the ships may fly (fractions of the viewport height)
+// where on screen the ships may fly (fractions of the viewport height); the
+// bottom is left to Sputnik
 const SKY_TOP = 0.12;
-const SKY_BOTTOM = 0.85;
+const SKY_BOTTOM = 0.72;
 
 // gentle random tilt while flying free (degrees)
 const TILT = 12;
 
-// routes tried when steering clear of Sputnik
-const ROUTE_CANDIDATES = 10;
+// routes tried when steering clear of Sputnik, and how often along a route
+// its distance to Sputnik is checked
+const ROUTE_CANDIDATES = 30;
+const ROUTE_SAMPLE_MS = 1_500;
 
 const rand = (min: number, max: number) => min + Math.random() * (max - min);
 const tilt = () => rand(-TILT, TILT);
@@ -218,23 +226,42 @@ const randomWander = (side: Side, vw: number, vh: number): Waypoint[] => {
   ];
 };
 
-// of several random wanders, the one that stays farthest from Sputnik
-const planWander = (side: Side, vw: number, vh: number): Waypoint[] => {
+// closest Sputnik comes to a route, checked along the way (straight lines
+// between waypoints; close enough for keeping clear)
+const sputnikClearance = (route: Waypoint[]) => {
+  const samples = [];
+  for (let i = 0; i < route.length - 1; i++) {
+    const from = route[i];
+    const to = route[i + 1];
+    for (let at = from.at; at < to.at; at += ROUTE_SAMPLE_MS) {
+      const k = (at - from.at) / (to.at - from.at);
+      samples.push({
+        x: from.x + (to.x - from.x) * k,
+        y: from.y + (to.y - from.y) * k,
+        msAhead: at,
+      });
+    }
+  }
+  return closestApproach(sputnik(), samples);
+};
+
+// of several random routes, the one that stays farthest from Sputnik
+const clearestRoute = (randomRoute: () => Waypoint[]): Waypoint[] => {
   let best: { route: Waypoint[]; clearance: number } | null = null;
   for (let i = 0; i < ROUTE_CANDIDATES; i++) {
-    const route = randomWander(side, vw, vh);
-    const clearance = closestApproach(
-      sputnik(),
-      route.map(({ x, y, at }) => ({ x, y, msAhead: at })),
-    );
+    const route = randomRoute();
+    const clearance = sputnikClearance(route);
     if (!best || clearance > best.clearance) best = { route, clearance };
     if (clearance > KEEP_APART * 1.5) break;
   }
   return best!.route;
 };
 
+const planWander = (side: Side, vw: number, vh: number) =>
+  clearestRoute(() => randomWander(side, vw, vh));
+
 // approach a docking point, dock, drift together, back off and leave
-const planRendezvous = (
+const randomRendezvous = (
   side: Side,
   start: Pose,
   docked: Point,
@@ -258,8 +285,8 @@ const planRendezvous = (
     {
       // line up a little way out from the docking point
       at: tStaging,
-      x: docked.x + side * Math.min(0.12 * vw, 140),
-      y: docked.y + rand(-0.04, 0.04) * vh,
+      x: docked.x + side * rand(100, 220),
+      y: docked.y + rand(-0.1, 0.1) * vh,
       rotate: rand(-3, 3),
       easing: "cubic-bezier(0.2, 0.6, 0.3, 1)", // slow down into docking
     },
@@ -288,11 +315,16 @@ const planRendezvous = (
   ];
 };
 
+// the approach and exit are picked to stay clear of Sputnik (the docking
+// point and drift already are)
+const planRendezvous = (...args: Parameters<typeof randomRendezvous>) =>
+  clearestRoute(() => randomRendezvous(...args));
+
 // ----- the spacewalk --------------------------------------------------------
 
-// cosmonaut kept minimal: a head over a body (1x2 units at 6px)
+// cosmonaut kept minimal: a head over a body (1x2 units)
 const WALKER_ROWS = ["W", "W"];
-const WALKER_UNIT = 6;
+const WALKER_UNIT = IS_PHONE ? 5 : 6;
 const WALKER_W = WALKER_ROWS[0].length * WALKER_UNIT;
 const WALKER_H = WALKER_ROWS.length * WALKER_UNIT;
 

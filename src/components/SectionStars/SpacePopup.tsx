@@ -25,6 +25,8 @@ const TYPE_DELAY_MS = 12;
 
 const OFFSET = 18;
 const MAX_WIDTH = 320;
+// closest the popup gets to the screen edges
+const GUTTER = 16;
 
 interface Popup {
   key: SpaceInfoKey;
@@ -203,9 +205,20 @@ const SpacePopup: FC = () => {
       boxShadow: pixelBorder(frame, 2),
     },
   };
-  // keep the popup on screen near the click
-  const flipX = popup.x + OFFSET + MAX_WIDTH > window.innerWidth;
-  const flipY = popup.y > window.innerHeight * 0.6;
+  // keep the popup on screen near the click: beside it when there's room,
+  // otherwise slid inside the gutters (phones); scrolls if it's too tall
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  const width = Math.min(MAX_WIDTH, vw - 2 * GUTTER);
+  const flipX = popup.x + OFFSET + width > vw - GUTTER;
+  const left = Math.min(
+    Math.max(flipX ? popup.x - OFFSET - width : popup.x + OFFSET, GUTTER),
+    vw - GUTTER - width,
+  );
+  const flipY = popup.y > vh * 0.6;
+  const maxHeight = flipY
+    ? popup.y - OFFSET - GUTTER
+    : vh - popup.y - OFFSET - GUTTER;
 
   // portal to <body> so it isn't trapped behind the page with the ships
   return createPortal(
@@ -215,13 +228,15 @@ const SpacePopup: FC = () => {
       aria-label={info.title}
       sx={{
         position: "fixed",
-        left: flipX ? undefined : popup.x + OFFSET,
-        right: flipX ? window.innerWidth - popup.x + OFFSET : undefined,
+        left,
         top: flipY ? undefined : popup.y + OFFSET,
-        bottom: flipY ? window.innerHeight - popup.y + OFFSET : undefined,
+        bottom: flipY ? vh - popup.y + OFFSET : undefined,
         // above everything on the page, including the navbar and modals
         zIndex: 2147483647,
-        maxWidth: MAX_WIDTH,
+        width,
+        maxHeight,
+        overflowY: "auto",
+        boxSizing: "border-box",
         padding: "16px 18px",
         background: theme.palette.customColors.charcoalBlack,
         boxShadow: `${pixelBorder(frame)}, 8px 8px 0 0 rgba(0, 0, 0, 0.6)`,

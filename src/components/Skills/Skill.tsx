@@ -21,7 +21,6 @@ const StyledSkill = styled(Box)(({ theme }) => {
   const dropShadow = isDarkMode
     ? "6px 6px 0 0 rgba(0, 0, 0, 0.6)"
     : `6px 6px 0 0 ${theme.palette.customColors.greyAccent}`;
-  const accent = theme.palette.customColors.tealAccent;
 
   return {
     display: "flex",
@@ -36,10 +35,6 @@ const StyledSkill = styled(Box)(({ theme }) => {
         ? theme.palette.customColors.charcoalBlack
         : theme.palette.common.white,
       boxShadow: `${pixelBorder(frame)}, ${dropShadow}`,
-    },
-    "&:hover .slot": {
-      transform: "translateY(-4px)",
-      boxShadow: `${pixelBorder(accent)}, ${dropShadow}`,
     },
   };
 });

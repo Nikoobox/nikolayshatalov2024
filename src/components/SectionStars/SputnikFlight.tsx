@@ -5,13 +5,19 @@ import { Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 import Sputnik from "../Landing/Sputnik";
-import { KEEP_APART, Point, closestApproach } from "./spacePrediction";
+import {
+  IS_PHONE,
+  KEEP_APART,
+  Point,
+  closestApproach,
+  predictCenter,
+} from "./spacePrediction";
 import { SPUTNIK_BEEP_EVENT } from "./spaceInfo";
 import { usePixelSnap } from "./usePixelSnap";
 import { pixelFontFamily } from "../../theme/variables";
 
-// 9x9 sprite at a fixed 6px per sprite pixel (whole numbers stay sharp)
-const SIZE = 54;
+// 9x9 sprite at a fixed whole-number pixel size (stays sharp)
+const SIZE = 9 * (IS_PHONE ? 4 : 6); // 36 / 54px
 
 // "BEEP!"s from the popup button: each one leaves the ship, drifts away and
 // slowly fades out; they go out one after another
@@ -33,12 +39,48 @@ interface Beep {
 const PASS = 210_000; // ~3.5 min per pass
 const WAIT = 45_000; // off-screen before the next pass
 const TOTAL = PASS + WAIT;
-// first pass starts near the bottom, this far from the left edge
-const LAUNCH_X = 0.3;
+// it flies across the bottom of the screen, inside this band (fractions of
+// the viewport height); the first pass starts this far from the left edge
+const BAND_TOP = 0.8;
+const BAND_BOTTOM = 0.9;
+const LAUNCH_X = 0.1;
+const LAUNCH_CHECK_MS = 500;
 
 // slowly turning as it goes
 const ROTATE_FROM = -12;
 const ROTATE_TO = 18;
+
+// Safety net for when the planned routes still bring it near a Soyuz: it
+// looks a few seconds ahead and, if needed, hurries on or holds back along its
+// own path (playback speed only; the route stays the same).
+const GUARD_EVERY_MS = 400;
+const GUARD_LOOKAHEAD_MS = 10_000;
+const GUARD_STEP_MS = 500;
+const GUARD_RATES = [1, 3, 0.2];
+
+const soyuzShips = () => [
+  ...document.querySelectorAll<HTMLElement>("[data-space-info^=soyuz]"),
+];
+
+// closest Sputnik gets to either Soyuz over the next few seconds if it plays
+// at `rate`
+const clearanceAtRate = (sputnik: HTMLElement, rate: number) => {
+  let closest = Infinity;
+  for (let ms = 0; ms <= GUARD_LOOKAHEAD_MS; ms += GUARD_STEP_MS) {
+    const own = predictCenter(sputnik, ms * rate);
+    if (!own) return Infinity;
+    for (const soyuz of soyuzShips()) {
+      const other = predictCenter(soyuz, ms);
+      if (other) {
+        closest = Math.min(
+          closest,
+          Math.hypot(own.x - other.x, own.y - other.y),
+        );
+      }
+    }
+  }
+  return closest;
+};
 
 // candidate routes tried per pass, and how many points describe the curve
 const CANDIDATES = 60;
@@ -59,23 +101,28 @@ const pointOnRoute = ({ from, ctrl, to }: Route, f: number): Point => ({
 });
 
 // gentle curve across the full width of the screen
-const randomCrossing = (vw: number, vh: number): Route => {
-  const y0 = rand(0.1, 0.9) * vh;
-  const y1 = rand(0.1, 0.9) * vh;
+const bandY = (vh: number) => rand(BAND_TOP, BAND_BOTTOM) * vh;
+
+// nearly level line from `fromX` to `toX` along the bottom band
+const levelRoute = (fromX: number, toX: number, vh: number): Route => {
+  const y0 = bandY(vh);
+  const y1 = bandY(vh);
   return {
-    from: { x: -SIZE, y: y0 },
-    ctrl: { x: vw / 2, y: (y0 + y1) / 2 + rand(-0.15, 0.15) * vh },
-    to: { x: vw + SIZE, y: y1 },
+    from: { x: fromX, y: y0 },
+    ctrl: { x: (fromX + toX) / 2, y: (y0 + y1) / 2 },
+    to: { x: toX, y: y1 },
   };
 };
 
-// first pass: already on screen near the bottom, rises, then curves off to a
-// side
-const randomLaunch = (vw: number, vh: number): Route => ({
-  from: { x: LAUNCH_X * vw, y: vh - SIZE },
-  ctrl: { x: LAUNCH_X * vw, y: rand(0.2, 0.45) * vh },
-  to: { x: Math.random() < 0.5 ? -SIZE : vw + SIZE, y: rand(0.1, 0.5) * vh },
-});
+// across the full width, in either direction
+const randomCrossing = (vw: number, vh: number): Route =>
+  Math.random() < 0.5
+    ? levelRoute(-SIZE, vw + SIZE, vh)
+    : levelRoute(vw + SIZE, -SIZE, vh);
+
+// first pass: already on screen, heading off to the right
+const randomLaunch = (vw: number, vh: number): Route =>
+  levelRoute(LAUNCH_X * vw, vw + SIZE, vh);
 
 // pick the random route that keeps farthest from where the Soyuz are headed
 const planRoute = (
@@ -84,9 +131,7 @@ const planRoute = (
   delay: number,
   isFirst: boolean,
 ): Route => {
-  const soyuz = [
-    ...document.querySelectorAll<HTMLElement>("[data-space-info^=soyuz]"),
-  ];
+  const soyuz = soyuzShips();
   let best: { route: Route; clearance: number } | null = null;
 
   for (let i = 0; i < CANDIDATES; i++) {
@@ -121,8 +166,8 @@ const keyframesFor = (route: Route): Keyframe[] => {
   return [...frames, { ...frames[frames.length - 1], offset: 1 }];
 };
 
-// Sputnik launches from near the bottom, then crosses the whole screen on a
-// new random route each pass, steering clear of the Soyuz pair.
+// Sputnik starts on screen near the bottom, then crosses the bottom of the
+// screen on a new random route each pass, steering clear of the Soyuz pair.
 const SputnikFlight: FC = () => {
   const theme = useTheme();
   const ref = useRef<HTMLDivElement>(null);
@@ -180,16 +225,30 @@ const SputnikFlight: FC = () => {
       getComputedStyle(ref.current)
         .getPropertyValue("--sputnik-opacity")
         .trim() === "1";
-    const launchWhenVisible = () => {
+    const guard = window.setInterval(() => {
+      const el = ref.current;
+      const [animation] = animations;
+      if (!el || animation?.playState !== "running") return;
+      let rate = 1;
+      if (clearanceAtRate(el, 1) < KEEP_APART) {
+        let best = -1;
+        for (const candidate of GUARD_RATES) {
+          const clearance = clearanceAtRate(el, candidate);
+          if (clearance > best) [best, rate] = [clearance, candidate];
+        }
+      }
+      if (animation.playbackRate !== rate) animation.updatePlaybackRate(rate);
+    }, GUARD_EVERY_MS);
+
+    const waitForLayer = window.setInterval(() => {
       if (!layerVisible()) return;
-      window.removeEventListener("scroll", launchWhenVisible);
+      window.clearInterval(waitForLayer);
       pass(0, true);
-    };
-    window.addEventListener("scroll", launchWhenVisible, { passive: true });
-    launchWhenVisible();
+    }, LAUNCH_CHECK_MS);
     return () => {
       cancelled = true;
-      window.removeEventListener("scroll", launchWhenVisible);
+      window.clearInterval(waitForLayer);
+      window.clearInterval(guard);
       animations.forEach((animation) => animation.cancel());
     };
   }, []);
