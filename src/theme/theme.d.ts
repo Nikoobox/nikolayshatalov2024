@@ -47,23 +47,15 @@ declare module "@mui/material/Typography" {
 
 interface customColors {
   customColors: {
-    whiteAccent: string;
     grey: string;
     greyLightest: string;
     greyAccent: string;
-    grey200: string;
-    purpleAccent: string;
-    greenAccent: string;
-    greenNeon: string;
-    greenDark: string;
+    grey900: string;
     tealAccent: string;
-    aliceBlue: string;
-    yellowAccent: string;
     redAccent: string;
     blueDark: string;
     charcoalBlack: string;
     deepSlate: string;
-    classicBlue: string;
   };
 }
 
@@ -92,7 +84,6 @@ declare module "@mui/material/styles/createPalette" {
   interface Palette {
     customColors;
     common;
-    textColor: string;
     backgroundCustom;
     commonCustom;
   }
@@ -100,7 +91,6 @@ declare module "@mui/material/styles/createPalette" {
   interface PaletteOptions {
     customColors;
     common;
-    textColor: string;
     backgroundCustom;
     commonCustom;
   }

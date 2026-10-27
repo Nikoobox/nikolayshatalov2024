@@ -8,10 +8,7 @@ const BORDER_COLORS = [
   COLORS.RED_ACCENT,
 ];
 
-export const getRandomColor = () =>
-  BORDER_COLORS[Math.floor(Math.random() * BORDER_COLORS.length)];
-
-// like getRandomColor, but never repeats the previous pick
+// random border color that never repeats the previous pick
 export const getNextColor = (previous?: string) => {
   const options = BORDER_COLORS.filter((color) => color !== previous);
   return options[Math.floor(Math.random() * options.length)];
