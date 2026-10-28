@@ -20,15 +20,11 @@ const shoot = keyframes`
 
 const STAR_COUNT = 110;
 
-// two shooting stars on different paths and timings so they never sync up
 const SHOOTING_STARS = [
-  // the streak takes ~24% of each cycle: about 7-9s to cross, then a long
-  // quiet gap before it comes back
   { left: "78%", top: 70, duration: "30s", delay: "0s" },
   { left: "52%", top: 140, duration: "38s", delay: "15s" },
 ];
 
-// a few stars flicker blue; picked by index so the seeded layout stays put
 const BLUE_STAR = "#9AD4FF";
 const BLUE_STAR_EVERY = 15;
 
@@ -37,7 +33,6 @@ const blueTwinkle = keyframes`
   50% { background: ${BLUE_STAR}; opacity: 0.7; }
 `;
 
-// roughly 1 in 5 stars gets a soft pastel tint (also picked by index)
 const STAR_TINTS = ["#9AD4FF", "#A8F0E0", "#FFE9A8", "#FFC9D9"];
 const TINT_EVERY = 5;
 
@@ -63,7 +58,6 @@ const STARS = (() => {
   });
 })();
 
-// Big Dipper-ish shape in the lower-right, echoing the old particle links.
 const CONSTELLATION: [number, number][] = [
   [72, 74],
   [77, 71],
@@ -86,8 +80,6 @@ const CONSTELLATION_LINES: [number, number][] = [
 const ditherMask = (inner: string, outer: string) =>
   `radial-gradient(closest-side, #000 0 ${inner}, rgba(0, 0, 0, 0.5) ${inner} ${outer}, transparent ${outer})`;
 
-// Parallax: each layer drifts down by scroll * depth, so it lags behind the
-// page. Bigger depth = slower = farther away.
 const DEPTH = { nebula: 0.6, far: 0.45, mid: 0.3, near: 0.15 };
 const STAR_LAYERS = [DEPTH.near, DEPTH.mid, DEPTH.far];
 
@@ -105,14 +97,12 @@ const SpaceBackground: FC = () => {
   const { greyAccent, charcoalBlack, deepSlate } = theme.palette.customColors;
   const rootRef = useRef<HTMLDivElement>(null);
 
-  // write the scroll offset to a CSS variable once per frame; no re-renders
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     let frame = 0;
     const update = () => {
       frame = 0;
-      // past the first screen the landing is out of view; stop moving it
       const y = Math.min(window.scrollY, window.innerHeight);
       rootRef.current?.style.setProperty("--parallax-y", String(Math.round(y)));
     };
@@ -140,7 +130,6 @@ const SpaceBackground: FC = () => {
       sx={{
         position: "absolute",
         inset: 0,
-        // smooth fade (no hard band) that ends on the Skills divider's color
         background: `linear-gradient(180deg, ${charcoalBlack} 0%, ${deepSlate} 75%)`,
         "@media (prefers-reduced-motion: reduce)": {
           "& *": { animation: "none !important", transform: "none !important" },
@@ -276,7 +265,6 @@ const SpaceBackground: FC = () => {
         ))}
       </Box>
 
-      {/* CRT scanlines */}
       <Box
         sx={{
           position: "absolute",

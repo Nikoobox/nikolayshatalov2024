@@ -1,6 +1,3 @@
-// Where a flying ship will be, read from its running Web Animation. The flight
-// keyframes start with translate(px) to the ship's center, so the path can be
-// interpolated ahead of time (linearly; close enough for keeping ships apart).
 const TRANSLATE = /translate\(\s*(-?[\d.]+)px,\s*(-?[\d.]+)px\)/;
 
 const hasTransform = (animation: Animation) =>
@@ -13,14 +10,11 @@ export interface Point {
   y: number;
 }
 
-// visual center of `el` `msAhead` milliseconds from now, or null if it isn't
-// flying
 export const predictCenter = (
   el: HTMLElement | null,
   msAhead: number,
 ): Point | null => {
   if (!el) return null;
-  // newest movement animation wins (older finished ones may linger with fill)
   const animation = el.getAnimations().filter(hasTransform).at(-1);
   const effect = animation?.effect as KeyframeEffect | null | undefined;
   if (!animation || !effect) return null;
@@ -54,7 +48,6 @@ export const predictCenter = (
   };
 };
 
-// closest `el` comes to a set of points, each checked at its own time ahead
 export const closestApproach = (
   el: HTMLElement | null,
   points: Array<Point & { msAhead: number }>,
@@ -72,8 +65,6 @@ export const closestApproach = (
   return closest;
 };
 
-// how far apart flying ships should stay
 export const KEEP_APART = 260;
 
-// phones get smaller spacecraft (still whole-number pixel sizes)
 export const IS_PHONE = window.matchMedia("(max-width: 599px)").matches;

@@ -30,7 +30,6 @@ const TRACKS: { title: string; create: () => Track }[] = [
 
 const CAPTION_MS = 8000;
 
-// width of the player, so the header can hold a slot for it
 export const PLAYER_WIDTH = 72;
 
 const frameColors = (isDarkMode: boolean, theme: Theme) => ({
@@ -40,7 +39,6 @@ const frameColors = (isDarkMode: boolean, theme: Theme) => ({
     : theme.palette.common.white,
 });
 
-// same notched pixel frame as the day/night toggle beside it
 const StyledPlayer = styled("div")(({ theme }) => {
   const { frame, background } = frameColors(
     theme.palette.mode === "dark",
@@ -61,7 +59,6 @@ const StyledButton = styled("button")(({ theme }) => {
   return {
     display: "flex",
     alignItems: "center",
-    // skip icon hugs the speaker; even 12px spacing across the player
     justifyContent: "flex-start",
     width: "24px",
     height: "100%",
@@ -84,9 +81,6 @@ const StyledButton = styled("button")(({ theme }) => {
   };
 });
 
-// track name that pops up under the player for a moment after switching,
-// in a soft grey so it reads quieter than the controls; fades in quickly and
-// out slowly
 const StyledCaption = styled("span")(({ theme }) => ({
   position: "absolute",
   top: "calc(100% + 16px)",
@@ -106,7 +100,6 @@ const StyledCaption = styled("span")(({ theme }) => ({
   "@media (prefers-reduced-motion: reduce)": { transition: "none" },
 }));
 
-// pixel skip arrow with a bar
 const SkipIcon: FC = () => (
   <svg
     width="12"
@@ -124,13 +117,11 @@ const SkipIcon: FC = () => (
   </svg>
 );
 
-// sound waves pulse outward in steps while playing
 const waves = keyframes`
   0%, 100% { opacity: 1; }
   50% { opacity: 0.25; }
 `;
 
-// pixel speaker; waves when playing, an X when off
 const SpeakerIcon: FC<{ isPlaying: boolean }> = ({ isPlaying }) => (
   <Box
     component="svg"
@@ -179,7 +170,6 @@ const SpeakerIcon: FC<{ isPlaying: boolean }> = ({ isPlaying }) => (
   </Box>
 );
 
-// Mini music player, silent until the visitor presses play.
 const SpaceMusic: FC = () => {
   const tracks = useRef<Track[]>([]);
   const captionTimer = useRef(0);
@@ -195,7 +185,6 @@ const SpaceMusic: FC = () => {
     [],
   );
 
-  // tracks are created on first use, so nothing loads until it's needed
   const getTrack = (index: number) =>
     (tracks.current[index] ??= TRACKS[index].create());
 
@@ -208,7 +197,6 @@ const SpaceMusic: FC = () => {
 
   const skipForward = () => {
     const next = (trackIndex + 1) % TRACKS.length;
-    // drop the old track so every song starts from the top when it comes back
     tracks.current[trackIndex]?.dispose();
     delete tracks.current[trackIndex];
     if (isPlaying) getTrack(next).play();

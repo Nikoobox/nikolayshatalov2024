@@ -43,7 +43,6 @@ const PageSection: PageSectionComponent = ({ children, header, id }) => {
   );
 };
 
-// Attach PageSubheader as a static property of PageSection
 PageSection.PageSubheader = PageSubheader;
 
 export default PageSection;

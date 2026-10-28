@@ -19,7 +19,6 @@ const ProjectCards: FC = () => {
       sx={{
         width: {
           xs: "100%",
-          // gap is 40px; leaves room for the cards' pixel frames and shadows
           sm: "calc(50% - 20px)",
           md: "calc(33.333% - 27px)",
         },

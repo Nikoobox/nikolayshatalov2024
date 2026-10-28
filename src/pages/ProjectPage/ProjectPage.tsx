@@ -188,7 +188,6 @@ const ProjectPage = () => {
     <Page
       customBackground={
         isDarkMode ? (
-          // same blinking pixels as the main page, minus the flying ships
           <Box
             sx={{
               position: "fixed",

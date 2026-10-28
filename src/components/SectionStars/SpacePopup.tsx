@@ -20,24 +20,19 @@ const blink = keyframes`
   50% { opacity: 0; }
 `;
 
-// ~3-4s for a full description
 const TYPE_DELAY_MS = 12;
 
 const OFFSET = 18;
 const MAX_WIDTH = 320;
-// closest the popup gets to the screen edges
 const GUTTER = 16;
 
 interface Popup {
   key: SpaceInfoKey;
   x: number;
   y: number;
-  // Soyuz 4 only: the pair is still wandering, so docking can be commanded
   canCommandDocking: boolean;
 }
 
-// The ships sit behind the page in a pointer-events: none layer, so hovering
-// and clicking are detected by hit-testing their boxes against the pointer.
 const findShip = (x: number, y: number): SpaceInfoKey | null => {
   if (isCovered(x, y)) return null;
   for (const el of document.querySelectorAll<HTMLElement>(
@@ -47,7 +42,6 @@ const findShip = (x: number, y: number): SpaceInfoKey | null => {
     const inside =
       x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
     if (!inside) continue;
-    // skip ships that are faded out, or whose layer is hidden
     const layer = el.closest<HTMLElement>("[data-space-layer]");
     const opacity = Number(getComputedStyle(el).opacity);
     const layerOpacity = layer ? Number(getComputedStyle(layer).opacity) : 1;
@@ -58,7 +52,6 @@ const findShip = (x: number, y: number): SpaceInfoKey | null => {
   return null;
 };
 
-// freeze / unfreeze every flying ship
 const setShipsPaused = (paused: boolean) => {
   document
     .querySelector<HTMLElement>("[data-space-layer]")
@@ -66,18 +59,13 @@ const setShipsPaused = (paused: boolean) => {
     .forEach((animation) => (paused ? animation.pause() : animation.play()));
 };
 
-// Click a spacecraft to pause the ships and read about it; they resume when
-// the popup closes (X button, Escape, or a click elsewhere). Hovering only
-// changes the cursor so the ships read as clickable.
 const SpacePopup: FC = () => {
   const theme = useTheme();
   const [popup, setPopup] = useState<Popup | null>(null);
   const popupRef = useRef<HTMLDivElement>(null);
   const openRef = useRef(false);
-  // ships whose description has already been typed out once
   const seenRef = useRef(new Set<SpaceInfoKey>());
 
-  // how many characters of the description have been "typed" so far
   const [typed, setTyped] = useState(0);
 
   const close = () => {
@@ -91,8 +79,6 @@ const SpacePopup: FC = () => {
     window.dispatchEvent(new Event(name));
   };
 
-  // type the description out the first time each ship is opened; after that
-  // it shows in full right away
   useEffect(() => {
     if (!popup) return;
     const length = SPACE_INFO[popup.key].body.length;
@@ -135,7 +121,6 @@ const SpacePopup: FC = () => {
     };
     const onClick = (event: MouseEvent) => {
       if (openRef.current) {
-        // clicks inside the popup are handled by its close button
         if (!popupRef.current?.contains(event.target as Node)) close();
         return;
       }
@@ -161,7 +146,6 @@ const SpacePopup: FC = () => {
     window.addEventListener("mousemove", onMove, { passive: true });
     window.addEventListener("click", onClick);
     window.addEventListener("keydown", onKey);
-    // ships keep moving under a still pointer, so re-check now and then
     const recheck = window.setInterval(schedule, 400);
     return () => {
       window.removeEventListener("mousemove", onMove);
@@ -181,7 +165,6 @@ const SpacePopup: FC = () => {
     theme.palette.mode === "dark"
       ? theme.palette.common.white
       : theme.palette.common.black;
-  // small teal action button that presses into its shadow
   const actionButtonSx = {
     display: "inline-flex",
     alignItems: "center",
@@ -190,7 +173,6 @@ const SpacePopup: FC = () => {
     border: 0,
     cursor: "pointer",
     fontFamily: pixelFontFamily,
-    // 8px is the font's native size; smaller blurs
     fontSize: "8px",
     lineHeight: 1,
     color: theme.palette.customColors.charcoalBlack,
@@ -205,8 +187,6 @@ const SpacePopup: FC = () => {
       boxShadow: pixelBorder(frame, 2),
     },
   };
-  // keep the popup on screen near the click: beside it when there's room,
-  // otherwise slid inside the gutters (phones); scrolls if it's too tall
   const vw = window.innerWidth;
   const vh = window.innerHeight;
   const width = Math.min(MAX_WIDTH, vw - 2 * GUTTER);
@@ -220,7 +200,6 @@ const SpacePopup: FC = () => {
     ? popup.y - OFFSET - GUTTER
     : vh - popup.y - OFFSET - GUTTER;
 
-  // portal to <body> so it isn't trapped behind the page with the ships
   return createPortal(
     <Box
       ref={popupRef}
@@ -231,7 +210,6 @@ const SpacePopup: FC = () => {
         left,
         top: flipY ? undefined : popup.y + OFFSET,
         bottom: flipY ? vh - popup.y + OFFSET : undefined,
-        // above everything on the page, including the navbar and modals
         zIndex: 2147483647,
         width,
         maxHeight,
@@ -292,7 +270,6 @@ const SpacePopup: FC = () => {
           color: theme.palette.customColors.greyAccent,
         }}
       >
-        {/* full text holds the popup at its final size; screen readers read it */}
         <Typography
           sx={{
             font: "inherit",
@@ -318,7 +295,6 @@ const SpacePopup: FC = () => {
           />
         </Box>
       </Box>
-      {/* ship-specific action, once the description has finished typing */}
       {typed >= info.body.length && popup.key === "soyuz4" && (
         <Box mt={2}>
           {popup.canCommandDocking ? (

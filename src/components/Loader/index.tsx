@@ -66,7 +66,6 @@ const LoadingSpinner: FC = () => {
               background: theme.palette.customColors.tealAccent,
               opacity: 0.12,
               animation: `${chase} ${CYCLE_MS}ms step-end infinite`,
-              // negative delays so the ring is already mid-chase on first paint
               animationDelay: `${(i * CYCLE_MS) / BLOCKS.length - CYCLE_MS}ms`,
               "@media (prefers-reduced-motion: reduce)": {
                 animation: "none",

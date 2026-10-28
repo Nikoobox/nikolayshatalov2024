@@ -11,8 +11,6 @@ interface Props {
 }
 
 const PixelDivider: FC<Props> = ({ fill, background }) => {
-  // same color on both sides: nothing to draw (and no strip covering what's
-  // behind it)
   if (fill === background) return null;
 
   const row = (from: number, to: number) =>

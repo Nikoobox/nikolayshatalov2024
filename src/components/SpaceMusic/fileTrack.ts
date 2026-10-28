@@ -1,6 +1,3 @@
-// A looping song from /public, with the same play/pause/dispose shape as the
-// synth engine so the player can switch between them. The files are already
-// mastered down to the synth's quiet background level.
 export class FileTrack {
   private audio: HTMLAudioElement | null = null;
   playing = false;
@@ -18,7 +15,6 @@ export class FileTrack {
     }
   }
 
-  // pausing keeps the position, so the song picks up where it left off
   pause() {
     if (!this.playing) return;
     this.playing = false;

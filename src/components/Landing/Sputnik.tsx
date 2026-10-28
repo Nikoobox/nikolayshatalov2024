@@ -5,9 +5,6 @@ import { useTheme } from "@mui/material/styles";
 import PixelSprite from "./PixelSprite";
 import { PixelRect } from "./pixelArt";
 
-// Sputnik-1 on a tiny 9x9 grid of big pixels: a shaded metal sphere (lit from
-// the upper left) with four straight antennas fanning out behind it (left,
-// shallow down-left, down-left, down).
 const WIDTH = 9;
 const HEIGHT = 9;
 const CENTER = { x: 6, y: 3 };
@@ -20,19 +17,17 @@ const buildPixels = () => {
   const set = (x: number, y: number, tone: Tone) =>
     pixels.set(`${x},${y}`, tone);
 
-  // antennas first so the sphere and nozzles draw over their roots
-  for (let x = 0; x <= 3; x++) set(x, 3, "antenna"); // straight left
-  for (let x = 0; x <= 3; x++) set(x, 4 + Math.floor((3 - x) / 2), "antenna"); // shallow down-left
-  for (let i = 0; i <= 3; i++) set(4 - i, 5 + i, "antenna"); // down-left
-  for (let y = 6; y < HEIGHT; y++) set(6, y, "antenna"); // straight down
+  for (let x = 0; x <= 3; x++) set(x, 3, "antenna");
+  for (let x = 0; x <= 3; x++) set(x, 4 + Math.floor((3 - x) / 2), "antenna");
+  for (let i = 0; i <= 3; i++) set(4 - i, 5 + i, "antenna");
+  for (let y = 6; y < HEIGHT; y++) set(6, y, "antenna");
 
-  // shaded sphere: brightness from how much each pixel faces the light
   for (let y = 0; y < HEIGHT; y++) {
     for (let x = 0; x < WIDTH; x++) {
       const dx = x - CENTER.x;
       const dy = y - CENTER.y;
       if (Math.hypot(dx, dy) > RADIUS) continue;
-      const light = -(dx + dy) / Math.SQRT2; // + toward the upper left
+      const light = -(dx + dy) / Math.SQRT2;
       set(x, y, light > 1.2 ? "highlight" : light < -1.3 ? "shadow" : "body");
     }
   }

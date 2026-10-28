@@ -19,7 +19,6 @@ const getDesignTokens = (mode: PaletteMode): ThemeOptions => {
         ? {
             ...(themeOptions.palette as any),
             mode,
-            // plain white page in day mode (no grey section bands)
             background: {
               default: themeOptions.palette?.common?.white,
             },
@@ -35,7 +34,6 @@ const getDesignTokens = (mode: PaletteMode): ThemeOptions => {
         : {
             ...(themeOptions.palette as any),
             mode,
-            // everything below the landing shares the footer's near-black
             background: {
               default: themeOptions.palette?.customColors.charcoalBlack,
               paper: themeOptions.palette?.customColors.charcoalBlack,

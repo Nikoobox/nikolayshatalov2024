@@ -31,21 +31,6 @@ export const styleP = {
   lineHeight: `24px`,
 };
 
-// export const numericalLarge = {
-//   fontFamily: rubik,
-//   fontSize: `24px`,
-//   lineHeight: `32px`,
-//   fontWeight: 400,
-//   letterSpacing: `-0.02em`,
-// };
-
-// export const numericalRegular = {
-//   fontFamily: rubik,
-//   fontSize: `16px`,
-//   lineHeight: `24px`,
-//   fontWeight: 400,
-// };
-
 export const subtitleBold = {
   fontSize: `14px`,
   lineHeight: `24px`,
@@ -82,8 +67,6 @@ const themeOptions: ThemeOptions = {
     subtitleBold,
     labelBold,
     labelRegular,
-    // numericalRegular,
-    // numericalLarge,
     button: {
       textTransform: "none",
       "&:focus": {
@@ -100,7 +83,6 @@ const themeOptions: ThemeOptions = {
       black: COLORS.BLACK,
     },
     commonCustom: {
-      //used to switch white black for white for simple elements
       front: COLORS.WHITE,
       back: COLORS.BLACK,
     },
@@ -121,10 +103,6 @@ const themeOptions: ThemeOptions = {
       deepSlate: COLORS.DEEP_SLATE,
     },
   },
-  // Change dark mode background opacity
-  // Change the background opacity based on the elevation in dark mode.
-  // This change was made to better conform to the Material Design guidelines.
-  // You can revert it in the theme:
   components: {
     MuiPaper: {
       styleOverrides: { root: { backgroundImage: "unset" } },

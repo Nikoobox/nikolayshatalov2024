@@ -88,7 +88,7 @@ const ContactForm: FC = () => {
     const formData = new FormData(formElement);
 
     if (fileToAttach) {
-      formData.append("my_file", fileToAttach); // 'my_file' matches the parameter name in your EmailJS template
+      formData.append("my_file", fileToAttach);
     }
 
     emailjs

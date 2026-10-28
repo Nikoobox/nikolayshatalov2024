@@ -22,7 +22,6 @@ const COLOR = COLORS.GREY_LIGHT;
 const SPEED = 0.0015;
 const MAX_OPACITY = 0.5;
 
-// pixel redesign keeps to the main palette: teal plus the dark text color
 const ACCENT_COLORS = [TEAL_ACCENT, TEAL_ACCENT, BLACK];
 
 const COLORED_CHANCE = 0.005;

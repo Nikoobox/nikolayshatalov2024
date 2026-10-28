@@ -12,12 +12,11 @@ export const COLORS = {
   RED_ACCENT: "#E86363",
   WHITE: "#FFF",
   BLACK: "#222",
-  CHARCOAL_BLACK: "#0A0F14", // blackest black
+  CHARCOAL_BLACK: "#0A0F14",
   DEEP_SLATE: "#0d171e",
 };
 
 export const fontFamily = `-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif`;
 
-// pixel redesign: headings / nav / buttons vs. readable body copy
 export const pixelFontFamily = `"Press Start 2P", monospace`;
 export const pixelBodyFontFamily = `"VT323", monospace`;

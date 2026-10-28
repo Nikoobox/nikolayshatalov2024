@@ -192,7 +192,6 @@ const Contact: FC = () => {
           <Box mb={8}>
             <PixelHeading>Say Hi!</PixelHeading>
           </Box>
-          {/* extra room so the form doesn't crowd the footer */}
           <Box pb={25}>
             <ContactForm />
           </Box>
