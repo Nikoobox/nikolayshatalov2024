@@ -255,6 +255,12 @@ export class SpaceMusicEngine {
 
   async play() {
     if (this.playing) return;
+    // iOS treats Web Audio as ambient sound and mutes it with the silent
+    // switch; asking for media playback lets it play like a video would
+    const { audioSession } = navigator as Navigator & {
+      audioSession?: { type: string };
+    };
+    if (audioSession) audioSession.type = "playback";
     const isFirstPlay = !this.ctx;
     if (isFirstPlay) this.setup();
     const ctx = this.ctx!;
