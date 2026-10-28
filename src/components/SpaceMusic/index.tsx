@@ -5,7 +5,7 @@ import { Box } from "@mui/material";
 import { styled, Theme } from "@mui/material/styles";
 import { visuallyHidden } from "@mui/utils";
 
-import { pixelBorder } from "../UI";
+import { pixelBorder, PixelTooltip } from "../UI";
 import { pixelFontFamily } from "../../theme/variables";
 import { SpaceMusicEngine } from "./spaceMusicEngine";
 import { FileTrack } from "./fileTrack";
@@ -23,12 +23,14 @@ const TRACKS: { title: string; create: () => Track }[] = [
   },
   { title: "Star Sequencer", create: () => new SpaceMusicEngine() },
   {
-    title: "Trouble Makers by Matthew Pablo",
+    title: "Trouble Makers",
     create: () => new FileTrack("/music/trouble-makers.mp3"),
   },
 ];
 
 const CAPTION_MS = 8000;
+
+type Hint = "play" | "next";
 
 export const PLAYER_WIDTH = 72;
 
@@ -176,6 +178,8 @@ const SpaceMusic: FC = () => {
   const [trackIndex, setTrackIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isCaptionVisible, setIsCaptionVisible] = useState(false);
+  const [hint, setHint] = useState<Hint | null>(null);
+  const clickedHint = useRef<Hint | null>(null);
 
   useEffect(
     () => () => {
@@ -188,19 +192,7 @@ const SpaceMusic: FC = () => {
   const getTrack = (index: number) =>
     (tracks.current[index] ??= TRACKS[index].create());
 
-  const toggle = () => {
-    const track = getTrack(trackIndex);
-    if (isPlaying) track.pause();
-    else track.play();
-    setIsPlaying(!isPlaying);
-  };
-
-  const skipForward = () => {
-    const next = (trackIndex + 1) % TRACKS.length;
-    tracks.current[trackIndex]?.dispose();
-    delete tracks.current[trackIndex];
-    if (isPlaying) getTrack(next).play();
-    setTrackIndex(next);
+  const showCaption = () => {
     setIsCaptionVisible(true);
     window.clearTimeout(captionTimer.current);
     captionTimer.current = window.setTimeout(
@@ -209,25 +201,81 @@ const SpaceMusic: FC = () => {
     );
   };
 
+  const hintProps = (name: Hint) => ({
+    open: hint === name,
+    onOpen: () => {
+      if (clickedHint.current !== name) setHint(name);
+    },
+    onClose: () => setHint(null),
+  });
+
+  const resetHint = () => {
+    clickedHint.current = null;
+  };
+
+  const hideHint = (name: Hint) => {
+    clickedHint.current = name;
+    setHint(null);
+  };
+
+  const toggle = () => {
+    hideHint("play");
+    const track = getTrack(trackIndex);
+    if (isPlaying) {
+      track.pause();
+    } else {
+      track.play();
+      showCaption();
+    }
+    setIsPlaying(!isPlaying);
+  };
+
+  const skipForward = () => {
+    hideHint("next");
+    const next = (trackIndex + 1) % TRACKS.length;
+    tracks.current[trackIndex]?.dispose();
+    delete tracks.current[trackIndex];
+    if (isPlaying) getTrack(next).play();
+    setTrackIndex(next);
+    showCaption();
+  };
+
   const { title } = TRACKS[trackIndex];
 
   return (
     <StyledPlayer role="group" aria-label="Music player">
-      <StyledButton
-        type="button"
-        onClick={toggle}
-        aria-pressed={isPlaying}
-        aria-label={isPlaying ? `Pause ${title}` : `Play ${title}`}
+      <PixelTooltip
+        title={isPlaying ? "Stop music" : "Play music"}
+        {...hintProps("play")}
       >
-        <SpeakerIcon isPlaying={isPlaying} />
-      </StyledButton>
-      <StyledButton type="button" onClick={skipForward} aria-label="Next track">
-        <SkipIcon />
-      </StyledButton>
+        <StyledButton
+          type="button"
+          onClick={toggle}
+          onMouseLeave={resetHint}
+          aria-pressed={isPlaying}
+          aria-label={isPlaying ? `Stop ${title}` : `Play ${title}`}
+        >
+          <SpeakerIcon isPlaying={isPlaying} />
+        </StyledButton>
+      </PixelTooltip>
+      <PixelTooltip title="Next song" {...hintProps("next")}>
+        <StyledButton
+          type="button"
+          onClick={skipForward}
+          onMouseLeave={resetHint}
+          aria-label="Next track"
+        >
+          <SkipIcon />
+        </StyledButton>
+      </PixelTooltip>
       <Box component="span" aria-live="polite" sx={visuallyHidden}>
         {title}
       </Box>
-      <StyledCaption aria-hidden="true" data-visible={isCaptionVisible}>
+      <StyledCaption
+        aria-hidden="true"
+        data-visible={isCaptionVisible && !hint}
+        style={hint ? { transition: "none" } : undefined}
+      >
         {trackIndex + 1}/{TRACKS.length} {title}
       </StyledCaption>
     </StyledPlayer>
