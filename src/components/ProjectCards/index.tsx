@@ -19,7 +19,6 @@ const ProjectCards: FC = () => {
       sx={{
         width: {
           xs: "100%",
-          // gap is 40px; leaves room for the cards' pixel frames and shadows
           sm: "calc(50% - 20px)",
           md: "calc(33.333% - 27px)",
         },
@@ -41,7 +40,7 @@ const ProjectCards: FC = () => {
         justifyContent="center"
         flexDirection="column"
       >
-        <Box mb={8} mt={20}>
+        <Box mb={8} mt={15}>
           <PixelHeading>Projects</PixelHeading>
         </Box>
 

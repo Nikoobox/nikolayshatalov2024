@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 
-// currently unused
 const useScrollPosition = (): [number, boolean] => {
   const [scrollPosition, setScrollPosition] = useState<number>(0);
   const [isPastTarget, setIsPastTarget] = useState<boolean>(false);
@@ -9,7 +8,6 @@ const useScrollPosition = (): [number, boolean] => {
     const handleScroll = (): void => {
       setScrollPosition(window.scrollY);
 
-      // Check if the target element is in view or past it
       const targetElement = document.getElementById("wave-contact");
       if (targetElement) {
         const rect = targetElement.getBoundingClientRect();
@@ -20,7 +18,6 @@ const useScrollPosition = (): [number, boolean] => {
 
     window.addEventListener("scroll", handleScroll);
 
-    // Initial check in case the user starts at the target element
     handleScroll();
 
     return () => {

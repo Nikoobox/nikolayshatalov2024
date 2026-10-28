@@ -135,8 +135,6 @@ const ResumeModal: FC = () => {
           />
         )}
         <img
-          // If the image is already cached, `onLoad` can fire before React
-          // attaches the handler — catch that via the ref's `complete` flag.
           ref={(node) => {
             if (node?.complete) setIsPreviewLoaded(true);
           }}

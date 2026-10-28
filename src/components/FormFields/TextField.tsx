@@ -31,7 +31,6 @@ const StyledMuiTextField = styled(MuiTextField)(({ theme }) => {
     },
     "& .MuiOutlinedInput-root": {
       borderRadius: 0,
-      // solid, so the background pixels and ships don't show through
       background:
         theme.palette.mode === "dark"
           ? theme.palette.customColors.charcoalBlack

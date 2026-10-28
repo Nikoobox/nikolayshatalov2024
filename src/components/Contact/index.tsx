@@ -104,7 +104,7 @@ const Contact: FC = () => {
       )}
 
       <PageSection id="contact-destination">
-        <Box mb={8}>
+        <Box mb={8} mt={15}>
           <PixelHeading>Contact</PixelHeading>
         </Box>
 
@@ -192,7 +192,9 @@ const Contact: FC = () => {
           <Box mb={8}>
             <PixelHeading>Say Hi!</PixelHeading>
           </Box>
-          <ContactForm />
+          <Box pb={25}>
+            <ContactForm />
+          </Box>
         </motion.div>
       </PageSection>
     </>

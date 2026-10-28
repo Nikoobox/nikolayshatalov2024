@@ -18,11 +18,9 @@ const MainPage: FC = () => {
     <Box>
       <Landing />
       <Box mt="100vh" position="relative">
-        {/* blinking pixels in both modes; the flying ships only at night */}
         <SectionStars withShips={isDarkMode} />
         <Skills />
         <ProjectCards />
-        {/* transparent (same color as the page) so the pixels show through */}
         <PageSectionWrapper bgColor="transparent">
           <Contact />
         </PageSectionWrapper>

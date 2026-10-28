@@ -2,30 +2,74 @@ import { FC, useEffect, useRef, useState } from "react";
 import { keyframes } from "@emotion/react";
 
 import { Box } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { styled, Theme } from "@mui/material/styles";
+import { visuallyHidden } from "@mui/utils";
 
-import { pixelBorder } from "../UI";
+import { pixelBorder, PixelTooltip } from "../UI";
+import { pixelFontFamily } from "../../theme/variables";
 import { SpaceMusicEngine } from "./spaceMusicEngine";
+import { FileTrack } from "./fileTrack";
 
-// same notched pixel frame as the day/night toggle beside it
+interface Track {
+  play(): Promise<void>;
+  pause(): void;
+  dispose(): void;
+}
+
+const TRACKS: { title: string; create: () => Track }[] = [
+  {
+    title: "Fingersnap Bar",
+    create: () => new FileTrack("/music/fingersnap-bar.mp3"),
+  },
+  { title: "Star Sequencer", create: () => new SpaceMusicEngine() },
+  {
+    title: "Trouble Makers",
+    create: () => new FileTrack("/music/trouble-makers.mp3"),
+  },
+];
+
+const CAPTION_MS = 8000;
+
+type Hint = "play" | "next";
+
+export const PLAYER_WIDTH = 72;
+
+const frameColors = (isDarkMode: boolean, theme: Theme) => ({
+  frame: isDarkMode ? theme.palette.common.white : theme.palette.common.black,
+  background: isDarkMode
+    ? theme.palette.customColors.charcoalBlack
+    : theme.palette.common.white,
+});
+
+const StyledPlayer = styled("div")(({ theme }) => {
+  const { frame, background } = frameColors(
+    theme.palette.mode === "dark",
+    theme,
+  );
+  return {
+    position: "relative",
+    display: "flex",
+    width: `${PLAYER_WIDTH}px`,
+    height: "48px",
+    background,
+    boxShadow: pixelBorder(frame),
+  };
+});
+
 const StyledButton = styled("button")(({ theme }) => {
   const isDarkMode = theme.palette.mode === "dark";
   return {
     display: "flex",
     alignItems: "center",
-    justifyContent: "center",
-    width: "48px",
-    height: "48px",
+    justifyContent: "flex-start",
+    width: "24px",
+    height: "100%",
     padding: 0,
     border: 0,
     cursor: "pointer",
-    color: isDarkMode ? theme.palette.common.white : theme.palette.common.black,
-    background: isDarkMode
-      ? theme.palette.customColors.charcoalBlack
-      : theme.palette.common.white,
-    boxShadow: pixelBorder(
-      isDarkMode ? theme.palette.common.white : theme.palette.common.black,
-    ),
+    color: frameColors(isDarkMode, theme).frame,
+    background: "transparent",
+    "&[aria-pressed]": { width: "48px", justifyContent: "center" },
     "&[aria-pressed='true']": {
       color: isDarkMode
         ? theme.palette.customColors.tealAccent
@@ -34,18 +78,52 @@ const StyledButton = styled("button")(({ theme }) => {
     "&:hover": { color: theme.palette.customColors.tealAccent },
     "&:focus-visible": {
       outline: `2px solid ${theme.palette.customColors.tealAccent}`,
-      outlineOffset: "6px",
+      outlineOffset: "2px",
     },
   };
 });
 
-// sound waves pulse outward in steps while playing
+const StyledCaption = styled("span")(({ theme }) => ({
+  position: "absolute",
+  top: "calc(100% + 16px)",
+  right: 0,
+  whiteSpace: "nowrap",
+  fontFamily: pixelFontFamily,
+  fontSize: "10px",
+  lineHeight: 1,
+  color:
+    theme.palette.mode === "dark"
+      ? theme.palette.customColors.greyAccent
+      : theme.palette.customColors.grey,
+  pointerEvents: "none",
+  opacity: 0,
+  transition: "opacity 2.5s ease",
+  "&[data-visible='true']": { opacity: 1, transition: "opacity 0.4s ease" },
+  "@media (prefers-reduced-motion: reduce)": { transition: "none" },
+}));
+
+const SkipIcon: FC = () => (
+  <svg
+    width="12"
+    height="14"
+    viewBox="0 0 6 7"
+    fill="currentColor"
+    shapeRendering="crispEdges"
+    aria-hidden="true"
+  >
+    <rect x="0" y="0" width="1" height="7" />
+    <rect x="1" y="1" width="1" height="5" />
+    <rect x="2" y="2" width="1" height="3" />
+    <rect x="3" y="3" width="1" height="1" />
+    <rect x="5" y="0" width="1" height="7" />
+  </svg>
+);
+
 const waves = keyframes`
   0%, 100% { opacity: 1; }
   50% { opacity: 0.25; }
 `;
 
-// pixel speaker; waves when playing, an X when off
 const SpeakerIcon: FC<{ isPlaying: boolean }> = ({ isPlaying }) => (
   <Box
     component="svg"
@@ -94,29 +172,113 @@ const SpeakerIcon: FC<{ isPlaying: boolean }> = ({ isPlaying }) => (
   </Box>
 );
 
-// Space music toggle, off until the visitor presses it.
 const SpaceMusic: FC = () => {
-  const engine = useRef<SpaceMusicEngine | null>(null);
+  const tracks = useRef<Track[]>([]);
+  const captionTimer = useRef(0);
+  const [trackIndex, setTrackIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isCaptionVisible, setIsCaptionVisible] = useState(false);
+  const [hint, setHint] = useState<Hint | null>(null);
+  const clickedHint = useRef<Hint | null>(null);
 
-  useEffect(() => () => engine.current?.dispose(), []);
+  useEffect(
+    () => () => {
+      window.clearTimeout(captionTimer.current);
+      tracks.current.forEach((track) => track?.dispose());
+    },
+    [],
+  );
+
+  const getTrack = (index: number) =>
+    (tracks.current[index] ??= TRACKS[index].create());
+
+  const showCaption = () => {
+    setIsCaptionVisible(true);
+    window.clearTimeout(captionTimer.current);
+    captionTimer.current = window.setTimeout(
+      () => setIsCaptionVisible(false),
+      CAPTION_MS,
+    );
+  };
+
+  const hintProps = (name: Hint) => ({
+    open: hint === name,
+    onOpen: () => {
+      if (clickedHint.current !== name) setHint(name);
+    },
+    onClose: () => setHint(null),
+  });
+
+  const resetHint = () => {
+    clickedHint.current = null;
+  };
+
+  const hideHint = (name: Hint) => {
+    clickedHint.current = name;
+    setHint(null);
+  };
 
   const toggle = () => {
-    engine.current ??= new SpaceMusicEngine();
-    if (isPlaying) engine.current.pause();
-    else engine.current.play();
+    hideHint("play");
+    const track = getTrack(trackIndex);
+    if (isPlaying) {
+      track.pause();
+    } else {
+      track.play();
+      showCaption();
+    }
     setIsPlaying(!isPlaying);
   };
 
+  const skipForward = () => {
+    hideHint("next");
+    const next = (trackIndex + 1) % TRACKS.length;
+    tracks.current[trackIndex]?.dispose();
+    delete tracks.current[trackIndex];
+    if (isPlaying) getTrack(next).play();
+    setTrackIndex(next);
+    showCaption();
+  };
+
+  const { title } = TRACKS[trackIndex];
+
   return (
-    <StyledButton
-      type="button"
-      onClick={toggle}
-      aria-pressed={isPlaying}
-      aria-label={isPlaying ? "Pause space music" : "Play space music"}
-    >
-      <SpeakerIcon isPlaying={isPlaying} />
-    </StyledButton>
+    <StyledPlayer role="group" aria-label="Music player">
+      <PixelTooltip
+        title={isPlaying ? "Stop music" : "Play music"}
+        {...hintProps("play")}
+      >
+        <StyledButton
+          type="button"
+          onClick={toggle}
+          onMouseLeave={resetHint}
+          aria-pressed={isPlaying}
+          aria-label={isPlaying ? `Stop ${title}` : `Play ${title}`}
+        >
+          <SpeakerIcon isPlaying={isPlaying} />
+        </StyledButton>
+      </PixelTooltip>
+      <PixelTooltip title="Next song" {...hintProps("next")}>
+        <StyledButton
+          type="button"
+          onClick={skipForward}
+          onMouseLeave={resetHint}
+          aria-label="Next track"
+        >
+          <SkipIcon />
+        </StyledButton>
+      </PixelTooltip>
+      <Box component="span" aria-live="polite" sx={visuallyHidden}>
+        {title}
+      </Box>
+      <StyledCaption
+        aria-hidden="true"
+        data-visible={isCaptionVisible && !hint}
+        style={hint ? { transition: "none" } : undefined}
+      >
+        {trackIndex + 1}/{TRACKS.length} {title}
+      </StyledCaption>
+    </StyledPlayer>
   );
 };
 

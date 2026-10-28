@@ -18,7 +18,7 @@ import { styled } from "@mui/system";
 import { useTheme, Theme } from "@mui/material/styles";
 
 import NightModeSwitch from "../NightModeSwitch";
-import SpaceMusic from "../SpaceMusic";
+import SpaceMusic, { PLAYER_WIDTH } from "../SpaceMusic";
 import { pixelBorder } from "../UI";
 import { pixelBodyFontFamily, pixelFontFamily } from "../../theme/variables";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
@@ -145,7 +145,6 @@ const Navbar: FC = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
 
-  // header hidden: the pinned sound button shrinks to stay out of the way
   const isHeaderHidden = useScrollTrigger();
 
   const themeContext = useThemeContext();
@@ -231,12 +230,10 @@ const Navbar: FC = () => {
     scroll.scrollToTop();
   };
 
-  // Handler for nav item clicks
   const handleNavItemClick = (destination: string) => {
     if (location.pathname !== "/") {
       navigate("/", { state: { scrollTo: destination } });
     } else {
-      // Scroll to section as usual
       scroll.scrollTo(+destination);
     }
   };
@@ -271,7 +268,6 @@ const Navbar: FC = () => {
                     color: theme.palette.commonCustom.front,
                   }}
                 >
-                  {/* pixel hamburger: three chunky bars */}
                   <svg
                     width="28"
                     height="24"
@@ -293,7 +289,6 @@ const Navbar: FC = () => {
                   height="64px"
                   sx={{
                     display: { xs: "none", sm: "flex" },
-                    // initials tucked into the bottom-right corner
                     alignItems: "flex-end",
                     justifyContent: "flex-end",
                     padding: "6px 3px 6px 6px",
@@ -346,8 +341,7 @@ const Navbar: FC = () => {
                     </StyledResumeBox>
                   </Box>
                   <NightModeSwitch />
-                  {/* holds the slot for the sound button, which stays pinned below */}
-                  <Box width="48px" height="48px" flexShrink={0} />
+                  <Box width={PLAYER_WIDTH} height="48px" flexShrink={0} />
                 </Box>
               </StyledToolbar>
             </Container>
@@ -355,7 +349,6 @@ const Navbar: FC = () => {
         </AppBar>
       </HideOnScroll>
 
-      {/* sound button lives outside HideOnScroll so it stays visible while scrolling */}
       <Box
         sx={{
           position: "fixed",
@@ -373,7 +366,6 @@ const Navbar: FC = () => {
         >
           <Container maxWidth="lg">
             <StyledToolbar disableGutters sx={{ justifyContent: "flex-end" }}>
-              {/* row as tall as the logo (desktop) or hamburger (mobile) so it lines up with the switch */}
               <Box
                 sx={{
                   display: "flex",
@@ -401,7 +393,7 @@ const Navbar: FC = () => {
           open={mobileOpen}
           onClose={handleDrawerToggle}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true,
           }}
           sx={{
             display: { xs: "block", sm: "none" },

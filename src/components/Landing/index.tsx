@@ -41,11 +41,6 @@ const pixelArrow = (
   </svg>
 );
 
-// clamp guide:
-// min = 140px → top will never be less than 140px
-// preferred = 30vh → try to use 30% of the viewport height
-// max = 280px → top will never be more than 280px
-// Below md the astronaut sits above the box, so the box starts lower.
 const StyledIntroContainer = styled(Box)(({ theme }) => ({
   position: "absolute",
   top: "clamp(140px, 30vh, 280px)",
@@ -99,7 +94,6 @@ const StyledDialog = styled("section")(({ theme }) => {
       fontFamily: pixelBodyFontFamily,
       fontSize: "34px",
       lineHeight: "44px",
-      // VT323 is very condensed; open it up so the paragraph breathes
       letterSpacing: "0.75px",
       color: isDarkMode
         ? theme.palette.customColors.greyAccent
@@ -110,7 +104,6 @@ const StyledDialog = styled("section")(({ theme }) => {
         letterSpacing: "0.5px",
       },
     },
-    // teal text is unreadable on white, so light mode gets a marker highlight
     "& .intro-name": isDarkMode
       ? { color: accent }
       : {
@@ -144,7 +137,6 @@ const StyledTag = styled("div")(({ theme }) => {
       ? theme.palette.customColors.charcoalBlack
       : theme.palette.common.black,
     fontFamily: pixelFontFamily,
-    // 8px is the font's native size; smaller blurs
     fontSize: "8px",
     lineHeight: 1,
     boxShadow: pixelBorder(
@@ -162,7 +154,6 @@ const StyledAstronaut = styled(Box)(({ theme }) => ({
   position: "absolute",
   left: "-100px",
   top: "-8px",
-  // sprite is 20x17 grid units, 4px each (3px below md)
   width: "80px",
   height: "68px",
   [theme.breakpoints.down("md")]: {
@@ -236,7 +227,6 @@ const StyledLinkScroll = styled(
   };
 });
 
-// sits right under the dialog so it never collides with the planet
 const StyledSayHiBox = styled(Box)(({ theme }) => {
   return {
     display: "flex",
@@ -281,8 +271,6 @@ const Landing: FC = () => {
     revealLink();
   };
 
-  // Every typed character moves the astronaut's mouth. Must stay referentially
-  // stable: the Typewriter component restarts when its options change.
   const typewriterOptions = useMemo(
     () => ({
       onCreateTextNode: (character: string, textNode: Text) => {
@@ -307,8 +295,6 @@ const Landing: FC = () => {
         }}
       >
         {isDarkMode ? <SpaceBackground /> : <LightModeBackground />}
-        {/* stepped edge into the sections; part of the background so the
-            ships (in a later background layer) fly over it */}
         {isDarkMode && (
           <Box sx={{ position: "absolute", left: 0, right: 0, bottom: 0 }}>
             <PixelDivider
@@ -321,7 +307,6 @@ const Landing: FC = () => {
 
       <StyledIntroContainer>
         <StyledAstronaut aria-hidden="true">
-          {/* fades in together with the dialog */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -375,7 +360,6 @@ const Landing: FC = () => {
             <StyledTag>PLAYER 1</StyledTag>
 
             <Box position="relative">
-              {/* full text holds the box at its final size; screen readers read this copy */}
               <Box
                 sx={
                   skipped

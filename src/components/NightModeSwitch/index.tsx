@@ -3,7 +3,7 @@ import { FC } from "react";
 import { styled } from "@mui/material/styles";
 
 import { useThemeContext } from "../../theme/ThemeContextProvider";
-import { pixelBorder } from "../UI";
+import { pixelBorder, PixelTooltip } from "../UI";
 
 const StyledButton = styled("button")(({ theme }) => {
   const isDarkMode = theme.palette.mode === "dark";
@@ -59,13 +59,15 @@ const NightModeSwitch: FC = () => {
   const { isDarkMode, toggleDarkMode } = useThemeContext();
 
   return (
-    <StyledButton
-      type="button"
-      onClick={toggleDarkMode}
-      aria-label={isDarkMode ? "Switch to day mode" : "Switch to night mode"}
-    >
-      {isDarkMode ? <MoonIcon /> : <SunIcon />}
-    </StyledButton>
+    <PixelTooltip title={isDarkMode ? "Switch to day mode" : "Switch to night mode"}>
+      <StyledButton
+        type="button"
+        onClick={toggleDarkMode}
+        aria-label={isDarkMode ? "Switch to day mode" : "Switch to night mode"}
+      >
+        {isDarkMode ? <MoonIcon /> : <SunIcon />}
+      </StyledButton>
+    </PixelTooltip>
   );
 };
 

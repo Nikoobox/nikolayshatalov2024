@@ -6,8 +6,6 @@ export interface PixelRect {
   c: string;
 }
 
-// Rows of letters -> rects (one unit per letter); runs of the same letter
-// merge into one rect. Letters missing from `colors` are transparent.
 export const spriteRects = (
   rows: string[],
   colors: Record<string, string>,
@@ -26,7 +24,6 @@ export const spriteRects = (
   return rects;
 };
 
-// Small deterministic RNG so star fields look the same on every render.
 export const seededRandom = (seed: number) => {
   let s = seed;
   return () => {

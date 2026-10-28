@@ -14,7 +14,6 @@ const Page = ({
   const offset = isMobile ? 256 : 200;
   const calculatedMinHeight = `calc(100vh - ${offset}px)`;
 
-  // original default bg: theme.palette.backgroundCustom.secondary
   return (
     <Box
       minHeight={calculatedMinHeight}

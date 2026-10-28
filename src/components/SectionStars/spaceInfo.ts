@@ -1,4 +1,3 @@
-// Popup text for the background spacecraft, keyed by data-space-info.
 export const SPACE_INFO = {
   sputnik: {
     title: "Sputnik 1 · 1957",
@@ -16,8 +15,6 @@ export const SPACE_INFO = {
 
 export type SpaceInfoKey = keyof typeof SPACE_INFO;
 
-// fired by the Soyuz 4 popup's "command docking" button; DockingSoyuz listens
 export const COMMAND_DOCKING_EVENT = "soyuz:command-docking";
 
-// fired by the Sputnik popup's "beep" button; SputnikFlight listens
 export const SPUTNIK_BEEP_EVENT = "sputnik:beep";

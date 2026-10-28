@@ -1,6 +1,3 @@
-// Is page content painted at this screen point?
-// The ships live in a pointer-events: none layer, so elementFromPoint only
-// ever sees page content.
 const CONTENT_TAGS = new Set([
   "IMG",
   "CANVAS",

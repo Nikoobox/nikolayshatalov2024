@@ -1,26 +1,17 @@
-// Generative 80s sci-fi music (original, not a copy), built from Web Audio
-// nodes so there's no audio file to host or license. A sequencer arpeggio
-// behind a dark resonant filter that drifts slowly, a pulsing bass and soft
-// analog pads, with a short reverb and ping-pong echoes. It loops endlessly;
-// pausing just suspends the audio, so it picks up where it left off.
-
 const A2 = 110;
 const BPM = 108;
 const STEP = 60 / BPM / 4;
 const STEPS_PER_CHORD = 32;
 
-// Am - F - Dm - E, two bars each; tones in semitones above the root
 const CHORDS: { root: number; tones: number[] }[] = [
   { root: 0, tones: [0, 3, 7, 12, 15, 19] },
   { root: -4, tones: [0, 4, 7, 12, 16, 19] },
   { root: -7, tones: [0, 3, 7, 12, 15, 19] },
   { root: -5, tones: [0, 4, 7, 12, 16, 19] },
 ];
-// which chord tone the arpeggio plays on each 16th of a bar
 const PATTERN = [0, 2, 4, 2, 1, 3, 5, 3, 0, 2, 4, 5, 4, 2, 1, 3];
 
 const VOLUME = 0.8;
-// lifts the mix to a quiet background level after the compressor
 const OUTPUT_GAIN = 1.6;
 const FADE_IN = 3;
 const FADE_OUT = 1.5;
@@ -29,7 +20,6 @@ const LOOKAHEAD = 1.2;
 
 const semitone = (hz: number, steps: number) => hz * 2 ** (steps / 12);
 
-// short, dark room reverb
 const makeImpulse = (ctx: AudioContext, seconds = 4) => {
   const length = Math.floor(ctx.sampleRate * seconds);
   const impulse = ctx.createBuffer(2, length, ctx.sampleRate);
@@ -80,7 +70,6 @@ export class SpaceMusicEngine {
     wet.gain.value = 0.45;
     reverb.connect(wet).connect(master);
 
-    // ping-pong echo on the dotted eighth: left repeat, then right, darkening
     const left = ctx.createDelay(2);
     const right = ctx.createDelay(2);
     left.delayTime.value = (60 / BPM) * 0.75;
@@ -125,8 +114,6 @@ export class SpaceMusicEngine {
     }
   }
 
-  // one resonant lowpass for the whole arpeggio, drifting between ~400Hz and
-  // ~900Hz every 32s so it stays dark and never opens up
   private startArpFilter() {
     const ctx = this.ctx!;
     const filter = ctx.createBiquadFilter();
@@ -160,7 +147,6 @@ export class SpaceMusicEngine {
     osc.stop(at + STEP);
   }
 
-  // short plucked saw bass with a closing filter, on every eighth
   private bass(at: number, hz: number) {
     const ctx = this.ctx!;
     const osc = ctx.createOscillator();
@@ -181,8 +167,6 @@ export class SpaceMusicEngine {
     osc.stop(at + STEP * 2);
   }
 
-  // analog pad: detuned saws through a lowpass that opens on the attack, with
-  // vibrato fading in (CS-80 style)
   private pad(at: number, length: number, hz: number, pan: number) {
     const ctx = this.ctx!;
     const attack = 1.5;
@@ -255,8 +239,6 @@ export class SpaceMusicEngine {
 
   async play() {
     if (this.playing) return;
-    // iOS treats Web Audio as ambient sound and mutes it with the silent
-    // switch; asking for media playback lets it play like a video would
     const { audioSession } = navigator as Navigator & {
       audioSession?: { type: string };
     };
@@ -284,7 +266,6 @@ export class SpaceMusicEngine {
     this.master!.gain.cancelScheduledValues(now);
     this.master!.gain.setValueAtTime(this.master!.gain.value, now);
     this.master!.gain.linearRampToValueAtTime(0, now + FADE_OUT);
-    // suspending freezes the audio clock, so playback resumes in place
     window.setTimeout(
       () => {
         if (!this.playing) ctx.suspend();

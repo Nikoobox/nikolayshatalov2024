@@ -12,10 +12,10 @@ const MAIN = "main";
 const ADDITIONAL = "additional";
 
 const SKILLS_WRAPPER_WIDTH = {
-  xs: "100%", // 0px - 600px
-  sm: "80%", // 600px - 960px
-  md: "70%", // 960px - 1280px
-  lg: "60%", // 1280px - 1920px
+  xs: "100%",
+  sm: "80%",
+  md: "70%",
+  lg: "60%",
 };
 
 const renderSkills = ({ type }: { type: typeof MAIN | typeof ADDITIONAL }) =>
@@ -38,9 +38,6 @@ const Skills: FC = () => {
 
   return (
     <>
-      {/* edge between the landing and the sections: at night it is drawn
-          inside the landing background (so the ships fly over it); by day,
-          with white on both sides, it is a pixel zigzag line */}
       {theme.palette.mode !== "dark" && (
         <PixelZigzag color={theme.palette.customColors.greyAccent} />
       )}
@@ -52,7 +49,7 @@ const Skills: FC = () => {
           justifyContent="center"
           flexDirection="column"
         >
-          <Box mb={8}>
+          <Box mb={8} mt={10}>
             <PixelHeading>Skills</PixelHeading>
           </Box>
 
