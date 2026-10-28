@@ -18,7 +18,7 @@ import { styled } from "@mui/system";
 import { useTheme, Theme } from "@mui/material/styles";
 
 import NightModeSwitch from "../NightModeSwitch";
-import SpaceMusic from "../SpaceMusic";
+import SpaceMusic, { PLAYER_WIDTH } from "../SpaceMusic";
 import { pixelBorder } from "../UI";
 import { pixelBodyFontFamily, pixelFontFamily } from "../../theme/variables";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
@@ -145,7 +145,7 @@ const Navbar: FC = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
 
-  // header hidden: the pinned sound button shrinks to stay out of the way
+  // header hidden: the pinned music player shrinks to stay out of the way
   const isHeaderHidden = useScrollTrigger();
 
   const themeContext = useThemeContext();
@@ -346,8 +346,8 @@ const Navbar: FC = () => {
                     </StyledResumeBox>
                   </Box>
                   <NightModeSwitch />
-                  {/* holds the slot for the sound button, which stays pinned below */}
-                  <Box width="48px" height="48px" flexShrink={0} />
+                  {/* holds the slot for the music player, which stays pinned below */}
+                  <Box width={PLAYER_WIDTH} height="48px" flexShrink={0} />
                 </Box>
               </StyledToolbar>
             </Container>
@@ -355,7 +355,7 @@ const Navbar: FC = () => {
         </AppBar>
       </HideOnScroll>
 
-      {/* sound button lives outside HideOnScroll so it stays visible while scrolling */}
+      {/* music player lives outside HideOnScroll so it stays visible while scrolling */}
       <Box
         sx={{
           position: "fixed",

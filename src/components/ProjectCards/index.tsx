@@ -41,7 +41,7 @@ const ProjectCards: FC = () => {
         justifyContent="center"
         flexDirection="column"
       >
-        <Box mb={8} mt={20}>
+        <Box mb={8} mt={15}>
           <PixelHeading>Projects</PixelHeading>
         </Box>
 

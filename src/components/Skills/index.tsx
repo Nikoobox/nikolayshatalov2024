@@ -52,7 +52,7 @@ const Skills: FC = () => {
           justifyContent="center"
           flexDirection="column"
         >
-          <Box mb={8}>
+          <Box mb={8} mt={10}>
             <PixelHeading>Skills</PixelHeading>
           </Box>
 
