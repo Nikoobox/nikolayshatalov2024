@@ -20,9 +20,7 @@ const StyledButton = styled("button")(({ theme }) => {
     padding: 0,
     border: 0,
     cursor: "pointer",
-    color: isDarkMode
-      ? theme.palette.common.white
-      : theme.palette.customColors.purpleAccent,
+    color: frame,
     background: isDarkMode
       ? theme.palette.customColors.charcoalBlack
       : theme.palette.common.white,
