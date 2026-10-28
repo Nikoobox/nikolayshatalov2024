@@ -18,6 +18,7 @@ import { styled } from "@mui/system";
 import { useTheme, Theme } from "@mui/material/styles";
 
 import NightModeSwitch from "../NightModeSwitch";
+import SpaceMusic from "../SpaceMusic";
 import { pixelBorder } from "../UI";
 import { pixelBodyFontFamily, pixelFontFamily } from "../../theme/variables";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
@@ -143,6 +144,9 @@ const Navbar: FC = () => {
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
+
+  // header hidden: the pinned sound button shrinks to stay out of the way
+  const isHeaderHidden = useScrollTrigger();
 
   const themeContext = useThemeContext();
   const { toggleResumeModal } = themeContext;
@@ -342,12 +346,54 @@ const Navbar: FC = () => {
                     </StyledResumeBox>
                   </Box>
                   <NightModeSwitch />
+                  {/* holds the slot for the sound button, which stays pinned below */}
+                  <Box width="48px" height="48px" flexShrink={0} />
                 </Box>
               </StyledToolbar>
             </Container>
           </motion.div>
         </AppBar>
       </HideOnScroll>
+
+      {/* sound button lives outside HideOnScroll so it stays visible while scrolling */}
+      <Box
+        sx={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: theme.zIndex.appBar + 1,
+          pointerEvents: "none",
+        }}
+      >
+        <motion.div
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.4, duration: 0.4, ease: "easeOut" }}
+        >
+          <Container maxWidth="lg">
+            <StyledToolbar disableGutters sx={{ justifyContent: "flex-end" }}>
+              {/* row as tall as the logo (desktop) or hamburger (mobile) so it lines up with the switch */}
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  height: { xs: 48, sm: 64 },
+                  pointerEvents: "auto",
+                  transform: isHeaderHidden ? "scale(0.75)" : "none",
+                  transformOrigin: "right center",
+                  transition: "transform 0.2s ease",
+                  "@media (prefers-reduced-motion: reduce)": {
+                    transition: "none",
+                  },
+                }}
+              >
+                <SpaceMusic />
+              </Box>
+            </StyledToolbar>
+          </Container>
+        </motion.div>
+      </Box>
 
       <nav>
         <Drawer
