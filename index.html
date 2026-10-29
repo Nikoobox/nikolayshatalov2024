@@ -11,6 +11,17 @@
     />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
+    <script>
+      (function () {
+        var isLight = false;
+        try {
+          isLight = localStorage.getItem("colorMode") === "light";
+        } catch (e) {}
+        var root = document.documentElement;
+        root.style.background = isLight ? "#FFF" : "#0A0F14";
+        root.style.colorScheme = isLight ? "light" : "dark";
+      })();
+    </script>
     <meta
       name="description"
       content="NYC based senior frontend engineer with experience in React, TS, JS, NextJS, and passion for web development"
