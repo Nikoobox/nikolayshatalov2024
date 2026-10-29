@@ -359,9 +359,14 @@ const Navbar: FC = () => {
       >
         <Container maxWidth="lg">
           <Box display="flex" justifyContent="flex-end">
-            <Box sx={{ pointerEvents: "auto" }}>
+            <motion.div
+              style={{ pointerEvents: "auto" }}
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.4, duration: 0.4, ease: "easeOut" }}
+            >
               <SpaceMusic />
-            </Box>
+            </motion.div>
           </Box>
         </Container>
       </Box>

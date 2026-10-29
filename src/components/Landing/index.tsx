@@ -1,4 +1,4 @@
-import { FC, useMemo, useRef, useState } from "react";
+import { FC, useEffect, useMemo, useRef, useState } from "react";
 import type { ComponentType } from "react";
 import { Link as LinkScroll } from "react-scroll";
 import type { LinkProps } from "react-scroll";
@@ -15,6 +15,7 @@ import Astronaut, { AstronautHandle } from "./Astronaut";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
 import { pixelBodyFontFamily, pixelFontFamily } from "../../theme/variables";
 import { PixelDivider, pixelBorder, stepEase } from "../UI";
+import { seededRandom } from "./pixelArt";
 
 const blink = keyframes`
   0% { opacity: 1; }
@@ -24,6 +25,107 @@ const blink = keyframes`
 const INTRO_NAME = "Nikolay Shatalov";
 const INTRO_BODY =
   "NYC-based Senior Frontend Engineer focused on building scalable, high-performance web applications with TypeScript, React, Next.js, and more.";
+
+const PIXELATE_ID = "intro-pixelate";
+const PIXELATE_DELAY = 800;
+const PIXELATE_STEP = 384;
+const PIXELATE_SIZES = [12, 8, 6, 4, 2, 0];
+const NOISE_MIN_RADIUS = 8;
+const NOISE_COLS = 36;
+const NOISE_ROWS = 10;
+
+const NOISE = (() => {
+  const random = seededRandom(7);
+  return Array.from({ length: NOISE_COLS * NOISE_ROWS }, (_, i) => ({
+    x: i % NOISE_COLS,
+    y: Math.floor(i / NOISE_COLS),
+    value: random(),
+  })).filter(({ value }) => value < 0.1);
+})();
+
+const PixelNoise: FC = () => (
+  <Box
+    component="svg"
+    aria-hidden="true"
+    viewBox={`0 0 ${NOISE_COLS} ${NOISE_ROWS}`}
+    preserveAspectRatio="none"
+    shapeRendering="crispEdges"
+    sx={(theme) => ({
+      position: "absolute",
+      inset: 0,
+      width: "100%",
+      height: "100%",
+      pointerEvents: "none",
+      ...(theme.palette.mode === "dark"
+        ? {
+            "& .noise-a": { fill: theme.palette.common.white, opacity: 0.05 },
+            "& .noise-b": { fill: theme.palette.common.black, opacity: 0.35 },
+          }
+        : {
+            "& .noise-a": { fill: theme.palette.common.black, opacity: 0.03 },
+            "& .noise-b": { fill: theme.palette.common.black, opacity: 0.06 },
+          }),
+    })}
+  >
+    {NOISE.map(({ x, y, value }) => (
+      <rect
+        key={`${x}-${y}`}
+        className={value < 0.05 ? "noise-b" : "noise-a"}
+        x={x}
+        y={y}
+        width="1"
+        height="1"
+      />
+    ))}
+  </Box>
+);
+
+const usePixelateIn = () => {
+  const [radius, setRadius] = useState(PIXELATE_SIZES[0]);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setRadius(0);
+      return;
+    }
+    const timers = PIXELATE_SIZES.map((size, i) =>
+      window.setTimeout(
+        () => setRadius(size),
+        PIXELATE_DELAY + i * PIXELATE_STEP,
+      ),
+    );
+    return () => timers.forEach(window.clearTimeout);
+  }, []);
+
+  return radius;
+};
+
+const PixelateFilter: FC<{ radius: number }> = ({ radius }) => {
+  const tile = radius * 2 + 1;
+  return (
+    <svg
+      width="0"
+      height="0"
+      aria-hidden="true"
+      style={{ position: "absolute" }}
+    >
+      <filter
+        id={PIXELATE_ID}
+        x="-5%"
+        y="-10%"
+        width="110%"
+        height="120%"
+        colorInterpolationFilters="sRGB"
+      >
+        <feFlood x={radius} y={radius} width="1" height="1" />
+        <feComposite width={tile} height={tile} />
+        <feTile result="grid" />
+        <feComposite in="SourceGraphic" in2="grid" operator="in" />
+        <feMorphology operator="dilate" radius={radius} />
+      </filter>
+    </svg>
+  );
+};
 
 const pixelArrow = (
   <svg
@@ -257,6 +359,7 @@ const Landing: FC = () => {
   const [isTitleDone, setIsTitleDone] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   const [isLinkVisible, setIsLinkVisible] = useState(false);
+  const pixelRadius = usePixelateIn();
 
   const revealLink = () => setIsLinkVisible(true);
 
@@ -351,12 +454,17 @@ const Landing: FC = () => {
           </motion.div>
         )}
 
+        {pixelRadius > 0 && <PixelateFilter radius={pixelRadius} />}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8, duration: 0.4, ease: stepEase(3) }}
+          style={{
+            filter: pixelRadius > 0 ? `url(#${PIXELATE_ID})` : "none",
+          }}
         >
           <StyledDialog aria-label="Intro">
+            {pixelRadius >= NOISE_MIN_RADIUS && <PixelNoise />}
             <StyledTag>PLAYER 1</StyledTag>
 
             <Box position="relative">
@@ -388,7 +496,7 @@ const Landing: FC = () => {
                       options={typewriterOptions}
                       onInit={(typewriter) => {
                         typewriter
-                          .pauseFor(2000)
+                          .pauseFor(2900)
                           .changeDelay(20)
 
                           .typeString("Hi, I am ")
