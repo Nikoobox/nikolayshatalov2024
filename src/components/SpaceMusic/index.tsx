@@ -1,9 +1,8 @@
 import { FC, useEffect, useRef, useState } from "react";
 import { keyframes } from "@emotion/react";
 
-import { Box } from "@mui/material";
+import { Box, useScrollTrigger } from "@mui/material";
 import { styled, Theme } from "@mui/material/styles";
-import { visuallyHidden } from "@mui/utils";
 
 import { pixelBorder, PixelTooltip } from "../UI";
 import { pixelFontFamily } from "../../theme/variables";
@@ -28,54 +27,98 @@ const TRACKS: { title: string; create: () => Track }[] = [
   },
 ];
 
-const CAPTION_MS = 8000;
+const PLAYER_WIDTH = 48;
+const PLAYER_WIDTH_PLAYING = 212;
+const PLAYER_WIDTH_PLAYING_MOBILE = 88;
 
-type Hint = "play" | "next";
+const TITLE_MS = 4000;
 
-export const PLAYER_WIDTH = 72;
+const accent = (theme: Theme) =>
+  theme.palette.mode === "dark"
+    ? theme.palette.customColors.tealAccent
+    : theme.palette.customColors.purpleAccent;
 
-const frameColors = (isDarkMode: boolean, theme: Theme) => ({
-  frame: isDarkMode ? theme.palette.common.white : theme.palette.common.black,
-  background: isDarkMode
-    ? theme.palette.customColors.charcoalBlack
-    : theme.palette.common.white,
+const frameColor = (theme: Theme) =>
+  theme.palette.mode === "dark"
+    ? theme.palette.common.white
+    : theme.palette.common.black;
+
+const focusRing = (theme: Theme) => ({
+  "&:focus-visible": {
+    outline: `2px solid ${theme.palette.customColors.tealAccent}`,
+    outlineOffset: "2px",
+  },
 });
 
-const StyledPlayer = styled("div")(({ theme }) => {
-  const { frame, background } = frameColors(
-    theme.palette.mode === "dark",
-    theme,
-  );
-  return {
-    position: "relative",
-    display: "flex",
-    width: `${PLAYER_WIDTH}px`,
-    height: "48px",
-    background,
-    boxShadow: pixelBorder(frame),
-  };
-});
+const StyledPlayer = styled("div")(({ theme }) => ({
+  position: "absolute",
+  bottom: 0,
+  right: 0,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "flex-end",
+  width: `${PLAYER_WIDTH}px`,
+  height: "48px",
+  overflow: "hidden",
+  color: frameColor(theme),
+  background:
+    theme.palette.mode === "dark"
+      ? theme.palette.customColors.charcoalBlack
+      : theme.palette.common.white,
+  boxShadow: pixelBorder(frameColor(theme)),
+  transition: "width 0.3s ease",
+  "&[data-playing='true']": {
+    width: `${PLAYER_WIDTH_PLAYING}px`,
+    [theme.breakpoints.down("sm")]: {
+      width: `${PLAYER_WIDTH_PLAYING_MOBILE}px`,
+    },
+  },
+  [theme.breakpoints.down("sm")]: {
+    "& .desktop-only": { display: "none" },
+  },
+  "@media (prefers-reduced-motion: reduce)": { transition: "none" },
+}));
 
-const StyledButton = styled("button")(({ theme }) => {
-  const isDarkMode = theme.palette.mode === "dark";
+const StyledSpeakerButton = styled("button")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  flexShrink: 0,
+  width: "48px",
+  height: "48px",
+  padding: 0,
+  border: 0,
+  cursor: "pointer",
+  color: "inherit",
+  background: "transparent",
+  "&[aria-pressed='true']": { color: accent(theme) },
+  "&:hover": { color: theme.palette.customColors.tealAccent },
+  "&:focus-visible": {
+    outline: `2px solid ${theme.palette.customColors.tealAccent}`,
+    outlineOffset: "-6px",
+  },
+}));
+
+const StyledKey = styled("button")(({ theme }) => {
+  const frame = frameColor(theme);
   return {
     display: "flex",
     alignItems: "center",
-    justifyContent: "flex-start",
-    width: "24px",
-    height: "100%",
+    justifyContent: "center",
+    flexShrink: 0,
+    width: "36px",
+    height: "22px",
     padding: 0,
     border: 0,
     cursor: "pointer",
-    color: frameColors(isDarkMode, theme).frame,
+    color: frame,
     background: "transparent",
-    "&[aria-pressed]": { width: "48px", justifyContent: "center" },
-    "&[aria-pressed='true']": {
-      color: isDarkMode
-        ? theme.palette.customColors.tealAccent
-        : theme.palette.customColors.purpleAccent,
-    },
+    boxShadow: `${pixelBorder(frame, 2)}, 0 4px 0 0 ${frame}`,
     "&:hover": { color: theme.palette.customColors.tealAccent },
+    "&:active": {
+      transform: "translateY(2px)",
+      boxShadow: `${pixelBorder(frame, 2)}, 0 2px 0 0 ${frame}`,
+    },
     "&:focus-visible": {
       outline: `2px solid ${theme.palette.customColors.tealAccent}`,
       outlineOffset: "2px",
@@ -83,10 +126,84 @@ const StyledButton = styled("button")(({ theme }) => {
   };
 });
 
-const StyledCaption = styled("span")(({ theme }) => ({
+const StyledTitleWrapper = styled("div")({
   position: "absolute",
-  top: "calc(100% + 16px)",
+  bottom: "62px",
   right: 0,
+});
+
+const StyledMobileNext = styled("button")(({ theme }) => ({
+  display: "none",
+  flexShrink: 0,
+  alignItems: "center",
+  justifyContent: "center",
+  width: "36px",
+  height: "36px",
+  padding: 0,
+  border: 0,
+  cursor: "pointer",
+  color: frameColor(theme),
+  background: "transparent",
+  "&:focus-visible": {
+    outline: `2px solid ${theme.palette.customColors.tealAccent}`,
+    outlineOffset: "2px",
+  },
+  [theme.breakpoints.down("sm")]: { display: "flex" },
+}));
+
+const WAVE_HEIGHTS = [1, 2, 4, 3, 5, 2, 3, 1, 2, 4, 5, 3, 2, 1];
+const WAVE_PERIOD = WAVE_HEIGHTS.length * 2;
+
+const WAVE = [...WAVE_HEIGHTS, ...WAVE_HEIGHTS].map((h, i) => ({
+  x: i * 2,
+  h,
+}));
+
+const waveScroll = keyframes`
+  from { transform: translateX(0); }
+  to { transform: translateX(-${WAVE_PERIOD}px); }
+`;
+
+const SoundWave: FC<{ isPlaying: boolean }> = ({ isPlaying }) => (
+  <Box
+    component="svg"
+    className="desktop-only"
+    width={56}
+    height={28}
+    viewBox="0 0 28 14"
+    fill="currentColor"
+    shapeRendering="crispEdges"
+    aria-hidden="true"
+    sx={(theme) => ({
+      display: "block",
+      flexShrink: 0,
+      "& .wave": {
+        color: accent(theme),
+        animation: isPlaying
+          ? `${waveScroll} 2.8s steps(${WAVE_HEIGHTS.length}) infinite`
+          : "none",
+      },
+      "@media (prefers-reduced-motion: reduce)": {
+        "& .wave": { animation: "none" },
+      },
+    })}
+  >
+    <rect x="1" y="0" width="26" height="1" />
+    <rect x="1" y="13" width="26" height="1" />
+    <rect x="0" y="1" width="1" height="12" />
+    <rect x="27" y="1" width="1" height="12" />
+    <svg x="1" y="1" width="26" height="12" viewBox="0 0 26 12">
+      <g className="wave">
+        {WAVE.map(({ x, h }) => (
+          <rect key={x} x={x} y={6 - h} width="1" height={h * 2} />
+        ))}
+      </g>
+    </svg>
+  </Box>
+);
+
+const StyledTitle = styled("span")(({ theme }) => ({
+  display: "block",
   whiteSpace: "nowrap",
   fontFamily: pixelFontFamily,
   fontSize: "10px",
@@ -95,21 +212,24 @@ const StyledCaption = styled("span")(({ theme }) => ({
     theme.palette.mode === "dark"
       ? theme.palette.customColors.greyAccent
       : theme.palette.customColors.grey,
-  pointerEvents: "none",
   opacity: 0,
   transition: "opacity 2.5s ease",
   "&[data-visible='true']": { opacity: 1, transition: "opacity 0.4s ease" },
   "@media (prefers-reduced-motion: reduce)": { transition: "none" },
 }));
 
-const SkipIcon: FC = () => (
+const SkipIcon: FC<{ isBack?: boolean; scale?: number }> = ({
+  isBack,
+  scale = 2,
+}) => (
   <svg
-    width="12"
-    height="14"
+    width={6 * scale}
+    height={7 * scale}
     viewBox="0 0 6 7"
     fill="currentColor"
     shapeRendering="crispEdges"
     aria-hidden="true"
+    style={isBack ? { transform: "scaleX(-1)" } : undefined}
   >
     <rect x="0" y="0" width="1" height="7" />
     <rect x="1" y="1" width="1" height="5" />
@@ -173,112 +293,132 @@ const SpeakerIcon: FC<{ isPlaying: boolean }> = ({ isPlaying }) => (
 );
 
 const SpaceMusic: FC = () => {
+  const isScrolled = useScrollTrigger({ disableHysteresis: true });
   const tracks = useRef<Track[]>([]);
-  const captionTimer = useRef(0);
   const [trackIndex, setTrackIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isCaptionVisible, setIsCaptionVisible] = useState(false);
-  const [hint, setHint] = useState<Hint | null>(null);
-  const clickedHint = useRef<Hint | null>(null);
+  const [isTitleVisible, setIsTitleVisible] = useState(false);
+  const titleTimer = useRef(0);
 
   useEffect(
     () => () => {
-      window.clearTimeout(captionTimer.current);
+      window.clearTimeout(titleTimer.current);
       tracks.current.forEach((track) => track?.dispose());
     },
     [],
   );
 
-  const getTrack = (index: number) =>
-    (tracks.current[index] ??= TRACKS[index].create());
-
-  const showCaption = () => {
-    setIsCaptionVisible(true);
-    window.clearTimeout(captionTimer.current);
-    captionTimer.current = window.setTimeout(
-      () => setIsCaptionVisible(false),
-      CAPTION_MS,
+  const showTitle = () => {
+    setIsTitleVisible(true);
+    window.clearTimeout(titleTimer.current);
+    titleTimer.current = window.setTimeout(
+      () => setIsTitleVisible(false),
+      TITLE_MS,
     );
   };
 
-  const hintProps = (name: Hint) => ({
-    open: hint === name,
-    onOpen: () => {
-      if (clickedHint.current !== name) setHint(name);
-    },
-    onClose: () => setHint(null),
-  });
-
-  const resetHint = () => {
-    clickedHint.current = null;
-  };
-
-  const hideHint = (name: Hint) => {
-    clickedHint.current = name;
-    setHint(null);
-  };
+  const getTrack = (index: number) =>
+    (tracks.current[index] ??= TRACKS[index].create());
 
   const toggle = () => {
-    hideHint("play");
     const track = getTrack(trackIndex);
     if (isPlaying) {
       track.pause();
     } else {
       track.play();
-      showCaption();
+      showTitle();
     }
     setIsPlaying(!isPlaying);
   };
 
-  const skipForward = () => {
-    hideHint("next");
-    const next = (trackIndex + 1) % TRACKS.length;
+  const skip = (direction: 1 | -1) => {
+    const next = (trackIndex + direction + TRACKS.length) % TRACKS.length;
     tracks.current[trackIndex]?.dispose();
     delete tracks.current[trackIndex];
     if (isPlaying) getTrack(next).play();
     setTrackIndex(next);
-    showCaption();
+    showTitle();
   };
 
   const { title } = TRACKS[trackIndex];
 
   return (
-    <StyledPlayer role="group" aria-label="Music player">
-      <PixelTooltip
-        title={isPlaying ? "Stop music" : "Play music"}
-        {...hintProps("play")}
+    <Box
+      position="relative"
+      width={PLAYER_WIDTH}
+      height="48px"
+      sx={(theme) => ({
+        transformOrigin: "bottom right",
+        transition: "transform 0.3s ease",
+        [theme.breakpoints.up("sm")]: {
+          transform: isScrolled && isPlaying ? "scale(0.9)" : "none",
+        },
+        "@media (prefers-reduced-motion: reduce)": { transition: "none" },
+      })}
+    >
+      <StyledPlayer
+        role="group"
+        aria-label="Music player"
+        data-playing={isPlaying}
       >
-        <StyledButton
-          type="button"
-          onClick={toggle}
-          onMouseLeave={resetHint}
-          aria-pressed={isPlaying}
-          aria-label={isPlaying ? `Stop ${title}` : `Play ${title}`}
+        <Box
+          className="desktop-only"
+          display="flex"
+          gap="8px"
+          mr="14px"
+          mt="-4px"
+          flexShrink={0}
         >
-          <SpeakerIcon isPlaying={isPlaying} />
-        </StyledButton>
-      </PixelTooltip>
-      <PixelTooltip title="Next song" {...hintProps("next")}>
-        <StyledButton
+          <PixelTooltip placement="top" title="Previous song">
+            <StyledKey
+              type="button"
+              onClick={() => skip(-1)}
+              aria-label="Previous track"
+              tabIndex={isPlaying ? 0 : -1}
+            >
+              <SkipIcon isBack />
+            </StyledKey>
+          </PixelTooltip>
+          <PixelTooltip placement="top" title="Next song">
+            <StyledKey
+              type="button"
+              onClick={() => skip(1)}
+              aria-label="Next track"
+              tabIndex={isPlaying ? 0 : -1}
+            >
+              <SkipIcon />
+            </StyledKey>
+          </PixelTooltip>
+        </Box>
+        <SoundWave isPlaying={isPlaying} />
+        <StyledMobileNext
           type="button"
-          onClick={skipForward}
-          onMouseLeave={resetHint}
+          onClick={() => skip(1)}
           aria-label="Next track"
+          tabIndex={isPlaying ? 0 : -1}
         >
-          <SkipIcon />
-        </StyledButton>
-      </PixelTooltip>
-      <Box component="span" aria-live="polite" sx={visuallyHidden}>
-        {title}
-      </Box>
-      <StyledCaption
-        aria-hidden="true"
-        data-visible={isCaptionVisible && !hint}
-        style={hint ? { transition: "none" } : undefined}
-      >
-        {trackIndex + 1}/{TRACKS.length} {title}
-      </StyledCaption>
-    </StyledPlayer>
+          <SkipIcon scale={3} />
+        </StyledMobileNext>
+        <PixelTooltip
+          placement="top"
+          title={isPlaying ? "Stop music" : "Play music"}
+        >
+          <StyledSpeakerButton
+            type="button"
+            onClick={toggle}
+            aria-pressed={isPlaying}
+            aria-label={isPlaying ? `Stop ${title}` : `Play ${title}`}
+          >
+            <SpeakerIcon isPlaying={isPlaying} />
+          </StyledSpeakerButton>
+        </PixelTooltip>
+      </StyledPlayer>
+      <StyledTitleWrapper>
+        <StyledTitle aria-live="polite" data-visible={isTitleVisible}>
+          {title}
+        </StyledTitle>
+      </StyledTitleWrapper>
+    </Box>
   );
 };
 

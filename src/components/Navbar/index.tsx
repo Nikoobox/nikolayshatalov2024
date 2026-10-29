@@ -18,7 +18,7 @@ import { styled } from "@mui/system";
 import { useTheme, Theme } from "@mui/material/styles";
 
 import NightModeSwitch from "../NightModeSwitch";
-import SpaceMusic, { PLAYER_WIDTH } from "../SpaceMusic";
+import SpaceMusic from "../SpaceMusic";
 import { pixelBorder } from "../UI";
 import { pixelBodyFontFamily, pixelFontFamily } from "../../theme/variables";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
@@ -145,7 +145,6 @@ const Navbar: FC = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
 
-  const isHeaderHidden = useScrollTrigger();
 
   const themeContext = useThemeContext();
   const { toggleResumeModal } = themeContext;
@@ -255,7 +254,7 @@ const Navbar: FC = () => {
                   aria-label="Open menu"
                   onClick={handleDrawerToggle}
                   sx={{
-                    display: { xs: "flex", sm: "none" },
+                    display: { xs: "flex", md: "none" },
                     alignItems: "center",
                     justifyContent: "center",
                     width: 48,
@@ -321,7 +320,7 @@ const Navbar: FC = () => {
                 >
                   <Box
                     sx={{
-                      display: { xs: "none", sm: "flex" },
+                      display: { xs: "none", md: "flex" },
                       gap: 3,
                     }}
                   >
@@ -341,7 +340,6 @@ const Navbar: FC = () => {
                     </StyledResumeBox>
                   </Box>
                   <NightModeSwitch />
-                  <Box width={PLAYER_WIDTH} height="48px" flexShrink={0} />
                 </Box>
               </StyledToolbar>
             </Container>
@@ -352,39 +350,20 @@ const Navbar: FC = () => {
       <Box
         sx={{
           position: "fixed",
-          top: 0,
           left: 0,
           right: 0,
+          bottom: { xs: 16, sm: 24 },
           zIndex: theme.zIndex.appBar + 1,
           pointerEvents: "none",
         }}
       >
-        <motion.div
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.4, duration: 0.4, ease: "easeOut" }}
-        >
-          <Container maxWidth="lg">
-            <StyledToolbar disableGutters sx={{ justifyContent: "flex-end" }}>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  height: { xs: 48, sm: 64 },
-                  pointerEvents: "auto",
-                  transform: isHeaderHidden ? "scale(0.75)" : "none",
-                  transformOrigin: "right center",
-                  transition: "transform 0.2s ease",
-                  "@media (prefers-reduced-motion: reduce)": {
-                    transition: "none",
-                  },
-                }}
-              >
-                <SpaceMusic />
-              </Box>
-            </StyledToolbar>
-          </Container>
-        </motion.div>
+        <Container maxWidth="lg">
+          <Box display="flex" justifyContent="flex-end">
+            <Box sx={{ pointerEvents: "auto" }}>
+              <SpaceMusic />
+            </Box>
+          </Box>
+        </Container>
       </Box>
 
       <nav>
@@ -396,7 +375,7 @@ const Navbar: FC = () => {
             keepMounted: true,
           }}
           sx={{
-            display: { xs: "block", sm: "none" },
+            display: { xs: "block", md: "none" },
           }}
           PaperProps={{
             sx: {
