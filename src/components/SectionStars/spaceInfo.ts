@@ -5,7 +5,7 @@ export const SPACE_INFO = {
   },
   soyuz4: {
     title: "Soyuz 4 · 1969",
-    body: "Commanded by Vladimir Shatalov, my great-grand-uncle. On 16 January 1969 it docked with Soyuz 5: the first docking of two crewed spacecraft. Two cosmonauts spacewalked across, and Soyuz 4 brought three crew home. Shatalov later flew Soyuz 8 and 10 and led cosmonaut training.",
+    body: "Commanded by Vladimir Shatalov, my great-grand-uncle. On 16 January 1969 it docked with Soyuz 5: the first docking of two crewed spacecraft. Two cosmonauts spacewalked across, and Soyuz 4 brought three crew home. Shatalov later flew Soyuz 8 and 10.",
   },
   soyuz5: {
     title: "Soyuz 5 · 1969",
