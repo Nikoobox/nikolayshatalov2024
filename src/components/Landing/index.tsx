@@ -31,6 +31,7 @@ const PIXELATE_DELAY = 800;
 const PIXELATE_STEP = 384;
 const PIXELATE_SIZES = [12, 8, 6, 4, 2, 0];
 const NOISE_MIN_RADIUS = 8;
+const NOISE_DENSITY = 0.1;
 const NOISE_COLS = 36;
 const NOISE_ROWS = 10;
 
@@ -40,10 +41,15 @@ const NOISE = (() => {
     x: i % NOISE_COLS,
     y: Math.floor(i / NOISE_COLS),
     value: random(),
-  })).filter(({ value }) => value < 0.1);
+  })).filter(({ value }) => value < NOISE_DENSITY);
 })();
 
-const PixelNoise: FC = () => (
+const supportsPixelateFilter = () => {
+  const ua = navigator.userAgent;
+  return !/AppleWebKit/.test(ua) || /Chrome|Chromium|Android/.test(ua);
+};
+
+const PixelNoise: FC<{ density?: number }> = ({ density = NOISE_DENSITY }) => (
   <Box
     component="svg"
     aria-hidden="true"
@@ -67,7 +73,7 @@ const PixelNoise: FC = () => (
           }),
     })}
   >
-    {NOISE.map(({ x, y, value }) => (
+    {NOISE.filter(({ value }) => value < density).map(({ x, y, value }) => (
       <rect
         key={`${x}-${y}`}
         className={value < 0.05 ? "noise-b" : "noise-a"}
@@ -360,6 +366,7 @@ const Landing: FC = () => {
   const [isComplete, setIsComplete] = useState(false);
   const [isLinkVisible, setIsLinkVisible] = useState(false);
   const pixelRadius = usePixelateIn();
+  const isFilterSupported = useMemo(supportsPixelateFilter, []);
 
   const revealLink = () => setIsLinkVisible(true);
 
@@ -454,17 +461,30 @@ const Landing: FC = () => {
           </motion.div>
         )}
 
-        {pixelRadius > 0 && <PixelateFilter radius={pixelRadius} />}
+        {isFilterSupported && pixelRadius > 0 && (
+          <PixelateFilter radius={pixelRadius} />
+        )}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8, duration: 0.4, ease: stepEase(3) }}
           style={{
-            filter: pixelRadius > 0 ? `url(#${PIXELATE_ID})` : "none",
+            filter:
+              isFilterSupported && pixelRadius > 0
+                ? `url(#${PIXELATE_ID})`
+                : "none",
           }}
         >
           <StyledDialog aria-label="Intro">
-            {pixelRadius >= NOISE_MIN_RADIUS && <PixelNoise />}
+            {isFilterSupported
+              ? pixelRadius >= NOISE_MIN_RADIUS && <PixelNoise />
+              : pixelRadius > 0 && (
+                  <PixelNoise
+                    density={
+                      (NOISE_DENSITY * pixelRadius) / PIXELATE_SIZES[0]
+                    }
+                  />
+                )}
             <StyledTag>PLAYER 1</StyledTag>
 
             <Box position="relative">
