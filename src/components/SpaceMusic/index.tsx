@@ -126,11 +126,18 @@ const StyledKey = styled("button")(({ theme }) => {
   };
 });
 
-const StyledTitleWrapper = styled("div")({
+const StyledTitleWrapper = styled("div")(({ theme }) => ({
   position: "absolute",
   bottom: "62px",
   right: 0,
-});
+  [theme.breakpoints.down("sm")]: {
+    bottom: 0,
+    right: `${PLAYER_WIDTH + 10}px`,
+    "&[data-playing='true']": {
+      right: `${PLAYER_WIDTH_PLAYING_MOBILE + 10}px`,
+    },
+  },
+}));
 
 const StyledMobileNext = styled("button")(({ theme }) => ({
   display: "none",
@@ -413,7 +420,7 @@ const SpaceMusic: FC = () => {
           </StyledSpeakerButton>
         </PixelTooltip>
       </StyledPlayer>
-      <StyledTitleWrapper>
+      <StyledTitleWrapper data-playing={isPlaying}>
         <StyledTitle aria-live="polite" data-visible={isTitleVisible}>
           {title}
         </StyledTitle>
