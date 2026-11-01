@@ -8,9 +8,15 @@ import { pixelBorder, PixelTooltip } from "../UI";
 import { pixelFontFamily } from "../../theme/variables";
 import { SpaceMusicEngine } from "./spaceMusicEngine";
 import { FileTrack } from "./fileTrack";
+import {
+  playRadioSwitch,
+  preloadRadioSwitch,
+  RADIO_SWITCH_SECONDS,
+  stopRadioSwitch,
+} from "./radioSwitch";
 
 interface Track {
-  play(): Promise<void>;
+  play(delay?: number): Promise<void>;
   pause(): void;
   dispose(): void;
 }
@@ -307,9 +313,12 @@ const SpaceMusic: FC = () => {
   const [isTitleVisible, setIsTitleVisible] = useState(false);
   const titleTimer = useRef(0);
 
+  useEffect(preloadRadioSwitch, []);
+
   useEffect(
     () => () => {
       window.clearTimeout(titleTimer.current);
+      stopRadioSwitch();
       tracks.current.forEach((track) => track?.dispose());
     },
     [],
@@ -330,9 +339,11 @@ const SpaceMusic: FC = () => {
   const toggle = () => {
     const track = getTrack(trackIndex);
     if (isPlaying) {
+      stopRadioSwitch();
       track.pause();
     } else {
-      track.play();
+      playRadioSwitch();
+      track.play(RADIO_SWITCH_SECONDS);
       showTitle();
     }
     setIsPlaying(!isPlaying);
@@ -342,7 +353,10 @@ const SpaceMusic: FC = () => {
     const next = (trackIndex + direction + TRACKS.length) % TRACKS.length;
     tracks.current[trackIndex]?.dispose();
     delete tracks.current[trackIndex];
-    if (isPlaying) getTrack(next).play();
+    if (isPlaying) {
+      stopRadioSwitch();
+      getTrack(next).play();
+    }
     setTrackIndex(next);
     showTitle();
   };

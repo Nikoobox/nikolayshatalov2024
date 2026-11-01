@@ -14,7 +14,7 @@ const blink = keyframes`
   50% { opacity: 0.9; }
 `;
 
-const PIXEL_COUNT = 120;
+const PIXEL_COUNT = 180;
 const DAY_GREY = "#9AA0A8";
 const DAY_SIZE_SCALE = 3;
 const TINTS = ["#9AD4FF", "#A8F0E0", "#FFE9A8", "#FFC9D9"];
@@ -111,7 +111,7 @@ const SectionStars: FC<Props> = ({ withShips = true }) => {
         >
           {PIXELS.map((pixel, i) =>
             i % LAYER_DEPTHS.length !== layer ||
-            (!isDarkMode && i % 2 === 1) ? null : (
+            (!isDarkMode && i % 4 === 3) ? null : (
               <Box
                 key={i}
                 sx={{

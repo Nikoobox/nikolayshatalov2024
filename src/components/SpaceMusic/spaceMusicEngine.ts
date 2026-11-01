@@ -237,7 +237,7 @@ export class SpaceMusicEngine {
     }
   };
 
-  async play() {
+  async play(delay = 0) {
     if (this.playing) return;
     const { audioSession } = navigator as Navigator & {
       audioSession?: { type: string };
@@ -249,10 +249,12 @@ export class SpaceMusicEngine {
     await ctx.resume();
     this.playing = true;
     const now = ctx.currentTime;
-    if (isFirstPlay) this.nextStepAt = now + 0.1;
+    const start = now + delay;
+    if (isFirstPlay) this.nextStepAt = start + 0.1;
     this.master!.gain.cancelScheduledValues(now);
     this.master!.gain.setValueAtTime(this.master!.gain.value, now);
-    this.master!.gain.linearRampToValueAtTime(VOLUME, now + FADE_IN);
+    this.master!.gain.setValueAtTime(this.master!.gain.value, start);
+    this.master!.gain.linearRampToValueAtTime(VOLUME, start + FADE_IN);
     this.schedule();
     this.timer = window.setInterval(this.schedule, SCHEDULE_EVERY_MS);
   }
