@@ -83,9 +83,9 @@ export const useCustomTheme = () => {
   useEffect(() => {
     localStorage.setItem(LOCAL_STORAGE_COLOR_MODE_KEY, mode);
     const root = document.documentElement;
-    root.style.background = modifiedTheme.palette.backgroundCustom.primary;
+    root.style.background = "";
     root.style.colorScheme = mode;
-  }, [mode, modifiedTheme]);
+  }, [mode]);
 
   return {
     theme: modifiedTheme,

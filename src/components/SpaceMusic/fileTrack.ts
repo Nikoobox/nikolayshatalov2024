@@ -18,7 +18,7 @@ export class FileTrack {
     this.gain = gain;
   }
 
-  async play() {
+  async play(delay = 0) {
     if (this.playing) return;
     const { audioSession } = navigator as Navigator & {
       audioSession?: { type: string };
@@ -27,15 +27,29 @@ export class FileTrack {
     if (!this.ctx) this.setup();
     const ctx = this.ctx!;
     const now = ctx.currentTime;
+    const start = now + delay;
+    const audio = this.audio!;
+    const position = audio.currentTime;
     this.gain!.gain.cancelScheduledValues(now);
-    this.gain!.gain.setValueAtTime(0.35, now);
-    this.gain!.gain.linearRampToValueAtTime(1, now + FADE_IN);
+    this.gain!.gain.setValueAtTime(0, now);
+    this.gain!.gain.setValueAtTime(0.35, start);
+    this.gain!.gain.linearRampToValueAtTime(1, start + FADE_IN);
     this.playing = true;
     try {
-      await ctx.resume();
-      await this.audio!.play();
+      await Promise.all([ctx.resume(), audio.play()]);
     } catch {
       this.playing = false;
+      return;
+    }
+    if (delay > 0) {
+      window.setTimeout(
+        () => {
+          if (this.audio === audio && this.playing) {
+            audio.currentTime = position;
+          }
+        },
+        Math.max(0, delay * 1000 - 100),
+      );
     }
   }
 
