@@ -1,8 +1,13 @@
 import { FC, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { keyframes } from "@emotion/react";
 
-import { Box, ClickAwayListener, useScrollTrigger } from "@mui/material";
-import { alpha, styled, Theme } from "@mui/material/styles";
+import {
+  Box,
+  ClickAwayListener,
+  useMediaQuery,
+  useScrollTrigger,
+} from "@mui/material";
+import { alpha, styled, Theme, useTheme } from "@mui/material/styles";
 
 import { buttonShadowColor, pixelBorder, PixelTooltip } from "../UI";
 import { pixelFontFamily } from "../../theme/variables";
@@ -52,6 +57,9 @@ const TRACKS: { title: string; seconds: number; create: () => Track }[] = [
 ];
 
 const TIME_TICK_MS = 500;
+const BOARD_SLIDE_MS = 300;
+const ROW_FADE_MS = 120;
+const ROW_RESIZE_MS = 300;
 
 const formatTime = (seconds: number) => {
   const minutes = Math.floor(seconds / 60);
@@ -60,9 +68,9 @@ const formatTime = (seconds: number) => {
 };
 
 const PLAYER_WIDTH = 48;
-const PLAYER_WIDTH_PLAYING = 252;
+const PLAYER_WIDTH_PLAYING = 260;
 const PLAYER_WIDTH_PLAYING_MOBILE = 96;
-const MOBILE_OPEN_WIDTH = "min(220px, calc(100vw - 32px))";
+const MOBILE_OPEN_WIDTH = "min(196px, calc(100vw - 32px))";
 const FRAME = 4;
 
 const CARET_UP = ["...#...", "..###..", ".#####.", "#######"];
@@ -156,10 +164,12 @@ const StyledPlayer = styled("div")(({ theme }) => ({
     },
   },
   [theme.breakpoints.down("sm")]: {
+    "& > *": { transition: `opacity ${ROW_FADE_MS}ms ease` },
+    "&[data-row-hidden='true'] > *": { opacity: 0 },
     "& .desktop-only": { display: "none" },
     "&[data-playing='true'][data-board='true']": {
       width: MOBILE_OPEN_WIDTH,
-      "& .transport": { display: "flex" },
+      "& .transport": { display: "flex", marginRight: "2px" },
       "& .mobile-only": { display: "none" },
     },
   },
@@ -218,9 +228,9 @@ const StyledBoard = styled("div")(({ theme }) => ({
   bottom: "calc(100% + 4px)",
   zIndex: 0,
   display: "grid",
-  gap: "10px",
+  gap: "18px",
   width: `${PLAYER_WIDTH_PLAYING}px`,
-  padding: "14px 14px 12px",
+  padding: "18px 14px 16px",
   [theme.breakpoints.down("sm")]: {
     width: MOBILE_OPEN_WIDTH,
   },
@@ -254,7 +264,7 @@ const StyledSong = styled("button")(({ theme }) => ({
   alignItems: "center",
   gap: theme.spacing(1),
   width: "100%",
-  padding: "4px 0",
+  padding: "6px 0",
   border: 0,
   cursor: "pointer",
   textAlign: "left",
@@ -334,7 +344,7 @@ const StyledTab = styled("button")(({ theme }) => ({
 
 const StyledMobileTime = styled("div")(({ theme }) => ({
   position: "absolute",
-  top: "14px",
+  top: "18px",
   right: "14px",
   display: "none",
   fontFamily: pixelFontFamily,
@@ -563,12 +573,20 @@ const SpaceMusic: FC = () => {
   const [isBoardOpen, setIsBoardOpen] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [elapsed, setElapsed] = useState(0);
+  const [isPlayerWide, setIsPlayerWide] = useState(false);
+  const [isRowHidden, setIsRowHidden] = useState(false);
+  const [isBoardShown, setIsBoardShown] = useState(false);
+  const isMobile = useMediaQuery(useTheme().breakpoints.down("sm"));
+  const isShrunkRef = useRef(false);
+  isShrunkRef.current = isScrolled && isPlaying;
+  const hasBoardToggled = useRef(false);
   const [boardHeight, setBoardHeight] = useState(0);
   const boardRef = useRef<HTMLDivElement>(null);
   const [isRepeat, setIsRepeat] = useState(false);
   const [isShuffle, setIsShuffle] = useState(false);
   const [isLoop, setIsLoop] = useState(true);
   const titleTimer = useRef(0);
+  const collapseTimer = useRef(0);
   const onTrackEnded = useRef<(index: number) => void>(() => {});
   const repeatRef = useRef(isRepeat);
   repeatRef.current = isRepeat;
@@ -578,6 +596,7 @@ const SpaceMusic: FC = () => {
   useEffect(
     () => () => {
       window.clearTimeout(titleTimer.current);
+      window.clearTimeout(collapseTimer.current);
       stopRadioSwitch();
       tracks.current.forEach((track) => track?.dispose());
     },
@@ -587,6 +606,44 @@ const SpaceMusic: FC = () => {
   useEffect(() => {
     tracks.current.forEach((track) => track?.setRepeat(isRepeat));
   }, [isRepeat]);
+
+  useEffect(() => {
+    if (!hasBoardToggled.current) {
+      hasBoardToggled.current = true;
+      return;
+    }
+    const timers: number[] = [];
+    const later = (callback: () => void, ms: number) =>
+      timers.push(window.setTimeout(callback, ms));
+    if (!isMobile) {
+      const resizeMs = isShrunkRef.current ? ROW_RESIZE_MS : 0;
+      if (isBoardOpen) {
+        setIsPlayerWide(true);
+        later(() => setIsBoardShown(true), resizeMs);
+      } else {
+        setIsBoardShown(false);
+        later(() => setIsPlayerWide(false), BOARD_SLIDE_MS);
+      }
+      return () => timers.forEach((timer) => window.clearTimeout(timer));
+    }
+    if (isBoardOpen) {
+      setIsRowHidden(true);
+      later(() => setIsPlayerWide(true), ROW_FADE_MS);
+      later(() => {
+        setIsRowHidden(false);
+        setIsBoardShown(true);
+      }, ROW_FADE_MS + ROW_RESIZE_MS);
+    } else {
+      setIsBoardShown(false);
+      later(() => setIsRowHidden(true), BOARD_SLIDE_MS);
+      later(() => setIsPlayerWide(false), BOARD_SLIDE_MS + ROW_FADE_MS);
+      later(
+        () => setIsRowHidden(false),
+        BOARD_SLIDE_MS + ROW_FADE_MS + ROW_RESIZE_MS,
+      );
+    }
+    return () => timers.forEach((timer) => window.clearTimeout(timer));
+  }, [isBoardOpen, isMobile]);
 
   useEffect(() => {
     if (!isBoardOpen) return;
@@ -678,9 +735,19 @@ const SpaceMusic: FC = () => {
 
   const toggle = () => {
     const track = getTrack(trackIndex);
+    window.clearTimeout(collapseTimer.current);
     if (isPlaying) {
       stopRadioSwitch();
       track.pause();
+      if (isBoardOpen) {
+        setIsBoardOpen(false);
+        setIsPaused(true);
+        collapseTimer.current = window.setTimeout(() => {
+          setIsPlaying(false);
+          setIsPaused(false);
+        }, BOARD_SLIDE_MS);
+        return;
+      }
     } else {
       playRadioSwitch();
       track.play(RADIO_SWITCH_SECONDS);
@@ -750,7 +817,7 @@ const SpaceMusic: FC = () => {
           transformOrigin: "bottom right",
           transition: "transform 0.3s ease",
           transform:
-            isScrolled && isPlaying && !isBoardOpen ? "scale(0.8)" : "none",
+            isScrolled && isPlaying && !isPlayerWide ? "scale(0.8)" : "none",
           "@media (prefers-reduced-motion: reduce)": { transition: "none" },
         }}
       >
@@ -758,12 +825,13 @@ const SpaceMusic: FC = () => {
           role="group"
           aria-label="Music player"
           data-playing={isPlaying}
-          data-board={isBoardOpen}
+          data-board={isPlayerWide}
+          data-row-hidden={isRowHidden}
         >
           <Box
             className="desktop-only transport"
             display="flex"
-            gap="8px"
+            gap="12px"
             mr="14px"
             mt="-4px"
             flexShrink={0}
@@ -832,7 +900,7 @@ const SpaceMusic: FC = () => {
               aria-expanded={isBoardOpen}
               style={{
                 bottom: `calc(100% + ${
-                  FRAME + (isBoardOpen ? boardHeight + FRAME : 0)
+                  FRAME + (isBoardShown ? boardHeight + FRAME : 0)
                 }px)`,
               }}
             >
@@ -844,7 +912,7 @@ const SpaceMusic: FC = () => {
           ref={boardRef}
           role="group"
           aria-label="Songs and playback"
-          data-open={isBoardOpen}
+          data-open={isBoardShown}
         >
           <StyledMobileTime aria-hidden="true">
             {formatTime(elapsed)}/{formatTime(TRACKS[trackIndex].seconds)}
@@ -876,14 +944,6 @@ const SpaceMusic: FC = () => {
               })}
             </Box>
           </Box>
-          <Box
-            aria-hidden="true"
-            sx={(theme) => ({
-              height: "2px",
-              background: theme.palette.customColors.grey,
-              opacity: 0.5,
-            })}
-          />
           <Box display="flex" justifyContent="center" gap="12px" pb="6px">
             {settings.map(({ label, icon, isOn, set }) => (
               <PixelTooltip key={label} title={label} placement="top">
