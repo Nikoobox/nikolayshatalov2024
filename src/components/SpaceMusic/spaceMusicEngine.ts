@@ -10,6 +10,7 @@ const CHORDS: { root: number; tones: number[] }[] = [
   { root: -5, tones: [0, 4, 7, 12, 16, 19] },
 ];
 const PATTERN = [0, 2, 4, 2, 1, 3, 5, 3, 0, 2, 4, 5, 4, 2, 1, 3];
+const SONG_STEPS = STEPS_PER_CHORD * CHORDS.length * 8;
 
 const VOLUME = 0.8;
 const OUTPUT_GAIN = 1.6;
@@ -48,7 +49,14 @@ export class SpaceMusicEngine {
   private timer = 0;
   private step = 0;
   private nextStepAt = 0;
+  private endTimer = 0;
+  private repeat = false;
   playing = false;
+  onEnded?: () => void;
+
+  setRepeat(repeat: boolean) {
+    this.repeat = repeat;
+  }
 
   private setup() {
     const ctx = new AudioContext();
@@ -234,6 +242,13 @@ export class SpaceMusicEngine {
       this.scheduleStep(this.step, this.nextStepAt);
       this.step++;
       this.nextStepAt += STEP;
+      if (this.step % SONG_STEPS === 0 && !this.repeat) {
+        window.clearTimeout(this.endTimer);
+        this.endTimer = window.setTimeout(
+          () => this.onEnded?.(),
+          (this.nextStepAt - ctx.currentTime) * 1000,
+        );
+      }
     }
   };
 
@@ -264,6 +279,7 @@ export class SpaceMusicEngine {
     if (!this.playing || !ctx) return;
     this.playing = false;
     window.clearInterval(this.timer);
+    window.clearTimeout(this.endTimer);
     const now = ctx.currentTime;
     this.master!.gain.cancelScheduledValues(now);
     this.master!.gain.setValueAtTime(this.master!.gain.value, now);
@@ -278,6 +294,7 @@ export class SpaceMusicEngine {
 
   dispose() {
     window.clearInterval(this.timer);
+    window.clearTimeout(this.endTimer);
     this.sources.forEach((source) => source.stop());
     this.ctx?.close();
     this.ctx = null;

@@ -16,8 +16,8 @@ interface GridSquare {
   isColored: boolean;
 }
 
-const SQUARE_SIZE = 5;
-const GAP = 4;
+const SQUARE_SIZE = 7;
+const GAP = 5;
 const COLOR = COLORS.GREY_LIGHT;
 const SPEED = 0.0015;
 const MAX_OPACITY = 0.5;

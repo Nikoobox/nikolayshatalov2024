@@ -13,6 +13,7 @@ const PixelTooltip: FC<TooltipProps> = (props) => {
     <Tooltip
       placement="bottom"
       enterDelay={300}
+      disableInteractive
       {...props}
       slotProps={{
         tooltip: {

@@ -12,7 +12,14 @@ import { BIO_DATA } from "../Data";
 import { resume } from "../Documents";
 import ContactForm from "./ContactForm";
 import ProfilePhoto from "./ProfilePhoto";
-import { PixelArrow, PixelDivider, PixelHeading, pixelBorder } from "../UI";
+import {
+  buttonShadowColor,
+  PixelArrow,
+  PixelDivider,
+  PixelHeading,
+  pixelBorder,
+  PixelTooltip,
+} from "../UI";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
 import { pixelBodyFontFamily, pixelFontFamily } from "../../theme/variables";
 
@@ -34,7 +41,7 @@ const pixelButtonStyles = (theme: Theme) => {
   const frame = isDarkMode
     ? theme.palette.common.white
     : theme.palette.common.black;
-  const shadow = isDarkMode ? "#000" : theme.palette.common.black;
+  const shadow = buttonShadowColor(theme);
 
   return {
     display: "inline-flex",
@@ -163,19 +170,23 @@ const Contact: FC = () => {
               transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
             >
               {isMobile ? (
-                <StyledDownloadLink
-                  href={resume}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  download="Nikolay Shatalov Senior Software Engineer.pdf"
-                >
-                  <PixelArrow direction="down" />
-                  DOWNLOAD RESUME
-                </StyledDownloadLink>
+                <PixelTooltip title="Download PDF" placement="top">
+                  <StyledDownloadLink
+                    href={resume}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    download="Nikolay Shatalov Senior Software Engineer.pdf"
+                  >
+                    <PixelArrow direction="down" />
+                    DOWNLOAD RESUME
+                  </StyledDownloadLink>
+                </PixelTooltip>
               ) : (
-                <StyledResumeButton type="button" onClick={toggleResumeModal}>
-                  VIEW MY RESUME
-                </StyledResumeButton>
+                <PixelTooltip title="Open resume preview" placement="top">
+                  <StyledResumeButton type="button" onClick={toggleResumeModal}>
+                    VIEW MY RESUME
+                  </StyledResumeButton>
+                </PixelTooltip>
               )}
             </motion.div>
           </Box>

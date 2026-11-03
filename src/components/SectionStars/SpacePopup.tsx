@@ -11,6 +11,7 @@ import { isCovered } from "./spaceHitTest";
 import {
   COMMAND_DOCKING_EVENT,
   SPACE_INFO,
+  SOYUZ_HAIL_EVENT,
   SPUTNIK_BEEP_EVENT,
   SpaceInfoKey,
 } from "./spaceInfo";
@@ -30,8 +31,14 @@ interface Popup {
   key: SpaceInfoKey;
   x: number;
   y: number;
-  canCommandDocking: boolean;
+  soyuzPhase?: string;
 }
+
+const SOYUZ_STATUS: Record<string, string> = {
+  approach: "DOCKING UNDER WAY",
+  docked: "DOCKED",
+  undocking: "UNDOCKING",
+};
 
 const findShip = (x: number, y: number): SpaceInfoKey | null => {
   if (isCovered(x, y)) return null;
@@ -133,10 +140,9 @@ const SpacePopup: FC = () => {
         key,
         x: event.clientX,
         y: event.clientY,
-        canCommandDocking:
-          key === "soyuz4" &&
-          document.querySelector<HTMLElement>("[data-space-info=soyuz4]")
-            ?.dataset.soyuzPhase === "wander",
+        soyuzPhase: document.querySelector<HTMLElement>(
+          "[data-space-info=soyuz4]",
+        )?.dataset.soyuzPhase,
       });
     };
     const onKey = (event: KeyboardEvent) => {
@@ -161,10 +167,11 @@ const SpacePopup: FC = () => {
   if (!popup) return null;
 
   const info = SPACE_INFO[popup.key];
-  const frame =
-    theme.palette.mode === "dark"
-      ? theme.palette.common.white
-      : theme.palette.common.black;
+  const isDarkMode = theme.palette.mode === "dark";
+  const { charcoalBlack, greyAccent, tealAccent } = theme.palette.customColors;
+  const { white, black } = theme.palette.common;
+  const frame = isDarkMode ? white : black;
+  const text = isDarkMode ? greyAccent : black;
   const actionButtonSx = {
     display: "inline-flex",
     alignItems: "center",
@@ -216,8 +223,10 @@ const SpacePopup: FC = () => {
         overflowY: "auto",
         boxSizing: "border-box",
         padding: "16px 18px",
-        background: theme.palette.customColors.charcoalBlack,
-        boxShadow: `${pixelBorder(frame)}, 8px 8px 0 0 rgba(0, 0, 0, 0.6)`,
+        background: isDarkMode ? charcoalBlack : white,
+        boxShadow: `${pixelBorder(frame)}, 8px 8px 0 0 ${
+          isDarkMode ? "rgba(0, 0, 0, 0.6)" : greyAccent
+        }`,
       }}
     >
       <Box display="flex" alignItems="flex-start" gap={2} mb={1}>
@@ -228,7 +237,7 @@ const SpacePopup: FC = () => {
             fontSize: "10px",
             lineHeight: 1.6,
             textTransform: "uppercase",
-            color: theme.palette.customColors.tealAccent,
+            color: isDarkMode ? tealAccent : black,
           }}
         >
           {info.title}
@@ -248,9 +257,9 @@ const SpacePopup: FC = () => {
             fontFamily: pixelFontFamily,
             fontSize: "10px",
             lineHeight: 1,
-            color: theme.palette.common.white,
+            color: frame,
             background: "transparent",
-            boxShadow: pixelBorder(theme.palette.customColors.greyAccent, 2),
+            boxShadow: pixelBorder(isDarkMode ? greyAccent : black, 2),
             "&:hover": {
               background: theme.palette.customColors.tealAccent,
               color: theme.palette.customColors.charcoalBlack,
@@ -267,7 +276,7 @@ const SpacePopup: FC = () => {
           fontSize: "20px",
           lineHeight: 1.25,
           letterSpacing: "0.5px",
-          color: theme.palette.customColors.greyAccent,
+          color: text,
         }}
       >
         <Typography
@@ -295,17 +304,21 @@ const SpacePopup: FC = () => {
           />
         </Box>
       </Box>
-      {typed >= info.body.length && popup.key === "soyuz4" && (
+      {typed >= info.body.length && popup.key !== "sputnik" && (
         <Box mt={2}>
-          {popup.canCommandDocking ? (
+          {popup.soyuzPhase === "wander" ? (
             <Box
               component="button"
               type="button"
-              onClick={sendEvent(COMMAND_DOCKING_EVENT)}
+              onClick={sendEvent(
+                popup.key === "soyuz4"
+                  ? COMMAND_DOCKING_EVENT
+                  : SOYUZ_HAIL_EVENT,
+              )}
               sx={actionButtonSx}
             >
               <PixelArrow width={4} height={7} />
-              COMMAND DOCKING
+              {popup.key === "soyuz4" ? "COMMAND DOCKING" : "SAY PRIVET"}
             </Box>
           ) : (
             <Typography
@@ -315,7 +328,7 @@ const SpacePopup: FC = () => {
                 color: theme.palette.customColors.grey,
               }}
             >
-              DOCKING UNDER WAY
+              {SOYUZ_STATUS[popup.soyuzPhase ?? ""] ?? SOYUZ_STATUS.approach}
             </Typography>
           )}
         </Box>

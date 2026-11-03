@@ -259,7 +259,10 @@ const SputnikFlight: FC = () => {
             fontSize: "10px",
             lineHeight: 1,
             whiteSpace: "nowrap",
-            color: theme.palette.customColors.tealAccent,
+            color:
+              theme.palette.mode === "dark"
+                ? theme.palette.customColors.tealAccent
+                : theme.palette.common.black,
             animation: `${beepAway} ${BEEP_FLIGHT_MS}ms ease-out forwards`,
           }}
         >

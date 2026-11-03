@@ -17,4 +17,4 @@ export {
   PixelZigzag,
   StatusLight,
 };
-export { pixelBorder, stepEase } from "./pixel";
+export { buttonShadowColor, pixelBorder, stepEase } from "./pixel";

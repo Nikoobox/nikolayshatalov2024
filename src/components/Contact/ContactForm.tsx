@@ -7,7 +7,7 @@ import { Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 import { TextField } from "../FormFields";
-import { PixelArrow, pixelBorder } from "../UI";
+import { buttonShadowColor, PixelArrow, pixelBorder } from "../UI";
 import { pixelFontFamily } from "../../theme/variables";
 import { FORM_FIELDS } from "../../constants";
 import { DEFAULT_VALUES } from "./DefaultValues";
@@ -20,7 +20,7 @@ const StyledButton = styled("button")(({ theme }) => {
   const frame = isDarkMode
     ? theme.palette.common.white
     : theme.palette.common.black;
-  const shadow = isDarkMode ? "#000" : theme.palette.common.black;
+  const shadow = buttonShadowColor(theme);
   const muted = theme.palette.customColors.grey;
 
   return {

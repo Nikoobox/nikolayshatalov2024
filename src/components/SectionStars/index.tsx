@@ -7,6 +7,7 @@ import { useTheme } from "@mui/material/styles";
 import { seededRandom } from "../Landing/pixelArt";
 import DockingSoyuz from "./DockingSoyuz";
 import SputnikFlight from "./SputnikFlight";
+import SoyuzHail from "./SoyuzHail";
 import SpacePopup from "./SpacePopup";
 
 const blink = keyframes`
@@ -21,6 +22,14 @@ const TINTS = ["#9AD4FF", "#A8F0E0", "#FFE9A8", "#FFC9D9"];
 const DAY_COLORS = ["#FF8FA3", "#FFC94D", "#7FB2FF", "#B18CFF"];
 
 const LAYER_DEPTHS = [0.08, 0.16, 0.24];
+
+const DAY_OUTLINE_COLOR = "#C4C9CF";
+const DAY_OUTLINE = [
+  `drop-shadow(1px 0 0 ${DAY_OUTLINE_COLOR})`,
+  `drop-shadow(-1px 0 0 ${DAY_OUTLINE_COLOR})`,
+  `drop-shadow(0 1px 0 ${DAY_OUTLINE_COLOR})`,
+  `drop-shadow(0 -1px 0 ${DAY_OUTLINE_COLOR})`,
+].join(" ");
 
 const PIXELS = (() => {
   const random = seededRandom(29);
@@ -145,11 +154,13 @@ const SectionStars: FC<Props> = ({ withShips = true }) => {
             overflow: "hidden",
             opacity: "var(--sputnik-opacity, 0)",
             transition: "opacity 0.6s ease",
+            ...(!isDarkMode && { "& svg": { filter: DAY_OUTLINE } }),
             "@media (prefers-reduced-motion: reduce)": { display: "none" },
           }}
         >
           <DockingSoyuz />
           <SputnikFlight />
+          <SoyuzHail />
         </Box>
       )}
       {withShips && <SpacePopup />}
