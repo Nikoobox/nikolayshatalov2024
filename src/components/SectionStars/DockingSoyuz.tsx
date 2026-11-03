@@ -366,7 +366,13 @@ const DockingSoyuz: FC = () => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     let animations: Animation[] = [];
+    let phaseTimers: number[] = [];
     let cancelled = false;
+
+    const clearPhaseTimers = () => {
+      phaseTimers.forEach((timer) => window.clearTimeout(timer));
+      phaseTimers = [];
+    };
 
     const options = (total: number) => ({
       duration: total,
@@ -379,6 +385,7 @@ const DockingSoyuz: FC = () => {
       const s4 = soyuz4Ref.current;
       const s5 = soyuz5Ref.current;
       if (!s4 || !s5 || cancelled) return;
+      clearPhaseTimers();
       s4.dataset.soyuzPhase = "wander";
 
       const vw = window.innerWidth;
@@ -394,7 +401,15 @@ const DockingSoyuz: FC = () => {
       const s4 = soyuz4Ref.current;
       const s5 = soyuz5Ref.current;
       if (!s4 || !s5 || cancelled) return;
-      s4.dataset.soyuzPhase = "rendezvous";
+      clearPhaseTimers();
+      s4.dataset.soyuzPhase = "approach";
+      phaseTimers = [
+        window.setTimeout(() => (s4.dataset.soyuzPhase = "docked"), APPROACH),
+        window.setTimeout(
+          () => (s4.dataset.soyuzPhase = "undocking"),
+          APPROACH + DOCKED,
+        ),
+      ];
 
       const vw = window.innerWidth;
       const vh = window.innerHeight;
@@ -439,6 +454,7 @@ const DockingSoyuz: FC = () => {
     wander();
     return () => {
       cancelled = true;
+      clearPhaseTimers();
       window.removeEventListener(COMMAND_DOCKING_EVENT, commandDocking);
       animations.forEach((animation) => animation.cancel());
     };

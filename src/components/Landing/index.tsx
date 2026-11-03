@@ -14,7 +14,12 @@ import LightModeBackground from "./LightModeBackground";
 import Astronaut, { AstronautHandle } from "./Astronaut";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
 import { pixelBodyFontFamily, pixelFontFamily } from "../../theme/variables";
-import { PixelDivider, pixelBorder, stepEase } from "../UI";
+import {
+  buttonShadowColor,
+  PixelDivider,
+  pixelBorder,
+  stepEase,
+} from "../UI";
 import { seededRandom } from "./pixelArt";
 
 const blink = keyframes`
@@ -300,7 +305,7 @@ const StyledLinkScroll = styled(
   const frame = isDarkMode
     ? theme.palette.common.white
     : theme.palette.common.black;
-  const shadow = isDarkMode ? "#000" : theme.palette.common.black;
+  const shadow = buttonShadowColor(theme);
 
   return {
     display: "inline-flex",

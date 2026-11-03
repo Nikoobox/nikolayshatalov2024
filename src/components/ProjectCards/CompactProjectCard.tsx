@@ -9,7 +9,13 @@ import { styled } from "@mui/system";
 import { ProjectProps } from "./ProjectProps";
 import { getNextColor } from "./helpers";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
-import { PixelArrow, PixelTag, StatusLight, pixelBorder } from "../UI";
+import {
+  PixelArrow,
+  PixelTag,
+  PixelTooltip,
+  StatusLight,
+  pixelBorder,
+} from "../UI";
 import { pixelBodyFontFamily, pixelFontFamily } from "../../theme/variables";
 
 const StyledCard = styled(Link, {
@@ -71,63 +77,65 @@ const CompactProjectCard: FC<ProjectProps> = ({
       transition={{ duration: 0.6, ease: "easeOut" }}
       style={{ height: "100%" }}
     >
-      <StyledCard
-        to={`/projects/${id}`}
-        hoverColor={hoverColor}
-        onMouseLeave={() => setHoverColor((previous) => getNextColor(previous))}
-      >
-        <Typography
-          component="h3"
-          sx={{
-            fontFamily: pixelFontFamily,
-            fontSize: "14px",
-            lineHeight: 1.6,
-            mb: 1.5,
-          }}
+      <PixelTooltip title="Open project page" placement="top">
+        <StyledCard
+          to={`/projects/${id}`}
+          hoverColor={hoverColor}
+          onMouseLeave={() => setHoverColor((previous) => getNextColor(previous))}
         >
-          {name}
-        </Typography>
-
-        <Typography
-          sx={{
-            fontFamily: pixelBodyFontFamily,
-            fontSize: "20px",
-            lineHeight: 1.3,
-            letterSpacing: "0.5px",
-            color: isDarkMode ? "customColors.greyAccent" : "customColors.grey",
-            mb: 2.5,
-          }}
-        >
-          {info}
-        </Typography>
-
-        <Box display="flex" flexWrap="wrap" gap={1} mb={3}>
-          {techTools}
-        </Box>
-
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="space-between"
-          mt="auto"
-        >
-          {statusSimple && <StatusLight status={statusSimple} />}
-          <Box
-            className="compact-arrow"
+          <Typography
+            component="h3"
             sx={{
-              ml: "auto",
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 1,
               fontFamily: pixelFontFamily,
-              fontSize: "10px",
+              fontSize: "14px",
+              lineHeight: 1.6,
+              mb: 1.5,
             }}
           >
-            <PixelArrow />
-            DETAILS
+            {name}
+          </Typography>
+
+          <Typography
+            sx={{
+              fontFamily: pixelBodyFontFamily,
+              fontSize: "20px",
+              lineHeight: 1.3,
+              letterSpacing: "0.5px",
+              color: isDarkMode ? "customColors.greyAccent" : "customColors.grey",
+              mb: 2.5,
+            }}
+          >
+            {info}
+          </Typography>
+
+          <Box display="flex" flexWrap="wrap" gap={1} mb={3}>
+            {techTools}
           </Box>
-        </Box>
-      </StyledCard>
+
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+            mt="auto"
+          >
+            {statusSimple && <StatusLight status={statusSimple} />}
+            <Box
+              className="compact-arrow"
+              sx={{
+                ml: "auto",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 1,
+                fontFamily: pixelFontFamily,
+                fontSize: "10px",
+              }}
+            >
+              <PixelArrow />
+              DETAILS
+            </Box>
+          </Box>
+        </StyledCard>
+      </PixelTooltip>
     </motion.div>
   );
 };

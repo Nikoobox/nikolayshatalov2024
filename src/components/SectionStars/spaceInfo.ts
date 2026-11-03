@@ -9,7 +9,7 @@ export const SPACE_INFO = {
   },
   soyuz5: {
     title: "Soyuz 5 · 1969",
-    body: "Launched a day after Soyuz 4 with Boris Volynov, Aleksei Yeliseyev and Yevgeny Khrunov. After docking, Yeliseyev and Khrunov spacewalked to Soyuz 4, the first crew transfer between spacecraft in orbit. Volynov flew home alone through a famously rough reentry.",
+    body: "Launched a day after Soyuz 4 with Boris Volynov, Aleksei Yeliseyev and Yevgeny Khrunov. After docking, Yeliseyev and Khrunov spacewalked to Soyuz 4, the first crew transfer between spacecraft in orbit.",
   },
 } as const;
 
@@ -18,3 +18,5 @@ export type SpaceInfoKey = keyof typeof SPACE_INFO;
 export const COMMAND_DOCKING_EVENT = "soyuz:command-docking";
 
 export const SPUTNIK_BEEP_EVENT = "sputnik:beep";
+
+export const SOYUZ_HAIL_EVENT = "soyuz:hail";

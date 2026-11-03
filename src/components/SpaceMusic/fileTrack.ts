@@ -4,12 +4,27 @@ export class FileTrack {
   private audio: HTMLAudioElement | null = null;
   private ctx: AudioContext | null = null;
   private gain: GainNode | null = null;
+  private repeat = false;
   playing = false;
+  onEnded?: () => void;
 
   constructor(private src: string) {}
 
+  currentTime() {
+    return this.audio?.currentTime ?? 0;
+  }
+
+  setRepeat(repeat: boolean) {
+    this.repeat = repeat;
+    if (this.audio) this.audio.loop = repeat;
+  }
+
   private setup() {
-    const audio = Object.assign(new Audio(this.src), { loop: true });
+    const audio = Object.assign(new Audio(this.src), { loop: this.repeat });
+    audio.onended = () => {
+      this.playing = false;
+      this.onEnded?.();
+    };
     const ctx = new AudioContext();
     const gain = ctx.createGain();
     ctx.createMediaElementSource(audio).connect(gain).connect(ctx.destination);

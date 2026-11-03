@@ -1,7 +1,8 @@
-import { FC, ReactElement } from "react";
+import { AnchorHTMLAttributes, forwardRef, ReactElement } from "react";
 import { Typography } from "@mui/material";
 
-interface MyLinkProps {
+interface MyLinkProps
+  extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "color"> {
   link: string;
   className?: string;
   label?: string;
@@ -20,16 +21,11 @@ interface MyLinkProps {
   color?: string;
 }
 
-const MyLink: FC<MyLinkProps> = ({
-  link,
-  className,
-  label,
-  customLabel,
-  variant,
-  color,
-}) => {
-  return (
+const MyLink = forwardRef<HTMLAnchorElement, MyLinkProps>(
+  ({ link, className, label, customLabel, variant, color, ...rest }, ref) => (
     <a
+      {...rest}
+      ref={ref}
       href={link}
       rel="noopener noreferrer"
       target="_blank"
@@ -43,7 +39,9 @@ const MyLink: FC<MyLinkProps> = ({
 
       {customLabel && customLabel}
     </a>
-  );
-};
+  ),
+);
+
+MyLink.displayName = "MyLink";
 
 export default MyLink;

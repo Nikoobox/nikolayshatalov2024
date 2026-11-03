@@ -5,7 +5,12 @@ import { styled, Theme } from "@mui/material/styles";
 
 import { resume, resumePreview } from "../Documents";
 import MyDialog from "../MyDialog";
-import { PixelArrow, pixelBorder } from "../UI";
+import {
+  buttonShadowColor,
+  PixelArrow,
+  pixelBorder,
+  PixelTooltip,
+} from "../UI";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
 import { pixelFontFamily } from "../../theme/variables";
 
@@ -53,8 +58,7 @@ const buttonBase = (theme: Theme) => {
 
 const StyledPrimaryLink = styled("a")(({ theme }) => {
   const { frame, styles } = buttonBase(theme);
-  const shadow =
-    theme.palette.mode === "dark" ? "#000" : theme.palette.common.black;
+  const shadow = buttonShadowColor(theme);
   return {
     ...styles,
     background: theme.palette.customColors.tealAccent,
@@ -101,23 +105,27 @@ const ResumeModal: FC = () => {
       title="My Resume"
       actions={
         <>
-          <StyledPrimaryLink
-            href={resume}
-            target="_blank"
-            rel="noopener noreferrer"
-            download="Nikolay Shatalov Senior Software Engineer.pdf"
-          >
-            <PixelArrow direction="down" />
-            DOWNLOAD
-          </StyledPrimaryLink>
-          <StyledSecondaryLink
-            href={resume}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <PixelArrow />
-            VIEW IN BROWSER
-          </StyledSecondaryLink>
+          <PixelTooltip title="Download PDF" placement="top">
+            <StyledPrimaryLink
+              href={resume}
+              target="_blank"
+              rel="noopener noreferrer"
+              download="Nikolay Shatalov Senior Software Engineer.pdf"
+            >
+              <PixelArrow direction="down" />
+              DOWNLOAD
+            </StyledPrimaryLink>
+          </PixelTooltip>
+          <PixelTooltip title="Open in a new tab" placement="top">
+            <StyledSecondaryLink
+              href={resume}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <PixelArrow />
+              VIEW IN BROWSER
+            </StyledSecondaryLink>
+          </PixelTooltip>
         </>
       }
     >

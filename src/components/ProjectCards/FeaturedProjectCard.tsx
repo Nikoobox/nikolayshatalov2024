@@ -5,15 +5,17 @@ import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
 
 import { Box, Skeleton, Typography } from "@mui/material";
-import { styled } from "@mui/system";
+import { styled } from "@mui/material/styles";
 
 import { ProjectProps } from "./ProjectProps";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
 import { useImageLoaded } from "../../hooks";
 import {
+  buttonShadowColor,
   MyLink,
   PixelArrow,
   PixelTag,
+  PixelTooltip,
   StatusLight,
   pixelBorder,
 } from "../UI";
@@ -25,7 +27,7 @@ const StyledBox = styled(Box)(({ theme }) => {
     ? theme.palette.common.white
     : theme.palette.common.black;
   const accent = theme.palette.customColors.tealAccent;
-  const shadow = isDarkMode ? "#000" : theme.palette.common.black;
+  const shadow = buttonShadowColor(theme);
 
   return {
     width: "100%",
@@ -215,28 +217,40 @@ const FeaturedProjectCard: FC<ProjectProps> = ({
             </Box>
 
             <Box display="flex" alignItems="center" flexWrap="wrap" gap={4} mt={1}>
-              <Link
-                className="featured-link featured-link--details"
-                to={`/projects/${id}`}
-              >
-                <PixelArrow />
-                VIEW DETAILS
-              </Link>
+              <PixelTooltip title="Open project page" placement="top">
+                <Link
+                  className="featured-link featured-link--details"
+                  to={`/projects/${id}`}
+                >
+                  <PixelArrow />
+                  VIEW DETAILS
+                </Link>
+              </PixelTooltip>
 
               {showLink && (
-                <MyLink
-                  link={address}
-                  className="featured-link featured-link--live"
-                  customLabel={<>LIVE LINK</>}
-                />
+                <PixelTooltip
+                  title="Open live site in a new tab"
+                  placement="top"
+                >
+                  <MyLink
+                    link={address}
+                    className="featured-link featured-link--live"
+                    customLabel={<>LIVE LINK</>}
+                  />
+                </PixelTooltip>
               )}
 
               {showRepo && (
-                <MyLink
-                  link={repo}
-                  className="featured-link featured-link--live"
-                  customLabel={<>GIT REPO</>}
-                />
+                <PixelTooltip
+                  title="Open repository in a new tab"
+                  placement="top"
+                >
+                  <MyLink
+                    link={repo}
+                    className="featured-link featured-link--live"
+                    customLabel={<>GIT REPO</>}
+                  />
+                </PixelTooltip>
               )}
             </Box>
           </Box>

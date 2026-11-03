@@ -45,7 +45,7 @@ const ProjectCards: FC = () => {
         </Box>
 
         {featuredProject && (
-          <Box width="100%" mb={{ xs: 16 }}>
+          <Box width="100%" mb={{ xs: 20, md: 24 }}>
             <FeaturedProjectCard {...featuredProject} />
           </Box>
         )}

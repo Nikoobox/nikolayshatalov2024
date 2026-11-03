@@ -19,7 +19,7 @@ import { useTheme, Theme } from "@mui/material/styles";
 
 import NightModeSwitch from "../NightModeSwitch";
 import SpaceMusic from "../SpaceMusic";
-import { pixelBorder } from "../UI";
+import { pixelBorder, PixelTooltip } from "../UI";
 import { pixelBodyFontFamily, pixelFontFamily } from "../../theme/variables";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
 import { navItems } from "./NavItems";
@@ -335,9 +335,11 @@ const Navbar: FC = () => {
                         <Typography variant="h2">{navItemName}</Typography>
                       </StyledNavItemLink>
                     ))}
-                    <StyledResumeBox onClick={toggleResumeModal}>
-                      <Typography variant="h2">Resume</Typography>
-                    </StyledResumeBox>
+                    <PixelTooltip title="View resume">
+                      <StyledResumeBox onClick={toggleResumeModal}>
+                        <Typography variant="h2">Resume</Typography>
+                      </StyledResumeBox>
+                    </PixelTooltip>
                   </Box>
                   <NightModeSwitch />
                 </Box>
