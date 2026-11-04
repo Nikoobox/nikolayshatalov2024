@@ -30,6 +30,11 @@ interface Track {
 
 const TRACKS: { title: string; seconds: number; create: () => Track }[] = [
   {
+    title: "Acid Jazz",
+    seconds: 208,
+    create: () => new FileTrack("/music/acid-jazz.mp3"),
+  },
+  {
     title: "Fingersnap Bar",
     seconds: 182,
     create: () => new FileTrack("/music/fingersnap-bar.mp3"),
@@ -43,11 +48,6 @@ const TRACKS: { title: string; seconds: number; create: () => Track }[] = [
     title: "Hard Boiled",
     seconds: 181,
     create: () => new FileTrack("/music/hard-boiled.mp3"),
-  },
-  {
-    title: "Acid Jazz",
-    seconds: 208,
-    create: () => new FileTrack("/music/acid-jazz.mp3"),
   },
   {
     title: "Covert Affair",
@@ -357,6 +357,46 @@ const StyledMobileTime = styled("div")(({ theme }) => ({
   [theme.breakpoints.down("sm")]: { display: "block" },
 }));
 
+const CREDITS =
+  "MUSIC BY KEVIN MACLEOD (INCOMPETECH.COM) AND MATTHEW PABLO, LICENSED UNDER CC BY 4.0";
+
+const visuallyHidden = {
+  position: "absolute",
+  width: "1px",
+  height: "1px",
+  overflow: "hidden",
+  clip: "rect(0 0 0 0)",
+  whiteSpace: "nowrap",
+} as const;
+
+const DAY_TICKER_COLOR = "#9AA0A8";
+
+const tickerScroll = keyframes`
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+`;
+
+const StyledTicker = styled("div")(({ theme }) => ({
+  overflow: "hidden",
+  whiteSpace: "nowrap",
+  fontFamily: pixelFontFamily,
+  fontSize: "8px",
+  lineHeight: 1,
+  color:
+    theme.palette.mode === "dark"
+      ? theme.palette.customColors.grey
+      : DAY_TICKER_COLOR,
+  "& .track": {
+    display: "inline-flex",
+    animation: `${tickerScroll} 18s linear infinite`,
+  },
+  "& .item": { paddingRight: "32px" },
+  "@media (prefers-reduced-motion: reduce)": {
+    textOverflow: "ellipsis",
+    "& .track": { animation: "none" },
+  },
+}));
+
 const StyledGroupLabel = styled("div")(({ theme }) => ({
   fontFamily: pixelFontFamily,
   fontSize: "8px",
@@ -586,7 +626,7 @@ const SpaceMusic: FC = () => {
   const [boardHeight, setBoardHeight] = useState(0);
   const boardRef = useRef<HTMLDivElement>(null);
   const [isRepeat, setIsRepeat] = useState(false);
-  const [isShuffle, setIsShuffle] = useState(false);
+  const [isShuffle, setIsShuffle] = useState(true);
   const [isLoop, setIsLoop] = useState(true);
   const titleTimer = useRef(0);
   const collapseTimer = useRef(0);
@@ -947,6 +987,15 @@ const SpaceMusic: FC = () => {
                 );
               })}
             </Box>
+            <StyledTicker>
+              <Box component="span" className="track" aria-hidden="true">
+                <span className="item">{CREDITS}</span>
+                <span className="item">{CREDITS}</span>
+              </Box>
+              <Box component="span" sx={visuallyHidden}>
+                {CREDITS}
+              </Box>
+            </StyledTicker>
           </Box>
           <Box display="flex" justifyContent="center" gap="12px" pb="6px">
             {settings.map(({ label, icon, isOn, set }) => (
