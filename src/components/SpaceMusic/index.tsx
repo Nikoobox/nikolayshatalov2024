@@ -339,6 +339,9 @@ const StyledTab = styled("button")(({ theme }) => ({
   transition: "bottom 0.3s ease, width 0.15s ease, height 0.15s ease",
   "&:hover": { color: theme.palette.customColors.tealAccent },
   ...focusRing(theme),
+  [theme.breakpoints.down("sm")]: {
+    "&[aria-expanded='false']": { display: "none" },
+  },
   "@media (prefers-reduced-motion: reduce)": { transition: "none" },
 }));
 
@@ -871,11 +874,12 @@ const SpaceMusic: FC = () => {
           <StyledMobileNext
             className="mobile-only"
             type="button"
-            onClick={togglePause}
-            aria-label={pauseLabel}
+            onClick={() => setIsBoardOpen(true)}
+            aria-label="Open songs"
+            aria-expanded={isBoardOpen}
             tabIndex={isPlaying ? 0 : -1}
           >
-            <PixelGlyph rows={isPaused ? PLAY_ICON : PAUSE_ICON} scale={3} />
+            <PixelGlyph rows={CARET_UP} scale={3} />
           </StyledMobileNext>
           <PixelTooltip
             placement="top"
