@@ -282,36 +282,6 @@ const Footer: FC = () => {
             >
               © {getYear()} NIKOLAY SHATALOV
             </Box>
-
-            <Box
-              component="p"
-              sx={{
-                m: 0,
-                mt: 1.5,
-                fontFamily: pixelFontFamily,
-                fontSize: "8px",
-                lineHeight: 1.8,
-                color: grey,
-                a: { color: "inherit" },
-              }}
-            >
-              MUSIC BY{" "}
-              <a
-                href="https://incompetech.com"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                KEVIN MACLEOD
-              </a>{" "}
-              AND MATTHEW PABLO,{" "}
-              <a
-                href="https://creativecommons.org/licenses/by/4.0/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                CC BY
-              </a>
-            </Box>
           </Box>
         </Container>
       </Box>

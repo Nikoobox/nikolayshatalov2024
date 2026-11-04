@@ -1,4 +1,4 @@
-import { FC, useEffect, useId, useState } from "react";
+import { FC, RefObject, useEffect, useId, useRef, useState } from "react";
 
 import { Box, ClickAwayListener } from "@mui/material";
 import { styled, Theme } from "@mui/material/styles";
@@ -7,8 +7,6 @@ import { buttonShadowColor, pixelBorder, PixelTooltip } from "../UI";
 import { pixelBodyFontFamily, pixelFontFamily } from "../../theme/variables";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
 
-const SHOW_WITHIN = 40;
-const HIDE_BEYOND = 300;
 
 const QUESTION_MARK = [
   ".###.",
@@ -121,44 +119,32 @@ const PixelQuestionMark: FC = () => (
   </svg>
 );
 
-const useIsAtBottom = () => {
-  const [isAtBottom, setIsAtBottom] = useState(false);
+const useIsShown = (ref: RefObject<HTMLElement>) => {
+  const [isShown, setIsShown] = useState(false);
 
   useEffect(() => {
-    let frame = 0;
-    const update = () => {
-      frame = 0;
-      const { scrollHeight } = document.documentElement;
-      const distance = scrollHeight - window.innerHeight - window.scrollY;
-      setIsAtBottom((wasAtBottom) =>
-        wasAtBottom ? distance <= HIDE_BEYOND : distance <= SHOW_WITHIN,
-      );
-    };
-    const schedule = () => {
-      if (!frame) frame = requestAnimationFrame(update);
-    };
-    update();
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule);
-    return () => {
-      window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", schedule);
-      cancelAnimationFrame(frame);
-    };
-  }, []);
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(([entry]) =>
+      setIsShown(entry.isIntersecting),
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [ref]);
 
-  return isAtBottom;
+  return isShown;
 };
 
 const SecretsHint: FC = () => {
   const { isDarkMode, theme } = useThemeContext();
-  const isAtBottom = useIsAtBottom();
+  const rootRef = useRef<HTMLDivElement>(null);
+  const isShown = useIsShown(rootRef);
   const [isOpen, setIsOpen] = useState(false);
   const panelId = useId();
 
   useEffect(() => {
-    if (!isAtBottom) setIsOpen(false);
-  }, [isAtBottom]);
+    if (!isShown) setIsOpen(false);
+  }, [isShown]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -172,13 +158,14 @@ const SecretsHint: FC = () => {
   return (
     <ClickAwayListener onClickAway={() => setIsOpen(false)}>
       <Box
+        ref={rootRef}
         position="relative"
         width="fit-content"
         sx={{
-          opacity: isAtBottom ? 1 : 0,
-          visibility: isAtBottom ? "visible" : "hidden",
-          transform: isAtBottom ? "none" : "translateY(12px)",
-          transition: isAtBottom
+          opacity: isShown ? 1 : 0,
+          visibility: isShown ? "visible" : "hidden",
+          transform: isShown ? "none" : "translateY(12px)",
+          transition: isShown
             ? "opacity 0.4s ease, transform 0.4s ease"
             : "opacity 0.3s ease, transform 0.3s ease, visibility 0s 0.3s",
           "@media (prefers-reduced-motion: reduce)": { transition: "none" },
@@ -257,7 +244,7 @@ const SecretsHint: FC = () => {
             aria-expanded={isOpen}
             aria-controls={isOpen ? panelId : undefined}
             aria-label="Show hidden secrets"
-            tabIndex={isAtBottom ? 0 : -1}
+            tabIndex={isShown ? 0 : -1}
           >
             <PixelQuestionMark />
           </StyledHintButton>
