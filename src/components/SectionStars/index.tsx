@@ -23,13 +23,16 @@ const DAY_COLORS = ["#FF8FA3", "#FFC94D", "#7FB2FF", "#B18CFF"];
 
 const LAYER_DEPTHS = [0.08, 0.16, 0.24];
 
-const DAY_OUTLINE_COLOR = "#C4C9CF";
-const DAY_OUTLINE = [
-  `drop-shadow(1px 0 0 ${DAY_OUTLINE_COLOR})`,
-  `drop-shadow(-1px 0 0 ${DAY_OUTLINE_COLOR})`,
-  `drop-shadow(0 1px 0 ${DAY_OUTLINE_COLOR})`,
-  `drop-shadow(0 -1px 0 ${DAY_OUTLINE_COLOR})`,
-].join(" ");
+const outline = (color: string) =>
+  [
+    `drop-shadow(1px 0 0 ${color})`,
+    `drop-shadow(-1px 0 0 ${color})`,
+    `drop-shadow(0 1px 0 ${color})`,
+    `drop-shadow(0 -1px 0 ${color})`,
+  ].join(" ");
+
+const DAY_OUTLINE = outline("#C4C9CF");
+const NIGHT_OUTLINE = outline("#4A5058");
 
 const PIXELS = (() => {
   const random = seededRandom(29);
@@ -154,7 +157,7 @@ const SectionStars: FC<Props> = ({ withShips = true }) => {
             overflow: "hidden",
             opacity: "var(--sputnik-opacity, 0)",
             transition: "opacity 0.6s ease",
-            ...(!isDarkMode && { "& svg": { filter: DAY_OUTLINE } }),
+            "& svg": { filter: isDarkMode ? NIGHT_OUTLINE : DAY_OUTLINE },
             "@media (prefers-reduced-motion: reduce)": { display: "none" },
           }}
         >
