@@ -91,10 +91,13 @@ const PixelNoise: FC<{ density?: number }> = ({ density = NOISE_DENSITY }) => (
   </Box>
 );
 
-const usePixelateIn = () => {
-  const [radius, setRadius] = useState(PIXELATE_SIZES[0]);
+let hasPlayedIntro = false;
+
+const usePixelateIn = (isSkipped: boolean) => {
+  const [radius, setRadius] = useState(isSkipped ? 0 : PIXELATE_SIZES[0]);
 
   useEffect(() => {
+    if (isSkipped) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       setRadius(0);
       return;
@@ -106,7 +109,7 @@ const usePixelateIn = () => {
       ),
     );
     return () => timers.forEach(window.clearTimeout);
-  }, []);
+  }, [isSkipped]);
 
   return radius;
 };
@@ -366,21 +369,24 @@ const Landing: FC = () => {
 
   const { isDarkMode, theme } = useThemeContext();
 
-  const [skipped, setSkipped] = useState(false);
+  const [hasPlayed] = useState(() => hasPlayedIntro);
+  const [skipped, setSkipped] = useState(hasPlayed);
   const [isTitleDone, setIsTitleDone] = useState(false);
-  const [isComplete, setIsComplete] = useState(false);
-  const [isLinkVisible, setIsLinkVisible] = useState(false);
-  const pixelRadius = usePixelateIn();
+  const [isComplete, setIsComplete] = useState(hasPlayed);
+  const [isLinkVisible, setIsLinkVisible] = useState(hasPlayed);
+  const pixelRadius = usePixelateIn(hasPlayed);
   const isFilterSupported = useMemo(supportsPixelateFilter, []);
 
   const revealLink = () => setIsLinkVisible(true);
 
   const handleComplete = () => {
+    hasPlayedIntro = true;
     setIsComplete(true);
     setTimeout(revealLink, 1000);
   };
 
   const handleSkip = () => {
+    hasPlayedIntro = true;
     setSkipped(true);
     setIsComplete(true);
     revealLink();

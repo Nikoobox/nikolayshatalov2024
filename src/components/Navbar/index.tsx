@@ -166,7 +166,10 @@ const Navbar: FC = () => {
             to={destination}
             smooth={true}
             duration={1000}
-            onClick={handleDrawerToggle}
+            onClick={() => {
+              handleDrawerToggle();
+              handleNavItemClick(destination);
+            }}
           >
             <Typography
               color="common.white"
@@ -232,8 +235,6 @@ const Navbar: FC = () => {
   const handleNavItemClick = (destination: string) => {
     if (location.pathname !== "/") {
       navigate("/", { state: { scrollTo: destination } });
-    } else {
-      scroll.scrollTo(+destination);
     }
   };
 
