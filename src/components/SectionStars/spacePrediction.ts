@@ -10,10 +10,9 @@ export interface Point {
   y: number;
 }
 
-export const predictCenter = (
-  el: HTMLElement | null,
-  msAhead: number,
-): Point | null => {
+export type Predict = (msAhead: number) => Point | null;
+
+export const predictor = (el: HTMLElement | null): Predict | null => {
   if (!el) return null;
   const animation = el.getAnimations().filter(hasTransform).at(-1);
   const effect = animation?.effect as KeyframeEffect | null | undefined;
@@ -22,9 +21,7 @@ export const predictCenter = (
   const timing = effect.getTiming();
   const duration = Number(timing.duration);
   if (!duration) return null;
-  const local =
-    Number(animation.currentTime ?? 0) - Number(timing.delay ?? 0) + msAhead;
-  const progress = Math.min(Math.max(local / duration, 0), 1);
+  const now = Number(animation.currentTime ?? 0) - Number(timing.delay ?? 0);
 
   const frames = effect.getKeyframes().flatMap((frame) => {
     const match = TRANSLATE.exec(String(frame.transform));
@@ -34,27 +31,30 @@ export const predictCenter = (
   });
   if (!frames.length) return null;
 
-  let i = 0;
-  while (i < frames.length - 2 && frames[i + 1].offset < progress) i++;
-  const from = frames[i];
-  const to = frames[Math.min(i + 1, frames.length - 1)];
-  const span = to.offset - from.offset;
-  const k =
-    span > 0 ? Math.min(Math.max((progress - from.offset) / span, 0), 1) : 0;
-
-  return {
-    x: from.x + (to.x - from.x) * k,
-    y: from.y + (to.y - from.y) * k,
+  return (msAhead) => {
+    const progress = Math.min(Math.max((now + msAhead) / duration, 0), 1);
+    let i = 0;
+    while (i < frames.length - 2 && frames[i + 1].offset < progress) i++;
+    const from = frames[i];
+    const to = frames[Math.min(i + 1, frames.length - 1)];
+    const span = to.offset - from.offset;
+    const k =
+      span > 0 ? Math.min(Math.max((progress - from.offset) / span, 0), 1) : 0;
+    return {
+      x: from.x + (to.x - from.x) * k,
+      y: from.y + (to.y - from.y) * k,
+    };
   };
 };
 
-export const closestApproach = (
-  el: HTMLElement | null,
+export const closestApproachFrom = (
+  predict: Predict | null,
   points: Array<Point & { msAhead: number }>,
 ) => {
   let closest = Infinity;
+  if (!predict) return closest;
   for (const point of points) {
-    const other = predictCenter(el, point.msAhead);
+    const other = predict(point.msAhead);
     if (other) {
       closest = Math.min(
         closest,
@@ -64,6 +64,11 @@ export const closestApproach = (
   }
   return closest;
 };
+
+export const closestApproach = (
+  el: HTMLElement | null,
+  points: Array<Point & { msAhead: number }>,
+) => closestApproachFrom(predictor(el), points);
 
 export const KEEP_APART = 260;
 

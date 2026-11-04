@@ -9,8 +9,8 @@ import {
   IS_PHONE,
   KEEP_APART,
   Point,
-  closestApproach,
-  predictCenter,
+  closestApproachFrom,
+  predictor,
 } from "./spacePrediction";
 import { SPUTNIK_BEEP_EVENT } from "./spaceInfo";
 import { usePixelSnap } from "./usePixelSnap";
@@ -54,12 +54,15 @@ const soyuzShips = () => [
 ];
 
 const clearanceAtRate = (sputnik: HTMLElement, rate: number) => {
+  const predictOwn = predictor(sputnik);
+  if (!predictOwn) return Infinity;
+  const others = soyuzShips().map(predictor);
   let closest = Infinity;
   for (let ms = 0; ms <= GUARD_LOOKAHEAD_MS; ms += GUARD_STEP_MS) {
-    const own = predictCenter(sputnik, ms * rate);
+    const own = predictOwn(ms * rate);
     if (!own) return Infinity;
-    for (const soyuz of soyuzShips()) {
-      const other = predictCenter(soyuz, ms);
+    for (const predictOther of others) {
+      const other = predictOther?.(ms);
       if (other) {
         closest = Math.min(
           closest,
@@ -113,7 +116,7 @@ const planRoute = (
   delay: number,
   isFirst: boolean,
 ): Route => {
-  const soyuz = soyuzShips();
+  const soyuz = soyuzShips().map(predictor);
   let best: { route: Route; clearance: number } | null = null;
 
   for (let i = 0; i < CANDIDATES; i++) {
@@ -123,7 +126,7 @@ const planRoute = (
       msAhead: delay + (k / 20) * PASS,
     }));
     const clearance = Math.min(
-      ...soyuz.map((el) => closestApproach(el, samples)),
+      ...soyuz.map((predict) => closestApproachFrom(predict, samples)),
     );
     if (!best || clearance > best.clearance) best = { route, clearance };
     if (clearance > KEEP_APART * 2) break;

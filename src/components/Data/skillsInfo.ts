@@ -8,13 +8,11 @@ import {
   SiCss3,
   SiTypescript,
   SiMongodb,
-  SiChartdotjs,
   SiMui,
   SiStorybook,
   SiJest,
   SiSentry,
   SiMixpanel,
-  SiLooker,
   SiApollographql,
   SiGraphql,
   SiTailwindcss,
@@ -105,14 +103,14 @@ export const SKILLS_DATA = [
     type: MAIN,
   },
   {
-    skillName: "Storybook",
-    class: "skill-name",
-    iconType: SiStorybook,
+    skillName: "Webpack 5",
+    iconType: SiWebpack,
     type: ADDITIONAL,
   },
   {
-    skillName: "Chart.js",
-    iconType: SiChartdotjs,
+    skillName: "Storybook",
+    class: "skill-name",
+    iconType: SiStorybook,
     type: ADDITIONAL,
   },
   {
@@ -126,18 +124,8 @@ export const SKILLS_DATA = [
     type: ADDITIONAL,
   },
   {
-    skillName: "Webpack 5",
-    iconType: SiWebpack,
-    type: ADDITIONAL,
-  },
-  {
     skillName: "WebSockets",
     iconType: SiSocketdotio,
-    type: ADDITIONAL,
-  },
-  {
-    skillName: "Looker",
-    iconType: SiLooker,
     type: ADDITIONAL,
   },
   {
