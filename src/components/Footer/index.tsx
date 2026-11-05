@@ -14,6 +14,7 @@ import {
 } from "../UI";
 import { pixelFontFamily } from "../../theme/variables";
 import SecretsHint from "../SecretsHint";
+import { resume } from "../Documents";
 
 const getYear = () => "2019 - " + new Date().getFullYear();
 
@@ -50,6 +51,21 @@ const EMAIL = [
   "##########",
 ];
 
+const RESUME = [
+  "######....",
+  "#....##...",
+  "#....#.#..",
+  "#....####.",
+  "#.......#.",
+  "#.####..#.",
+  "#.......#.",
+  "#.#####.#.",
+  "#.......#.",
+  "#.####..#.",
+  "#.......#.",
+  "#########.",
+];
+
 const LINKS = [
   {
     label: "LinkedIn",
@@ -58,6 +74,7 @@ const LINKS = [
   },
   { label: "Github", href: "https://github.com/Nikoobox", icon: GITHUB },
   { label: "Email", href: "mailto:nikoobox@gmail.com", icon: EMAIL },
+  { label: "Resume", href: resume, icon: RESUME },
 ];
 
 const BOTTOM_THRESHOLD = 40;
@@ -177,7 +194,7 @@ const Footer: FC = () => {
             position: "absolute",
             left: 0,
             right: 0,
-            bottom: "calc(100% + 32px)",
+            bottom: "calc(100% - 5px)",
             zIndex: 1,
           }}
         >
@@ -198,15 +215,17 @@ const Footer: FC = () => {
       />
       <Box
         sx={{
+          position: "relative",
+          zIndex: 2,
           overflow: "hidden",
           background: `linear-gradient(${glow} 0 4px, ${footerBackground} 4px)`,
         }}
       >
-        <PixelZigzag
-          color={isDarkMode ? alpha(greyAccent, 0.4) : greyAccent}
-        />
+        <PixelZigzag color={isDarkMode ? alpha(greyAccent, 0.4) : greyAccent} />
       </Box>
-      <Box sx={{ background: footerBackground }}>
+      <Box
+        sx={{ position: "relative", zIndex: 2, background: footerBackground }}
+      >
         <Container maxWidth="lg">
           <Box
             display="flex"
@@ -252,13 +271,13 @@ const Footer: FC = () => {
               </Box>
             </StyledStartButton>
 
-            <Box display="flex" gap={4} mt={{ xs: 5, sm: 6 }}>
+            <Box display="flex" gap={{ xs: 3, sm: 4 }} mt={{ xs: 5, sm: 6 }}>
               {LINKS.map(({ label, href, icon }) => (
                 <PixelTooltip key={label} title={label} placement="top">
                   <StyledIconLink
                     href={href}
                     aria-label={label}
-                    {...(href.startsWith("http") && {
+                    {...(!href.startsWith("mailto:") && {
                       target: "_blank",
                       rel: "noopener noreferrer",
                     })}
