@@ -19,6 +19,7 @@ import {
   PixelHeading,
   pixelBorder,
   PixelTooltip,
+  ShipContrast,
 } from "../UI";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
 import { pixelBodyFontFamily, pixelFontFamily } from "../../theme/variables";
@@ -111,7 +112,7 @@ const Contact: FC = () => {
       )}
 
       <PageSection id="contact-destination">
-        <Box mb={8} mt={15}>
+        <Box mb={8} mt={{ xs: 20, md: 28 }}>
           <PixelHeading>Contact</PixelHeading>
         </Box>
 
@@ -144,23 +145,25 @@ const Contact: FC = () => {
               animate={textInView && { y: 0, opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
             >
-              {BIO_DATA.contactSection.map((paragraph, i) => (
-                <Typography
-                  key={i}
-                  paragraph
-                  sx={{
-                    fontFamily: pixelBodyFontFamily,
-                    fontSize: { xs: "22px", md: "26px" },
-                    lineHeight: 1.35,
-                    letterSpacing: "0.5px",
-                    color: isDarkMode
-                      ? "customColors.greyAccent"
-                      : "common.black",
-                  }}
-                >
-                  {paragraph}
-                </Typography>
-              ))}
+              <ShipContrast>
+                {BIO_DATA.contactSection.map((paragraph, i) => (
+                  <Typography
+                    key={i}
+                    paragraph
+                    sx={{
+                      fontFamily: pixelBodyFontFamily,
+                      fontSize: { xs: "22px", md: "26px" },
+                      lineHeight: 1.35,
+                      letterSpacing: "0.5px",
+                      color: isDarkMode
+                        ? "customColors.greyAccent"
+                        : "common.black",
+                    }}
+                  >
+                    {paragraph}
+                  </Typography>
+                ))}
+              </ShipContrast>
             </motion.div>
 
             <motion.div
@@ -200,10 +203,10 @@ const Contact: FC = () => {
           animate={contactFormInView && { y: 0, opacity: 1 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          <Box mb={8}>
+          <Box mb={8} mt={{ xs: 12, md: 18 }}>
             <PixelHeading>Say Hi!</PixelHeading>
           </Box>
-          <Box pb={25}>
+          <Box pb={{ xs: 36, md: 48 }}>
             <ContactForm />
           </Box>
         </motion.div>

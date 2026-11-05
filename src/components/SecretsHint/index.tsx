@@ -7,7 +7,6 @@ import { buttonShadowColor, pixelBorder, PixelTooltip } from "../UI";
 import { pixelBodyFontFamily, pixelFontFamily } from "../../theme/variables";
 import { useThemeContext } from "../../theme/ThemeContextProvider";
 
-
 const QUESTION_MARK = [
   ".###.",
   "#...#",
@@ -17,6 +16,8 @@ const QUESTION_MARK = [
   ".....",
   "..#..",
 ];
+
+const SHOW_DELAY = "0.8s";
 
 const SECRETS = [
   "Click the spacecraft drifting through the stars.",
@@ -102,8 +103,8 @@ const StyledCloseButton = styled("button")(({ theme }) => ({
 
 const PixelQuestionMark: FC = () => (
   <svg
-    width={20}
-    height={28}
+    width={15}
+    height={21}
     viewBox="0 0 5 7"
     fill="currentColor"
     shapeRendering="crispEdges"
@@ -166,7 +167,7 @@ const SecretsHint: FC = () => {
           visibility: isShown ? "visible" : "hidden",
           transform: isShown ? "none" : "translateY(12px)",
           transition: isShown
-            ? "opacity 0.4s ease, transform 0.4s ease"
+            ? `opacity 0.4s ease ${SHOW_DELAY}, transform 0.4s ease ${SHOW_DELAY}, visibility 0s ${SHOW_DELAY}`
             : "opacity 0.3s ease, transform 0.3s ease, visibility 0s 0.3s",
           "@media (prefers-reduced-motion: reduce)": { transition: "none" },
         }}
@@ -234,10 +235,7 @@ const SecretsHint: FC = () => {
             </Box>
           </StyledPanel>
         )}
-        <PixelTooltip
-          title={isOpen ? "" : "Hidden secrets"}
-          placement="top"
-        >
+        <PixelTooltip title={isOpen ? "" : "Hidden secrets"} placement="top">
           <StyledHintButton
             type="button"
             onClick={() => setIsOpen((open) => !open)}

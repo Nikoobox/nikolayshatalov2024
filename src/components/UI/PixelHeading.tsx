@@ -6,6 +6,7 @@ import { Typography } from "@mui/material";
 
 import { pixelFontFamily } from "../../theme/variables";
 import { stepEase } from "./pixel";
+import ShipContrast from "./ShipContrast";
 
 const SIZES = {
   large: { xs: "18px", sm: "24px" },
@@ -42,7 +43,7 @@ const PixelHeading: FC<PropsWithChildren<Props>> = ({
           textAlign: "center",
         }}
       >
-        {children}
+        <ShipContrast component="span">{children}</ShipContrast>
       </Typography>
     </motion.div>
   );

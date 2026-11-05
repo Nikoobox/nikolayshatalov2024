@@ -228,7 +228,7 @@ const StyledBoard = styled("div")(({ theme }) => ({
   bottom: "calc(100% + 4px)",
   zIndex: 0,
   display: "grid",
-  gap: "18px",
+  gap: "12px",
   width: `${PLAYER_WIDTH_PLAYING}px`,
   padding: "18px 14px 16px",
   [theme.breakpoints.down("sm")]: {
@@ -297,18 +297,24 @@ const StyledSong = styled("button")(({ theme }) => ({
   ...focusRing(theme),
 }));
 
-const StyledModeKey = styled(StyledKey)(({ theme }) => {
-  const frame = frameColor(theme);
-  return {
-    width: "32px",
-    height: "20px",
-    "&[aria-pressed='true']": {
-      color: accent(theme),
-      transform: "translateY(2px)",
-      boxShadow: `${pixelBorder(frame, 2)}, 0 2px 0 0 ${frame}`,
-    },
-  };
-});
+const StyledModeKey = styled("button")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  flexShrink: 0,
+  padding: "2px 4px",
+  border: 0,
+  cursor: "pointer",
+  color:
+    theme.palette.mode === "dark"
+      ? theme.palette.customColors.greyAccent
+      : theme.palette.customColors.grey,
+  background: "transparent",
+  "&:hover": { color: theme.palette.customColors.tealAccent },
+  "&[aria-pressed='true']": { color: accent(theme) },
+  "&:active": { transform: "translateY(1px)" },
+  ...focusRing(theme),
+}));
 
 const StyledTab = styled("button")(({ theme }) => ({
   position: "absolute",
@@ -997,7 +1003,7 @@ const SpaceMusic: FC = () => {
               </Box>
             </StyledTicker>
           </Box>
-          <Box display="flex" justifyContent="center" gap="12px" pb="6px">
+          <Box display="flex" justifyContent="center" gap="12px">
             {settings.map(({ label, icon, isOn, set }) => (
               <PixelTooltip key={label} title={label} placement="top">
                 <StyledModeKey

@@ -16,6 +16,7 @@ import {
   PixelArrow,
   PixelTag,
   PixelTooltip,
+  ShipContrast,
   StatusLight,
   pixelBorder,
 } from "../UI";
@@ -173,7 +174,7 @@ const FeaturedProjectCard: FC<ProjectProps> = ({
                 lineHeight: 1.5,
               }}
             >
-              {name}
+              <ShipContrast component="span">{name}</ShipContrast>
             </Typography>
 
             <Box display="flex" alignItems="center" gap={2}>
@@ -209,7 +210,7 @@ const FeaturedProjectCard: FC<ProjectProps> = ({
                 color: isDarkMode ? "customColors.greyAccent" : "common.black",
               }}
             >
-              {info}
+              <ShipContrast component="span">{info}</ShipContrast>
             </Typography>
 
             <Box display="flex" flexWrap="wrap" gap={1}>
@@ -235,7 +236,9 @@ const FeaturedProjectCard: FC<ProjectProps> = ({
                   <MyLink
                     link={address}
                     className="featured-link featured-link--live"
-                    customLabel={<>LIVE LINK</>}
+                    customLabel={
+                      <ShipContrast component="span">LIVE LINK</ShipContrast>
+                    }
                   />
                 </PixelTooltip>
               )}
@@ -248,7 +251,9 @@ const FeaturedProjectCard: FC<ProjectProps> = ({
                   <MyLink
                     link={repo}
                     className="featured-link featured-link--live"
-                    customLabel={<>GIT REPO</>}
+                    customLabel={
+                      <ShipContrast component="span">GIT REPO</ShipContrast>
+                    }
                   />
                 </PixelTooltip>
               )}

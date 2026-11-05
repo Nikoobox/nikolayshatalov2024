@@ -5,6 +5,7 @@ import PixelHeading from "./PixelHeading";
 import PixelTag from "./PixelTag";
 import PixelTooltip from "./PixelTooltip";
 import PixelZigzag from "./PixelZigzag";
+import ShipContrast from "./ShipContrast";
 import StatusLight from "./StatusLight";
 
 export {
@@ -15,6 +16,7 @@ export {
   PixelTag,
   PixelTooltip,
   PixelZigzag,
+  ShipContrast,
   StatusLight,
 };
 export { buttonShadowColor, pixelBorder, stepEase } from "./pixel";

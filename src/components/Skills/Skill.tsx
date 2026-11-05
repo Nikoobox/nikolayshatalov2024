@@ -6,7 +6,7 @@ import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 import { pixelBodyFontFamily } from "../../theme/variables";
-import { pixelBorder } from "../UI";
+import { pixelBorder, ShipContrast } from "../UI";
 
 const SLOT_SIZES = {
   main: { slot: 80, icon: 40, label: "22px" },
@@ -68,7 +68,7 @@ const Skill: FC<Props> = ({ skillName, iconType: TechIcon, size = "main" }) => {
           whiteSpace="nowrap"
           sx={{ fontFamily: pixelBodyFontFamily, fontSize: label, lineHeight: 1 }}
         >
-          {skillName}
+          <ShipContrast component="span">{skillName}</ShipContrast>
         </Typography>
       </StyledSkill>
     </motion.div>
