@@ -67,7 +67,10 @@ const StyledHintButton = styled("button")(({ theme }) => ({
   boxShadow: `${pixelBorder(frameColor(theme))}, 6px 6px 0 4px ${buttonShadowColor(
     theme,
   )}`,
+  transition: "transform 0.2s steps(2, end)",
+  "@media (prefers-reduced-motion: reduce)": { transition: "none" },
   "&[aria-expanded='true']": {
+    transform: "translateY(-8px)",
     color:
       theme.palette.mode === "dark"
         ? theme.palette.customColors.tealAccent
