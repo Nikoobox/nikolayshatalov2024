@@ -1,5 +1,6 @@
 import { FC, RefObject, useEffect, useId, useRef, useState } from "react";
 
+import { keyframes } from "@emotion/react";
 import { Box, ClickAwayListener } from "@mui/material";
 import { styled, Theme } from "@mui/material/styles";
 
@@ -17,13 +18,28 @@ const QUESTION_MARK = [
   "..#..",
 ];
 
+const SPARKLE = [
+  "..#..",
+  "..#..",
+  "##.##",
+  "..#..",
+  "..#..",
+];
+
 const SHOW_DELAY = "0.8s";
+
+const sparkleBlink = keyframes`
+  0% { opacity: 1; }
+  50% { opacity: 0.15; }
+`;
+
 
 const SECRETS = [
   "Click the spacecraft drifting through the stars.",
   "Ask Soyuz\u00a04 to dock with Soyuz\u00a05.",
   "Ask Soyuz\u00a05 to say hi to Soyuz\u00a04.",
   "Make Sputnik beep.",
+  "Click the sound icon for some relaxing space music.",
 ];
 
 const frameColor = (theme: Theme) =>
@@ -40,8 +56,9 @@ const StyledHintButton = styled("button")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  width: "48px",
-  height: "48px",
+  position: "relative",
+  width: "40px",
+  height: "40px",
   padding: 0,
   border: 0,
   cursor: "pointer",
@@ -101,6 +118,15 @@ const StyledCloseButton = styled("button")(({ theme }) => ({
   },
 }));
 
+const pixelRects = (grid: string[]) =>
+  grid.flatMap((row, y) =>
+    [...row].map((cell, x) =>
+      cell === "#" ? (
+        <rect key={`${x}-${y}`} x={x} y={y} width="1" height="1" />
+      ) : null,
+    ),
+  );
+
 const PixelQuestionMark: FC = () => (
   <svg
     width={15}
@@ -110,14 +136,32 @@ const PixelQuestionMark: FC = () => (
     shapeRendering="crispEdges"
     aria-hidden="true"
   >
-    {QUESTION_MARK.flatMap((row, y) =>
-      [...row].map((cell, x) =>
-        cell === "#" ? (
-          <rect key={`${x}-${y}`} x={x} y={y} width="1" height="1" />
-        ) : null,
-      ),
-    )}
+    {pixelRects(QUESTION_MARK)}
   </svg>
+);
+
+const PixelSparkle: FC = () => (
+  <Box
+    component="svg"
+    width={15}
+    height={15}
+    viewBox="0 0 5 5"
+    shapeRendering="crispEdges"
+    aria-hidden="true"
+    sx={(theme) => ({
+      position: "absolute",
+      top: "-17px",
+      right: "-17px",
+      fill:
+        theme.palette.mode === "dark"
+          ? theme.palette.customColors.tealAccent
+          : theme.palette.customColors.purpleAccent,
+      animation: `${sparkleBlink} 4s steps(1, end) infinite`,
+      "@media (prefers-reduced-motion: reduce)": { animation: "none" },
+    })}
+  >
+    {pixelRects(SPARKLE)}
+  </Box>
 );
 
 const useIsShown = (ref: RefObject<HTMLElement>) => {
@@ -245,6 +289,7 @@ const SecretsHint: FC = () => {
             tabIndex={isShown ? 0 : -1}
           >
             <PixelQuestionMark />
+            {!isOpen && <PixelSparkle />}
           </StyledHintButton>
         </PixelTooltip>
       </Box>
