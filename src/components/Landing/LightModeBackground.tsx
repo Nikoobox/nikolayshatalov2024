@@ -21,6 +21,8 @@ const GAP = 5;
 const COLOR = COLORS.GREY_LIGHT;
 const SPEED = 0.0015;
 const MAX_OPACITY = 0.5;
+const FRAME_MS = 1000 / 30;
+const BASE_FRAME_MS = 1000 / 60;
 
 const ACCENT_COLORS = [TEAL_ACCENT, TEAL_ACCENT, BLACK];
 
@@ -48,7 +50,9 @@ const LightModeBackground = ({ fixed }: { fixed?: boolean }) => {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    let animationId: number;
+    let animationId = 0;
+    let lastTime = 0;
+    let isVisible = true;
     let squares: GridSquare[] = [];
 
     const resize = () => {
@@ -86,15 +90,21 @@ const LightModeBackground = ({ fixed }: { fixed?: boolean }) => {
       }
     };
 
-    const draw = () => {
+    const draw = (time: number) => {
+      animationId = requestAnimationFrame(draw);
+      const elapsed = time - lastTime;
+      if (lastTime && elapsed < FRAME_MS) return;
+      const step = lastTime ? Math.min(elapsed, 100) / BASE_FRAME_MS : 1;
+      lastTime = time;
+
       ctx.fillStyle = WHITE;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       for (const sq of squares) {
         if (sq.opacity < sq.targetOpacity) {
-          sq.opacity = Math.min(sq.opacity + sq.speed, sq.targetOpacity);
+          sq.opacity = Math.min(sq.opacity + sq.speed * step, sq.targetOpacity);
         } else {
-          sq.opacity = Math.max(sq.opacity - sq.speed, sq.targetOpacity);
+          sq.opacity = Math.max(sq.opacity - sq.speed * step, sq.targetOpacity);
         }
 
         if (Math.abs(sq.opacity - sq.targetOpacity) < 0.01) {
@@ -123,16 +133,38 @@ const LightModeBackground = ({ fixed }: { fixed?: boolean }) => {
       }
 
       ctx.globalAlpha = 1;
+    };
+
+    const start = () => {
+      if (animationId || !isVisible || document.hidden) return;
+      lastTime = 0;
       animationId = requestAnimationFrame(draw);
     };
 
+    const stop = () => {
+      cancelAnimationFrame(animationId);
+      animationId = 0;
+    };
+
+    const onVisibilityChange = () => (document.hidden ? stop() : start());
+
+    const observer = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+      if (isVisible) start();
+      else stop();
+    });
+
     resize();
     window.addEventListener("resize", resize);
-    draw();
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    observer.observe(canvas);
+    start();
 
     return () => {
       window.removeEventListener("resize", resize);
-      cancelAnimationFrame(animationId);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+      observer.disconnect();
+      stop();
     };
   }, []);
 

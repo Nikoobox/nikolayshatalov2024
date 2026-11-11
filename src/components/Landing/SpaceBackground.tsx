@@ -83,13 +83,33 @@ const ditherMask = (inner: string, outer: string) =>
 const DEPTH = { nebula: 0.6, far: 0.45, mid: 0.3, near: 0.15 };
 const STAR_LAYERS = [DEPTH.near, DEPTH.mid, DEPTH.far];
 
+const SCROLL_TIMELINE = "(animation-timeline: scroll())";
+
+const drift = (depth: number) => keyframes`
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(0, calc(100vh * ${depth}), 0); }
+`;
+
+const DRIFT = Object.fromEntries(
+  Object.values(DEPTH).map((depth) => [depth, drift(depth)]),
+);
+
 const parallaxLayer = (depth: number) =>
   ({
     position: "absolute",
     inset: 0,
-    transform: `translate3d(0, calc(var(--parallax-y, 0) * ${depth} * 1px), 0)`,
     willChange: "transform",
+    [`@supports ${SCROLL_TIMELINE}`]: {
+      animation: `${DRIFT[depth]} linear both`,
+      animationTimeline: "scroll(root)",
+      animationRange: "0 100vh",
+    },
   }) as const;
+
+const usesJsParallax = () =>
+  !CSS.supports("animation-timeline: scroll()") &&
+  window.matchMedia("(pointer: fine)").matches &&
+  !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const SpaceBackground: FC = () => {
   const theme = useTheme();
@@ -98,13 +118,23 @@ const SpaceBackground: FC = () => {
   const rootRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!usesJsParallax()) return;
 
     let frame = 0;
+    let lastY = -1;
     const update = () => {
       frame = 0;
-      const y = Math.min(window.scrollY, window.innerHeight);
-      rootRef.current?.style.setProperty("--parallax-y", String(Math.round(y)));
+      const root = rootRef.current;
+      if (!root) return;
+      const y = Math.round(Math.min(window.scrollY, window.innerHeight));
+      if (y === lastY) return;
+      lastY = y;
+      root
+        .querySelectorAll<HTMLElement>("[data-depth]")
+        .forEach((layer) => {
+          const offset = Math.round(y * Number(layer.dataset.depth));
+          layer.style.transform = `translate3d(0, ${offset}px, 0)`;
+        });
     };
     const onScroll = () => {
       if (!frame) frame = requestAnimationFrame(update);
@@ -137,7 +167,7 @@ const SpaceBackground: FC = () => {
         },
       }}
     >
-      <Box sx={parallaxLayer(DEPTH.nebula)}>
+      <Box data-depth={DEPTH.nebula} sx={parallaxLayer(DEPTH.nebula)}>
         <Box
           sx={{
             ...dither,
@@ -163,7 +193,7 @@ const SpaceBackground: FC = () => {
       </Box>
 
       {STAR_LAYERS.map((depth, layer) => (
-        <Box key={depth} sx={parallaxLayer(depth)}>
+        <Box key={depth} data-depth={depth} sx={parallaxLayer(depth)}>
           {STARS.map((star, i) =>
             i % STAR_LAYERS.length !== layer ? null : (
               <Box
@@ -191,6 +221,7 @@ const SpaceBackground: FC = () => {
       ))}
 
       <Box
+        data-depth={DEPTH.mid}
         sx={{
           ...parallaxLayer(DEPTH.mid),
           display: { xs: "none", md: "block" },
@@ -234,7 +265,7 @@ const SpaceBackground: FC = () => {
         ))}
       </Box>
 
-      <Box sx={parallaxLayer(DEPTH.mid)}>
+      <Box data-depth={DEPTH.mid} sx={parallaxLayer(DEPTH.mid)}>
         {SHOOTING_STARS.map((star) => (
           <Box
             key={star.left}

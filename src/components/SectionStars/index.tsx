@@ -23,6 +23,19 @@ const DAY_COLORS = ["#FF8FA3", "#FFC94D", "#7FB2FF", "#B18CFF"];
 
 const LAYER_DEPTHS = [0.08, 0.16, 0.24];
 
+const SCROLL_TIMELINE = "(animation-timeline: view())";
+const TIMELINE_NAME = "--section-stars";
+
+const DRIFT = Object.fromEntries(
+  LAYER_DEPTHS.map((depth) => [
+    depth,
+    keyframes`
+      from { transform: translate3d(0, 0, 0); }
+      to { transform: translate3d(0, ${depth * 100}%, 0); }
+    `,
+  ]),
+);
+
 const outline = (color: string) =>
   [
     `drop-shadow(1px 0 0 ${color})`,
@@ -64,8 +77,13 @@ const SectionStars: FC<Props> = ({ withShips = true }) => {
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const jsParallax =
+      !CSS.supports("animation-timeline: view()") &&
+      window.matchMedia("(pointer: fine)").matches;
 
     let frame = 0;
+    let lastProgress = -1;
+    let lastVisible: boolean | undefined;
     const update = () => {
       frame = 0;
       const root = rootRef.current;
@@ -75,9 +93,21 @@ const SectionStars: FC<Props> = ({ withShips = true }) => {
         Math.max(window.innerHeight - top, 0),
         height + window.innerHeight,
       );
-      root.style.setProperty("--section-y", String(Math.round(progress)));
+      const rounded = Math.round(progress);
+      if (jsParallax && rounded !== lastProgress) {
+        lastProgress = rounded;
+        root
+          .querySelectorAll<HTMLElement>(":scope > [data-depth]")
+          .forEach((layer) => {
+            const offset = Math.round(rounded * Number(layer.dataset.depth));
+            layer.style.transform = `translate3d(0, ${offset}px, 0)`;
+          });
+      }
       const inSections = top < window.innerHeight * 0.5;
-      root.style.setProperty("--sputnik-opacity", inSections ? "1" : "0");
+      if (inSections !== lastVisible) {
+        lastVisible = inSections;
+        root.style.setProperty("--sputnik-opacity", inSections ? "1" : "0");
+      }
     };
     const onScroll = () => {
       if (!frame) frame = requestAnimationFrame(update);
@@ -103,6 +133,7 @@ const SectionStars: FC<Props> = ({ withShips = true }) => {
         overflow: "hidden",
         pointerEvents: "none",
         zIndex: -1,
+        viewTimelineName: TIMELINE_NAME,
         "@media (prefers-reduced-motion: reduce)": {
           "& *": { animation: "none !important", transform: "none !important" },
         },
@@ -111,14 +142,19 @@ const SectionStars: FC<Props> = ({ withShips = true }) => {
       {LAYER_DEPTHS.map((depth, layer) => (
         <Box
           key={depth}
+          data-depth={depth}
           sx={{
             position: "absolute",
             left: 0,
             right: 0,
             top: "-100vh",
             height: "calc(100% + 100vh)",
-            transform: `translate3d(0, calc(var(--section-y, 0) * ${depth} * 1px), 0)`,
             willChange: "transform",
+            [`@supports ${SCROLL_TIMELINE}`]: {
+              animation: `${DRIFT[depth]} linear both`,
+              animationTimeline: TIMELINE_NAME,
+              animationRange: "cover",
+            },
           }}
         >
           {PIXELS.map((pixel, i) =>

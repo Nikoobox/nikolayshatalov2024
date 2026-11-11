@@ -442,7 +442,7 @@ const Landing: FC = () => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 5, duration: 0.4, ease: stepEase(2) }}
+            transition={{ delay: 1.5, duration: 0.4, ease: stepEase(2) }}
             style={{ position: "absolute", right: 0, top: -44 }}
           >
             <StyledSkipButton
