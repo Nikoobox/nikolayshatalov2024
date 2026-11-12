@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import { keyframes } from "@emotion/react";
 
 import { Box } from "@mui/material";
@@ -30,32 +30,9 @@ const blink = keyframes`
   50% { opacity: 0; }
 `;
 
-const FONT_TIMEOUT_MS = 3000;
-
-const usePixelFontReady = () => {
-  const [isReady, setIsReady] = useState(
-    () => !document.fonts || document.fonts.check(`12px ${pixelFontFamily}`),
-  );
-
-  useEffect(() => {
-    if (isReady) return;
-    let isActive = true;
-    const reveal = () => isActive && setIsReady(true);
-    const timer = window.setTimeout(reveal, FONT_TIMEOUT_MS);
-    document.fonts.load(`12px ${pixelFontFamily}`).then(reveal, reveal);
-    return () => {
-      isActive = false;
-      window.clearTimeout(timer);
-    };
-  }, [isReady]);
-
-  return isReady;
-};
-
 const LoadingSpinner: FC = () => {
   const { theme } = useThemeContext();
   const isDarkMode = theme.palette.mode === "dark";
-  const isFontReady = usePixelFontReady();
 
   return (
     <Box
@@ -104,7 +81,6 @@ const LoadingSpinner: FC = () => {
           fontFamily: pixelFontFamily,
           fontSize: "12px",
           letterSpacing: "2px",
-          visibility: isFontReady ? "visible" : "hidden",
           color: isDarkMode
             ? theme.palette.customColors.greyAccent
             : theme.palette.common.black,
